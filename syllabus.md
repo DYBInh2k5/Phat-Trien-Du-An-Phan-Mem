@@ -1,50 +1,64 @@
-# Syllabus: Nội dung học phát triển dự án phần mềm
+# Syllabus: Nội dung học & Phát triển Dự án 2 - Hệ thống Quản lý Trường học (SMS)
 
-## 1. Tư duy dự án phần mềm
-- Khái niệm dự án phần mềm, vòng đời phát triển phần mềm (SDLC)
-- Các phương pháp phát triển: Waterfall, Agile, Scrum
-- Vai trò trong dự án: product owner, developer, tester, scrum master, BA, PM
-- Đặc điểm của dự án phần mềm: yêu cầu, phạm vi, chất lượng, tiến độ, chi phí
+Khung chương trình chi tiết các chuyên đề kỹ thuật áp dụng trong quá trình phát triển **Hệ thống Quản lý Trường học (School Management System - SMS)** thuộc môn học **Phát triển dự án phần mềm (SW320DV01)**.
 
-## 2. Quản lý yêu cầu và phân tích nghiệp vụ
-- Thu thập yêu cầu: phỏng vấn, khảo sát, use case
-- Phân loại yêu cầu: chức năng, phi chức năng, ràng buộc
-- Mô hình hóa nghiệp vụ: diagram, user story, wireframe
-- Viết tài liệu yêu cầu: PRD, SRS, backlog
+---
 
-## 3. Thiết kế hệ thống và kiến trúc phần mềm
-- Kiến trúc phần mềm: MVC, Microservices, Layered Architecture
-- Thiết kế dữ liệu: ERD, mô hình quan hệ, chuẩn hóa dữ liệu
-- Thiết kế giao diện: mockup, prototype, UX/UI cơ bản
-- Thiết kế API: REST, GraphQL, OpenAPI/Swagger
+## 1. Phân tích Yêu cầu Nghiệp vụ Trường học (SRS & Business Requirements)
+- **Thu thập & Phân tích Yêu cầu**: Xác định bài toán quản lý trường học thực tế (đào tạo, học sinh, giảng dạy, sổ điểm, tài chính).
+- **Phân tích 4 Actors**: Admin / Ban Giám Hiệu, Giáo viên (GVCN & GVBM), Học sinh, Phụ huynh.
+- **Phân tích 7 Phân hệ FC (Functional Components)**:
+  - `FC-01`: Quản lý Tài khoản & Phân quyền RBAC.
+  - `FC-02`: Quản lý Hồ sơ Học sinh & Lớp học.
+  - `FC-03`: Quản lý Giảng dạy & Thời khóa biểu.
+  - `FC-04`: Sổ điểm Điện tử & Đánh giá Học lực/Hạnh kiểm.
+  - `FC-05`: Điểm danh & Chuyên cần.
+  - `FC-06`: Quản lý Học phí & Thu chi.
+  - `FC-07`: Sổ liên lạc Điện tử & Xuất Báo cáo.
 
-## 4. Lập trình và phát triển phần mềm
-- Ngôn ngữ lập trình phổ biến: Java, C#, Python, JavaScript
-- Lập trình hướng đối tượng (OOP): lớp, đối tượng, kế thừa, đóng gói, đa hình
-- Kiểm soát phiên bản: Git, GitHub/GitLab
-- Quy tắc mã nguồn: coding standard, clean code, refactoring
-- Phát triển front-end/back-end/full-stack tùy hướng học
+---
 
-## 5. Kiểm thử phần mềm (Testing)
-- Các loại kiểm thử: unit test, integration test, system test, acceptance test
-- Công cụ test: JUnit, NUnit, pytest, Selenium, Cypress
-- Kiểm thử thủ công và tự động
-- Quản lý lỗi: bug report, issue tracking
+## 2. Thiết kế Kiến trúc Hệ thống & Cơ sở Dữ liệu (System & Database Design)
+- **Kiến trúc phần mềm**: Áp dụng **Clean Architecture / 3-Layer Architecture** (Presentation Layer ↔ Domain/Business Layer ↔ Infrastructure/Data Access Layer).
+- **Thiết kế CSDL PostgreSQL**:
+  - Xây dựng sơ đồ ERD cho các bảng: `Users`, `Roles`, `Students`, `Classes`, `Subjects`, `Schedules`, `Grades`, `Attendance`, `Tuition`.
+  - Thiết kế ràng buộc toàn vẹn khóa chính/khóa ngoại, chỉ mục (Index) nâng cao hiệu năng truy vấn điểm số.
+- **Thiết kế RESTful API & Bảo mật**: Chuẩn hóa các RESTful endpoints, xác thực **JWT (JSON Web Token)** & cấu hình **CORS**.
 
-## 6. Triển khai và vận hành (DevOps cơ bản)
-- Quá trình build và deploy
-- Môi trường phát triển/test/sản xuất
-- CI/CD: GitHub Actions, GitLab CI, Jenkins
-- Giám sát và theo dõi: logging, metrics
+---
 
-## 7. Quản lý dự án phần mềm
-- Lập kế hoạch dự án: milestone, sprint, thời gian
-- Theo dõi tiến độ: burndown chart, board Scrum/Kanban
-- Quản lý rủi ro và thay đổi
-- Giao tiếp trong đội: họp, báo cáo, demo
+## 3. Lập trình Logic Nghiệp vụ & Design Patterns (Core Business Logic)
+- **Mô hình Design Patterns**:
+  - **MVC (Model-View-Controller)** cho cấu trúc Web Application.
+  - **Repository Pattern & Unit of Work**: Trừu tượng hóa truy vấn CSDL PostgreSQL và xử lý giao dịch (Transaction) khi nhập điểm/thu học phí.
+  - **Dependency Injection (DI)**: Giảm độ phụ thuộc cứng giữa các Service.
+- **Thuật toán Nghiệp vụ Đánh giá**:
+  - Tự động tính Điểm trung bình môn (TBM) theo hệ số tiết.
+  - Tính điểm tích lũy GPA (Hệ 10.0 & Hệ 4.0).
+  - Thuật toán tự động xếp loại Học lực (*Xuất sắc, Giỏi, Khá, Trung bình, Yếu, Kém*) và Hạnh kiểm (*Tốt, Khá, Trung bình, Yếu*).
 
-## 8. Kỹ năng bổ trợ
-- Kỹ năng làm việc nhóm và giao tiếp
-- Quản lý thời gian và tổ chức công việc
-- Tổ chức tài liệu và báo cáo
-- Học hỏi từ dự án thực tế, review sau mỗi sprint
+---
+
+## 4. Thiết kế Giao diện Web UI/UX (School Portal Frontend)
+- **Giao diện Web Responsive**: Thiết kế tương thích đa thiết bị (Desktop, Tablet, Mobile).
+- **Dashboard Đa Vai Trò (Multi-Role Dashboard)**:
+  - Admin Portal: Quản lý tổng thể, biểu đồ thống kê sĩ số, phân công giảng dạy.
+  - Teacher Portal: Sổ điểm điện tử tương tác cao, lưới điểm danh học sinh.
+  - Student & Parent Portal: Tra cứu kết quả học tập cá nhân, lịch học, thông báo chuyên cần và học phí.
+- **Tối ưu trải nghiệm (UX)**: Hiệu ứng chuyển cảnh mượt mà, thông báo Toast, Modal nhập liệu tiện lợi.
+
+---
+
+## 5. Xuất Báo cáo & Kiểm thử Phần mềm (Export & Testing)
+- **Phân hệ Xuất báo cáo (Export)**:
+  - Xuất danh sách học sinh và bảng điểm lớp ra file **Excel**.
+  - Xuất phiếu báo điểm cá nhân, Học bạ điện tử và biên lai thu tiền ra file **PDF**.
+- **Kiểm thử (Testing)**:
+  - Viết **Unit Test** cho các hàm tính GPA, xếp loại học lực, phân quyền JWT.
+  - Kiểm thử tích hợp (Integration Test) luồng nhập điểm và chốt khóa sổ điểm.
+
+---
+
+## 6. Vận hành & Quản lý Nhật ký Hệ thống (Logging & Maintenance)
+- **Centralized Audit Logging**: Ghi nhật ký lịch sử chỉnh sửa điểm số (người sửa, thời gian, điểm cũ, điểm mới) để đảm bảo tính minh bạch.
+- **Đóng gói & Đánh giá**: Review mã nguồn, tối ưu hiệu năng và đóng gói ứng dụng.
