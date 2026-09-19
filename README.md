@@ -9,7 +9,7 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 - Tên đề tài: Xây dựng Hệ thống Quản lý Trường học (School Management System - SMS)
 - Môn học: Phát triển dự án phần mềm
 - Mã môn học: SW320DV01 (3 Tín chỉ)
-- Chủ sở hữu Repository / Trưởng nhóm: Vũ Duy Bình (DYBInh2k5)
+- Chủ sở hữu Repository / Trưởng nhóm: Võ Duy Bình (DYBInh2k5)
 
 ---
 
@@ -17,7 +17,7 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 
 | STT | Thành viên & Vai trò | Phân hệ & Công việc phụ trách | Thư mục công việc trên GitHub |
 | :---: | :--- | :--- | :--- |
-| 1 | Vũ Duy Bình (PM / Lead BA) | Quản lý tiến độ, Tài liệu SRS, UAT Test Plan, Báo cáo Tuần | [members/member1_PM_BA/](members/member1_PM_BA/) |
+| 1 | Võ Duy Bình (PM / Lead BA) | Quản lý tiến độ, Tài liệu SRS, UAT Test Plan, Báo cáo Tuần | [members/member1_PM_BA/](members/member1_PM_BA/) |
 | 2 | Thành viên 2 (Frontend Dev) | UI/UX Design System, Portal Layout & Dashboard UI | [members/member2_Frontend/](members/member2_Frontend/) |
 | 3 | Thành viên 3 (Backend & DB Architect) | Thiết kế PostgreSQL ERD, Clean Architecture, State Store & MockData | [members/member3_Backend_DB/](members/member3_Backend_DB/) |
 | 4 | Thành viên 4 (Logic & Security Dev) | JWT Auth, RBAC 4 Roles, Thuật toán tính GPA hệ 10/4, Sổ điểm điện tử | [members/member4_Logic_Security/](members/member4_Logic_Security/) |

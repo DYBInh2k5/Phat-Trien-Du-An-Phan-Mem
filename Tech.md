@@ -23,7 +23,7 @@ Dự án Hệ thống Quản lý Trường học (School Management System - SMS
 
 | Thành viên | Phân công vai trò (Role) | Phân hệ phụ trách (Modules) | Thư mục công việc trên GitHub |
 | :--- | :--- | :--- | :--- |
-| Thành viên 1 (Vũ Duy Bình - Leader) | Project Manager & Business Analyst (PM/BA) | Quản lý tiến độ, SRS Requirements, UAT Test Plan, Báo cáo Tuần | [members/member1_PM_BA/](members/member1_PM_BA/)<br>docs/, BrainStorm/ |
+| Thành viên 1 (Võ Duy Bình - Leader) | Project Manager & Business Analyst (PM/BA) | Quản lý tiến độ, SRS Requirements, UAT Test Plan, Báo cáo Tuần | [members/member1_PM_BA/](members/member1_PM_BA/)<br>docs/, BrainStorm/ |
 | Thành viên 2 | UI/UX & Lead Frontend Developer | Design System (Glassmorphism, CSS Tokens), Layout Portal, Multi-Role Dashboard UI | [members/member2_Frontend/](members/member2_Frontend/)<br>src/css/, src/index.html |
 | Thành viên 3 | Database Architect & Backend Dev | Sơ đồ PostgreSQL ERD, Clean Architecture, Repository Pattern, Store & MockData | [members/member3_Backend_DB/](members/member3_Backend_DB/)<br>src/js/store.js, src/js/mockData.js, database/ |
 | Thành viên 4 | Security & Core Academic Logic Dev | Auth JWT, Phân quyền RBAC, Thuật toán tính GPA hệ 10/4, Sổ điểm điện tử & Khóa sổ điểm | [members/member4_Logic_Security/](members/member4_Logic_Security/)<br>src/js/auth.js, src/js/modules/gradeModule.js |
@@ -36,7 +36,7 @@ Dự án Hệ thống Quản lý Trường học (School Management System - SMS
 ```
 PT_DA_PM/
 ├── members/
-│   ├── member1_PM_BA/          # Thư mục làm việc của PM/BA (Vũ Duy Bình)
+│   ├── member1_PM_BA/          # Thư mục làm việc của PM/BA (Võ Duy Bình)
 │   ├── member2_Frontend/       # Thư mục làm việc của Frontend Developer
 │   ├── member3_Backend_DB/     # Thư mục làm việc của Backend & Database Architect
 │   ├── member4_Logic_Security/ # Thư mục làm việc của Logic & Security Specialist

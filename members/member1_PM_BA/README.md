@@ -1,6 +1,6 @@
 # Member 1: Project Manager / Business Analyst (PM / BA)
 
-- Họ và tên (Trưởng nhóm): Vũ Duy Bình (DYBInh2k5)
+- Họ và tên (Trưởng nhóm): Võ Duy Bình (DYBInh2k5)
 - Vai trò chính: Project Manager & Lead Business Analyst
 
 ## 1. Phân công nhiệm vụ (Responsibilities):
