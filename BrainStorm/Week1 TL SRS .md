@@ -1,6 +1,6 @@
 # BrainStorm Tuần 1: Phân Tích SRS - Hệ Thống Quản Lý Trường Học (School Management System - SMS)
 
-Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requirements Specification), xác định các Actors (Tác nhân tương tác), Ma trận Phân quyền (RBAC Matrix), các FC (Functional Categories / Feature Components - Phân hệ tính năng) và Quy tắc Nghiệp vụ (Business Rules) cho Hệ thống Quản lý Trường học.
+Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requirements Specification), xác định các Actors (Tác nhân tương tác), Ma trận Phân quyền (RBAC Matrix), các FC (Functional Categories / Feature Components - Phân hệ tính năng), Quy tắc Nghiệp vụ (Business Rules) và Căn cứ Pháp lý Tham khảo cho Hệ thống Quản lý Trường học.
 
 ---
 
@@ -124,3 +124,30 @@ Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requi
 - **Tính Khả dụng & Tương thích (Usability & Compatibility)**:
   - Giao diện chuẩn UX/UI hiện đại, thân thiện, dễ nhìn cho người lớn tuổi (Giáo viên, Phụ huynh).
   - Tương thích Responsive mượt mà trên tất cả các trình duyệt phổ biến (Chrome, Firefox, Safari, Edge) và thiết bị di động (iOS, Android).
+
+---
+
+## 6. Tài liệu Tham khảo & Căn cứ Pháp lý (References & Legal Framework)
+
+### 6.1. Căn cứ Pháp lý & Quy chế Đào tạo (Legal & Educational Decrees)
+- **Thông tư 22/2021/TT-BGDĐT**: Quy định về đánh giá học sinh trung học cơ sở và trung học phổ thông của Bộ Giáo dục & Đào tạo.  
+  *Ứng dụng*: Công thức tính điểm trung bình môn, GPA, tiêu chuẩn xếp loại Học lực và đánh giá Hạnh kiểm.
+- **Thông tư 32/2020/TT-BGDĐT**: Ban hành Điều lệ trường trung học cơ sở, trường trung học phổ thông và trường phổ thông có nhiều cấp học.  
+  *Ứng dụng*: Xác định vai trò, quyền hạn và trách nhiệm của Ban Giám Hiệu, Giáo viên Chủ nhiệm, Giáo viên Bộ môn, Học sinh và Phụ huynh.
+- **Nghị định 13/2023/NĐ-CP**: Nghị định của Chính phủ về bảo vệ dữ liệu cá nhân.  
+  *Ứng dụng*: Ràng buộc pháp lý về bảo mật thông tin hồ sơ lý lịch học sinh, phụ huynh và tài chính học phí.
+
+### 6.2. Tiêu chuẩn Kỹ thuật & Thiết kế Phần mềm (Technical Standards & Architecture)
+- **IEEE Std 830-1998 / ISO/IEC/IEEE 29148:2018**: Recommended Practice for Software Requirements Specifications.  
+  *Ứng dụng*: Khung chuẩn quốc tế cấu trúc tài liệu Phân tích Yêu cầu Phần mềm (SRS).
+- **OWASP Top 10 Web Application Security Risks**: Open Web Application Security Project.  
+  *Phạm vi áp dụng*: Tiêu chuẩn phòng chống lỗ hổng bảo mật Web (SQL Injection, XSS, CSRF, Broken Access Control).
+- **RFC 7519 (JSON Web Token - JWT Specification)**: Internet Engineering Task Force (IETF).  
+  *Phạm vi áp dụng*: Chuẩn xác thực phân quyền Token RBAC không trạng thái (Stateless Authorization).
+- **PostgreSQL 15 Documentation & ACID Compliance Standards**: PostgreSQL Global Development Group.  
+  *Phạm vi áp dụng*: Thiết kế và tối ưu hóa Cơ sở Dữ liệu Quan hệ cho điểm số và học phí.
+
+### 6.3. Liên kết Công cụ & Thư viện Mở Tham khảo (Online Technical Documentation Links)
+- **SheetJS (xlsx) Documentation**: [https://sheetjs.com](https://sheetjs.com) (Thư viện xuất và xử lý dữ liệu Excel phía Client/Server).
+- **jsPDF API Reference**: [https://rawgit.com/MrRio/jsPDF/master/docs/index.html](https://rawgit.com/MrRio/jsPDF/master/docs/index.html) (Thư viện khởi tạo và xuất PDF Học bạ/Biên lai).
+- **Cổng Thông tin Điện tử Bộ GD&ĐT**: [https://moet.gov.vn](https://moet.gov.vn) (Tra cứu quy chế, văn bản pháp luật ngành giáo dục).
