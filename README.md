@@ -25,13 +25,13 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 
 ---
 
-## 3. Bộ công nghệ lựa chọn (Tech Stack - Trích xuất từ Tech.md)
+## 3. Bộ công nghệ lựa chọn (Tech Stack Core)
 
 - UI/UX: Web Application (Giao diện chuẩn UX/UI hiện đại, hỗ trợ Responsive PC, Tablet & Mobile).
 - Database: PostgreSQL (Hệ CSDL quan hệ chuẩn ACID, bảo mật dữ liệu học sinh & điểm số).
 - Kiến trúc: Clean Architecture / 3-Layer Architecture (Tách biệt Presentation - Domain - Infrastructure).
 - Design Patterns: MVC, Repository Pattern, Dependency Injection (DI), Unit of Work.
-- Xác thực & Bảo mật: JWT (JSON Web Token) phân quyền 4 Roles (Admin, Teacher, Student, Parent) & CORS.
+- Xác thực & Bảo mật: JWT (JSON Web Token) phân quyền 5 Roles (Admin, GVCN, GVBM, Student, Parent) & CORS.
 - Xuất báo cáo: Excel (Bảng điểm lớp, danh sách học sinh) & PDF (Học bạ điện tử, Phiếu báo điểm, Biên lai).
 - Logging & Testing: Centralized Audit Logging (Ghi vết lịch sử sửa điểm) & Unit Test (Kiểm thử logic tính GPA).
 
@@ -40,21 +40,25 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 ## 4. Các vai trò người dùng (Actors)
 
 - Admin / Ban Giám Hiệu: Quản trị tài khoản, phân quyền, quản lý danh mục môn/lớp, phân công giảng dạy, chốt khóa sổ điểm.
-- Giáo viên (GVCN & GVBM): Nhập/sửa điểm thành phần, điểm danh chuyên cần, đánh giá hạnh kiểm, theo dõi lớp chủ nhiệm.
-- Học sinh: Tra cứu bảng điểm cá nhân, GPA, thời khóa biểu, lịch kiểm tra, chuyên cần.
-- Phụ huynh: Sổ liên lạc điện tử, nhận thông báo vắng học/điểm danh, tra cứu điểm con em và học phí.
+- Giáo viên Chủ nhiệm (GVCN): Quản lý lớp chủ nhiệm, điểm danh chuyên cần hàng ngày, đánh giá hạnh kiểm, tiếp nhận đơn nghỉ học từ phụ huynh.
+- Giáo viên Bộ môn (GVBM): Nhập/chỉnh sửa điểm thành phần, điểm danh theo tiết học được phân công, tổng kết TBM.
+- Học sinh: Tra cứu bảng điểm cá nhân, GPA hệ 10/4, thời khóa biểu, lịch kiểm tra, chuyên cần.
+- Phụ huynh: Sổ liên lạc điện tử, nhận thông báo vắng học/điểm danh, nộp đơn xin nghỉ học, tra cứu điểm con em và học phí.
 
 ---
 
 ## 5. Cấu trúc tài liệu và thư mục (Repository Structure)
 
 - README.md: Tổng quan dự án, thông tin nhóm và hướng dẫn.
-- Tech.md: Bảng tổng hợp công nghệ và Ma trận phân công 5 thành viên.
+- BrainStorm/: Hồ sơ phân tích báo cáo chi tiết theo từng tuần:
+  - Week1 TL SRS .md: Tài liệu Phân tích Yêu cầu Phần mềm (SRS), Ma trận RBAC, Rules & NFRs.
+  - Week2 UXUI .md: Chuyên đề Nghiên cứu UI/UX (WinForms vs Web vs Mobile, React/Angular/Vue, Figma, Wireframes).
+  - Week3 DB .md: Chuyên đề Cơ sở Dữ liệu (SQL Server, PostgreSQL, MySQL, Supabase, MongoDB, ERD & DDL Scripts).
+  - Week4 KT .md: Chuyên đề Kiến trúc Phần mềm (3-Layer, N-Layer, Clean Architecture, EDA, Microservices).
+  - Week5 Pattern .md: Chuyên đề Mẫu Thiết kế (MVC, MVVM, Repository Pattern, Unit of Work, DIP, DI).
+  - Week6 Export .md: Chuyên đề Xuất Báo cáo (Excel, PDF, CSV, SheetJS, jsPDF).
+  - Week7 Authentication Authorization .md: Chuyên đề Xác thực & Bảo mật (JWT, CORS, CSRF, RBAC).
 - members/: Thư mục phân vùng công việc riêng cho từng thành viên nhóm (member1 đến member5).
-- BrainStorm/Week1.md: Tài liệu phân tích SRS chi tiết (Danh sách Actors & 7 Phân hệ FC).
-- syllabus.md: Khung chương trình phát triển dự án SMS theo chuyên đề kỹ thuật.
-- timeline.md: Lịch trình học tập và triển khai dự án chi tiết theo từng tuần.
-- resources.md: Tài nguyên tham khảo, tài liệu quy chế và công cụ hỗ trợ phát triển.
 
 ---
 
@@ -62,4 +66,3 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 
 - GitHub Repository: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
 - Branch chính: main
-- License: MIT License
