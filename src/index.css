@@ -1,0 +1,62 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+}
+
+/* Print / PDF styles */
+@media print {
+  aside,
+  header,
+  nav,
+  button,
+  [role="dialog"] {
+    box-shadow: none !important;
+  }
+
+  body {
+    background: white !important;
+    font-size: 11pt;
+    color: #000;
+  }
+
+  main {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .flex.h-screen > aside,
+  .flex.h-screen > div > header {
+    display: none !important;
+  }
+
+  .flex.h-screen > div {
+    width: 100% !important;
+  }
+
+  .flex.h-screen > div > main {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  tr {
+    break-inside: avoid;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
