@@ -1,0 +1,521 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Scaffold Vite + React 18 project và cài đặt dependencies": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174690080
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174732811
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175643372
+      }
+    ],
+    "1.2 Cấu hình Tailwind với toàn bộ design tokens từ DESIGN.md": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174690645
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175656566
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175826897
+      }
+    ],
+    "1.4 Cấu hình `index.html` và `src/index.css`": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174690725
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175657102
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175827235
+      }
+    ],
+    "2.1 Tạo file constants: roles.js và routes.js": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174690782
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175834449
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176394823
+      }
+    ],
+    "2.2 Tạo API stubs (`src/api/stubs.js`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174690859
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175834926
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176397206
+      }
+    ],
+    "2.4 Tạo mock data (`src/data/mockData.js`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174690911
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175835682
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176400770
+      }
+    ],
+    "3.1 Implement AuthContext và AuthProvider (`src/context/AuthContext.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174690959
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176469035
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176685407
+      }
+    ],
+    "3.3 Implement ProtectedRoute (`src/components/auth/ProtectedRoute.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691013
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176469867
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176686044
+      }
+    ],
+    "4.1 Implement Sidebar (`src/components/layout/Sidebar.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691071
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176700397
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177337658
+      }
+    ],
+    "4.3 Implement Header (`src/components/layout/Header.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691121
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176701535
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177339248
+      }
+    ],
+    "4.4 Implement MainLayout (`src/components/layout/MainLayout.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691175
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177357441
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177972347
+      }
+    ],
+    "5.1 Implement StatusBadge (`src/components/shared/StatusBadge.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691233
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176470677
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176686635
+      }
+    ],
+    "5.2 Implement KpiCard (`src/components/shared/KpiCard.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691286
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176472962
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176687629
+      }
+    ],
+    "5.3 Implement Modal (`src/components/shared/Modal.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691365
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176475197
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176690547
+      }
+    ],
+    "5.4 Implement DataTable (`src/components/shared/DataTable.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691429
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176707416
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177340864
+      }
+    ],
+    "6. Checkpoint — Kiểm tra foundation": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691481
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212443619
+      }
+    ],
+    "7.1 Implement LoginPage (`src/pages/auth/LoginPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691532
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177357863
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177973467
+      }
+    ],
+    "7.2 Implement UnauthorizedPage và NotFoundPage": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691585
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177361491
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177973523
+      }
+    ],
+    "7.3 Implement AppRouter (`src/routes/AppRouter.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691632
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177984400
+      }
+    ],
+    "7.5 Implement App.jsx (entry wiring)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691683
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177987870
+      }
+    ],
+    "8.1 Implement GVDashboardPage (`src/pages/gv/GVDashboardPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691740
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177990067
+      }
+    ],
+    "8.2 Implement GradebookPage (`src/pages/gv/GradebookPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691794
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177990785
+      }
+    ],
+    "8.4 Implement AttendancePage (`src/pages/gv/AttendancePage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691848
+      },
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177991958
+      }
+    ],
+    "9.1 Implement StudentListPage (`src/pages/students/StudentListPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691898
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212444855
+      }
+    ],
+    "9.3 Implement TimetablePage (`src/pages/schedule/TimetablePage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174691950
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212444909
+      }
+    ],
+    "10.1 Implement BGHDashboardPage (`src/pages/bgh/BGHDashboardPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174692042
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212444961
+      }
+    ],
+    "10.2 Implement BGHAttendanceMonitorPage (`src/pages/bgh/BGHAttendanceMonitorPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174692097
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212445002
+      }
+    ],
+    "10.4 Implement ScheduleAdminPage (`src/pages/bgh/ScheduleAdminPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174692149
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212445046
+      }
+    ],
+    "11.1 Implement ParentCommunicationPage (`src/pages/communication/ParentCommunicationPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174692202
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212445296
+      }
+    ],
+    "11.2 Implement BGHReportCenterPage (`src/pages/bgh/BGHReportCenterPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174692257
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212445941
+      }
+    ],
+    "11.3 Implement SystemSettingsPage (`src/pages/bgh/SystemSettingsPage.jsx`)": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174692308
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212446390
+      }
+    ],
+    "12. Final Checkpoint — Tích hợp và kiểm tra toàn hệ thống": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790174692362
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212756184
+      },
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212896051
+      }
+    ],
+    "1. Khởi tạo dự án và cấu hình Design System": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790175827290
+      }
+    ],
+    "2. Hệ thống constants, API stubs và mock data": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176400830
+      }
+    ],
+    "3. AuthContext và ProtectedRoute": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790176686103
+      }
+    ],
+    "5. Shared UI Components": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177340908
+      }
+    ],
+    "4. Layout Shell: MainLayout, Sidebar, Header": [
+      {
+        "executionId": "7df1bae2-34ff-4dde-8bef-0f797c0128ca",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790177972431
+      }
+    ],
+    "11. Communication và BGH Report/Settings Pages": [
+      {
+        "executionId": "305a27d3-d6db-4a64-8167-edbf65710638",
+        "chatSessionId": "sess_970fc921-16d7-46c2-a4db-902cc0acee4c",
+        "timestamp": 1790212446435
+      }
+    ]
+  }
+}

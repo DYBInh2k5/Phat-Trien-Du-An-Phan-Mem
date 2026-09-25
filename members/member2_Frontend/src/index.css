@@ -1,0 +1,94 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+}
+
+/* Print / PDF styles */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm 10mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background: white !important;
+    font-size: 10pt;
+    color: #000;
+  }
+
+  /* Ẩn sidebar và header qua Tailwind print:hidden — fallback selector */
+  aside,
+  header {
+    display: none !important;
+  }
+
+  /* Main content chiếm toàn bộ viewport khi in */
+  .flex.h-screen {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .flex.h-screen > div {
+    width: 100% !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  main {
+    padding: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  /* Bảng thời khóa biểu: bỏ max-height, hiển thị toàn bộ */
+  .overflow-auto[style*="maxHeight"],
+  [style*="max-height"] {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* Bỏ shadow, bo góc cho bảng */
+  .shadow-elevation-1,
+  .rounded-xl {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* Ẩn các nút hành động */
+  .no-print,
+  button {
+    display: none !important;
+  }
+
+  /* Ẩn select tuần */
+  select {
+    display: none !important;
+  }
+
+  /* Giữ màu nền ô bảng */
+  tr {
+    break-inside: avoid;
+  }
+
+  /* Header section (tiêu đề trang) vẫn hiển thị */
+  .space-y-5 > div:first-child select,
+  .space-y-5 > div:first-child button,
+  .space-y-6 > div:first-child button {
+    display: none !important;
+  }
+}
