@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { label: 'Giám sát chuyên cần', icon: 'monitoring',           path: ROUTES.BGH_ATTENDANCE,       roles: [ROLES.BGH] },
   { label: 'Thời khóa biểu',     icon: 'calendar_month',       path: ROUTES.SCHEDULE,             roles: [ROLES.GV, ROLES.GVCN] },
   { label: 'Xếp thời khóa biểu', icon: 'edit_calendar',        path: ROUTES.BGH_SCHEDULE_ADMIN,   roles: [ROLES.BGH] },
-  { label: 'Sổ liên lạc',        icon: 'chat',                 path: ROUTES.PARENT_COMMUNICATION, roles: [ROLES.GVCN, ROLES.BGH] },
+  { label: 'Sổ liên lạc',        icon: 'chat',                 path: ROUTES.PARENT_COMMUNICATION, roles: [ROLES.GVCN, ROLES.BGH, ROLES.PH] },
   { label: 'Báo cáo',            icon: 'assessment',           path: ROUTES.BGH_REPORTS,          roles: [ROLES.BGH] },
   { label: 'Cài đặt hệ thống',   icon: 'settings',             path: ROUTES.BGH_SETTINGS,         roles: [ROLES.BGH] },
   { label: 'Bảng điểm & GPA',       icon: 'grade',        path: ROUTES.STUDENT_GRADEBOOK,  roles: [ROLES.HS, ROLES.PH] },

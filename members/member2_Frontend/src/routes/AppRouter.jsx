@@ -76,8 +76,8 @@ export default function AppRouter() {
           <Route path={ROUTES.SCHEDULE} element={<TimetablePage />} />
         </Route>
 
-        {/* GVCN / BGH */}
-        <Route element={<ProtectedRoute roles={[ROLES.GVCN, ROLES.BGH]} />}>
+        {/* GVCN / BGH / PH */}
+        <Route element={<ProtectedRoute roles={[ROLES.GVCN, ROLES.BGH, ROLES.PH]} />}>
           <Route path={ROUTES.PARENT_COMMUNICATION} element={<ParentCommunicationPage />} />
         </Route>
 
