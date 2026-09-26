@@ -176,6 +176,41 @@ Dựa trên kết quả phân tích so sánh kỹ thuật ở Chương II và y�
 
 ---
 
+### 4. Hệ thống Design Tokens & Quy chuẩn Thị giác (Design Tokens & Glassmorphism System)
+
+1. **Bảng màu Tailored HSL Palette**:
+   - `Primary Brand`: `hsl(222, 74%, 40%)` (Xanh hải quân đậm, tạo sự tin cậy chuyên nghiệp).
+   - `Background`: `hsl(220, 20%, 97%)` (Xám ghi sáng dịu mắt cho việc nhập liệu lâu dài).
+   - `Surface Glass`: `rgba(255, 255, 255, 0.85)` kết hợp `backdrop-filter: blur(12px)` (Hiệu ứng kính mờ Glassmorphism).
+   - `Accent Status`:
+     - *Thành công / Đạt*: `hsl(142, 72%, 29%)` (Xanh lá)
+     - *Cảnh báo / Đi trễ*: `hsl(38, 92%, 50%)` (Hổ phách)
+     - *Nguy cơ / Vắng học*: `hsl(0, 84%, 60%)` (Đỏ rực)
+     - *Thông tin*: `hsl(199, 89%, 48%)` (Xanh lam)
+
+2. **Typography System**:
+   - `Font Family`: Font sans-serif hiện đại Google Fonts (`Inter` cho dữ liệu số/bảng điểm, `Outfit` cho tiêu đề).
+   - `Heading 1 (Page Title)`: 28px / SemiBold (1.3 line-height)
+   - `Body / Cell Text`: 14px / Regular (1.5 line-height)
+   - `Badge Text`: 12px / Medium
+
+3. **Vi hiệu ứng & Phản hồi Tương tác (Micro-animations)**:
+   - Button Hover: Shift nhẹ Y -2px, hiệu ứng đổ bóng `box-shadow: 0 4px 12px rgba(0,0,0,0.1)`.
+   - Toast Notification: Hiệu ứng trượt từ trên xuống (Slide-in) trong 250ms với đường cong gia tốc `cubic-bezier(0.16, 1, 0.3, 1)`.
+
+---
+
+### 5. Tiêu chuẩn Khả năng Truy cập UI/UX (Accessibility & WCAG 2.1 Level AA)
+
+1. **Độ Tương phản Màu sắc (Color Contrast Ratio)**:
+   - Tất cả văn bản chữ và icon đều đạt tỷ lệ tương phản tối thiểu `4.5:1` so với màu nền, giúp người lớn tuổi (Giáo viên, Phụ huynh) xem dễ dàng.
+2. **Điều hướng Bàn phím Nhanh (Keyboard Navigation)**:
+   - Hỗ trợ toàn bộ các phím tắt `Tab`, `Shift+Tab`, `Enter` và `Phím mũi tên` trong màn hình Sổ điểm (`GradebookPage`) giúp Giáo viên nhập điểm liên tục cho 45 học sinh mà không cần đụng chuột.
+3. **Thẻ Nhãn Ngữ nghĩa (Semantic HTML & ARIA Labels)**:
+   - Sử dụng đúng các thẻ `<main>`, `<nav>`, `<header>`, `<table>` và bổ sung thuộc tính `aria-label`, `aria-expanded` hỗ trợ trình đọc màn hình.
+
+---
+
 ## CHƯƠNG V. SƠ ĐỒ KIẾN TRÚC VÀ BẢN VẼ GIAO DIỆN CHI TIẾT (VISUAL DIAGRAMS & UI WIREFRAMES)
 
 ### 1. Sơ đồ So sánh Kiến trúc Tương tác 3 Nền tảng (Platform Architecture Diagram)
@@ -269,6 +304,25 @@ flowchart LR
 +-----------------------------------+
 | [Bảng Điểm] [Nghỉ Học] [Học Phí]  |
 +-----------------------------------+
+```
+
+#### 3.3. Bố cục Giao diện Trung tâm Báo cáo & Thống kê Ban Giám Hiệu (BGH Analytics Dashboard Wireframe)
+```
++-----------------------------------------------------------------------------------+
+| SMS ADMIN PORTAL                            [Ban Giám Hiệu] [User: Hiệu trưởng]   |
++------------------+----------------------------------------------------------------+
+| DÀN HÀNG THỐNG KÊ| [ Tổng Học sinh: 1,250 ] [ GVCN: 36 ] [ Tỷ lệ Chuyên cần: 98.4% ] |
++------------------+----------------------------------------------------------------+
+| BIỂU ĐỒ PHỔ ĐIỂM | PHỔ ĐIỂM HỌC KỲ I (TOÀN TRƯỜNG)                                |
+| & CHUYÊN CẦN     |  Giỏi     [===================] 45%                             |
+|                  |  Khá      [=============] 35%                                     |
+| - Tổng quan BGH  |  Trung bình[====] 15%                                          |
+| - Giám sát vắng  |  Yếu/Kém  [=] 5%                                              |
+| - Phê duyệt điểm +----------------------------------------------------------------+
+| - Cấu hình chung | CẢNH BÁO HỌC SINH VẮNG > 20% TIẾT (CẦN XỬ LÝ)                   |
+|                  | 1. Nguyễn Văn X - Lớp 11A2 (Vắng 12 buổi) -> [Gửi Cảnh Báo PH]  |
+|                  | 2. Trần Văn Y   - Lớp 10A5 (Vắng 10 buổi) -> [Gửi Cảnh Báo PH]  |
++------------------+----------------------------------------------------------------+
 ```
 
 ---

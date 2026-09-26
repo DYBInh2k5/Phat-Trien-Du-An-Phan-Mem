@@ -88,6 +88,15 @@ Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requi
 - **FC-07.3**: Xuất báo cáo danh sách học sinh và bảng điểm tổng hợp lớp ra file **Excel** (chuẩn định dạng SheetJS).
 - **FC-07.4**: Xuất Phiếu báo điểm cá nhân, Học bạ điện tử và Biên lai thu học phí ra file **PDF** (chuẩn định dạng jsPDF).
 
+### FC-08: Ánh Xạ Phân Hệ Chức Năng Với Frontend Components (`members/member2_Frontend/src/pages/`)
+- **FC-08.1**: `LoginPage.jsx` - Giao diện Đăng nhập đa vai trò, chọn Role, nhập mật khẩu và xử lý xác thực Token.
+- **FC-08.2**: `BGHReportCenterPage.jsx` & `BGHAttendanceMonitorPage.jsx` - Portal dành cho Admin / Ban Giám Hiệu theo dõi báo cáo sĩ số, tỷ lệ chuyên cần và phổ điểm toàn trường.
+- **FC-08.3**: `SystemSettingsPage.jsx` - Quản lý danh mục khối, lớp, năm học, môn học và cấu hình khóa/mở sổ điểm hệ thống.
+- **FC-08.4**: `GradebookPage.jsx` - Sổ điểm điện tử dành cho Giáo viên bộ môn (nhập điểm miệng, 15p, 1 tiết, GK, CK, tự động tính TBM).
+- **FC-08.5**: `AttendancePage.jsx` - Giao diện điểm danh chuyên cần dành cho GVCN/GVBM với các lựa chọn: Có mặt, Vắng có phép, Vắng không phép, Đi trễ.
+- **FC-08.6**: `StudentSchedulePage.jsx` - Thời khóa biểu và Bảng điểm cá nhân dành cho Học sinh/Phụ huynh.
+- **FC-08.7**: `ParentCommunicationPage.jsx` - Sổ liên lạc điện tử, đơn xin nghỉ học và thanh toán học phí cho Phụ huynh.
+
 ---
 
 ## 4. Quy tắc Nghiệp vụ Hệ thống (Business Rules - BR)
@@ -104,6 +113,36 @@ Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requi
 
 - **BR-04 (Quy định Chuyên cần)**:  
   Học sinh vắng không phép quá 45 buổi trong một năm học hoặc quá 20% tổng số tiết của môn học sẽ không được lên lớp/bị cấm thi môn đó.
+
+- **BR-05 (Quy định Danh hiệu Thi đua Khen thưởng)**:  
+  - *Học sinh Xuất sắc*: ĐTB tất cả các môn $\ge 9.0$, tất cả các môn đánh giá bằng điểm $\ge 8.0$, Hạnh kiểm đạt Tốt.  
+  - *Học sinh Giỏi*: ĐTB tất cả các môn $\ge 8.0$, tất cả các môn đánh giá bằng điểm $\ge 6.5$, Hạnh kiểm đạt Tốt.
+
+- **BR-06 (Quy định Rèn luyện Hè & Kiểm tra Khảo sát Thi lại)**:  
+  Học sinh có ĐTB cả năm từ $3.5$ đến dưới $5.0$ hoặc có môn học dưới $3.5$ nhưng thuộc diện được rèn luyện hè sẽ phải tham gia kỳ thi lại/kiểm tra đánh giá bổ sung trước khi xét duyệt lên lớp năm học mới.
+
+### Sơ đồ Quy trình Phê duyệt Mở khóa Sổ điểm (Unlock Gradebook Workflow)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor GVBM as Giáo viên Bộ môn
+    actor BGH as Ban Giám Hiệu / Admin
+    participant DB as PostgreSQL Database
+    participant Log as Audit Log System
+
+    GVBM->>BGH: Gửi yêu cầu mở khóa sổ điểm (kèm lý do phúc khảo)
+    BGH->>BGH: Kiểm tra đơn phúc khảo và chứng từ hợp lệ
+    alt Yêu cầu được phê duyệt
+        BGH->>DB: Cập nhật trạng thái sổ điểm (IsLocked = False, ExpireIn = 24h)
+        DB->>Log: Ghi nhận vết (AdminID, SubjectID, ClassID, UnlockTimestamp)
+        BGH-->>GVBM: Thông báo mở khóa thành công trong 24 giờ
+        GVBM->>DB: Nhập điểm điều chỉnh sau phúc khảo
+        GVBM->>BGH: Khóa lại sổ điểm bộ môn
+    else Yêu cầu bị từ chối
+        BGH-->>GVBM: Phản hồi lý do từ chối mở khóa
+    end
+```
 
 ---
 
