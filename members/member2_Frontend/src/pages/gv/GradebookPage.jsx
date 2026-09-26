@@ -10,7 +10,9 @@
 
 import { useState, useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
+import Modal from '../../components/shared/Modal.jsx';
 import { handleSaveGrades } from '../../api/stubs.js';
+import { exportToExcel, exportToPDF } from '../../utils/exportEngine.js';
 import {
   grades as gradesData,
   students,
@@ -206,6 +208,59 @@ export default function GradebookPage() {
   const [isSaving,     setIsSaving]     = useState(false);
   const [saveMessage,  setSaveMessage]  = useState(null); // { type: 'success'|'error', text }
 
+  // ── Unlock / Revision Modal State ──────────────────────────────────────────
+  const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
+  const [unlockReason, setUnlockReason] = useState('');
+  const [submittingUnlock, setSubmittingUnlock] = useState(false);
+
+  // ── Export Handlers ────────────────────────────────────────────────────────
+  function handleExportExcel() {
+    const className = classes.find(c => c.id === selectedClass)?.name || selectedClass;
+    const headers = ['STT', 'Mã HS', 'Họ tên', 'TBM Môn', 'Học lực'];
+    const rows = classStudents.map((st, idx) => {
+      const entry = gradeMap[st.id]?.[selectedSubject !== 'ALL' ? selectedSubject : subjects[0]?.id];
+      const avg = entry?.average ?? '—';
+      const rank = avg >= 8.0 ? 'Giỏi' : avg >= 6.5 ? 'Khá' : avg >= 5.0 ? 'Trung bình' : 'Yếu';
+      return [idx + 1, st.code, st.name, avg, rank];
+    });
+
+    exportToExcel(`BangDiem_${className}_HK${selectedSemester}`, `Lớp ${className}`, headers, rows);
+  }
+
+  function handleExportPDF() {
+    const className = classes.find(c => c.id === selectedClass)?.name || selectedClass;
+    const subjectName = selectedSubject === 'ALL' ? 'Tất cả các môn' : subjects.find(s => s.id === selectedSubject)?.name || '';
+    const headers = ['STT', 'Mã Học Sinh', 'Họ và Tên', 'Điểm Trung Bình', 'Xếp Loại'];
+    const rows = classStudents.map((st, idx) => {
+      const entry = gradeMap[st.id]?.[selectedSubject !== 'ALL' ? selectedSubject : subjects[0]?.id];
+      const avg = entry?.average ?? '—';
+      const rank = avg >= 8.0 ? 'Giỏi' : avg >= 6.5 ? 'Khá' : avg >= 5.0 ? 'Trung bình' : 'Yếu';
+      return [idx + 1, st.code, st.name, avg, rank];
+    });
+
+    exportToPDF(
+      `BẢNG ĐIỂM TỔNG HỢP LỚP ${className}`,
+      `Môn: ${subjectName} | Học kỳ ${selectedSemester} - Năm học 2024–2025`,
+      headers,
+      rows
+    );
+  }
+
+  function handleRequestUnlockSubmit(e) {
+    e.preventDefault();
+    if (!unlockReason.trim()) return;
+    setSubmittingUnlock(true);
+    setTimeout(() => {
+      setSubmittingUnlock(false);
+      setIsUnlockModalOpen(false);
+      setUnlockReason('');
+      setSaveMessage({
+        type: 'success',
+        text: 'Đã gửi đơn xin mở khóa sổ điểm / phúc khảo tới Ban Giám Hiệu phê duyệt thành công!',
+      });
+    }, 600);
+  }
+
   // ── Derived: students in selected class ───────────────────────────────────
   const classStudents = useMemo(
     () => students.filter((s) => s.classId === selectedClass),
@@ -358,12 +413,40 @@ export default function GradebookPage() {
               : 'Nhập và quản lý điểm số học sinh theo buổi học'}
           </p>
         </div>
-        {isReadOnly && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#fff7ed] text-[#c2410c] border border-[#fdba74] text-label-sm font-medium">
-            <span className="material-symbols-outlined text-[16px]">visibility</span>
-            Chế độ xem (BGH)
-          </span>
-        )}
+        <div className="flex items-center gap-2 flex-wrap">
+          {isReadOnly && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#fff7ed] text-[#c2410c] border border-[#fdba74] text-label-sm font-medium">
+              <span className="material-symbols-outlined text-[16px]">visibility</span>
+              Chế độ xem (BGH)
+            </span>
+          )}
+          {!isReadOnly && (
+            <button
+              type="button"
+              onClick={() => setIsUnlockModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#fff7ed] hover:bg-[#ffedd5] text-[#c2410c] border border-[#fdba74] text-body-sm font-medium transition-all"
+            >
+              <span className="material-symbols-outlined text-[18px]">lock_open</span>
+              Xin mở khóa / Phúc khảo
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={handleExportExcel}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#f0fdf4] hover:bg-[#dcfce7] text-[#15803d] border border-[#86efac] text-body-sm font-medium transition-all"
+          >
+            <span className="material-symbols-outlined text-[18px]">table_chart</span>
+            Xuất Excel
+          </button>
+          <button
+            type="button"
+            onClick={handleExportPDF}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#eff4ff] hover:bg-[#dbeafe] text-[#1d4ed8] border border-[#bfdbfe] text-body-sm font-medium transition-all"
+          >
+            <span className="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+            Xuất PDF
+          </button>
+        </div>
       </div>
 
       {/* ── Filter toolbar ── */}
@@ -698,6 +781,73 @@ export default function GradebookPage() {
           </button>
         </div>
       )}
+
+      {/* ── Modal nộp đơn xin mở khóa / phúc khảo ── */}
+      <Modal
+        isOpen={isUnlockModalOpen}
+        onClose={() => !submittingUnlock && setIsUnlockModalOpen(false)}
+        title="Nộp Đơn Xin Mở Khóa Sổ Điểm / Phúc Khảo"
+        size="md"
+      >
+        <form onSubmit={handleRequestUnlockSubmit} className="space-y-4 py-1">
+          <div className="p-3 bg-[#eff4ff] border border-[#bfdbfe] rounded-lg text-body-sm text-[#1d4ed8]">
+            <p className="font-semibold">Quy định BR-03 (Phân quyền 2 cấp):</p>
+            <p className="mt-0.5 text-label-sm">
+              Đơn xin mở khóa sẽ được gửi tới Ban Giám Hiệu. Khi được duyệt, hệ thống sẽ mở khóa sổ điểm 24h và tự động ghi vết Audit Log.
+            </p>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-label-sm font-medium text-[#334155]">Lớp & Môn học áp dụng</label>
+            <input
+              type="text"
+              readOnly
+              value={`Lớp: ${classes.find(c => c.id === selectedClass)?.name || selectedClass} — Môn: ${selectedSubject === 'ALL' ? 'Tất cả môn' : subjects.find(s => s.id === selectedSubject)?.name}`}
+              className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-lg px-3 py-2 text-body-sm font-medium text-[#475569]"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-label-sm font-medium text-[#334155]">Lý do đề nghị điều chỉnh điểm / Phúc khảo (*)</label>
+            <textarea
+              required
+              rows={3}
+              value={unlockReason}
+              onChange={(e) => setUnlockReason(e.target.value)}
+              placeholder="Nhập lý do chi tiết (Ví dụ: Học sinh Nguyễn Văn A đệ trình đơn xin phúc khảo bài thi giữa kỳ đã được duyệt)..."
+              className="w-full border border-[#e2e8f0] rounded-lg p-3 text-body-sm text-[#0f172a] focus:outline-none focus:border-[#004ac6] focus:ring-2 focus:ring-[#004ac6]/15"
+            />
+          </div>
+
+          <div className="flex justify-end gap-2.5 pt-3 border-t border-[#f1f5f9]">
+            <button
+              type="button"
+              onClick={() => setIsUnlockModalOpen(false)}
+              disabled={submittingUnlock}
+              className="px-4 py-2 rounded-lg border border-[#e2e8f0] text-[#475569] text-body-sm font-medium hover:bg-[#f8fafc]"
+            >
+              Hủy bỏ
+            </button>
+            <button
+              type="submit"
+              disabled={submittingUnlock || !unlockReason.trim()}
+              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-[#004ac6] hover:bg-[#003ea8] text-white text-body-sm font-medium shadow-elevation-1 disabled:opacity-50"
+            >
+              {submittingUnlock ? (
+                <>
+                  <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+                  Đang gửi đơn...
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined text-[18px]">send</span>
+                  Gửi đơn xin duyệt
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 }
