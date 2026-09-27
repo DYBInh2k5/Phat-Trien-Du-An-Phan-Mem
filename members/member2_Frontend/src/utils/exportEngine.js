@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
  * @param {Array<string>} headers - Header columns array
  * @param {Array<Array<any>>} rows - Data rows array
  */
-export function exportToExcel(filename = 'Bang_Diem_EduManagePro', sheetName = 'Danh Sách', headers = [], rows = []) {
+export function exportToExcel(filename = 'Bang_Diem_HTQLLH', sheetName = 'Danh Sách', headers = [], rows = []) {
   try {
     const sheetData = [headers, ...rows];
     const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
@@ -44,7 +44,7 @@ export function exportToExcel(filename = 'Bang_Diem_EduManagePro', sheetName = '
  * @param {Array<string>} headers - Header columns
  * @param {Array<Array<any>>} rows - Table rows
  */
-export function exportToPDF(title = 'BÁO CÁO TỔNG HỢP', subtitle = 'Trường THPT HSU - EduManage Pro', headers = [], rows = []) {
+export function exportToPDF(title = 'BÁO CÁO TỔNG HỢP', subtitle = 'Trường THPT HSU - HTQLLH', headers = [], rows = []) {
   try {
     const printWindow = window.open('', '_blank');
     if (!printWindow) {
@@ -88,7 +88,7 @@ export function exportToPDF(title = 'BÁO CÁO TỔNG HỢP', subtitle = 'Trư�
           <p>${subtitle}</p>
         </div>
         <div class="meta">
-          <div><strong>Hệ thống:</strong> EduManage Pro</div>
+          <div><strong>Hệ thống:</strong> HTQLLH</div>
           <div><strong>Ngày xuất:</strong> ${new Date().toLocaleDateString('vi-VN')}</div>
         </div>
         <table>

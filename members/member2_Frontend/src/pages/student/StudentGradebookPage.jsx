@@ -98,7 +98,7 @@ export default function StudentGradebookPage() {
       '</head><body>' +
       '<div class="header">' +
         '<div>' +
-          '<div class="school">TRƯỜNG THPT --- EduManage PRO</div>' +
+          '<div class="school">TRƯỜNG THPT HSU --- HTQLLH</div>' +
           '<h1>HOC BA SO HOC SINH</h1>' +
           '<div class="meta">' +
             '<strong>' + (student?.name ?? '---') + '</strong> &nbsp;|&nbsp; ' +
@@ -129,7 +129,7 @@ export default function StudentGradebookPage() {
           '<td style="' + tcn + '"></td>' +
         '</tr></tfoot>' +
       '</table>' +
-      '<div class="footer">Ban sao hoc ba dien tu co gia tri tuong duong ban goc --- He thong EduManage PRO</div>' +
+      '<div class="footer">Ban sao hoc ba dien tu co gia tri tuong duong ban goc --- He thong HTQLLH</div>' +
       '</body></html>';
 
     const popup = window.open('', '_blank', 'width=900,height=680,scrollbars=yes');

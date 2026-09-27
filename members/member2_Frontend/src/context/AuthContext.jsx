@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
-      const stored = localStorage.getItem('edumanage_user');
+      const stored = localStorage.getItem('htqllh_user') || localStorage.getItem('edumanage_user');
       return stored ? JSON.parse(stored) : null;
     } catch {
       return null;
@@ -16,11 +16,12 @@ export function AuthProvider({ children }) {
   const login = async ({ username, password, role }) => {
     await handleLoginSubmit({ username, password, role });
     const userObj = { username, role, name: username };
-    localStorage.setItem('edumanage_user', JSON.stringify(userObj));
+    localStorage.setItem('htqllh_user', JSON.stringify(userObj));
     setUser(userObj);
   };
 
   const logout = () => {
+    localStorage.removeItem('htqllh_user');
     localStorage.removeItem('edumanage_user');
     setUser(null);
   };

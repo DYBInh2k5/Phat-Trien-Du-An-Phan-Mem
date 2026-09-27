@@ -30,7 +30,7 @@ export default function MainLayout() {
     localStorage.setItem('sidebar_collapsed', String(isCollapsed));
   }, [isCollapsed]);
 
-  const pageTitle = PAGE_TITLES[location.pathname] ?? 'EduManage Pro';
+  const pageTitle = PAGE_TITLES[location.pathname] ?? 'HTQLLH';
 
   return (
     <div className="flex h-screen bg-[#f8fafc] overflow-hidden">

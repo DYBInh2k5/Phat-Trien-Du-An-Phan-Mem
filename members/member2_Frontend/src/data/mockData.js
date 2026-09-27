@@ -1,5 +1,5 @@
-﻿/**
- * mockData.js — Static mock data for EduManage Pro
+/**
+ * mockData.js — Static mock data for HTQLLH
  *
  * All data conforms to the interfaces defined in design.md.
  * Replace with real API calls when backend is available.

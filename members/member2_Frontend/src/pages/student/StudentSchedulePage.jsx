@@ -148,7 +148,7 @@ export default function StudentSchedulePage() {
 
         {/* Footer chỉ hiện khi in */}
         <div className="hidden print:flex items-center justify-between px-6 py-3 border-t border-[#e2e8f0] text-[11px] text-[#64748b]">
-          <span>EduManage Pro · Cổng Học Vụ GD&amp;ĐT</span>
+          <span>HTQLLH · Cổng Học Vụ GD&amp;ĐT</span>
           <span>In ngày: {new Date().toLocaleDateString('vi-VN')}</span>
         </div>
       </div>

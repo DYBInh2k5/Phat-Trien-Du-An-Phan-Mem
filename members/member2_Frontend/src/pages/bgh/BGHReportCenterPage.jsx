@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BGHReportCenterPage — Trung tâm báo cáo BGH
  *
  * Chức năng:
@@ -364,7 +364,7 @@ export default function BGHReportCenterPage() {
       ws5['!cols'] = [{ wch: 8 }, { wch: 20 }, { wch: 14 }, { wch: 14 }, { wch: 16 }];
       XLSX.utils.book_append_sheet(wb, ws5, 'Chốt sổ điểm');
 
-      XLSX.writeFile(wb, 'BaoCao_EduManage_' + label + '.xlsx');
+      XLSX.writeFile(wb, 'BaoCao_HTQLLH_' + label + '.xlsx');
     } finally {
       setIsExporting(false);
     }
@@ -435,14 +435,14 @@ export default function BGHReportCenterPage() {
       );
 
     const html = '<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8">' +
-      '<title>Báo cáo EduManage Pro</title>' +
+      '<title>Báo cáo HTQLLH</title>' +
       '<style>@page{margin:1.5cm}body{font-family:Arial,sans-serif;color:#0b1c30;padding:0}' +
       'h1{font-size:16pt;margin:0 0 4pt;color:#0b1c30}' +
       'p.sub{font-size:10pt;color:#64748b;margin:0 0 20pt}' +
       '@media print{body{margin:0}}</style>' +
       '</head><body>' +
       '<h1>Báo cáo Học vụ &amp; Chất lượng Điểm số</h1>' +
-      '<p class="sub">' + label + ' &nbsp;|&nbsp; EduManage Pro &nbsp;|&nbsp; ' +
+      '<p class="sub">' + label + ' &nbsp;|&nbsp; HTQLLH &nbsp;|&nbsp; ' +
       new Date().toLocaleDateString('vi-VN') + '</p>' +
       t1 + t2 + t3 + t4 + t5 +
       '</body></html>';

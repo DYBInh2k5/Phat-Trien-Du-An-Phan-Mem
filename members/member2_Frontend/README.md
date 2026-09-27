@@ -1,4 +1,4 @@
-# Hướng Dẫn Sử Dụng & Tài Liệu Kỹ Thuật Frontend — Hệ Thống Quản Lý Trường Học (EduManage Pro / SMS)
+# Hướng Dẫn Sử Dụng & Tài Liệu Kỹ Thuật Frontend — Hệ Thống Quản Lý Lớp Học & Học Vụ (HTQLLH)
 
 Thư mục mã nguồn Ứng dụng Web Frontend Single Page Application (SPA) phát triển bằng **React.js + Vite + TailwindCSS** thuộc đề tài **Hệ thống Quản lý Trường học (School Management System - SMS)** — Môn học *Phát triển dự án phần mềm (SW320DV01)* - Đại học Hoa Sen (HSU).
 
