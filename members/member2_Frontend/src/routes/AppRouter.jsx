@@ -11,8 +11,9 @@ import LoginPage from '../pages/auth/LoginPage.jsx';
 import UnauthorizedPage from '../pages/auth/UnauthorizedPage.jsx';
 import NotFoundPage from '../pages/shared/NotFoundPage.jsx';
 
-// GV pages
+// GV & GVCN pages
 import GVDashboardPage from '../pages/gv/GVDashboardPage.jsx';
+import GVCNDashboardPage from '../pages/gv/GVCNDashboardPage.jsx';
 import GradebookPage from '../pages/gv/GradebookPage.jsx';
 import AttendancePage from '../pages/gv/AttendancePage.jsx';
 
@@ -22,8 +23,9 @@ import StudentListPage from '../pages/students/StudentListPage.jsx';
 // Schedule pages
 import TimetablePage from '../pages/schedule/TimetablePage.jsx';
 
-// Communication pages
+// Communication & Parent Portal pages
 import ParentCommunicationPage from '../pages/communication/ParentCommunicationPage.jsx';
+import ParentPortalPage from '../pages/communication/ParentPortalPage.jsx';
 
 // BGH pages
 import BGHDashboardPage from '../pages/bgh/BGHDashboardPage.jsx';
@@ -59,9 +61,16 @@ export default function AppRouter() {
 
       {/* Protected routes inside MainLayout */}
       <Route element={<MainLayout />}>
-        {/* GV / GVCN only */}
-        <Route element={<ProtectedRoute roles={[ROLES.GV, ROLES.GVCN]} />}>
+        {/* GV & GVCN Dashboard */}
+        <Route element={<ProtectedRoute roles={[ROLES.GV]} />}>
           <Route path={ROUTES.GV_DASHBOARD} element={<GVDashboardPage />} />
+        </Route>
+        <Route element={<ProtectedRoute roles={[ROLES.GVCN]} />}>
+          <Route path={ROUTES.GVCN_DASHBOARD} element={<GVCNDashboardPage />} />
+        </Route>
+
+        {/* GV / GVCN Shared */}
+        <Route element={<ProtectedRoute roles={[ROLES.GV, ROLES.GVCN]} />}>
           <Route path={ROUTES.ATTENDANCE} element={<AttendancePage />} />
         </Route>
 
@@ -79,6 +88,11 @@ export default function AppRouter() {
         {/* GVCN / BGH / PH */}
         <Route element={<ProtectedRoute roles={[ROLES.GVCN, ROLES.BGH, ROLES.PH]} />}>
           <Route path={ROUTES.PARENT_COMMUNICATION} element={<ParentCommunicationPage />} />
+        </Route>
+
+        {/* PH Portal Dedicated */}
+        <Route element={<ProtectedRoute roles={[ROLES.PH]} />}>
+          <Route path={ROUTES.PARENT_DASHBOARD} element={<ParentPortalPage />} />
         </Route>
 
         {/* BGH only */}

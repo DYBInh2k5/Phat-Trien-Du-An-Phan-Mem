@@ -3,8 +3,10 @@ import { ROLES } from './roles.js';
 export const ROUTES = {
   LOGIN:                '/login',
   UNAUTHORIZED:         '/unauthorized',
-  GV_DASHBOARD:         '/gv/dashboard',
   BGH_DASHBOARD:        '/bgh/dashboard',
+  GVCN_DASHBOARD:       '/gvcn/dashboard',
+  GV_DASHBOARD:         '/gv/dashboard',
+  PARENT_DASHBOARD:     '/parent/dashboard',
   STUDENTS:             '/students',
   GRADEBOOK:            '/gradebook',
   ATTENDANCE:           '/attendance',
@@ -21,9 +23,9 @@ export const ROUTES = {
 };
 
 export const ROLE_DASHBOARD = {
-  [ROLES.GV]:   ROUTES.GV_DASHBOARD,
-  [ROLES.GVCN]: ROUTES.GV_DASHBOARD,
   [ROLES.BGH]:  ROUTES.BGH_DASHBOARD,
-  [ROLES.PH]:   ROUTES.STUDENT_GRADEBOOK,
+  [ROLES.GVCN]: ROUTES.GVCN_DASHBOARD,
+  [ROLES.GV]:   ROUTES.GV_DASHBOARD,
   [ROLES.HS]:   ROUTES.STUDENT_GRADEBOOK,
+  [ROLES.PH]:   ROUTES.PARENT_DASHBOARD,
 };
