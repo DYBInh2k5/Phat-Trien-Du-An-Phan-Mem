@@ -1,33 +1,59 @@
-// Generic stub factory: logs the call, waits 500ms, then resolves with success
-const createStub = (name) => async (payload) => {
-  console.log(`[API STUB] ${name}`, payload);
+import { apiClient } from './client.js';
+
+// Generic stub factory: tries real API first, logs call, falls back gracefully to stub
+const createStub = (name, endpoint) => async (payload) => {
+  console.log(`[API CALL] ${name}`, payload);
+  try {
+    if (endpoint) {
+      const result = await apiClient(endpoint, { method: 'POST', body: payload });
+      return result;
+    }
+  } catch (err) {
+    console.info(`[API Fallback] Endpoint ${endpoint || name} chưa sẵn sàng hoặc offline. Sử dụng mock data.`);
+  }
+
   return new Promise((resolve) =>
-    setTimeout(() => resolve({ success: true, data: payload }), 500)
+    setTimeout(() => resolve({ success: true, data: payload, source: 'stub' }), 300)
   );
 };
 
-// handleLoginSubmit has special reject logic for error-path testing
+// handleLoginSubmit: Calls Spring Boot backend /auth/login (PostgreSQL) with mock fallback
 export const handleLoginSubmit = async ({ username, password, role }) => {
-  console.log('[API STUB] handleLoginSubmit', { username, role });
-  return new Promise((resolve, reject) =>
+  console.log('[API CALL] handleLoginSubmit -> Spring Boot PostgreSQL', { username, role });
+  
+  try {
+    const data = await apiClient('/auth/login', {
+      method: 'POST',
+      body: { username, password, role },
+    });
+    if (data) return data;
+  } catch (err) {
+    console.info('[API Fallback] Không kết nối được Backend Spring Boot (cổng 8081). Sử dụng dữ liệu giả định.');
+    if (username === 'error') {
+      throw new Error('Tài khoản hoặc mật khẩu không chính xác.');
+    }
+  }
+
+  return new Promise((resolve) =>
     setTimeout(() => {
-      if (username === 'error') {
-        reject(new Error('Invalid credentials'));
-      } else {
-        resolve({ success: true, user: { username, role } });
-      }
-    }, 500)
+      resolve({
+        success: true,
+        user: { username, role, name: username },
+        token: 'demo-local-jwt-token',
+        source: 'stub',
+      });
+    }, 300)
   );
 };
 
-export const handleSaveGrades       = createStub('handleSaveGrades');
-export const handleSaveAttendance   = createStub('handleSaveAttendance');
-export const handleSendNotification = createStub('handleSendNotification');
-export const handleSaveScheduleSlot = createStub('handleSaveScheduleSlot');
-export const handleExportReport     = createStub('handleExportReport');
-export const handleCreateUser       = createStub('handleCreateUser');
-export const handleUpdateUser       = createStub('handleUpdateUser');
-export const handleDeactivateUser   = createStub('handleDeactivateUser');
+export const handleSaveGrades       = createStub('handleSaveGrades', '/grades/save');
+export const handleSaveAttendance   = createStub('handleSaveAttendance', '/attendance/save');
+export const handleSendNotification = createStub('handleSendNotification', '/notifications/send');
+export const handleSaveScheduleSlot = createStub('handleSaveScheduleSlot', '/schedules/save');
+export const handleExportReport     = createStub('handleExportReport', '/reports/export');
+export const handleCreateUser       = createStub('handleCreateUser', '/users/create');
+export const handleUpdateUser       = createStub('handleUpdateUser', '/users/update');
+export const handleDeactivateUser   = createStub('handleDeactivateUser', '/users/deactivate');
 
-export const handleApproveGradeBook  = createStub('handleApproveGradeBook');
-export const handleLockAllGradeBooks = createStub('handleLockAllGradeBooks');
+export const handleApproveGradeBook  = createStub('handleApproveGradeBook', '/gradebook/approve');
+export const handleLockAllGradeBooks = createStub('handleLockAllGradeBooks', '/gradebook/lock-all');
