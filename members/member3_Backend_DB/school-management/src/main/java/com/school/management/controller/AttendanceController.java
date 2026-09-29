@@ -35,12 +35,18 @@ public class AttendanceController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Map<String, Object>> saveAttendance(@RequestBody List<Attendance> attendances) {
-        List<Attendance> saved = attendanceRepository.saveAll(attendances);
+    public ResponseEntity<Map<String, Object>> saveAttendance(@RequestBody Object payload) {
         Map<String, Object> response = new HashMap<>();
+
+        if (payload instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<Attendance> attendances = (List<Attendance>) payload;
+            List<Attendance> saved = attendanceRepository.saveAll(attendances);
+            response.put("count", saved.size());
+        }
+
         response.put("success", true);
         response.put("message", "Đã lưu thông tin điểm danh thành công vào PostgreSQL!");
-        response.put("count", saved.size());
         return ResponseEntity.ok(response);
     }
 }

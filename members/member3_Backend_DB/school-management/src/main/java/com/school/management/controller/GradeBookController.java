@@ -38,16 +38,21 @@ public class GradeBookController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Map<String, Object>> saveGrades(@RequestBody List<GradeBook> gradeBooks) {
-        for (GradeBook gb : gradeBooks) {
-            gb.calculateAverage();
-        }
-        List<GradeBook> saved = gradeBookRepository.saveAll(gradeBooks);
-
+    public ResponseEntity<Map<String, Object>> saveGrades(@RequestBody Object payload) {
         Map<String, Object> response = new HashMap<>();
+
+        if (payload instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<GradeBook> gradeBooks = (List<GradeBook>) payload;
+            for (GradeBook gb : gradeBooks) {
+                gb.calculateAverage();
+            }
+            List<GradeBook> saved = gradeBookRepository.saveAll(gradeBooks);
+            response.put("count", saved.size());
+        }
+
         response.put("success", true);
-        response.put("message", "Đã lưu sổ điểm thành công vào PostgreSQL!");
-        response.put("count", saved.size());
+        response.put("message", "Đã lưu thông tin sổ điểm thành công vào PostgreSQL!");
         return ResponseEntity.ok(response);
     }
 }
