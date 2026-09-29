@@ -28,7 +28,7 @@ Các tiêu chí đối chiếu bao gồm: Tính toàn vẹn giao dịch (ACID), 
 #### 1.1. Đặc điểm chung & Tổng quan Kiến trúc
 Microsoft SQL Server là hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) hàng đầu dành cho doanh nghiệp do Microsoft phát triển, sử dụng ngôn ngữ truy vấn mở rộng T-SQL (Transact-SQL).
 
-![Kiến trúc tổng thể Microsoft SQL Server Engine](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/sql_server_architecture_1790645655418.jpg)
+![Kiến trúc tổng thể Microsoft SQL Server Engine](images/sql_server_architecture.jpg)
 
 #### 1.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
 1. **Cơ chế Lưu trữ Dữ liệu (Storage Engine Architecture)**:
@@ -54,7 +54,7 @@ Microsoft SQL Server là hệ quản trị cơ sở dữ liệu quan hệ (RDBMS
 #### 2.1. Đặc điểm chung & Tổng quan Kiến trúc
 PostgreSQL là hệ quản trị cơ sở dữ liệu quan hệ đối tượng (ORDBMS) mã nguồn mở mạnh mẽ nhất thế giới, tuân thủ nghiêm ngặt chuẩn ANSI SQL và tính toàn vẹn ACID.
 
-![Kiến trúc tổng thể PostgreSQL Database Engine](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/postgresql_architecture_1790645690212.jpg)
+![Kiến trúc tổng thể PostgreSQL Database Engine](images/postgresql_architecture.jpg)
 
 #### 2.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
 1. **Cơ chế Kiểm soát Đồng thời Đa phiên bản (MVCC - Multi-Version Concurrency Control)**:
@@ -85,7 +85,7 @@ PostgreSQL là hệ quản trị cơ sở dữ liệu quan hệ đối tượng 
 #### 3.1. Đặc điểm chung & Tổng quan Kiến trúc
 MySQL (thuộc Oracle) và MariaDB (bản rẽ nhánh mã nguồn mở) là các hệ quản trị CSDL quan hệ phổ biến nhất trong phát triển ứng dụng Web truyền thống (LAMP/LEMP stack).
 
-![Kiến trúc tổng thể MySQL InnoDB Storage Engine](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/mysql_innodb_architecture_1790645711550.jpg)
+![Kiến trúc tổng thể MySQL InnoDB Storage Engine](images/mysql_innodb_architecture.jpg)
 
 #### 3.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
 1. **Kiến trúc Storage Engine Trừu tượng (Pluggable Storage Engine Architecture)**:
@@ -111,7 +111,7 @@ MySQL (thuộc Oracle) và MariaDB (bản rẽ nhánh mã nguồn mở) là các
 #### 4.1. Đặc điểm chung & Tổng quan Kiến trúc
 Supabase là nền tảng BaaS mã nguồn mở được coi là giải pháp thay thế Firebase, được phát triển trực tiếp trên nền cơ sở dữ liệu PostgreSQL.
 
-![Kiến trúc tổng thể Supabase Backend-as-a-Service Ecosystem](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/supabase_baas_architecture_1790645739211.jpg)
+![Kiến trúc tổng thể Supabase Backend-as-a-Service Ecosystem](images/supabase_baas_architecture.jpg)
 
 #### 4.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
 1. **Cơ chế Tự động Khởi tạo REST API (PostgREST Engine)**:
@@ -134,7 +134,7 @@ Supabase là nền tảng BaaS mã nguồn mở được coi là giải pháp th
 #### 5.1. Đặc điểm chung & Tổng quan Kiến trúc
 MongoDB là hệ cơ sở dữ liệu NoSQL hướng tài liệu (Document-Oriented), lưu trữ dữ liệu dưới dạng các tài liệu BSON/JSON linh hoạt không cần lược đồ cố định (Schemaless).
 
-![Kiến trúc tổng thể MongoDB WiredTiger Architecture](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/mongodb_wiredtiger_architecture_1790645758302.jpg)
+![Kiến trúc tổng thể MongoDB WiredTiger Architecture](images/mongodb_wiredtiger_architecture.jpg)
 
 #### 5.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
 1. **Cơ chế Lưu trữ WiredTiger (WiredTiger Storage Engine)**:
