@@ -21,17 +21,27 @@ Các tiêu chí đối chiếu bao gồm: Tính toàn vẹn giao dịch (ACID), 
 
 ---
 
-## CHƯƠNG II. NGHIÊN CỨU VÀ SO SÁNH 5 HỆ QUẢN TRỊ CƠ SỞ DỮ LIỆU
+## CHƯƠNG II. NGHIÊN CỨU VÀ SO SÁNH PHÂN TÍCH CHI TIẾT 5 HỆ QUẢN TRỊ CSDL
 
 ### 1. Microsoft SQL Server (RDBMS Doanh nghiệp)
 
-#### 1.1. Đặc điểm chung
+#### 1.1. Đặc điểm chung & Tổng quan Kiến trúc
 Microsoft SQL Server là hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) hàng đầu dành cho doanh nghiệp do Microsoft phát triển, sử dụng ngôn ngữ truy vấn mở rộng T-SQL (Transact-SQL).
 
-#### 1.2. Hệ sinh thái kỹ thuật
-- Tích hợp công cụ quản trị **SSMS (SQL Server Management Studio)** chuyên nghiệp.
-- Tích hợp sâu với hệ sinh thái Microsoft (.NET Framework, C#, Azure Cloud).
-- Hỗ trợ các tính năng doanh nghiệp: Stored Procedures, Triggers, In-Memory OLTP, SQL Server Reporting Services (SSRS).
+![Kiến trúc tổng thể Microsoft SQL Server Engine](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/sql_server_architecture_1790645655418.jpg)
+
+#### 1.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
+1. **Cơ chế Lưu trữ Dữ liệu (Storage Engine Architecture)**:
+   - Sử dụng các tệp tin lưu trữ chính bao gồm `.mdf` (Master Data File), `.ndf` (Secondary Data File) và `.ldf` (Transaction Log File).
+   - Đơn vị lưu trữ cơ bản là trang dữ liệu **Page (8 KB)**. Tập hợp 8 trang dữ liệu liên tiếp hình thành một **Extent (64 KB)** giúp tối ưu hóa thao tác đọc/ghi I/O đĩa cứng.
+2. **Cơ chế Quản lý Bộ nhớ (Buffer Pool & Memory Management)**:
+   - **Buffer Pool**: Vùng nhớ RAM dành riêng để lưu trữ các trang dữ liệu (`Data Pages`) và trang chỉ mục (`Index Pages`).
+   - **Lazy Writer & Checkpoint**: Quá trình `Lazy Writer` liên tục dọn dẹp các trang nhớ ít dùng, trong khi tiến trình `Checkpoint` tự động đồng bộ các trang nhớ đã thay đổi (`Dirty Pages`) từ RAM xuống đĩa cứng để đảm bảo tính sẵn sàng.
+3. **Cơ chế Giao dịch & Ghi vết (Write-Ahead Logging - WAL)**:
+   - Áp dụng thuật toán phục hồi ARIES. Mọi thao tác ghi/sửa dữ liệu đều phải được ghi lại vào tệp nhật ký `Transaction Log (.ldf)` trước khi trang dữ liệu thực sự được ghi xuống tệp `.mdf`.
+4. **Tính năng Doanh nghiệp Nâng cao (Advanced Features)**:
+   - **In-Memory OLTP (Hekaton)**: Cho phép tạo các bảng tối ưu trực tiếp trong bộ nhớ RAM với các thủ tục lưu trữ biên dịch mã máy Native Compilation DLLs.
+   - **Columnstore Index**: Chỉ mục dạng cột phục vụ phân tích dữ liệu lớn và báo cáo BI.
 
 #### 1.3. Điểm mạnh và Hạn chế
 - **Điểm mạnh**: Độ ổn định cao, bảo mật doanh nghiệp xuất sắc, công cụ quản trị SSMS trực quan, xử lý giao dịch thương mại cực mạnh.
@@ -41,19 +51,30 @@ Microsoft SQL Server là hệ quản trị cơ sở dữ liệu quan hệ (RDBMS
 
 ### 2. PostgreSQL (RDBMS Mã nguồn mở Nâng cao - Đề xuất Chốt)
 
-#### 2.1. Đặc điểm chung
-PostgreSQL là hệ quản trị cơ sở dữ liệu quan hệ đối tượng (ORDBMS) mã nguồn mở mạnh mẽ nhất thế giới, tuân thủ nghiêm ngặt chuẩn ANSI SQL và tính tính toàn vẹn ACID.
+#### 2.1. Đặc điểm chung & Tổng quan Kiến trúc
+PostgreSQL là hệ quản trị cơ sở dữ liệu quan hệ đối tượng (ORDBMS) mã nguồn mở mạnh mẽ nhất thế giới, tuân thủ nghiêm ngặt chuẩn ANSI SQL và tính toàn vẹn ACID.
 
-#### 2.2. Hệ sinh thái kỹ thuật
-- Hỗ trợ các kiểu dữ liệu nâng cao: `JSONB`, `Array`, `UUID`, `Range Types`, `GIS (PostGIS)`.
-- Hệ thống chỉ mục (Indexing) đa dạng: B-Tree, Hash, GiST, SP-GiST, GIN, BRIN.
-- Tương thích hoàn hảo với mọi hệ điều hành: Linux, Windows, macOS, Docker Container.
+![Kiến trúc tổng thể PostgreSQL Database Engine](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/postgresql_architecture_1790645690212.jpg)
+
+#### 2.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
+1. **Cơ chế Kiểm soát Đồng thời Đa phiên bản (MVCC - Multi-Version Concurrency Control)**:
+   - PostgreSQL không dùng khóa (Lock) cho thao tác đọc dữ liệu. Mỗi dòng dữ liệu (Tuple) lưu trữ các trường ẩn `xmin` (ID giao dịch tạo) và `xmax` (ID giao dịch xóa/sửa).
+   - Thao tác `UPDATE` thực chất là `INSERT` một bản sao mới và đánh dấu `xmax` cho bản sao cũ.
+   - **AutoVacuum Daemon**: Tự động dọn dẹp các dòng dữ liệu rác (`Dead Tuples`) và cập nhật bộ bản đồ độ hiển thị (`Visibility Map`).
+2. **Cơ chế Lưu trữ TOAST (The Oversized-Attribute Storage Technique)**:
+   - Khi một dòng dữ liệu vượt quá kích thước chuẩn $2\text{ KB}$ (như văn bản học bạ dài, JSONB lớn), PostgreSQL tự động kích hoạt cơ chế TOAST để nén và cắt nhỏ dữ liệu lưu vào bảng phụ TOAST chuyên biệt.
+3. **Hệ thống Chỉ mục Đa dạng (Advanced Indexing Engines)**:
+   - **B-Tree**: Chỉ mục mặc định cho các so sánh `=`, `<`, `>`.
+   - **GIN (Generalized Inverted Index)**: Chỉ mục đảo ngược cực mạnh dành riêng cho dữ liệu mảng (`Array`) và kiểu `JSONB` (tra cứu thuộc tính trong điểm số/audit log $< 1\text{ms}$).
+   - **GiST & BRIN**: Chỉ mục không gian và chỉ mục vùng khối cho dữ liệu chuỗi thời gian lớn.
+4. **Phân quyền Dòng dữ liệu (Row Level Security - RLS)**:
+   - Cho phép định nghĩa chính sách bảo mật chi tiết đến từng dòng trong bảng: Học sinh chỉ xem được dòng dữ liệu chứa `student_code` của chính mình.
 
 #### 2.3. Điểm mạnh và Hạn chế
 - **Điểm mạnh**:
   - Miễn phí bản quyền $100\%$, mã nguồn mở hoàn toàn.
   - Xử lý dữ liệu quan hệ phức tạp và dữ liệu phi cấu trúc (`JSONB`) với tốc độ vượt trội.
-  - Tính toàn vẹn dữ liệu ACID tuyệt đối, chống korrupt dữ liệu khi mất điện hoặc sự cố máy chủ.
+  - Tính toàn vẹn dữ liệu ACID tuyệt đối, chống hỏng dữ liệu khi mất điện hoặc sự cố máy chủ.
   - Hỗ trợ phân quyền bảng/dòng dữ liệu nâng cao (Row Level Security - RLS).
 - **Hạn chế**: Cấu hình tối ưu ban đầu cho các truy vấn phức tạp yêu cầu kiến thức DBA tốt.
 
@@ -61,12 +82,23 @@ PostgreSQL là hệ quản trị cơ sở dữ liệu quan hệ đối tượng 
 
 ### 3. MySQL / MariaDB (RDBMS Web Phổ biến)
 
-#### 3.1. Đặc điểm chung
-MySQL (thuộc Oracle) và MariaDB (bản rẽ nhánh mã nguồn mở) là các hệ quản trị CSDL quan hệ phổ biến nhất trong phát triển ứng dụng Web truyền thống (LAMP/LAMP stack).
+#### 3.1. Đặc điểm chung & Tổng quan Kiến trúc
+MySQL (thuộc Oracle) và MariaDB (bản rẽ nhánh mã nguồn mở) là các hệ quản trị CSDL quan hệ phổ biến nhất trong phát triển ứng dụng Web truyền thống (LAMP/LEMP stack).
 
-#### 3.2. Hệ sinh thái kỹ thuật
-- Sử dụng Storage Engine chính là **InnoDB** (hỗ trợ ACID và khóa ngoại Foreign Keys).
-- Tích hợp rộng rãi với PHP, Node.js, Python, Java.
+![Kiến trúc tổng thể MySQL InnoDB Storage Engine](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/mysql_innodb_architecture_1790645711550.jpg)
+
+#### 3.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
+1. **Kiến trúc Storage Engine Trừu tượng (Pluggable Storage Engine Architecture)**:
+   - Tách biệt tầng xử lý truy vấn SQL Parser với tầng lưu trữ đĩa cứng. Cho phép chọn lựa giữa các Engine: **InnoDB** (mặc định), **MyISAM**, **Memory**.
+2. **Cơ chế Lưu trữ InnoDB Engine**:
+   - **InnoDB Buffer Pool**: Vùng nhớ RAM lưu trữ Data Pages, Index Pages, Undo Pages và Change Buffer.
+   - **Doublewrite Buffer**: Tránh sự cố trang ghi dở dang (`Partial Page Write`) bằng cách ghi dữ liệu 2 lần xuống vùng đĩa nệm trước khi ghi vào tệp `.ibd`.
+3. **Hệ thống Nhật ký Giao dịch (Logging Mechanism)**:
+   - **Redo Log**: Tệp nhật ký vòng (Circular Log) phục vụ khôi phục dữ liệu (`Crash Recovery`).
+   - **Undo Log**: Lưu trữ bản sao dữ liệu cũ phục vụ Hủy bỏ giao dịch (`Rollback`) và cơ chế MVCC.
+   - **Binlog (Binary Log)**: Ghi lại các sự kiện DML/DDL phục vụ sao lưu nhân bản (`Replication`) và khôi phục theo thời điểm (PITR).
+4. **Cấu trúc Chỉ mục B+Tree (Clustered Index)**:
+   - Khóa chính (`Primary Key`) được lưu dưới dạng Clustered Index, nghĩa là dữ liệu thực tế của dòng nằm ngay tại các lá của cây B+Tree.
 
 #### 3.3. Điểm mạnh và Hạn chế
 - **Điểm mạnh**: Rất dễ cài đặt, cộng đồng hỗ trợ khổng lồ, tốc độ truy vấn đọc dữ liệu đơn giản (`SELECT`) cực nhanh.
@@ -76,12 +108,20 @@ MySQL (thuộc Oracle) và MariaDB (bản rẽ nhánh mã nguồn mở) là các
 
 ### 4. Supabase (Backend-as-a-Service - BaaS)
 
-#### 4.1. Đặc điểm chung
+#### 4.1. Đặc điểm chung & Tổng quan Kiến trúc
 Supabase là nền tảng BaaS mã nguồn mở được coi là giải pháp thay thế Firebase, được phát triển trực tiếp trên nền cơ sở dữ liệu PostgreSQL.
 
-#### 4.2. Hệ sinh thái kỹ thuật
-- Tự động khởi tạo ngay lập tức các API RESTful và GraphQL từ sơ đồ CSDL PostgreSQL.
-- Tích hợp sẵn cơ chế Xác thực (Auth JWT), Lưu trữ File (Storage Bucket) và Lắng nghe dữ liệu Thời gian thực (Realtime Subscriptions).
+![Kiến trúc tổng thể Supabase Backend-as-a-Service Ecosystem](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/supabase_baas_architecture_1790645739211.jpg)
+
+#### 4.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
+1. **Cơ chế Tự động Khởi tạo REST API (PostgREST Engine)**:
+   - PostgREST tự động soi sơ đồ CSDL PostgreSQL (Tables, Views, Functions) và biên dịch trực tiếp các truy vấn HTTP RESTful sang câu lệnh SQL thuần với hiệu năng cực cao.
+2. **Cơ chế Lắng nghe Dữ liệu Thời gian thực (Realtime Server)**:
+   - Xây dựng trên ngôn ngữ Elixir/Phoenix, lắng nghe tệp Write-Ahead Log (WAL Logical Replication) của PostgreSQL để phát sự kiện qua kết nối WebSocket tới ứng dụng Web Client.
+3. **Xác thực & Bảo mật JWT (GoTrue & RLS Auth)**:
+   - Tích hợp dịch vụ GoTrue phát hành mã Token JWT. Sử dụng thuộc tính JWT Claims kết hợp trực tiếp với các chính sách Row Level Security (RLS) của PostgreSQL để kiểm soát quyền đọc/ghi dữ liệu.
+4. **Lưu trữ Tệp tin (Supabase Storage Engine)**:
+   - Quản lý tệp tin (ảnh đại diện, file PDF học bạ) lưu trên S3 Bucket tích hợp sẵn RLS để phân quyền truy cập.
 
 #### 4.3. Điểm mạnh và Hạn chế
 - **Điểm mạnh**: Tốc độ phát triển ứng dụng Web fullstack cực nhanh, tích hợp sẵn Auth & RLS security, không cần tự viết Backend API đơn giản.
@@ -91,11 +131,21 @@ Supabase là nền tảng BaaS mã nguồn mở được coi là giải pháp th
 
 ### 5. MongoDB (NoSQL Document Store)
 
-#### 5.1. Đặc điểm chung
+#### 5.1. Đặc điểm chung & Tổng quan Kiến trúc
 MongoDB là hệ cơ sở dữ liệu NoSQL hướng tài liệu (Document-Oriented), lưu trữ dữ liệu dưới dạng các tài liệu BSON/JSON linh hoạt không cần lược đồ cố định (Schemaless).
 
-#### 5.2. Hệ sinh thái kỹ thuật
-- Sử dụng ngôn ngữ truy vấn MQL (MongoDB Query Language), hỗ trợ kiến trúc phân tán Sharding và Replication Sets.
+![Kiến trúc tổng thể MongoDB WiredTiger Architecture](file:///C:/Users/Voduybinhv/.gemini/antigravity-ide/brain/2866c66d-b31b-4b8b-b561-1e10f728aa0d/mongodb_wiredtiger_architecture_1790645758302.jpg)
+
+#### 5.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
+1. **Cơ chế Lưu trữ WiredTiger (WiredTiger Storage Engine)**:
+   - Sử dụng mô hình kiểm soát đồng thời không khóa (`Lock-free Concurrency`) ở cấp độ Document.
+   - Nén dữ liệu tự động bằng thuật toán Snappy hoặc Zlib giúp tiết kiệm không gian đĩa cứng từ $50\% - 70\%$.
+2. **Cơ chế Ghi vết Journaling**:
+   - Ghi nhận mọi thao tác thay đổi vào tệp nệm `Journal` trước khi đẩy xuống tệp dữ liệu chính để bảo vệ dữ liệu khi tắt nguồn đột ngột.
+3. **Cơ chế Sao lưu Nhân bản (Replica Sets & Oplog)**:
+   - Gồm nút Primary nhận thao tác Ghi và các nút Secondary đồng bộ dữ liệu qua tệp nhật ký `Oplog` (Operations Log) đảm bảo tính sẵn sàng cao (High Availability).
+4. **Cơ chế Phân tán Dữ liệu Hàng ngang (Sharding & mongos Router)**:
+   - Tiến trình `mongos` nhận truy vấn từ ứng dụng, tra cứu bản đồ dữ liệu tại `Config Servers` và định tuyến truy vấn đến đúng cụm đĩa `Shard` chứa dữ liệu qua khóa Shard Key.
 
 #### 5.3. Điểm mạnh và Hạn chế
 - **Điểm mạnh**: Linh hoạt thay đổi cấu trúc dữ liệu mà không cần chạy Migration CSDL, mở rộng hàng ngang (Horizontal Scaling) rất tốt cho Big Data.
@@ -298,7 +348,6 @@ Nhóm quyết định lựa chọn **Hệ Quản trị Cơ sở Dữ liệu Post
 1. **PostgreSQL Official Documentation**: PostgreSQL Global Development Group.  
    Link: [https://www.postgresql.org/docs/](https://www.postgresql.org/docs/)
 2. **Microsoft SQL Server Technical Documentation**: Microsoft Learn.  
-   Link: [https://learn.microsoft.com/en-us/sql/sql-server/](https://learn.microsoft.com/en-us/sql/sql-server/)
 3. **MySQL Developer Documentation & Reference Manual**: Oracle Corporation.  
    Link: [https://dev.mysql.com/doc/](https://dev.mysql.com/doc/)
 4. **MariaDB Knowledge Base & Documentation**: MariaDB Foundation.  
