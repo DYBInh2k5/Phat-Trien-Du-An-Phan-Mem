@@ -70,8 +70,14 @@ public class Tuition {
     public Double getAmountDue() { return amountDue; }
     public void setAmountDue(Double amountDue) { this.amountDue = amountDue; }
 
+    public Double getAmount() { return amountDue; }
+    public void setAmount(Double amount) { this.amountDue = amount; }
+
     public Double getAmountPaid() { return amountPaid; }
     public void setAmountPaid(Double amountPaid) { this.amountPaid = amountPaid; }
+
+    public Double getPaidAmount() { return amountPaid; }
+    public void setPaidAmount(Double paidAmount) { this.amountPaid = paidAmount; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

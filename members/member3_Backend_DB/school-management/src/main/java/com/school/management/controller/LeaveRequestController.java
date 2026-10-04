@@ -1,7 +1,8 @@
 package com.school.management.controller;
 
 import com.school.management.entity.LeaveRequest;
-import com.school.management.repository.LeaveRequestRepository;
+import com.school.management.service.LeaveRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,11 @@ import java.util.Map;
 @RequestMapping("/api/leave-requests")
 public class LeaveRequestController {
 
-    private final LeaveRequestRepository leaveRequestRepository;
+    private final LeaveRequestService leaveRequestService;
 
-    public LeaveRequestController(LeaveRequestRepository leaveRequestRepository) {
-        this.leaveRequestRepository = leaveRequestRepository;
+    @Autowired
+    public LeaveRequestController(LeaveRequestService leaveRequestService) {
+        this.leaveRequestService = leaveRequestService;
     }
 
     @GetMapping
@@ -25,20 +27,17 @@ public class LeaveRequestController {
             @RequestParam(required = false) String studentCode) {
 
         if (studentCode != null && !studentCode.trim().isEmpty()) {
-            return ResponseEntity.ok(leaveRequestRepository.findByStudentCode(studentCode));
+            return ResponseEntity.ok(leaveRequestService.getLeaveRequestsByStudentCode(studentCode));
         }
         if (className != null && !className.trim().isEmpty()) {
-            return ResponseEntity.ok(leaveRequestRepository.findByClassName(className));
+            return ResponseEntity.ok(leaveRequestService.getLeaveRequestsByClass(className));
         }
-        return ResponseEntity.ok(leaveRequestRepository.findAll());
+        return ResponseEntity.ok(leaveRequestService.getAllLeaveRequests());
     }
 
     @PostMapping
     public ResponseEntity<Map<String, Object>> submitLeaveRequest(@RequestBody LeaveRequest leaveRequest) {
-        if (leaveRequest.getStatus() == null) {
-            leaveRequest.setStatus("PENDING");
-        }
-        LeaveRequest saved = leaveRequestRepository.save(leaveRequest);
+        LeaveRequest saved = leaveRequestService.createLeaveRequest(leaveRequest);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
@@ -52,18 +51,17 @@ public class LeaveRequestController {
             @PathVariable Long id,
             @RequestParam(defaultValue = "APPROVED") String status) {
 
+        LeaveRequest lr;
+        if ("REJECTED".equalsIgnoreCase(status)) {
+            lr = leaveRequestService.rejectLeaveRequest(id);
+        } else {
+            lr = leaveRequestService.approveLeaveRequest(id);
+        }
+
         Map<String, Object> response = new HashMap<>();
-        return leaveRequestRepository.findById(id).map(lr -> {
-            lr.setStatus(status);
-            leaveRequestRepository.save(lr);
-            response.put("success", true);
-            response.put("message", "Đã cập nhật trạng thái đơn xin nghỉ học thành công!");
-            response.put("data", lr);
-            return ResponseEntity.ok(response);
-        }).orElseGet(() -> {
-            response.put("success", false);
-            response.put("message", "Không tìm thấy đơn xin nghỉ học!");
-            return ResponseEntity.status(404).body(response);
-        });
+        response.put("success", true);
+        response.put("message", "Đã cập nhật trạng thái đơn xin nghỉ học thành công!");
+        response.put("data", lr);
+        return ResponseEntity.ok(response);
     }
 }

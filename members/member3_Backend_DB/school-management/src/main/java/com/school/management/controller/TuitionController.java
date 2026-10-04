@@ -1,7 +1,8 @@
 package com.school.management.controller;
 
 import com.school.management.entity.Tuition;
-import com.school.management.repository.TuitionRepository;
+import com.school.management.service.TuitionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,11 @@ import java.util.Map;
 @RequestMapping("/api/tuition")
 public class TuitionController {
 
-    private final TuitionRepository tuitionRepository;
+    private final TuitionService tuitionService;
 
-    public TuitionController(TuitionRepository tuitionRepository) {
-        this.tuitionRepository = tuitionRepository;
+    @Autowired
+    public TuitionController(TuitionService tuitionService) {
+        this.tuitionService = tuitionService;
     }
 
     @GetMapping
@@ -24,32 +26,27 @@ public class TuitionController {
             @RequestParam(required = false) String className,
             @RequestParam(required = false) String studentCode) {
 
-        if (className != null && !className.trim().isEmpty()) {
-            return ResponseEntity.ok(tuitionRepository.findByClassName(className));
+        if (studentCode != null && !studentCode.trim().isEmpty()) {
+            return ResponseEntity.ok(tuitionService.getTuitionByStudentCode(studentCode));
         }
-        return ResponseEntity.ok(tuitionRepository.findAll());
+        if (className != null && !className.trim().isEmpty()) {
+            return ResponseEntity.ok(tuitionService.getTuitionByClass(className));
+        }
+        return ResponseEntity.ok(tuitionService.getAllTuitions());
     }
 
     @PostMapping("/pay")
     public ResponseEntity<Map<String, Object>> payTuition(@RequestBody Map<String, Object> payRequest) {
         String studentCode = (String) payRequest.get("studentCode");
-        String semester = (String) payRequest.get("semester");
         Double amount = payRequest.get("amount") != null ? Double.valueOf(payRequest.get("amount").toString()) : 0.0;
 
-        Map<String, Object> response = new HashMap<>();
-
-        if (studentCode != null && semester != null) {
-            tuitionRepository.findByStudentCodeAndSemester(studentCode, semester).ifPresent(t -> {
-                t.setAmountPaid(t.getAmountPaid() + amount);
-                if (t.getAmountPaid() >= t.getAmountDue()) {
-                    t.setStatus("PAID");
-                } else {
-                    t.setStatus("PARTIAL");
-                }
-                tuitionRepository.save(t);
-            });
+        List<Tuition> tuitions = tuitionService.getTuitionByStudentCode(studentCode);
+        if (!tuitions.isEmpty()) {
+            Tuition t = tuitions.get(0);
+            tuitionService.payTuition(t.getId(), amount);
         }
 
+        Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("message", "Thanh toán học phí thành công! Đã ghi nhận biên lai điện tử.");
         response.put("receiptNo", "BL-2024-" + System.currentTimeMillis() % 10000);

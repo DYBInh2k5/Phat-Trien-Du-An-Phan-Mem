@@ -28,6 +28,13 @@ public class Student {
     @Column(name = "parent_phone")
     private String parentPhone;
 
+    private Double gpa;
+
+    @Column(name = "academic_rank")
+    private String academicRank;
+
+    private String status;
+
     public Student() {}
 
     public Student(String studentCode, String fullName, String gender, String dob, String className, String parentName, String parentPhone) {
@@ -38,6 +45,7 @@ public class Student {
         this.className = className;
         this.parentName = parentName;
         this.parentPhone = parentPhone;
+        this.status = "ACTIVE";
     }
 
     public Long getId() { return id; }
@@ -55,6 +63,9 @@ public class Student {
     public String getDob() { return dob; }
     public void setDob(String dob) { this.dob = dob; }
 
+    public String getDateOfBirth() { return dob; }
+    public void setDateOfBirth(String dateOfBirth) { this.dob = dateOfBirth; }
+
     public String getClassName() { return className; }
     public void setClassName(String className) { this.className = className; }
 
@@ -63,4 +74,13 @@ public class Student {
 
     public String getParentPhone() { return parentPhone; }
     public void setParentPhone(String parentPhone) { this.parentPhone = parentPhone; }
+
+    public Double getGpa() { return gpa; }
+    public void setGpa(Double gpa) { this.gpa = gpa; }
+
+    public String getAcademicRank() { return academicRank; }
+    public void setAcademicRank(String academicRank) { this.academicRank = academicRank; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

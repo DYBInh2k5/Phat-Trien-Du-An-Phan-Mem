@@ -11,4 +11,5 @@ public interface GradeBookRepository extends JpaRepository<GradeBook, Long> {
     List<GradeBook> findByStudentCode(String studentCode);
     List<GradeBook> findByClassNameAndSubjectName(String className, String subjectName);
     List<GradeBook> findByClassName(String className);
+    List<GradeBook> findBySubjectName(String subjectName);
 }

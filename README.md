@@ -20,7 +20,7 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 | 1 | Võ Duy Bình (PM / Lead BA) | Quản lý tiến độ, Tài liệu SRS, UAT Test Plan, Báo cáo Tuần | [members/member1_PM_BA/](members/member1_PM_BA/) |
 | 2 | Thành viên 2 (Frontend Dev) | UI/UX Design System, Portal Layout & Dashboard UI | [members/member2_Frontend/](members/member2_Frontend/) |
 | 3 | Thành viên 3 (Backend & DB Architect) | Thiết kế PostgreSQL ERD, Clean Architecture, State Store & MockData | [members/member3_Backend_DB/](members/member3_Backend_DB/) |
-| 4 | Thành viên 4 (Logic & Security Dev) | JWT Auth, RBAC 4 Roles, Thuật toán tính GPA hệ 10/4, Sổ điểm điện tử | [members/member4_Logic_Security/](members/member4_Logic_Security/) |
+| 4 | Thành viên 4 (Logic & Security Dev) | JWT Auth, RBAC 5 Roles, Thuật toán tính GPA hệ 10/4, Sổ điểm điện tử | [members/member4_Logic_Security/](members/member4_Logic_Security/) |
 | 5 | Thành viên 5 (Modules Dev & QA) | Module Điểm danh, Học phí, Export Excel/PDF Engine & Unit Testing | [members/member5_Modules_QA/](members/member5_Modules_QA/) |
 
 ---
@@ -29,7 +29,7 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 
 - UI/UX: Web Application (Giao diện chuẩn UX/UI hiện đại, hỗ trợ Responsive PC, Tablet & Mobile).
 - Database: PostgreSQL (Hệ CSDL quan hệ chuẩn ACID, bảo mật dữ liệu học sinh & điểm số).
-- Kiến trúc: Clean Architecture / 3-Layer Architecture (Tách biệt Presentation - Domain - Infrastructure).
+- Kiến trúc: Clean Architecture / 3-Layer Architecture (Tách biệt Presentation - Domain - Service - Infrastructure).
 - Design Patterns: MVC, Repository Pattern, Dependency Injection (DI), Unit of Work.
 - Xác thực & Bảo mật: JWT (JSON Web Token) phân quyền 5 Roles (Admin, GVCN, GVBM, Student, Parent) & CORS.
 - Xuất báo cáo: Excel (Bảng điểm lớp, danh sách học sinh) & PDF (Học bạ điện tử, Phiếu báo điểm, Biên lai).
@@ -50,12 +50,12 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 ## 5. Cấu trúc tài liệu và thư mục (Repository Structure)
 
 - README.md: Tổng quan dự án, thông tin nhóm và hướng dẫn.
-- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án theo tuần (Hoàn thành Tuần 1 - Tuần 3).
+- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án theo tuần (Hoàn thành Tuần 1 - Tuần 4).
 - BrainStorm/: Hồ sơ phân tích báo cáo chi tiết theo từng tuần:
   - [Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md): Tài liệu Phân tích Yêu cầu Phần mềm (SRS), Ma trận RBAC, Rules & NFRs. (Đã hoàn thành)
   - [Week2 UXUI .md](BrainStorm/Week2%20UXUI%20.md): Chuyên đề Nghiên cứu UI/UX (WinForms vs Web vs Mobile, React/Angular/Vue, Figma, Wireframes). (Đã hoàn thành)
   - [Week3 DB .md](BrainStorm/Week3%20DB%20.md): Chuyên đề Cơ sở Dữ liệu (PostgreSQL, ERD & DDL Scripts, Spring Boot Connection). (Đã hoàn thành)
-  - [Week4 KT .md](BrainStorm/Week4%20KT%20.md): Chuyên đề Kiến trúc Phần mềm (Clean Architecture, 3-Layer, REST API Services).
+  - [Week4 KT .md](BrainStorm/Week4%20KT%20.md): Chuyên đề Kiến trúc Phần mềm (Clean Architecture, 3-Layer, REST API Services, DTOs & Exceptions). (Đã hoàn thành)
   - [Week5 Pattern .md](BrainStorm/Week5%20Pattern%20.md): Chuyên đề Mẫu Thiết kế (MVC, Repository Pattern, Unit of Work).
   - [Week6 Export .md](BrainStorm/Week6%20Export%20.md): Chuyên đề Xuất Báo cáo (Excel SheetJS, PDF Print Engine).
   - [Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Chuyên đề Xác thực & Bảo mật (JWT, CORS, RBAC 5 Roles).

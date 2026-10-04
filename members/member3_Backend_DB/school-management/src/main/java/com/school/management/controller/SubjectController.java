@@ -1,7 +1,8 @@
 package com.school.management.controller;
 
 import com.school.management.entity.Subject;
-import com.school.management.repository.SubjectRepository;
+import com.school.management.service.SubjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,19 +12,20 @@ import java.util.List;
 @RequestMapping("/api/subjects")
 public class SubjectController {
 
-    private final SubjectRepository subjectRepository;
+    private final SubjectService subjectService;
 
-    public SubjectController(SubjectRepository subjectRepository) {
-        this.subjectRepository = subjectRepository;
+    @Autowired
+    public SubjectController(SubjectService subjectService) {
+        this.subjectService = subjectService;
     }
 
     @GetMapping
     public ResponseEntity<List<Subject>> getAllSubjects() {
-        return ResponseEntity.ok(subjectRepository.findAll());
+        return ResponseEntity.ok(subjectService.getAllSubjects());
     }
 
     @PostMapping
     public ResponseEntity<Subject> createSubject(@RequestBody Subject subject) {
-        return ResponseEntity.ok(subjectRepository.save(subject));
+        return ResponseEntity.ok(subjectService.createSubject(subject));
     }
 }
