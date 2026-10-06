@@ -10,5 +10,8 @@
 
 ## 2. Phạm vi thư mục phụ trách trên GitHub:
 - members/member3_Backend_DB/school-management-nodejs/ (Backend chính hệ thống Node.js + Express + PostgreSQL)
+- members/member3_Backend_DB/POSTGRESQL_GUIDE.md (Hướng dẫn kết nối và cấu hình PostgreSQL)
 - database/ (Sơ đồ ERD, SQL DDL scripts)
 
+## 3. Tài liệu Hướng dẫn Cấu hình:
+- Trực tiếp xem [POSTGRESQL_GUIDE.md](POSTGRESQL_GUIDE.md) để biết chi tiết các bước tạo Database, file `.env`, DDL Scripts và kiểm tra HealthCheck API.
