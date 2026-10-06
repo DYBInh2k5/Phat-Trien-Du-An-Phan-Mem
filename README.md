@@ -50,15 +50,17 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 ## 5. Cấu trúc tài liệu và thư mục (Repository Structure)
 
 - README.md: Tổng quan dự án, thông tin nhóm và hướng dẫn.
-- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án theo tuần (Hoàn thành Tuần 1 - Tuần 5).
+- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án theo tuần (Hoàn thành Tuần 1 - Tuần 9).
 - BrainStorm/: Hồ sơ phân tích báo cáo chi tiết theo từng tuần:
   - [Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md): Tài liệu Phân tích Yêu cầu Phần mềm (SRS), Ma trận RBAC, Rules & NFRs. (Đã hoàn thành)
   - [Week2 UXUI .md](BrainStorm/Week2%20UXUI%20.md): Chuyên đề Nghiên cứu UI/UX (WinForms vs Web vs Mobile, React/Angular/Vue, Figma, Wireframes). (Đã hoàn thành)
   - [Week3 DB .md](BrainStorm/Week3%20DB%20.md): Chuyên đề Cơ sở Dữ liệu (PostgreSQL, ERD & DDL Scripts, Node.js Express Connection). (Đã hoàn thành)
   - [Week4 KT .md](BrainStorm/Week4%20KT%20.md): Chuyên đề Kiến trúc Phần mềm (Clean Architecture, 3-Layer, REST API Services, DTOs & Exceptions). (Đã hoàn thành)
   - [Week5 Pattern .md](BrainStorm/Week5%20Pattern%20.md): Chuyên đề Mẫu Thiết kế (MVC/MVVM, Repository Pattern, Unit of Work, Dependency Injection). (Đã hoàn thành)
-  - [Week6 Export .md](BrainStorm/Week6%20Export%20.md): Chuyên đề Xuất Báo cáo (Excel SheetJS, PDF Print Engine).
-  - [Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Chuyên đề Xác thực & Bảo mật (JWT, CORS, RBAC 5 Roles).
+  - [Week6 Export .md](BrainStorm/Week6%20Export%20.md): Chuyên đề Xuất Báo cáo (Excel SheetJS, PDF Print Engine). (Đã hoàn thành)
+  - [Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Chuyên đề Xác thực & Bảo mật (JWT, CORS, RBAC 5 Roles). (Đã hoàn thành)
+  - [Week8 Logging .md](BrainStorm/Week8%20Logging%20.md): Chuyên đề Nhật ký Hệ thống (Centralized Audit Logging - Vết sửa điểm). (Đã hoàn thành)
+  - [Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Chuyên đề Kiểm thử Phần mềm (Unit Testing & Automated QA Suite). (Đã hoàn thành)
 - members/: Thư mục phân vùng công việc riêng cho từng thành viên nhóm (member1 đến member5).
 
 ---
