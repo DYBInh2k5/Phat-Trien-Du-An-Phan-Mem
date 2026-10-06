@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: htqllh_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: school_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d school_management"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend-api:
+    build: .
+    container_name: htqllh_backend
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      PORT: 8081
+      DB_HOST: postgres-db
+      DB_PORT: 5432
+      DB_NAME: school_management
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: HTQLLH_Super_Secret_JWT_Key_2026
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

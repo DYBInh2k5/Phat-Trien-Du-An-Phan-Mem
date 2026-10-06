@@ -212,7 +212,37 @@ ON CONFLICT DO NOTHING;
 
 ---
 
-## 3. Các bước Cấu hình Kết nối CSDL PostgreSQL trong Node.js Backend
+## 3. Các bước Cấu hình và Khởi chạy bằng Docker & Docker Compose (Cách Nhanh Nhất)
+
+### Cách 1: Khởi chạy 1-Click bằng Docker Compose (Khuyên dùng)
+
+Bạn chỉ cần mở Terminal tại thư mục gốc dự án hoặc thư mục `members/member3_Backend_DB/school-management-nodejs/` và gõ câu lệnh:
+
+```bash
+docker-compose up -d
+```
+
+**Hệ thống Docker sẽ tự động:**
+1. Tải image PostgreSQL 15 chính thức từ Docker Hub và khởi chạy container `htqllh_postgres` trên cổng `5434`.
+2. Tự động kiểm tra HealthCheck xem PostgreSQL đã sẵn sàng nhận kết nối hay chưa.
+3. Build image Node.js Backend từ `Dockerfile` và khởi chạy container `htqllh_backend` trên cổng `8081`.
+4. Tự động liên kết mảng mạng nội bộ giữa 2 container (`postgres-db` & `backend-api`).
+
+Để kiểm tra trạng thái các container Docker:
+
+```bash
+docker ps
+```
+
+Để dừng toàn bộ dịch vụ Docker:
+
+```bash
+docker-compose down
+```
+
+---
+
+## 4. Cấu hình Thủ công Kết nối CSDL PostgreSQL trong Node.js Backend (Cách 2)
 
 ### Bước 1: Tạo Database trong PostgreSQL
 Mở **pgAdmin 4** hoặc **psql CLI** và thực thi:
