@@ -97,6 +97,205 @@ Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requi
 - **FC-08.6**: `StudentSchedulePage.jsx` - Thời khóa biểu và Bảng điểm cá nhân dành cho Học sinh/Phụ huynh.
 - **FC-08.7**: `ParentCommunicationPage.jsx` - Sổ liên lạc điện tử, đơn xin nghỉ học và thanh toán học phí cho Phụ huynh.
 
+### FC-09: Chi Tiết Danh Sách Sơ Đồ & Mô Tả Use Cases Cho 5 Tác Nhân (Use Case Specifications)
+
+#### FC-09.1: Use Cases Tác Nhân Học Sinh (`ROLE_STUDENT`)
+
+| Mã Use Case | Tên Use Case | Mô tả chi tiết chức năng | Điều kiện tiên quyết |
+| :--- | :--- | :--- | :--- |
+| **UC-STU-01** | Đăng nhập / Đăng xuất | Xác thực bằng Mã học sinh (Mã HS) và mật khẩu cá nhân vào hệ thống. | Đã có tài khoản Học sinh active. |
+| **UC-STU-02** | Đổi / Khôi phục mật khẩu | Thay đổi mật khẩu cá nhân hoặc yêu cầu gửi mã OTP khôi phục mật khẩu. | Đăng nhập thành công hoặc có Email/SĐT. |
+| **UC-STU-03** | Xem Thời khóa biểu & Lịch thi | Tra cứu thời khóa biểu các tiết học hàng tuần và lịch thi học kỳ trực quan. | Đã được xếp lớp và phân công TKB. |
+| **UC-STU-04** | Xem Thông báo chung | Tiếp nhận thông báo chính thức từ Nhà trường, BGH và Giáo viên bộ môn. | Đã đăng nhập hệ thống. |
+| **UC-STU-05** | Tra cứu Điểm & GPA | Xem bảng điểm chi tiết thành phần các môn, ĐTB môn (TBM), GPA hệ 10 và hệ 4. | Đã có điểm nhập từ GVBM. |
+| **UC-STU-06** | Xem Nhật ký Chuyên cần | Tra cứu lịch sử điểm danh hàng ngày và tổng số buổi vắng mặt/đi trễ. | GVCN/GVBM đã điểm danh. |
+| **UC-STU-07** | Nộp Đơn xin Phúc khảo | Gửi đơn đề nghị kiểm tra lại điểm bài thi khi phát hiện sai sót. | Trong thời hạn phúc khảo quy định. |
+
+```mermaid
+graph LR
+    subgraph StudentBoundary ["Hệ Thống Quản Lý Trường Học (SMS) - Học Sinh"]
+        UC_S1["UC-STU-01: Đăng nhập / Đăng xuất"]
+        UC_S2["UC-STU-02: Đổi / Khôi phục mật khẩu"]
+        UC_S3["UC-STU-03: Xem Thời khóa biểu & Lịch thi"]
+        UC_S4["UC-STU-04: Xem Thông báo chung từ Nhà trường/Giáo viên"]
+        UC_S5["UC-STU-05: Tra cứu Điểm chi tiết & GPA (Hệ 10/Hệ 4)"]
+        UC_S6["UC-STU-06: Xem Nhật ký Điểm danh Chuyên cần"]
+        UC_S7["UC-STU-07: Nộp Đơn xin Phúc khảo điểm"]
+    end
+
+    Student["Học sinh (ROLE_STUDENT)"] --> UC_S1
+    Student --> UC_S2
+    Student --> UC_S3
+    Student --> UC_S4
+    Student --> UC_S5
+    Student --> UC_S6
+    Student --> UC_S7
+```
+
+---
+
+#### FC-09.2: Use Cases Tác Nhân Giáo Viên Chủ Nhiệm (`ROLE_HOMEROOM_TEACHER`)
+
+| Mã Use Case | Tên Use Case | Mô tả chi tiết chức năng | Điều kiện tiên quyết |
+| :--- | :--- | :--- | :--- |
+| **UC-GVCN-01** | Đăng nhập / Đăng xuất | Xác thực bằng Mã giáo viên (Mã GV) và mật khẩu vào hệ thống. | Tài khoản GVCN hoạt động. |
+| **UC-GVCN-02** | Đổi / Khôi phục mật khẩu | Thay đổi mật khẩu tài khoản cá nhân. | Đã đăng nhập hệ thống. |
+| **UC-GVCN-03** | Xem Hồ sơ Học sinh Lớp CN | Tra cứu lý lịch, thông tin phụ huynh, sơ yếu lý lịch học sinh lớp chủ nhiệm. | Được phân công GVCN lớp. |
+| **UC-GVCN-04** | Xem Thời khóa biểu Lớp CN | Xem lịch học và lịch giảng dạy của lớp chủ nhiệm theo từng tuần. | Hệ thống đã phát hành TKB. |
+| **UC-GVCN-05** | Điểm danh Chuyên cần Hàng ngày | Ghi nhận trạng thái: Có mặt, Vắng có phép, Vắng không phép, Đi trễ đầu giờ. | Trong buổi học hàng ngày. |
+| **UC-GVCN-06** | Tiếp nhận & Duyệt Đơn nghỉ học | Xem và bấm Duyệt/Từ chối đơn xin nghỉ học gửi trực tuyến từ Phụ huynh. | Phụ huynh đã gửi đơn. |
+| **UC-GVCN-07** | Nhập & Đánh giá Hạnh kiểm | Đánh giá xếp loại Hạnh kiểm (Tốt, Khá, Trung bình, Yếu) theo Thông tư 22. | Cuối học kỳ / Cuối năm học. |
+| **UC-GVCN-08** | Xem Sổ điểm Lớp CN | Xem bảng điểm tổng hợp tất cả các môn học và GPA tổng kết của lớp chủ nhiệm. | GVBM đã nhập điểm. |
+| **UC-GVCN-09** | Gửi Thông báo / Sổ liên lạc | Gửi tin nhắn, thông báo họp phụ huynh hoặc cảnh báo học tập tới Phụ huynh. | Đã kết nối danh bạ phụ huynh. |
+| **UC-GVCN-10** | Xuất Báo cáo / Phiếu điểm Lớp CN | Xuất danh sách học sinh, phiếu báo điểm cá nhân ra file Excel/PDF. | Đã hoàn thành đánh giá. |
+
+```mermaid
+graph LR
+    subgraph HomeroomTeacherBoundary ["Hệ Thống Quản Lý Trường Học (SMS) - GVCN"]
+        UC_H1["UC-GVCN-01: Đăng nhập / Đăng xuất"]
+        UC_H2["UC-GVCN-02: Đổi / Khôi phục mật khẩu"]
+        UC_H3["UC-GVCN-03: Xem Hồ sơ Học sinh Lớp chủ nhiệm"]
+        UC_H4["UC-GVCN-04: Xem Thời khóa biểu Lớp chủ nhiệm"]
+        UC_H5["UC-GVCN-05: Điểm danh Chuyên cần Hàng ngày"]
+        UC_H6["UC-GVCN-06: Tiếp nhận & Duyệt Đơn xin nghỉ học"]
+        UC_H7["UC-GVCN-07: Nhập & Đánh giá Hạnh kiểm"]
+        UC_H8["UC-GVCN-08: Xem Sổ điểm & Kết quả Học tập Lớp CN"]
+        UC_H9["UC-GVCN-09: Gửi Thông báo / Sổ liên lạc tới Phụ huynh"]
+        UC_H10["UC-GVCN-10: Xuất Báo cáo / Phiếu điểm Lớp CN (Excel/PDF)"]
+    end
+
+    HomeroomTeacher["Giáo viên Chủ nhiệm (ROLE_HOMEROOM_TEACHER)"] --> UC_H1
+    HomeroomTeacher --> UC_H2
+    HomeroomTeacher --> UC_H3
+    HomeroomTeacher --> UC_H4
+    HomeroomTeacher --> UC_H5
+    HomeroomTeacher --> UC_H6
+    HomeroomTeacher --> UC_H7
+    HomeroomTeacher --> UC_H8
+    HomeroomTeacher --> UC_H9
+    HomeroomTeacher --> UC_H10
+```
+
+---
+
+#### FC-09.3: Use Cases Tác Nhân Phụ Huynh (`ROLE_PARENT`)
+
+| Mã Use Case | Tên Use Case | Mô tả chi tiết chức năng | Điều kiện tiên quyết |
+| :--- | :--- | :--- | :--- |
+| **UC-PAR-01** | Đăng nhập / Đăng xuất | Xác thực bằng tài khoản Phụ huynh liên kết với Mã học sinh của con. | Đã liên kết tài khoản con em. |
+| **UC-PAR-02** | Đổi / Khôi phục mật khẩu | Đổi mật khẩu hoặc nhận mã khôi phục qua SĐT/Email. | Đã đăng ký tài khoản. |
+| **UC-PAR-03** | Xem Thông báo từ GVCN | Nhận thông báo lớp, thông báo học tập và tin nhắn từ Giáo viên chủ nhiệm. | GVCN đã gửi thông báo. |
+| **UC-PAR-04** | Xem Bảng điểm & Hạnh kiểm | Tra cứu chi tiết điểm kiểm tra các môn, ĐTB môn và đánh giá hạnh kiểm của con. | Hệ thống đã có điểm. |
+| **UC-PAR-05** | Xem Lịch sử Điểm danh | Theo dõi tình hình chuyên cần hàng ngày và số buổi nghỉ học của con. | Đã có dữ liệu điểm danh. |
+| **UC-PAR-06** | Gửi Đơn xin nghỉ học Trực tuyến | Điền ngày nghỉ và lý do (ốm, việc gia đình) gửi trực tiếp tới GVCN. | Trước hoặc trong ngày nghỉ. |
+| **UC-PAR-07** | Xem Thông báo Học phí | Tra cứu danh mục các khoản cần đóng (Học phí, BHYT, Tiền bán trú, Đồng phục). | Nhà trường đã phát hành đợt thu. |
+| **UC-PAR-08** | Thanh toán Học phí Trực tuyến | Thanh toán các khoản thu bằng mã VietQR, VNPAY hoặc ví MoMo. | Đã liên kết cổng thanh toán. |
+| **UC-PAR-09** | Xem & Tải Biên lai PDF | Tải biên lai xác nhận thu tiền điện tử định dạng PDF về máy. | Thanh toán thành công. |
+
+```mermaid
+graph LR
+    subgraph ParentBoundary ["Hệ Thống Quản Lý Trường Học (SMS) - Phụ Huynh"]
+        UC_P1["UC-PAR-01: Đăng nhập / Đăng xuất"]
+        UC_P2["UC-PAR-02: Đổi / Khôi phục mật khẩu"]
+        UC_P3["UC-PAR-03: Xem Thông báo & Nhận tin nhắn từ GVCN"]
+        UC_P4["UC-PAR-04: Xem Bảng điểm & Đánh giá Hạnh kiểm của Con"]
+        UC_P5["UC-PAR-05: Xem Lịch sử Điểm danh Chuyên cần"]
+        UC_P6["UC-PAR-06: Gửi Đơn xin nghỉ học Trực tuyến"]
+        UC_P7["UC-PAR-07: Xem Thông báo Học phí & Chi tiết các khoản"]
+        UC_P8["UC-PAR-08: Thanh toán Học phí Trực tuyến (QR/VNPAY/MoMo)"]
+        UC_P9["UC-PAR-09: Xem & Tải Biên lai Thu tiền Điện tử (PDF)"]
+    end
+
+    Parent["Phụ huynh (ROLE_PARENT)"] --> UC_P1
+    Parent --> UC_P2
+    Parent --> UC_P3
+    Parent --> UC_P4
+    Parent --> UC_P5
+    Parent --> UC_P6
+    Parent --> UC_P7
+    Parent --> UC_P8
+    Parent --> UC_P9
+```
+
+---
+
+#### FC-09.4: Use Cases Tác Nhân Giáo Viên Bộ Môn (`ROLE_SUBJECT_TEACHER`)
+
+| Mã Use Case | Tên Use Case | Mô tả chi tiết chức năng | Điều kiện tiên quyết |
+| :--- | :--- | :--- | :--- |
+| **UC-GVBM-01** | Đăng nhập / Đăng xuất | Xác thực tài khoản bằng Mã GVBM và mật khẩu. | Tài khoản active. |
+| **UC-GVBM-02** | Đổi / Khôi phục mật khẩu | Đổi mật khẩu tài khoản cá nhân. | Đã đăng nhập. |
+| **UC-GVBM-03** | Xem Thời khóa biểu cá nhân | Tra cứu lịch dạy theo từng ngày/tiết của các lớp phụ trách. | BGH đã xếp TKB. |
+| **UC-GVBM-04** | Xem Danh sách Học sinh | Xem danh sách học sinh theo từng lớp được phân công giảng dạy. | Được phân công lớp dạy. |
+| **UC-GVBM-05** | Đăng ký Đổi tiết / Báo giảng | Cập nhật tiến độ báo giảng hoặc gửi yêu cầu đổi tiết dạy cho GV khác. | Trước thời điểm tiết dạy. |
+| **UC-GVBM-06** | Điểm danh Theo tiết học | Điểm danh học sinh hiện diện trong tiết học môn phụ trách. | Trong giờ học môn đó. |
+| **UC-GVBM-07** | Nhập & Chỉnh sửa Điểm | Nhập điểm Miệng, 15 phút, 1 tiết, Giữa kỳ và Cuối kỳ cho học sinh. | Sổ điểm môn chưa bị khóa. |
+| **UC-GVBM-08** | Gửi Yêu cầu Khóa sổ điểm | Bấm chốt khóa sổ điểm bộ môn sau khi hoàn thành nhập điểm học kỳ. | Đã nhập đầy đủ cột điểm. |
+| **UC-GVBM-09** | Xuất Bảng điểm Môn học | Xuất bảng điểm môn học của lớp phụ trách ra file Excel/PDF. | Đã nhập điểm thành phần. |
+| **UC-GVBM-10** | Tự động Tính Điểm TBM | Hệ thống tự động tính TBM theo trọng số Thông tư 22 khi nhập điểm. | Đã có đủ cột điểm bắt buộc. |
+
+```mermaid
+graph LR
+    subgraph SubjectTeacherBoundary ["Hệ Thống Quản Lý Trường Học (SMS) - GVBM"]
+        UC_T1["UC-GVBM-01: Đăng nhập / Đăng xuất"]
+        UC_T2["UC-GVBM-02: Đổi / Khôi phục mật khẩu"]
+        UC_T3["UC-GVBM-03: Xem Thời khóa biểu cá nhân"]
+        UC_T4["UC-GVBM-04: Xem Danh sách Học sinh Lớp giảng dạy"]
+        UC_T5["UC-GVBM-05: Đăng ký Đổi tiết dạy / Báo giảng"]
+        UC_T6["UC-GVBM-06: Điểm danh Chuyên cần Theo tiết"]
+        UC_T7["UC-GVBM-07: Nhập & Chỉnh sửa Điểm thành phần"]
+        UC_T8["UC-GVBM-08: Gửi Yêu cầu Khóa sổ điểm Bộ môn"]
+        UC_T9["UC-GVBM-09: Xuất Bảng điểm Môn học (Excel/PDF)"]
+        UC_T10["UC-GVBM-10: Tự động Tính Điểm Trung bình môn (TBM)"]
+    end
+
+    SubjectTeacher["Giáo viên Bộ môn (ROLE_SUBJECT_TEACHER)"] --> UC_T1
+    SubjectTeacher --> UC_T2
+    SubjectTeacher --> UC_T3
+    SubjectTeacher --> UC_T4
+    SubjectTeacher --> UC_T5
+    SubjectTeacher --> UC_T6
+    SubjectTeacher --> UC_T7
+    SubjectTeacher --> UC_T8
+    SubjectTeacher --> UC_T9
+    SubjectTeacher --> UC_T10
+```
+
+---
+
+#### FC-09.5: Use Cases Tác Nhân Admin / Ban Giám Hiệu (`ROLE_ADMIN`)
+
+| Mã Use Case | Tên Use Case | Mô tả chi tiết chức năng | Điều kiện tiên quyết |
+| :--- | :--- | :--- | :--- |
+| **UC-ADM-01** | Đăng nhập & Quản trị | Đăng nhập tài khoản Quản trị viên tối cao (System Admin / Principal). | Quyền ROLE_ADMIN. |
+| **UC-ADM-02** | Quản lý Tài khoản & RBAC | Tạo mới, phân quyền, sửa thông tin và vô hiệu hóa tài khoản 5 vai trò. | Đã đăng nhập Admin. |
+| **UC-ADM-03** | Quản lý Danh mục Trường | Cấu hình năm học, danh mục Khối, Lớp, Môn học, Phân công GVBM & GVCN. | Đã khởi tạo năm học mới. |
+| **UC-ADM-04** | Duyệt & Khóa/Mở Sổ điểm | Khóa sổ điểm toàn trường hoặc duyệt mở lại sổ điểm khi có đơn phúc khảo. | Có yêu cầu từ GVBM/BGH. |
+| **UC-ADM-05** | Giám sát Chuyên cần | Theo dõi tỷ lệ chuyên cần toàn trường, cảnh báo tự động các lớp $< 80\%$. | Dữ liệu điểm danh hàng ngày. |
+| **UC-ADM-06** | Xuất Báo cáo Thống kê | Thống kê phổ điểm, danh hiệu thi đua, xuất báo cáo tổng kết toàn trường (Excel/PDF). | Đã hoàn thành chốt điểm. |
+| **UC-ADM-07** | Quản lý Học phí & Thu chi | Tạo danh mục đợt thu học phí, theo dõi tổng số tiền đã thu/còn nợ toàn trường. | Đã lập kế hoạch tài chính. |
+
+```mermaid
+graph LR
+    subgraph AdminBoundary ["Hệ Thống Quản Lý Trường Học (SMS) - Ban Giám Hiệu / Admin"]
+        UC_A1["UC-ADM-01: Đăng nhập / Đăng xuất & Khôi phục mật khẩu"]
+        UC_A2["UC-ADM-02: Quản lý Tài khoản & Phân quyền 5 Roles"]
+        UC_A3["UC-ADM-03: Quản lý Danh mục Khối, Lớp, Môn & Phân công giảng dạy"]
+        UC_A4["UC-ADM-04: Phê duyệt & Mở khóa Sổ điểm Toàn trường"]
+        UC_A5["UC-ADM-05: Giám sát Chuyên cần Toàn trường & Cảnh báo < 80%"]
+        UC_A6["UC-ADM-06: Quản lý & Xuất Báo cáo Thống kê Toàn trường (Excel/PDF)"]
+        UC_A7["UC-ADM-07: Quản lý Danh mục Học phí & Đợt thu"]
+    end
+
+    Admin["Ban Giám Hiệu / Admin (ROLE_ADMIN)"] --> UC_A1
+    Admin --> UC_A2
+    Admin --> UC_A3
+    Admin --> UC_A4
+    Admin --> UC_A5
+    Admin --> UC_A6
+    Admin --> UC_A7
+```
+
 ---
 
 ## 4. Quy tắc Nghiệp vụ Hệ thống (Business Rules - BR)
