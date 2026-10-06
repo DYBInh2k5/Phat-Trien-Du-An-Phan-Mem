@@ -500,12 +500,12 @@ Bảng ánh xạ toàn diện giữa **Quy tắc Nghiệp vụ (BR)**, **Phân h
 
 | Mã Quy tắc (BR) | Mã Phân hệ (FC) | Mã Use Case (UC) | API Endpoint Backend | Thành phần Frontend Page | Mô đun Kiểm thử (QA Test) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **BR-01** (Công thức TBM) | FC-04 | `UC-GVBM-10`, `UC-GVBM-07` | `POST /api/gradebook/save` | `GradebookPage.jsx` | `GradeCalculationUnitTest.java` |
-| **BR-02** (Xếp loại Học lực) | FC-04 | `UC-STU-05`, `UC-GVCN-08` | `POST /api/students/{id}/calculate-gpa` | `StudentSchedulePage.jsx` | `AcademicRankEvaluationTest.java` |
-| **BR-03** (Chống Sửa Điểm) | FC-04 | `UC-GVBM-08`, `UC-ADM-04` | `POST /api/gradebook/lock` | `SystemSettingsPage.jsx` | `GradeLockSecurityTest.java` |
-| **BR-04** (Cảnh báo Chuyên cần) | FC-05 | `UC-GVCN-05`, `UC-ADM-05` | `GET /api/attendance?className=` | `BGHAttendanceMonitorPage.jsx` | `AttendanceWarningTest.java` |
-| **BR-05** (Thi đua Khen thưởng) | FC-04 | `UC-GVCN-07`, `UC-ADM-06` | `GET /api/students` | `BGHReportCenterPage.jsx` | `AwardTitleCalculationTest.java` |
-| **BR-06** (Rèn luyện Hè/Thi lại)| FC-04 | `UC-ADM-06` | `GET /api/gradebook` | `BGHReportCenterPage.jsx` | `ReExaminationEligibilityTest.java` |
+| **BR-01** (Công thức TBM) | FC-04 | `UC-GVBM-10`, `UC-GVBM-07` | `POST /api/gradebook/save` | `GradebookPage.jsx` | `GradeCalculationUnitTest.test.js` |
+| **BR-02** (Xếp loại Học lực) | FC-04 | `UC-STU-05`, `UC-GVCN-08` | `POST /api/students/{id}/calculate-gpa` | `StudentSchedulePage.jsx` | `AcademicRankEvaluationTest.test.js` |
+| **BR-03** (Chống Sửa Điểm) | FC-04 | `UC-GVBM-08`, `UC-ADM-04` | `POST /api/gradebook/lock` | `SystemSettingsPage.jsx` | `GradeLockSecurityTest.test.js` |
+| **BR-04** (Cảnh báo Chuyên cần) | FC-05 | `UC-GVCN-05`, `UC-ADM-05` | `GET /api/attendance?className=` | `BGHAttendanceMonitorPage.jsx` | `AttendanceWarningTest.test.js` |
+| **BR-05** (Thi đua Khen thưởng) | FC-04 | `UC-GVCN-07`, `UC-ADM-06` | `GET /api/students` | `BGHReportCenterPage.jsx` | `AwardTitleCalculationTest.test.js` |
+| **BR-06** (Rèn luyện Hè/Thi lại)| FC-04 | `UC-ADM-06` | `GET /api/gradebook` | `BGHReportCenterPage.jsx` | `ReExaminationEligibilityTest.test.js` |
 
 ---
 
@@ -516,8 +516,8 @@ Bảng ánh xạ toàn diện giữa **Quy tắc Nghiệp vụ (BR)**, **Phân h
 - **Phong cách Thiết kế**: Chuẩn UX/UI hiện đại với bảng màu Hải quân (`hsl(222, 74%, 40%)`), hiệu ứng thủy tinh mờ Glassmorphism, hỗ trợ màn hình độ phân giải từ Mobile ($375\text{px}$) đến Desktop ($1920\text{px}$).
 
 ### 9.2. Giao diện Phần mềm (Software Interfaces)
-- **Hệ quản trị CSDL**: **PostgreSQL 15+** chạy tại cổng mặc định `5432` hoặc `5434`, giao tiếp qua Hibernate JPA ORM.
-- **Backend Framework**: **Java 17 Spring Boot 3.x**, sử dụng Maven Wrapper (`mvnw.cmd`).
+- **Hệ quản trị CSDL**: **PostgreSQL 15+** chạy tại cổng mặc định `5432` hoặc `5434`, kết nối bằng `pg` connection pool.
+- **Backend Framework**: **Node.js 18+ (Express.js)** triển khai theo mô hình Clean Architecture 4 lớp.
 - **Thư viện Xuất Báo cáo**: **SheetJS (xlsx)** xử lý dữ liệu bảng tính Excel và **jsPDF** xử lý mẫu in Học bạ/Biên lai PDF.
 
 ### 9.3. Giao diện Truyền thông Mạng (Communication & Network Interfaces)
