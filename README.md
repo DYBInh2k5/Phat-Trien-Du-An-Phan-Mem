@@ -54,7 +54,7 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 - BrainStorm/: Hồ sơ phân tích báo cáo chi tiết theo từng tuần:
   - [Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md): Tài liệu Phân tích Yêu cầu Phần mềm (SRS), Ma trận RBAC, Rules & NFRs. (Đã hoàn thành)
   - [Week2 UXUI .md](BrainStorm/Week2%20UXUI%20.md): Chuyên đề Nghiên cứu UI/UX (WinForms vs Web vs Mobile, React/Angular/Vue, Figma, Wireframes). (Đã hoàn thành)
-  - [Week3 DB .md](BrainStorm/Week3%20DB%20.md): Chuyên đề Cơ sở Dữ liệu (PostgreSQL, ERD & DDL Scripts, Spring Boot Connection). (Đã hoàn thành)
+  - [Week3 DB .md](BrainStorm/Week3%20DB%20.md): Chuyên đề Cơ sở Dữ liệu (PostgreSQL, ERD & DDL Scripts, Node.js Express Connection). (Đã hoàn thành)
   - [Week4 KT .md](BrainStorm/Week4%20KT%20.md): Chuyên đề Kiến trúc Phần mềm (Clean Architecture, 3-Layer, REST API Services, DTOs & Exceptions). (Đã hoàn thành)
   - [Week5 Pattern .md](BrainStorm/Week5%20Pattern%20.md): Chuyên đề Mẫu Thiết kế (MVC, Repository Pattern, Unit of Work).
   - [Week6 Export .md](BrainStorm/Week6%20Export%20.md): Chuyên đề Xuất Báo cáo (Excel SheetJS, PDF Print Engine).

@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081/api';
 
 /**
- * Custom Fetch API Client for communicating with Spring Boot & PostgreSQL
+ * Custom Fetch API Client for communicating with Node.js Express Clean Architecture Backend & PostgreSQL
  */
 export async function apiClient(endpoint, { body, method = 'GET', headers = {}, ...customConfig } = {}) {
   const config = {
