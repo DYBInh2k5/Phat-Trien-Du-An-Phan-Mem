@@ -389,3 +389,151 @@ sequenceDiagram
 - **SheetJS (xlsx) Documentation**: [https://sheetjs.com](https://sheetjs.com) (Thư viện xuất và xử lý dữ liệu Excel phía Client/Server).
 - **jsPDF API Reference**: [https://rawgit.com/MrRio/jsPDF/master/docs/index.html](https://rawgit.com/MrRio/jsPDF/master/docs/index.html) (Thư viện khởi tạo và xuất PDF Học bạ/Biên lai).
 - **Cổng Thông tin Điện tử Bộ GD&ĐT**: [https://moet.gov.vn](https://moet.gov.vn) (Tra cứu quy chế, văn bản pháp luật ngành giáo dục).
+
+---
+
+## 7. Sơ đồ Luồng Tuần tự Cho Các Quy trình Trọng tâm (Core Sequence Diagrams)
+
+### 7.1. Sơ đồ Luồng Xác thực Đăng nhập & Khởi tạo JWT Token
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Người dùng (Admin / GV / HS / PH)
+    participant UI as Web Portal (React.js)
+    participant Auth as AuthController / Service
+    participant DB as PostgreSQL Database
+    participant JWT as JWT Provider
+
+    User->>UI: Nhập Username, Password và chọn Role
+    UI->>Auth: POST /api/auth/login (username, password, role)
+    Auth->>DB: Query User Record (by username & role)
+    alt Người dùng không tồn tại hoặc tài khoản bị khóa
+        DB-->>Auth: null / Status = INACTIVE
+        Auth-->>UI: Response 401 Unauthorized / Account Disabled
+        UI-->>User: Hiển thị thông báo "Tài khoản hoặc mật khẩu không chính xác"
+    else Tài khoản hợp lệ
+        DB-->>Auth: User Entity (hashed password)
+        Auth->>Auth: Kiểm tra mật khẩu (BCrypt Match)
+        alt Mật khẩu sai
+            Auth-->>UI: Response 401 Unauthorized
+            UI-->>User: Hiển thị thông báo "Mật khẩu không đúng"
+        else Mật khẩu đúng
+            Auth->>JWT: Generate JWT AccessToken (Claim: UserID, Role, Expire 24h)
+            JWT-->>Auth: Return Signed JWT Token String
+            Auth-->>UI: Response 200 OK (User Data + Token)
+            UI->>UI: Lưu Token vào LocalStorage & Cập nhật AuthContext
+            UI-->>User: Chuyển hướng tới Portal Dashboard tương ứng
+        end
+    end
+```
+
+---
+
+### 7.2. Sơ đồ Luồng Điểm danh Chuyên cần & Cảnh báo Tự động Phụ huynh
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor HomeroomTeacher as Giáo viên Chủ nhiệm
+    participant UI as Web Attendance Page
+    participant Ctrl as AttendanceController
+    participant Service as AttendanceService
+    participant DB as PostgreSQL Database
+    participant ParentUI as Portal Phụ huynh
+
+    HomeroomTeacher->>UI: Chọn Lớp (10A1) và Ngày điểm danh (YYYY-MM-DD)
+    UI->>Ctrl: GET /api/attendance?className=10A1&attDate=YYYY-MM-DD
+    Ctrl->>Service: getAttendanceByClassAndDate("10A1", date)
+    Service->>DB: SELECT * FROM attendances WHERE class_name='10A1'...
+    DB-->>Service: Return Attendance Records
+    Service-->>Ctrl: Attendance List
+    Ctrl-->>UI: Render danh sách Học sinh kèm nút (Có mặt, Đi trễ, Vắng)
+    HomeroomTeacher->>UI: Đánh dấu "Vắng không phép" cho Học sinh (HS003) & Bấm Lưu
+    UI->>Ctrl: POST /api/attendance/save (Attendance Payload)
+    Ctrl->>Service: saveAllAttendance(attendanceList)
+    Service->>DB: INSERT/UPDATE INTO attendances...
+    DB-->>Service: Confirm Saved
+    Service-->>Ctrl: Success
+    Ctrl-->>UI: Thông báo "Lưu điểm danh thành công"
+    Service->>ParentUI: Phát thông báo tự động (Cảnh báo vắng học không phép tới Phụ huynh HS003)
+```
+
+---
+
+### 7.3. Sơ đồ Luồng Thanh toán Học phí Trực tuyến & Phát hành Biên lai PDF
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Parent as Phụ huynh Học sinh
+    participant UI as Parent Portal UI
+    participant Ctrl as TuitionController
+    participant Service as TuitionService
+    participant DB as PostgreSQL Database
+    participant PDF as PDF Export Engine
+
+    Parent->>UI: Xem danh mục Học phí cần đóng (Học kỳ 1)
+    UI->>Ctrl: GET /api/tuition?studentCode=HS001
+    Ctrl->>Service: getTuitionByStudentCode("HS001")
+    Service->>DB: SELECT * FROM tuitions WHERE student_code='HS001'
+    DB-->>Service: Return Tuition Entity (AmountDue = 1,500,000 VNĐ)
+    Service-->>Ctrl: Tuition Data
+    Ctrl-->>UI: Hiển thị ô đóng tiền & Mã QR VietQR / VNPAY
+    Parent->>UI: Quét mã QR & Bấm "Xác nhận thanh toán"
+    UI->>Ctrl: POST /api/tuition/pay (studentCode, amount = 1,500,000)
+    Ctrl->>Service: payTuition(tuitionId, 1500000)
+    Service->>DB: UPDATE tuitions SET amount_paid = 1500000, status = 'PAID'...
+    DB-->>Service: Update Success
+    Service-->>Ctrl: Tuition Updated
+    Ctrl->>PDF: Generate Receipt PDF (ReceiptNo: BL-2024-XXXX)
+    PDF-->>Ctrl: PDF Blob Binary Data
+    Ctrl-->>UI: Response 200 OK (Receipt Number & Download URL)
+    UI-->>Parent: Hiển thị Thông báo "Thanh toán thành công" & Nút "Tải Biên lai PDF"
+```
+
+---
+
+## 8. Ma Trận Truy Xuất Yêu Cầu (Requirements Traceability Matrix - RTM)
+
+Bảng ánh xạ toàn diện giữa **Quy tắc Nghiệp vụ (BR)**, **Phân hệ Tính năng (FC)**, **Mã Use Case (UC)**, **REST API Endpoint** và **Thành phần Kiểm thử (QA Module)**:
+
+| Mã Quy tắc (BR) | Mã Phân hệ (FC) | Mã Use Case (UC) | API Endpoint Backend | Thành phần Frontend Page | Mô đun Kiểm thử (QA Test) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **BR-01** (Công thức TBM) | FC-04 | `UC-GVBM-10`, `UC-GVBM-07` | `POST /api/gradebook/save` | `GradebookPage.jsx` | `GradeCalculationUnitTest.java` |
+| **BR-02** (Xếp loại Học lực) | FC-04 | `UC-STU-05`, `UC-GVCN-08` | `POST /api/students/{id}/calculate-gpa` | `StudentSchedulePage.jsx` | `AcademicRankEvaluationTest.java` |
+| **BR-03** (Chống Sửa Điểm) | FC-04 | `UC-GVBM-08`, `UC-ADM-04` | `POST /api/gradebook/lock` | `SystemSettingsPage.jsx` | `GradeLockSecurityTest.java` |
+| **BR-04** (Cảnh báo Chuyên cần) | FC-05 | `UC-GVCN-05`, `UC-ADM-05` | `GET /api/attendance?className=` | `BGHAttendanceMonitorPage.jsx` | `AttendanceWarningTest.java` |
+| **BR-05** (Thi đua Khen thưởng) | FC-04 | `UC-GVCN-07`, `UC-ADM-06` | `GET /api/students` | `BGHReportCenterPage.jsx` | `AwardTitleCalculationTest.java` |
+| **BR-06** (Rèn luyện Hè/Thi lại)| FC-04 | `UC-ADM-06` | `GET /api/gradebook` | `BGHReportCenterPage.jsx` | `ReExaminationEligibilityTest.java` |
+
+---
+
+## 9. Ràng Buộc Giao Diện & Hạ Tầng Vận Hành (System Environment & Interfaces)
+
+### 9.1. Giao diện Người dùng (User Interfaces)
+- **Kiến trúc Giao diện**: Single Page Application (SPA) xây dựng trên **React.js 18** và **Vite**.
+- **Phong cách Thiết kế**: Chuẩn UX/UI hiện đại với bảng màu Hải quân (`hsl(222, 74%, 40%)`), hiệu ứng thủy tinh mờ Glassmorphism, hỗ trợ màn hình độ phân giải từ Mobile ($375\text{px}$) đến Desktop ($1920\text{px}$).
+
+### 9.2. Giao diện Phần mềm (Software Interfaces)
+- **Hệ quản trị CSDL**: **PostgreSQL 15+** chạy tại cổng mặc định `5432` hoặc `5434`, giao tiếp qua Hibernate JPA ORM.
+- **Backend Framework**: **Java 17 Spring Boot 3.x**, sử dụng Maven Wrapper (`mvnw.cmd`).
+- **Thư viện Xuất Báo cáo**: **SheetJS (xlsx)** xử lý dữ liệu bảng tính Excel và **jsPDF** xử lý mẫu in Học bạ/Biên lai PDF.
+
+### 9.3. Giao diện Truyền thông Mạng (Communication & Network Interfaces)
+- **Giao thức Truyền dữ liệu**: **HTTPS / TLS 1.3** mã hóa toàn bộ dữ liệu trao đổi giữa Client và Server.
+- **Định dạng Dữ liệu**: **RESTful API Over JSON** (`Content-Type: application/json`).
+- **Kiểm soát Truy cập Nguồn chéo (CORS)**: Cấu hình CORS mở rộng cho Origin `http://localhost:5173` trong môi trường phát triển và domain chính thức khi đóng gói Production.
+
+---
+
+## 10. Phân Tích Rủi Ro Nghiệp Vụ & Phương Án Phòng Ngừa (Risk Management & Contingency Plan)
+
+| STT | Rủi ro Nghiệp vụ / Kỹ thuật | Mức độ Ảnh hưởng | Nguyên nhân Phát sinh | Phương án Phòng ngừa & Khắc phục |
+| :---: | :--- | :---: | :--- | :--- |
+| 1 | **Quá tải hệ thống đợt Chốt điểm Học kỳ** | Cao | Số lượng giáo viên nhập điểm đồng thời quá lớn làm nghẽn kết nối DB. | Triển khai Connection Pooling (HikariCP), tối ưu chỉ mục Index PostgreSQL và caching bảng điểm. |
+| 2 | **Lỗi Sai lệch Công thức tính Điểm GPA** | Rất cao | Giáo viên nhập thiếu cột điểm thành phần hoặc nhập sai trọng số. | Kiểm tra ràng buộc dữ liệu đầu vào (Validation Input $0 \le \text{Score} \le 10$) và viết Unit Test phủ $100\%$ logic tính điểm. |
+| 3 | **Mất Kết nối CSDL PostgreSQL** | Cao | Sự cố dịch vụ CSDL dừng đột ngột hoặc tràn dung lượng ổ đĩa Server. | Cấu hình cơ chế tự động Fallback sang Local Storage / MockData trên Frontend và thiết lập Daily Auto-Backup CSDL. |
+| 4 | **Sửa điểm trái phép sau khi đã chốt sổ** | Rất cao | Tài khoản Giáo viên bị lộ mật khẩu hoặc thực hiện thao tác sai quy định. | Khóa cứng bảng điểm sau khi BGH chốt; mọi thao tác mở khóa phải qua quy trình duyệt 2 cấp và lưu Audit Log vết sửa điểm. |
+| 5 | **Nghẽn cổng Thanh toán Học phí Trực tuyến** | Trung bình | Kết nối tới VNPAY/MoMo bị gián đoạn thời gian ngắn. | Lưu trạng thái giao dịch chờ xác nhận (PENDING), bổ sung cơ chế gạch nợ tự động qua Webhook hoặc kiểm tra đối soát thủ công. |
+
