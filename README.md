@@ -50,6 +50,8 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 ## 5. Cấu trúc tài liệu và thư mục (Repository Structure)
 
 - README.md: Tổng quan dự án, thông tin nhóm và hướng dẫn.
+- [USE_CASES.md](USE_CASES.md): Tài liệu đặc tả chi tiết 43 Use Cases, 5 sơ đồ Mermaid phân rã & 4 Sequence Diagrams cho 5 vai trò.
+- [database/ERD.md](database/ERD.md): Sơ đồ thực thể quan hệ ERD Mermaid & Từ điển dữ liệu Data Dictionary 8 thực thể.
 - [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án theo tuần (Hoàn thành Tuần 1 - Tuần 9).
 - BrainStorm/: Hồ sơ phân tích báo cáo chi tiết theo từng tuần:
   - [Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md): Tài liệu Phân tích Yêu cầu Phần mềm (SRS), Ma trận RBAC, Rules & NFRs. (Đã hoàn thành)
