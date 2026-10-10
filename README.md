@@ -63,6 +63,18 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
   - [Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Chuyên đề Xác thực & Bảo mật (JWT, CORS, RBAC 5 Roles). (Đã hoàn thành)
   - [Week8 Logging .md](BrainStorm/Week8%20Logging%20.md): Chuyên đề Nhật ký Hệ thống (Centralized Audit Logging - Vết sửa điểm). (Đã hoàn thành)
   - [Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Chuyên đề Kiểm thử Phần mềm (Unit Testing & Automated QA Suite). (Đã hoàn thành)
+  - [Week10.md](BrainStorm/Week10.md): Tích hợp Hệ thống, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP. (Đã hoàn thành)
+  - [Week11.md](BrainStorm/Week11.md): Tối ưu hóa Hiệu năng, Indexing CSDL PostgreSQL & Caching Redis. (Đã hoàn thành)
+  - [Week12.md](BrainStorm/Week12.md): Đóng gói Docker, Docker Compose & Tự động hóa CI/CD GitHub Actions. (Đã hoàn thành)
+  - [Week13.md](BrainStorm/Week13.md): Báo cáo Thẩm định Kỹ thuật & Nghiệm thu Người dùng UAT Toàn diện (43 Use Cases). (Đã hoàn thành)
+  - [Week14.md](BrainStorm/Week14.md): Đóng gói Bản phát hành Release v1.0 & Cẩm nang Hướng dẫn Sử dụng. (Đã hoàn thành)
+  - [Week15.md](BrainStorm/Week15.md): Tổng kết Toàn diện Dự án, Kịch bản Thuyết trình Đồ án & Đánh giá KPI 5 Thành viên. (Đã hoàn thành)
+- docs/: Thư mục tài liệu kỹ thuật & quy trình:
+  - [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md): Hướng dẫn cài đặt nhanh bằng Docker Compose & tài khoản mẫu 5 Roles.
+  - [docs/API_SPECIFICATION.md](docs/API_SPECIFICATION.md): Đặc tả chi tiết các RESTful API Endpoints cho toàn hệ thống.
+  - [docs/Requirements_Traceability_Matrix.md](docs/Requirements_Traceability_Matrix.md): Ma trận truy xuất yêu cầu SRS - Code - UAT.
+  - [docs/UAT_Testing_Plan.md](docs/UAT_Testing_Plan.md): Kế hoạch và kịch bản kiểm thử chấp nhận người dùng UAT.
+  - [docs/project2_specs.md](docs/project2_specs.md): Đặc tả yêu cầu kỹ thuật đồ án.
 - CHUYENDE/: Thư mục báo cáo chuyên đề chính thức định dạng Microsoft Word (.docx):
   - [Chuyên Đề 1 UXUI.docx](CHUYENDE/Chuy%C3%AAn%20%C4%90%E1%BB%81%201%20UXUI.docx): Nghiên cứu UI/UX và công nghệ thiết kế giao diện Web.
   - [Chuyên đề 2 Storages.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%202%20Storages.docx): Khảo sát và phân tích cơ sở dữ liệu quan hệ và NoSQL (PostgreSQL, MySQL, MongoDB).
