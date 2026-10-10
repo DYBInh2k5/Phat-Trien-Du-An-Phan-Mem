@@ -11,12 +11,11 @@ const ROLE_CONFIGS = [
     label: 'Ban Giám Hiệu',
     subTitle: 'Hiệu Trưởng / Quản Trị Hệ Thống',
     icon: 'admin_panel_settings',
-    badgeColor: 'bg-amber-50 text-amber-700 border-amber-200',
-    accentColor: 'from-amber-500 to-orange-600',
+    badgeColor: 'bg-amber-100 text-amber-800 border-amber-300',
     username: 'bgh.admin',
     defaultPass: '123456',
     desc: 'Quản trị điều hành, phê duyệt khóa/mở sổ điểm toàn trường, giám sát chuyên cần và thống kê học lực vĩ mô.',
-    avatarTitle: 'Thầy Trần Quốc Bảo',
+    avatarTitle: 'Thầy Trần Quốc Bảo (Hiệu trưởng)',
   },
   {
     role: ROLES.GVCN,
@@ -24,12 +23,11 @@ const ROLE_CONFIGS = [
     label: 'GV Chủ Nhiệm',
     subTitle: 'Giáo Viên Lớp 10A1',
     icon: 'supervisor_account',
-    badgeColor: 'bg-purple-50 text-purple-700 border-purple-200',
-    accentColor: 'from-purple-600 to-indigo-600',
+    badgeColor: 'bg-purple-100 text-purple-800 border-purple-300',
     username: 'gvcn.10a1',
     defaultPass: '123456',
     desc: 'Điểm danh chuyên cần học sinh 10A1 hằng ngày, duyệt đơn xin nghỉ phép của phụ huynh và quản lý hồ sơ lớp.',
-    avatarTitle: 'Cô Lê Minh Châu',
+    avatarTitle: 'Cô Lê Minh Châu (GVCN 10A1)',
   },
   {
     role: ROLES.GV,
@@ -37,12 +35,11 @@ const ROLE_CONFIGS = [
     label: 'GV Bộ Môn',
     subTitle: 'Giáo Viên Môn Toán',
     icon: 'school',
-    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
-    accentColor: 'from-blue-600 to-cyan-600',
+    badgeColor: 'bg-blue-100 text-blue-800 border-blue-300',
     username: 'gv.an',
     defaultPass: '123456',
     desc: 'Nhập điểm thành phần (Miệng, 15 phút, 1 tiết, Giữa kỳ, Cuối kỳ), tự động tính GPA và gửi khóa sổ điểm.',
-    avatarTitle: 'Thầy Nguyễn Văn An',
+    avatarTitle: 'Thầy Nguyễn Văn An (GV Toán)',
   },
   {
     role: ROLES.HS,
@@ -50,12 +47,11 @@ const ROLE_CONFIGS = [
     label: 'Học Sinh',
     subTitle: 'Cổng Thông Tin Học Sinh',
     icon: 'person',
-    badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    accentColor: 'from-emerald-600 to-teal-600',
+    badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
     username: 'hs.anh',
     defaultPass: '123456',
     desc: 'Tra cứu bảng điểm điện tử cá nhân, xem thời khóa biểu, lịch thi và theo dõi kết quả chuyên cần tích lũy.',
-    avatarTitle: 'Em Nguyễn Thị Ánh (10A1)',
+    avatarTitle: 'Em Nguyễn Thị Ánh (HS 10A1)',
   },
   {
     role: ROLES.PH,
@@ -63,8 +59,7 @@ const ROLE_CONFIGS = [
     label: 'Phụ Huynh',
     subTitle: 'Sổ Liên Lạc Điện Tử',
     icon: 'family_restroom',
-    badgeColor: 'bg-rose-50 text-rose-700 border-rose-200',
-    accentColor: 'from-rose-500 to-pink-600',
+    badgeColor: 'bg-rose-100 text-rose-800 border-rose-300',
     username: 'ph.hs0001',
     defaultPass: '123456',
     desc: 'Theo dõi học lực và chuyên cần của con, nộp đơn xin nghỉ học trực tuyến, tra cứu và thanh toán học phí kèm biên lai.',
@@ -123,127 +118,125 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-950 flex flex-col lg:flex-row antialiased select-none font-sans">
+    <div className="min-h-screen w-full bg-slate-50 flex flex-col lg:flex-row antialiased select-none font-sans text-slate-800">
       {/* ========================================================================= */}
-      {/* LEFT PANEL: HERO BRAND SHOWCASE WITH ISOMETRIC SMART CAMPUS VISUAL */}
+      {/* LEFT PANEL: BRIGHT HERO SHOWCASE WITH DAYTIME 3D DIGITAL CAMPUS VISUAL     */}
       {/* ========================================================================= */}
-      <div className="relative w-full lg:w-[52%] xl:w-[50%] bg-gradient-to-br from-slate-950 via-[#0a0f1d] to-[#11192e] p-6 sm:p-10 lg:p-12 flex flex-col justify-between text-white overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-800/80">
-        {/* Ambient Gradient Glow Orbs */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 -right-32 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 left-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="relative w-full lg:w-[52%] xl:w-[50%] bg-gradient-to-b from-blue-50/90 via-slate-50 to-indigo-50/80 p-6 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-200/80">
+        {/* Soft Ambient Pastel Glow Orbs */}
+        <div className="absolute -top-24 -left-24 w-80 h-80 bg-blue-300/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 -right-24 w-80 h-80 bg-indigo-300/25 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 left-1/4 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none" />
 
         {/* Top Branding Section */}
         <div className="relative z-10 space-y-3">
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-semibold tracking-wider uppercase text-slate-200">
-              TRƯỜNG THPT HOA SEN (HSU) • SMS PLATFORM
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white border border-blue-200/80 shadow-xs">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold tracking-wider uppercase text-blue-700">
+              TRƯỜNG THPT HOA SEN (HSU) • SMS DIGITAL PORTAL
             </span>
           </div>
 
           <div className="space-y-1.5">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
               Hệ Thống Quản Lý Lớp Học &amp; Học Vụ
             </h1>
-            <p className="text-sm sm:text-base text-slate-300 max-w-xl font-normal leading-relaxed">
-              Nền tảng giáo dục số thông minh, tích hợp quản lý sổ điểm, chuyên cần, xét duyệt và kết nối đa chiều giữa Nhà trường, Giáo viên và Gia đình.
+            <p className="text-sm sm:text-base text-slate-600 max-w-xl font-normal leading-relaxed">
+              Nền tảng chuyển đổi số giáo dục toàn diện, kết nối thông suốt giữa Ban Giám Hiệu, Thầy Cô, Học Sinh và Phụ Huynh.
             </p>
           </div>
         </div>
 
-        {/* Centerpiece: 3D Smart Campus Illustration & Floating Glass Chips */}
+        {/* Centerpiece: Bright Daytime 3D Digital Campus Visual */}
         <div className="relative z-10 my-6 sm:my-8 flex flex-col items-center justify-center">
           <div className="relative w-full max-w-[460px] group">
-            {/* Soft Ambient Shadow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/30 via-indigo-500/30 to-teal-500/30 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-700" />
+            {/* Subtle card glow */}
+            <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-400/20 via-indigo-400/20 to-teal-400/20 rounded-3xl blur-lg opacity-70 group-hover:opacity-100 transition duration-500" />
 
-            {/* Main Hero Visual Card */}
-            <div className="relative rounded-2xl overflow-hidden border border-white/15 bg-slate-900/90 shadow-2xl shadow-indigo-950/60 backdrop-blur-sm">
+            {/* Main Visual Frame */}
+            <div className="relative rounded-2xl overflow-hidden border border-slate-200/90 bg-white shadow-xl shadow-blue-500/10">
               <img
-                src="/edumanage-hero.jpg"
-                alt="EduManage Pro Smart Campus Digital Architecture"
-                className="w-full h-auto max-h-[360px] sm:max-h-[400px] object-cover object-top transition duration-500 group-hover:scale-[1.02]"
+                src="/edumanage-light-hero.jpg"
+                alt="EduManage Pro Bright Digital Campus Architecture"
+                className="w-full h-auto max-h-[360px] sm:max-h-[410px] object-cover object-top transition duration-500 group-hover:scale-[1.01]"
               />
 
-              {/* Bottom Caption Overlay */}
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent p-4 pt-10">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-semibold tracking-wide uppercase text-indigo-400">
-                      KIẾN TRÚC TRƯỜNG HỌC SỐ
-                    </p>
-                    <p className="text-sm font-bold text-white">Smart Campus &amp; Academic Digital Core</p>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-indigo-500/20 border border-indigo-400/30 text-indigo-200">
-                    PostgreSQL 15 Ready
-                  </span>
+              {/* Bottom Caption Bar */}
+              <div className="bg-white/95 backdrop-blur-md border-t border-slate-200/80 p-3.5 flex items-center justify-between">
+                <div>
+                  <p className="text-[11px] font-bold tracking-wider uppercase text-blue-600">
+                    TRƯỜNG HỌC SỐ (DIGITAL CAMPUS)
+                  </p>
+                  <p className="text-xs font-bold text-slate-900">Hệ Sinh Thái Quản Lý Học Vụ Chuẩn Hóa</p>
                 </div>
+                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-700">
+                  PostgreSQL Online
+                </span>
               </div>
             </div>
 
-            {/* Floating Glass Highlight Chips */}
-            <div className="hidden sm:flex absolute -top-4 -right-4 px-3.5 py-2 rounded-xl bg-slate-900/85 border border-white/15 backdrop-blur-md shadow-lg shadow-black/40 items-center gap-2">
-              <span className="material-symbols-outlined text-[18px] text-emerald-400">task_alt</span>
-              <span className="text-xs font-semibold text-white">43 Quy Trình SRS Chuẩn Hóa</span>
+            {/* Floating Highlight Chips */}
+            <div className="hidden sm:flex absolute -top-3.5 -right-3.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200/90 shadow-md shadow-slate-200/60 items-center gap-2">
+              <span className="material-symbols-outlined text-[18px] text-emerald-600">verified</span>
+              <span className="text-xs font-bold text-slate-800">43 Quy Trình SRS Chuẩn</span>
             </div>
 
-            <div className="hidden sm:flex absolute -bottom-4 -left-4 px-3.5 py-2 rounded-xl bg-slate-900/85 border border-white/15 backdrop-blur-md shadow-lg shadow-black/40 items-center gap-2">
-              <span className="material-symbols-outlined text-[18px] text-cyan-400">verified_user</span>
-              <span className="text-xs font-semibold text-white">Bảo Mật 5 Vai Trò RBAC</span>
+            <div className="hidden sm:flex absolute -bottom-3.5 -left-3.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200/90 shadow-md shadow-slate-200/60 items-center gap-2">
+              <span className="material-symbols-outlined text-[18px] text-blue-600">shield</span>
+              <span className="text-xs font-bold text-slate-800">5 Vai Trò Phân Quyền RBAC</span>
             </div>
           </div>
         </div>
 
-        {/* Bottom Metadata & Footer on Left */}
-        <div className="relative z-10 pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-slate-400">
+        {/* Bottom Metadata on Left */}
+        <div className="relative z-10 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-slate-500">
           <div>
-            <span>Khoa CNTT • Đại học Hoa Sen (HSU)</span>
-            <span className="mx-2 text-slate-600">•</span>
+            <span className="font-medium text-slate-700">Khoa CNTT • Đại học Hoa Sen (HSU)</span>
+            <span className="mx-2 text-slate-400">•</span>
             <span>Đồ án Phát triển Dự án Phần mềm</span>
           </div>
-          <div className="flex items-center gap-2 text-slate-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <div className="flex items-center gap-2 text-slate-600 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>Học kỳ 1 • 2025–2026</span>
           </div>
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* RIGHT PANEL: REFINED AUTHENTICATION & QUICK ROLE SELECTOR HUB */}
+      {/* RIGHT PANEL: PURE LIGHT THEME AUTHENTICATION & QUICK ROLE SELECTOR HUB    */}
       {/* ========================================================================= */}
-      <div className="flex-1 bg-slate-900 lg:bg-slate-950 flex flex-col justify-center items-center p-4 sm:p-8 lg:p-12 overflow-y-auto">
-        <div className="w-full max-w-[500px] bg-slate-900 border border-slate-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl shadow-black/50 text-white space-y-6">
+      <div className="flex-1 bg-white lg:bg-slate-50/60 flex flex-col justify-center items-center p-4 sm:p-8 lg:p-12 overflow-y-auto">
+        <div className="w-full max-w-[500px] bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 space-y-6">
           {/* Header Title & Subtitle */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-sm">
-                  <span className="material-symbols-outlined text-[20px]">account_circle</span>
+                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-xs">
+                  <span className="material-symbols-outlined text-[20px]">school</span>
                 </div>
-                <span className="text-xs font-bold tracking-wider uppercase text-indigo-400">CỔNG XÁC THỰC</span>
+                <span className="text-xs font-bold tracking-wider uppercase text-blue-700">CỔNG ĐĂNG NHẬP</span>
               </div>
-              <span className="text-[11px] font-medium text-slate-400 bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700/60">
-                Phiên bản v1.0 Production
+              <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
+                Phiên bản v1.0
               </span>
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white pt-1">
+            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 pt-1">
               Đăng Nhập Hệ Thống
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
-              Chọn vai trò bên dưới để trải nghiệm hoặc nhập tài khoản cá nhân.
+            <p className="text-xs sm:text-sm text-slate-500">
+              Chọn vai trò bên dưới để trải nghiệm hoặc đăng nhập bằng tài khoản được cấp.
             </p>
           </div>
 
-          {/* Segmented Control / Role Selector Bar (5 Pill Tabs) */}
+          {/* Segmented Control / Role Selector Bar (5 Clean Pill Tabs) */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-slate-300">Chọn vai trò đăng nhập:</span>
-              <span className="text-slate-400 text-[11px]">{activeConfig.avatarTitle}</span>
+              <span className="font-bold text-slate-700">Chọn vai trò đăng nhập:</span>
+              <span className="text-slate-500 text-[11px] font-medium">{activeConfig.avatarTitle}</span>
             </div>
 
-            <div className="grid grid-cols-5 gap-1.5 p-1 bg-slate-950/80 rounded-xl border border-slate-800">
+            <div className="grid grid-cols-5 gap-1.5 p-1.5 bg-slate-100 rounded-xl border border-slate-200/80">
               {ROLE_CONFIGS.map((cfg) => {
                 const isActive = activeRole === cfg.role;
                 return (
@@ -251,10 +244,10 @@ export default function LoginPage() {
                     key={cfg.role}
                     type="button"
                     onClick={() => handleRoleSelect(cfg.role)}
-                    className={`py-2 px-1 rounded-lg text-xs font-semibold flex flex-col items-center justify-center gap-1 transition-all duration-200 ${
+                    className={`py-2 px-1 rounded-lg text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${
                       isActive
-                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
                     }`}
                   >
                     <span className="material-symbols-outlined text-[18px]">{cfg.icon}</span>
@@ -267,19 +260,19 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Role Brief Information Banner */}
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-start gap-3">
-            <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
+          {/* Active Role Context Information Banner */}
+          <div className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200/80 flex items-start gap-3">
+            <div className="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-xs">
               <span className="material-symbols-outlined text-[20px]">{activeConfig.icon}</span>
             </div>
             <div className="space-y-0.5 min-w-0 flex-1">
               <div className="flex items-center justify-between gap-1">
-                <p className="text-xs font-bold text-white truncate">{activeConfig.label}</p>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 shrink-0">
+                <p className="text-xs font-bold text-slate-900 truncate">{activeConfig.label}</p>
+                <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded border shrink-0 ${activeConfig.badgeColor}`}>
                   ROLE_{activeConfig.role}
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 leading-snug line-clamp-2">
+              <p className="text-[11px] text-slate-600 leading-snug line-clamp-2">
                 {activeConfig.desc}
               </p>
             </div>
@@ -289,11 +282,11 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Username Input */}
             <div className="space-y-1.5">
-              <label htmlFor="username" className="block text-xs font-semibold text-slate-300">
+              <label htmlFor="username" className="block text-xs font-bold text-slate-700">
                 Tên đăng nhập / Mã định danh
               </label>
               <div className="relative flex items-center">
-                <span className="absolute left-3 text-slate-500 pointer-events-none">
+                <span className="absolute left-3 text-slate-400 pointer-events-none">
                   <span className="material-symbols-outlined text-[18px]">person</span>
                 </span>
                 <input
@@ -304,18 +297,18 @@ export default function LoginPage() {
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Nhập tên đăng nhập"
-                  className="w-full bg-slate-950 border border-slate-700/80 rounded-xl text-white pl-10 pr-3 py-2.5 text-sm transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none placeholder:text-slate-600 font-sans"
+                  className="w-full bg-white border border-slate-300 rounded-xl text-slate-900 pl-10 pr-3 py-2.5 text-sm transition-all focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 focus:outline-none placeholder:text-slate-400 font-sans shadow-2xs"
                 />
               </div>
             </div>
 
             {/* Password Input */}
             <div className="space-y-1.5">
-              <label htmlFor="password" className="block text-xs font-semibold text-slate-300">
+              <label htmlFor="password" className="block text-xs font-bold text-slate-700">
                 Mật khẩu
               </label>
               <div className="relative flex items-center">
-                <span className="absolute left-3 text-slate-500 pointer-events-none">
+                <span className="absolute left-3 text-slate-400 pointer-events-none">
                   <span className="material-symbols-outlined text-[18px]">lock</span>
                 </span>
                 <input
@@ -326,12 +319,12 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Nhập mật khẩu"
-                  className="w-full bg-slate-950 border border-slate-700/80 rounded-xl text-white pl-10 pr-10 py-2.5 text-sm transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none placeholder:text-slate-600 font-sans"
+                  className="w-full bg-white border border-slate-300 rounded-xl text-slate-900 pl-10 pr-10 py-2.5 text-sm transition-all focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 focus:outline-none placeholder:text-slate-400 font-sans shadow-2xs"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((p) => !p)}
-                  className="absolute right-3 text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute right-3 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[18px]">
                     {showPassword ? 'visibility_off' : 'visibility'}
@@ -341,20 +334,20 @@ export default function LoginPage() {
             </div>
 
             {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between text-xs text-slate-400 pt-0.5">
+            <div className="flex items-center justify-between text-xs text-slate-600 pt-0.5">
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950 text-indigo-600 focus:ring-0 focus:ring-offset-0"
+                  className="w-3.5 h-3.5 rounded border-slate-300 bg-white text-blue-600 focus:ring-0 focus:ring-offset-0"
                 />
-                <span>Ghi nhớ phiên đăng nhập</span>
+                <span className="font-medium">Ghi nhớ phiên đăng nhập</span>
               </label>
               <button
                 type="button"
                 onClick={() => alert('Vui lòng liên hệ Quản trị viên (BGH) để khôi phục mật khẩu tài khoản.')}
-                className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+                className="text-blue-600 hover:text-blue-700 font-semibold transition-colors cursor-pointer"
               >
                 Quên mật khẩu?
               </button>
@@ -362,8 +355,8 @@ export default function LoginPage() {
 
             {/* Error Message Alert */}
             {error && (
-              <div className="p-3 bg-red-950/60 border border-red-800/80 rounded-xl text-red-300 text-xs font-medium flex items-center gap-2 animate-shake">
-                <span className="material-symbols-outlined text-[18px] text-red-400 shrink-0">error</span>
+              <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-semibold flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-red-600 shrink-0">error</span>
                 <span>{error}</span>
               </div>
             )}
@@ -372,7 +365,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-500 hover:via-indigo-500 hover:to-indigo-600 active:scale-[0.99] disabled:opacity-60 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all duration-200 text-sm cursor-pointer"
+              className="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.99] disabled:opacity-60 text-white font-bold py-2.5 px-4 rounded-xl shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 transition-all duration-200 text-sm cursor-pointer"
             >
               {isLoading ? (
                 <>
@@ -389,20 +382,20 @@ export default function LoginPage() {
           </form>
 
           {/* Quick One-Click Demo Access Button */}
-          <div className="pt-2 border-t border-slate-800/80">
+          <div className="pt-2 border-t border-slate-200">
             <button
               type="button"
               onClick={() => handleLoginExecute(activeConfig.role, activeConfig.username, activeConfig.defaultPass)}
-              className="w-full py-2.5 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-emerald-400 hover:text-emerald-300 text-xs font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+              className="w-full py-2.5 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-300 text-emerald-800 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer shadow-2xs"
             >
-              <span className="material-symbols-outlined text-[16px] text-amber-400">bolt</span>
+              <span className="material-symbols-outlined text-[16px] text-amber-600">bolt</span>
               <span>Đăng Nhập Nhanh 1-Chạm ({activeConfig.username} / {activeConfig.defaultPass})</span>
             </button>
           </div>
         </div>
 
         {/* Global Footer info */}
-        <p className="mt-6 text-[11px] text-slate-500 text-center">
+        <p className="mt-6 text-[11px] text-slate-500 text-center font-medium">
           Dự án Phát triển Dự án Phần mềm © 2026 Võ Duy Bình &amp; Nhóm Sinh viên HSU. All rights reserved.
         </p>
       </div>
