@@ -63,6 +63,15 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
   - [Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Chuyên đề Xác thực & Bảo mật (JWT, CORS, RBAC 5 Roles). (Đã hoàn thành)
   - [Week8 Logging .md](BrainStorm/Week8%20Logging%20.md): Chuyên đề Nhật ký Hệ thống (Centralized Audit Logging - Vết sửa điểm). (Đã hoàn thành)
   - [Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Chuyên đề Kiểm thử Phần mềm (Unit Testing & Automated QA Suite). (Đã hoàn thành)
+- CHUYENDE/: Thư mục báo cáo chuyên đề chính thức định dạng Microsoft Word (.docx):
+  - [Chuyên Đề 1 UXUI.docx](CHUYENDE/Chuy%C3%AAn%20%C4%90%E1%BB%81%201%20UXUI.docx): Nghiên cứu UI/UX và công nghệ thiết kế giao diện Web.
+  - [Chuyên đề 2 Storages.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%202%20Storages.docx): Khảo sát và phân tích cơ sở dữ liệu quan hệ và NoSQL (PostgreSQL, MySQL, MongoDB).
+  - [Chuyên đề 3 Kiến trúc.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%203%20Ki%E1%BA%BFn%20tr%C3%BAc.docx): Khảo sát và phân tích các kiến trúc phần mềm (Clean Architecture, N-Tier, Microservices).
+  - [Chuyên đề 4 Pattern.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%204%20Pattern.docx): Khảo sát các mẫu thiết kế (MVC, MVVM, Repository, Unit of Work, DIP & DI).
+  - [Chuyên đề 5 Export.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%205%20Export.docx): Nghiên cứu và phát triển phân hệ xuất báo cáo & định dạng dữ liệu (Excel, PDF, CSV).
+  - [Chuyên đề 6 Authentication Authorization.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%206%20Authentication%20Authorization.docx): Nghiên cứu xác thực, phân quyền và bảo mật Web (JWT, CORS, CSRF, RBAC).
+  - [Chuyên đề 7 Logging.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%207%20Logging.docx): Nghiên cứu và xây dựng hệ thống nhật ký tập trung (Centralized Audit Logging).
+  - [Chuyên đề 8 Testing.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%208%20Testing.docx): Nghiên cứu và triển khai chiến lược kiểm thử phần mềm & QA (Unit, Integration, Security, UAT).
 - members/: Thư mục phân vùng công việc riêng cho từng thành viên nhóm (member1 đến member5).
 
 ---
