@@ -1,0 +1,22 @@
+{
+    "pgsql.serverGroups": [
+        {
+            "name": "Servers",
+            "id": "CCA0350E-0900-4431-9DC5-3CC515EC1214",
+            "isDefault": true
+        }
+    ],
+    "pgsql.connections": [
+        {
+            "id": "A8F1C021-5434-4A6B-9988-POSTGRES0001",
+            "profileName": "HTQLLH_PostgreSQL (Docker:5434)",
+            "groupId": "CCA0350E-0900-4431-9DC5-3CC515EC1214",
+            "server": "localhost",
+            "port": "5434",
+            "database": "school_management",
+            "user": "postgres",
+            "password": "",
+            "authenticationType": "SqlLogin"
+        }
+    ]
+}

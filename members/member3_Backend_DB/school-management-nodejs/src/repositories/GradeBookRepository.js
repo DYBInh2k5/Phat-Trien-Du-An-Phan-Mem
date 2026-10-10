@@ -9,31 +9,31 @@ let memGrades = [
 export class GradeBookRepository {
   static async findAll() {
     const res = await query('SELECT * FROM grade_books ORDER BY id ASC');
-    if (res && res.rows && res.rows.length > 0) return res.rows;
+    if (res && res.rows) return res.rows;
     return memGrades;
   }
 
   static async findById(id) {
     const res = await query('SELECT * FROM grade_books WHERE id = $1', [id]);
-    if (res && res.rows && res.rows.length > 0) return res.rows[0];
+    if (res && res.rows) return res.rows[0] || null;
     return memGrades.find(g => g.id === parseInt(id, 10)) || null;
   }
 
   static async findByStudentCode(studentCode) {
     const res = await query('SELECT * FROM grade_books WHERE student_code = $1', [studentCode]);
-    if (res && res.rows && res.rows.length > 0) return res.rows;
+    if (res && res.rows) return res.rows;
     return memGrades.filter(g => g.student_code === studentCode || g.studentCode === studentCode);
   }
 
   static async findByClassName(className) {
     const res = await query('SELECT * FROM grade_books WHERE class_name = $1', [className]);
-    if (res && res.rows && res.rows.length > 0) return res.rows;
+    if (res && res.rows) return res.rows;
     return memGrades.filter(g => g.class_name === className || g.className === className);
   }
 
   static async findByClassNameAndSubjectName(className, subjectName) {
     const res = await query('SELECT * FROM grade_books WHERE class_name = $1 AND subject_name = $2', [className, subjectName]);
-    if (res && res.rows && res.rows.length > 0) return res.rows;
+    if (res && res.rows) return res.rows;
     return memGrades.filter(g => (g.class_name === className || g.className === className) && (g.subject_name === subjectName || g.subjectName === subjectName));
   }
 

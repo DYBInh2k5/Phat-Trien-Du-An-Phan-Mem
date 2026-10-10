@@ -11,25 +11,25 @@ let memStudents = [
 export class StudentRepository {
   static async findAll() {
     const res = await query('SELECT * FROM students ORDER BY id ASC');
-    if (res && res.rows && res.rows.length > 0) return res.rows;
+    if (res && res.rows) return res.rows;
     return memStudents;
   }
 
   static async findById(id) {
     const res = await query('SELECT * FROM students WHERE id = $1', [id]);
-    if (res && res.rows && res.rows.length > 0) return res.rows[0];
+    if (res && res.rows) return res.rows[0] || null;
     return memStudents.find(s => s.id === parseInt(id, 10)) || null;
   }
 
   static async findByStudentCode(studentCode) {
     const res = await query('SELECT * FROM students WHERE student_code = $1', [studentCode]);
-    if (res && res.rows && res.rows.length > 0) return res.rows[0];
+    if (res && res.rows) return res.rows[0] || null;
     return memStudents.find(s => s.student_code === studentCode || s.studentCode === studentCode) || null;
   }
 
   static async findByClassName(className) {
     const res = await query('SELECT * FROM students WHERE class_name = $1 ORDER BY full_name ASC', [className]);
-    if (res && res.rows && res.rows.length > 0) return res.rows;
+    if (res && res.rows) return res.rows;
     return memStudents.filter(s => s.class_name === className || s.className === className);
   }
 
