@@ -175,16 +175,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Floating Highlight Chips */}
-            <div className="hidden sm:flex absolute -top-3.5 -right-3.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200/90 shadow-md shadow-slate-200/60 items-center gap-2">
-              <span className="material-symbols-outlined text-[18px] text-emerald-600">verified</span>
-              <span className="text-xs font-bold text-slate-800">43 Quy Trình SRS Chuẩn</span>
-            </div>
 
-            <div className="hidden sm:flex absolute -bottom-3.5 -left-3.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200/90 shadow-md shadow-slate-200/60 items-center gap-2">
-              <span className="material-symbols-outlined text-[18px] text-blue-600">shield</span>
-              <span className="text-xs font-bold text-slate-800">5 Vai Trò Phân Quyền RBAC</span>
-            </div>
           </div>
         </div>
 
@@ -260,23 +251,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Active Role Context Information Banner */}
-          <div className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200/80 flex items-start gap-3">
-            <div className="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-xs">
-              <span className="material-symbols-outlined text-[20px]">{activeConfig.icon}</span>
-            </div>
-            <div className="space-y-0.5 min-w-0 flex-1">
-              <div className="flex items-center justify-between gap-1">
-                <p className="text-xs font-bold text-slate-900 truncate">{activeConfig.label}</p>
-                <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded border shrink-0 ${activeConfig.badgeColor}`}>
-                  ROLE_{activeConfig.role}
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-600 leading-snug line-clamp-2">
-                {activeConfig.desc}
-              </p>
-            </div>
-          </div>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
