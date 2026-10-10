@@ -1,352 +1,284 @@
-# BrainStorm Tuần 2: Chuyên Đề Nghiên Cứu UI/UX & Lựa Chọn Nền Tảng Thiết Kế Giao Diện Hệ Thống Quản Lý Trường Học (SMS)
+# BrainStorm Tuần 2: Chuyên Đề Nghiên Cứu UI/UX & Lựa Chọn Nền Tảng Thiết Kế Giao Diện Hệ Thống Quản Lý Trường Học (HTQLLH)
 
-Tài liệu nghiên cứu chuyên sâu về thiết kế Giao diện người dùng (UI - User Interface) và Tối ưu hóa Trải nghiệm người dùng (UX - User Experience), đánh giá so sánh giữa WinForms, Web và Mobile App; phân tích các Framework Front-end (React, Angular, Vue.js) và Công cụ Thiết kế (Figma, Google Stitch, Miro) nhằm quyết định phương án công nghệ cho **Hệ thống Quản lý Trường học (School Management System - SMS)**.
+Tài liệu nghiên cứu chuyên sâu về thiết kế Giao diện người dùng (UI - User Interface) và Tối ưu hóa Trải nghiệm người dùng (UX - User Experience), đánh giá so sánh giữa WinForms, Web và Mobile App; phân tích các Framework Front-end (React, Angular, Vue.js, Svelte) và Công cụ Thiết kế (Figma, Google Stitch, Kiro) nhằm quyết định phương án công nghệ cho **Hệ thống Quản lý Trường học (HTQLLH)**.
+
+---
+
+## BẢNG PHÂN CÔNG NHIỆM VỤ THÀNH VIÊN
+
+| STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
+| :---: | :--- | :--- | :---: |
+| 1 | **Võ Duy Bình** | Phụ trách mảng công nghệ nền tảng Web và thiết kế UI/UX Web | 30% |
+| 2 | **Nguyễn Vũ Minh Huy** | Phụ trách mảng nền tảng Mobile và thiết kế UI/UX cho thiết bị di động | 10% |
+| 3 | **Trần Quang Vinh** | Phụ trách tổng quan khái niệm UI/UX, công cụ Figma và các tiêu chí chọn lựa công nghệ | 20% |
+| 4 | **Võ Hoàng Sơn** | Phụ trách nghiên cứu mảng ứng dụng Desktop với WinForms | 20% |
+| 5 | **Huỳnh Trung Tính** | Hỗ trợ UI/UX và hoàn thiện tài liệu | 20% |
 
 ---
 
 ## CHƯƠNG I. MỤC TIÊU VÀ PHẠM VI NGHIÊN CỨU
 
 ### 1. Mục tiêu
-Chuyên đề này được thực hiện nhằm đánh giá toàn diện các nền tảng, công nghệ và công cụ phục vụ cho công tác thiết kế giao diện (UI) và tối ưu hóa trải nghiệm (UX) trong phát triển phần mềm. Kết quả nghiên cứu cung cấp luận cứ khoa học thực tiễn để nhóm quyết định phương án công nghệ tối ưu nhất cho **Dự án Hệ thống Quản lý Trường học (SMS)**.
+Chuyên đề này được thực hiện nhằm đánh giá toàn diện các nền tảng, công nghệ và công cụ phục vụ cho công tác thiết kế giao diện (UI) và tối ưu hóa trải nghiệm (UX) trong phát triển phần mềm. Kết quả nghiên cứu cung cấp luận cứ khoa học thực tiễn để nhóm quyết định phương án công nghệ tối ưu nhất cho **Dự án Hệ thống Quản lý Trường học (HTQLLH)**.
 
-### 2. Giới hạn và Phạm vi nghiên cứu
-Chuyên đề tập trung nghiên cứu và đánh giá các nền tảng và công nghệ UI/UX với phạm vi cụ thể bao gồm:
-- Phân tích ưu điểm, nhược điểm và tính ứng dụng của 3 môi trường phần mềm chính: **Desktop (WinForms)**, **Trình duyệt (Web)** và **Thiết bị di động (Mobile App)**.
-- Đánh giá các Framework Front-end Web nổi bật hiện nay: **React.js**, **Angular**, và **Vue.js**.
-- Khảo sát các công cụ thiết kế UI/UX chuyên dụng: **Figma**, **Google Stitch/Design System**, **Miro** và **Kiro Extension**.
-- Đối chiếu các nền tảng dựa trên tiêu chuẩn về tính mở rộng, khả năng tương tác đa vai trò (Admin, Giáo viên, Học sinh, Phụ huynh) và độ phản hồi màn hình (Responsive) nhằm chốt phương án kỹ thuật cuối cùng.
+### 2. Phạm vi nghiên cứu
+Chuyên đề tập trung nghiên cứu và đánh giá các nền tảng và công nghệ phục vụ thiết kế UI/UX cho hệ thống quản lý trường học, bao gồm:
+- Phân tích ưu, nhược điểm và tính ứng dụng của ba môi trường phần mềm chính: **Desktop (WinForms)**, **Trình duyệt (Web)** và **Thiết bị di động (Mobile App)**.
+- Đánh giá các framework Front-end nổi bật hiện nay dành cho Web: **React**, **Angular**, **Vue.js** và **Svelte**.
+- Khảo sát các công cụ thiết kế chuyên dụng và công cụ AI hỗ trợ: **Figma**, **Google Stitch** và **Kiro Agent**.
+- Đối chiếu các nền tảng dựa trên các tiêu chuẩn về tính mở rộng, khả năng tương tác và độ phản hồi (responsive) nhằm chốt phương án kỹ thuật cuối cùng cho hệ thống.
 
 ---
 
-## CHƯƠNG II. NGHIÊN CỨU VÀ SO SÁNH UI/UX TRÊN WINFORMS, WEB VÀ MOBILE
+## CHƯƠNG II. NGHIÊN CỨU UI/UX TRÊN WINFORMS, WEB VÀ MOBILE
 
-### 1. Ứng dụng Desktop với WinForms (Windows Forms)
+### 1. Nền tảng WinForms (Windows Forms)
 
-#### 1.1. Đặc điểm chung
-WinForms là bộ khung phát triển giao diện đồ họa (GUI) do Microsoft cung cấp, chuyên dùng cho các phần mềm cài đặt trực tiếp trên hệ điều hành Windows. Trải nghiệm UI/UX trên WinForms phụ thuộc chủ yếu vào thao tác bằng chuột và bàn phím máy tính.
+#### 1.1. Định nghĩa & Hệ sinh thái kỹ thuật
+- **Định nghĩa**: WinForms là bộ khung phát triển giao diện đồ họa (GUI) do Microsoft cung cấp, chuyên dùng cho các phần mềm cài đặt trực tiếp trên hệ điều hành Windows. Trải nghiệm UI/UX trên WinForms phụ thuộc chủ yếu vào thao tác bằng chuột và bàn phím máy tính.
+- **Hệ sinh thái kỹ thuật**: Xây dựng trên ngôn ngữ C# và nền tảng .NET, tận dụng Visual Studio để kéo thả trực quan các thành phần giao diện (`Button`, `Label`, `TextBox`, `DataGridView`, `ComboBox`) và quản lý liên kết dữ liệu (`Data Binding`).
 
-#### 1.2. Hệ sinh thái kỹ thuật
-Xây dựng trên ngôn ngữ C# và nền tảng .NET Framework/.NET Core, tận dụng IDE Visual Studio với công cụ Kéo-Thả (Drag-and-Drop) trực quan các thành phần giao diện (`Button`, `TextBox`, `Label`, `DataGridView`, `ComboBox`) và cơ chế quản lý liên kết dữ liệu hai chiều (`Data Binding`).
-
-#### 1.3. Điểm mạnh và Hạn chế
+#### 1.2. Điểm mạnh và Hạn chế
 - **Điểm mạnh**:
-  - Tốc độ phát triển ứng dụng nội bộ rất nhanh với kho Control phong phú tích hợp sẵn.
-  - Tương tác trực tiếp và truy xuất phần cứng, file hệ thống Windows với độ trễ gần như bằng 0.
-  - Xử lý dữ liệu bảng biểu lớn (`DataGridView`) mượt mà, hỗ trợ tốt phím tắt nhập liệu nhanh cho cán bộ văn phòng.
+  - Tốc độ phát triển phần mềm nội bộ rất nhanh với kho control phong phú và tích hợp sâu với cơ sở dữ liệu.
+  - Tương tác trực tiếp và truy xuất phần cứng, tệp tin hệ thống Windows với độ trễ thấp.
+  - Thao tác dữ liệu bảng biểu lớn (`DataGridView`) mượt mà, hỗ trợ tốt phím tắt nhập liệu cho cán bộ văn phòng.
 - **Hạn chế**:
-  - Không có tính đa nền tảng (chỉ chạy trên Windows OS, không hỗ trợ macOS, Linux, iOS hay Android).
-  - Rất khó thiết kế giao diện Co-dãn Tự động (Responsive) theo nhiều độ phân giải màn hình khác nhau.
-  - Người dùng bắt buộc phải tải tệp cài đặt (`.exe` / `.msi`) và cập nhật thủ công trên từng máy tính.
-  - Thẩm mỹ UI bị giới hạn bởi các control chuẩn của Windows, dễ bị đánh giá là kém hiện đại nếu không dùng thêm thư viện đồ họa trả phí (DevExpress, Bunifu).
+  - Thiếu tính đa nền tảng (chỉ hoạt động trên Windows OS, không hỗ trợ macOS, Linux, iOS hay Android).
+  - Khó thiết kế giao diện co-dãn tự động (responsive) trên các độ phân giải màn hình khác nhau.
+  - Người dùng bắt buộc phải tải tệp tin cài đặt (`.exe` / `.msi`) và cập nhật thủ công trên từng máy trạm.
+  - Giao diện dễ bị đánh giá là kém hiện đại nếu không dùng thêm thư viện đồ họa của bên thứ ba.
+  - Thích hợp làm ứng dụng quản lý kho, kế toán hoặc quản trị nội bộ nhà trường ở phạm vi hẹp.
 
 ---
 
 ### 2. Nền tảng Trình duyệt (Web Platform)
 
 #### 2.1. Đặc điểm chung
-Ứng dụng Web hoạt động dựa trên môi trường Internet/Intranet, nơi người dùng tương tác trực tiếp thông qua trình duyệt Web (Client) trong khi dữ liệu được xử lý và phản hồi từ máy chủ (Server).
+Ứng dụng Web hoạt động dựa trên môi trường Internet/Intranet, nơi người dùng tương tác thông qua trình duyệt (Client) trong khi dữ liệu được xử lý tại máy chủ (Server).
 
 #### 2.2. Hệ sinh thái kỹ thuật
-Cấu trúc giao diện Web được định hình bởi 3 công nghệ cốt lõi:
-- **HTML5**: Xây dựng cấu trúc ngữ nghĩa và thành phần nội dung.
-- **CSS3**: Định dạng trang trí, bố cục (`Flexbox`, `Grid`), màu sắc, hiệu ứng hoạt họa (`Animations`, `Transitions`).
-- **JavaScript (ES6+) / TypeScript**: Xử lý logic tương tác phía người dùng, thao tác DOM và giao tiếp API.
+Cấu trúc giao diện Web được định hình bởi ba ngôn ngữ cốt lõi:
+- **HTML**: Cấu trúc nội dung và ngữ nghĩa trang web.
+- **CSS**: Định dạng trang trí, bố cục (`Flexbox`, `Grid Layout`), màu sắc và hiệu ứng chuyển động.
+- **JavaScript / TypeScript**: Xử lý logic tương tác phía người dùng, thao tác DOM và giao tiếp API qua HTTP.
 
 #### 2.3. Các Thư viện / Framework Front-end Nổi bật
-
-##### a. React.js
-- **Đặc điểm**: Thư viện mã nguồn mở từ Meta (Facebook), nổi bật với kiến trúc hướng Thành phần (Component-Based) và cơ chế DOM Ảo (Virtual DOM) nâng cao hiệu năng hiển thị.
-- **Ưu điểm**: Quản lý State linh hoạt (`Redux`, `Context API`), tái sử dụng component cao, cộng đồng hỗ trợ lớn nhất thế giới.
-- **Tài liệu tham khảo chính thống**: [https://react.dev/learn](https://react.dev/learn) (Xem bản tiếng Việt: [https://viblo.asia/p/reactjs-docs-phan-1-Qpmle74VKrd](https://viblo.asia/p/reactjs-docs-phan-1-Qpmle74VKrd))
-
-##### b. Angular
-- **Đặc điểm**: Framework toàn diện do Google phát triển, sử dụng ngôn ngữ mã nguồn cứng TypeScript, tích hợp sẵn các công cụ điều hướng (`Routing`), quản lý Form (`Reactive Forms`) và Kiểm tra dữ liệu (`Validation`).
-- **Ưu điểm**: Cấu trúc chặt chẽ theo mô hình MVVM/MVC, thích hợp cho các dự án Enterprise quy mô cực lớn.
-- **Tài liệu tham khảo chính thống**: [https://angular.dev/docs](https://angular.dev/docs) (Xem bản v17: [https://v17.angular.io/docs](https://v17.angular.io/docs))
-
-##### c. Vue.js
-- **Đặc điểm**: Framework linh hoạt, nhẹ nhàng với cơ chế Tự động đồng bộ Dữ liệu và Giao diện (Reactivity System) giúp lộ trình học tập dễ tiếp cận nhất.
-- **Ưu điểm**: Dễ dàng tích hợp vào dự án có sẵn, cú pháp template HTML thân thiện.
-- **Tài liệu tham khảo chính thống**: [https://vuejs.org/guide/introduction.html](https://vuejs.org/guide/introduction.html)
+- **React**: Giải pháp mã nguồn mở từ Facebook (Meta), nổi bật với kiến trúc Component cho phép tách nhỏ và tái sử dụng giao diện. React cung cấp cơ chế quản lý state hiệu quả, cho phép cập nhật từng phần màn hình theo tương tác thực mà không cần tải lại toàn bộ trang (Virtual DOM).  
+  *Tài liệu tham khảo: [https://viblo.asia/p/reactjs-docs-phan-1-Qpmle74VKrd](https://viblo.asia/p/reactjs-docs-phan-1-Qpmle74VKrd)*
+- **Angular**: Framework toàn diện do Google phát triển, sử dụng TypeScript bắt buộc, tích hợp sẵn các công cụ quản lý điều hướng (`Routing`), quản lý Form và kiểm tra dữ liệu đầu vào (`Validation`). Rất phù hợp với các dự án lớn, cấu trúc phức tạp nhưng tốn thời gian học hỏi.  
+  *Tài liệu tham khảo: [https://v17.angular.io/docs](https://v17.angular.io/docs)*
+- **Vue.js**: Dễ tiếp cận nhất trong ba loại, tính linh hoạt cao và sở hữu tính năng Reactive tự động đồng bộ giao diện với dữ liệu.  
+  *Tài liệu tham khảo: [https://vuejs.org/guide/introduction.html](https://vuejs.org/guide/introduction.html)*
 
 #### 2.4. Điểm mạnh và Hạn chế của Nền tảng Web
+- **Điểm mạnh**: Lợi thế tuyệt đối của Web là tính đa nền tảng (PC, tablet, mobile), người dùng không cần cài đặt và nhà phát triển dễ dàng đẩy bản cập nhật tập trung tại máy chủ. Khả năng co dãn linh hoạt theo kích thước màn hình thông qua CSS Media Queries.
+- **Hạn chế**: Sự phụ thuộc vào chất lượng kết nối Internet và yêu cầu bảo mật đường truyền (HTTPS, CORS, chống tấn công XSS/CSRF).
+- **Phù hợp**: Web là lựa chọn hàng đầu cho các hệ thống giáo dục, trường học và cổng thông tin trực tuyến đa người dùng.
+
+---
+
+### 3. Nền tảng Thiết bị Di động (Mobile Application)
+
+#### 3.1. Khái niệm & Không gian hiển thị
+Giao diện trên thiết bị di động bị giới hạn về không gian vật lý (màn hình trung bình từ 4 đến 6 inch). Giao diện không sử dụng khái niệm cửa sổ (Window) như PC, mà sử dụng các lớp (Views/Activities trên Android, ViewControllers trên iOS) xếp chồng lên nhau. Công nghệ render gồm Native (Swift trên iOS, Kotlin trên Android) hoặc Cross-platform (Flutter dùng Skia engine tự vẽ UI, React Native dùng bridge biên dịch ra UI gốc).
+
+#### 3.2. Nguyên tắc UX Đặc thù trên Mobile
+1. **Kích thước điểm chạm (Touch Targets)**:
+   - Người dùng thao tác bằng ngón tay thay vì con trỏ chuột chính xác, mọi nút bấm và vùng chọn phải đạt kích thước tối thiểu.
+   - Apple yêu cầu vùng chạm ít nhất là $44 \times 44\text{ pt}$ (theo Human Interface Guidelines).
+   - Google quy định vùng chạm ít nhất là $48 \times 48\text{ dp}$ (theo Material Design).
+2. **Khu vực ngón tay cái (The Thumb Zone)**:
+   - Hơn 70% người dùng cầm điện thoại bằng một tay.
+   - UX Mobile bắt buộc phải đặt các menu điều hướng quan trọng nhất (Bottom Navigation) và nút thao tác chính (Floating Action Button) ở nửa dưới màn hình để ngón cái dễ dàng với tới.
+   - Vùng trên cùng (Top Bar) chỉ dùng để hiển thị thông tin tĩnh.
+3. **Điều hướng bằng cử chỉ (Gesture Navigation)**:
+   - Tận dụng tối đa các thao tác vuốt (swipe) để chuyển tab hoặc xóa, kéo từ trên xuống (Pull to refresh) để làm mới dữ liệu, và chụm (Pinch) để phóng to thu nhỏ.
+   - Không có khái niệm hover (rê chuột) như trên Web hay WinForms, mọi hướng dẫn đều phải hiển thị trực quan.
+4. **Bộ quy chuẩn thiết kế quốc tế**:
+   - Google Material Design 3: Quy định rõ về khoảng cách lưới (8dp), typography và màu sắc.  
+     *Tài liệu: [https://m3.material.io/](https://m3.material.io/)*
+   - Apple Human Interface Guidelines (HIG): Tài liệu chuẩn mực để thiết kế UX mượt mà cho hệ sinh thái iOS/iPadOS.  
+     *Tài liệu: [https://developer.apple.com/design/human-interface-guidelines/](https://developer.apple.com/design/human-interface-guidelines/)*
+
+#### 3.3. Điểm mạnh và Hạn chế của Mobile
+- **Điểm mạnh**: Cho phép sử dụng mọi lúc mọi nơi; tối ưu hóa thao tác chạm vuốt; khai thác phần cứng thiết bị (camera quét mã QR, thông báo đẩy Push Notification); mang lại trải nghiệm cá nhân hóa cao cho học sinh và phụ huynh.
+- **Hạn chế**: Không gian hiển thị nhỏ hẹp, khó khăn khi hiển thị bảng điểm lớn của lớp 45 học sinh; người dùng phải tải và cài đặt ứng dụng; kiểm thử phức tạp trên nhiều kích thước màn hình; chi phí phát triển và duy trì trên cả hai nền tảng Android/iOS cao.
+
+---
+
+### 4. Công cụ và Phần mềm Thiết kế UI/UX
+
+#### 4.1. Figma
+- **Đặc điểm**: Figma là công cụ thiết kế giao diện trực tuyến hàng đầu, cho phép thiết kế trực tiếp ngay trên trình duyệt web.
 - **Điểm mạnh**:
-  - **Tính Đa nền tảng tuyệt đối**: Truy cập từ bất kỳ thiết bị nào có trình duyệt (PC, Laptop, Tablet, Smartphone).
-  - Không cần cài đặt ứng dụng: Người dùng chỉ cần nhập địa chỉ URL.
-  - Cập nhật tức thời tập trung tại Server, tất cả người dùng luôn sử dụng phiên bản mới nhất.
-  - Khả năng Responsive linh hoạt với CSS Media Queries và Flexbox/Grid Layout.
-- **Hạn chế**:
-  - Phụ thuộc vào kết nối mạng Internet/Intranet.
-  - Yêu cầu xử lý bảo mật đường truyền (HTTPS, CORS, JWT, chống OWASP XSS/CSRF).
+  - Hỗ trợ làm việc nhóm, cho phép nhiều thành viên cùng tham gia cộng tác, chỉnh sửa và nhận xét trực tiếp trên cùng một bản thiết kế (Real-time Collaboration).
+  - Cung cấp tính năng tạo Component và Design System giúp tái sử dụng các thành phần giao diện đồng nhất.
+  - Sở hữu thế mạnh trong việc xây dựng wireframe, mockup và tạo prototype mô phỏng luồng tương tác thực tế giữa các màn hình.
+  - Xuất các CSS Tokens (màu sắc, khoảng cách, typography) hỗ trợ trực tiếp lập trình viên Front-end.
 
----
-
-### 3. Ứng dụng Thiết bị Di động (Mobile App)
-
-#### 3.1. Đặc điểm chung
-Nền tảng thiết kế dành riêng cho Điện thoại thông minh (Smartphone) và Máy tính bảng (Tablet), lấy thao tác cảm ứng chạm (`Tap`), vuốt (`Swipe`), chạm giữ (`Touch & Hold`) làm trọng tâm thiết kế UX.
-
-#### 3.2. Hệ sinh thái kỹ thuật
-- **Native App**: Android Studio (Java/Kotlin) cho Android và Xcode (Swift/Objective-C) cho iOS.
-- **Cross-Platform**: Flutter (Dart) hoặc React Native (JavaScript).
-
-#### 3.3. Điểm mạnh và Hạn chế
+#### 4.2. Google Stitch
+- **Đặc điểm**: Google Stitch là công cụ thiết kế giao diện vận hành bằng AI do Google Labs phát triển. Stitch đóng vai trò cầu nối từ ý tưởng đến mã nguồn thực tế, tự động sinh ra các bản mẫu (prototype) đa màn hình và hệ thống thiết kế (design system) thông qua nhập các mô tả bằng văn bản (prompt), đường dẫn hoặc hình ảnh phác thảo.
 - **Điểm mạnh**:
-  - Trải nghiệm cá nhân hóa cao, tận dụng phần cứng thiết bị (Camera quét mã QR, Sinh trắc học Vân tay/FaceID, GPS).
-  - Hỗ trợ Thông báo Đẩy tức thời (Push Notification) rất hiệu quả cho việc nhắc lịch học, điểm danh và học phí.
-- **Hạn chế**:
-  - Diện tích màn hình nhỏ, khó thao tác với các bảng biểu phức tạp như Sổ điểm tổng hợp sĩ số 45 học sinh.
-  - Người dùng phải cài đặt qua App Store / Google Play và tốn chi phí duyệt ứng dụng.
+  - Biến các đoạn mô tả prompt, hình ảnh phác thảo (sketch) hoặc wireframe thành giao diện web/app hoàn chỉnh chỉ trong vài phút, hữu ích cho giai đoạn lên ý tưởng ban đầu.
+  - Có khả năng xuất thẳng ra mã nguồn Front-end (HTML/CSS).
+  - Cung cấp tính năng khoanh vùng (Annotate) để yêu cầu AI chỉ cập nhật hoặc thay đổi một thành phần cụ thể trên màn hình (như sửa menu, đổi màu nút bấm) mà không làm ảnh hưởng cấu trúc tổng thể.
+  - Tối ưu hóa việc chia sẻ bản thiết kế để thu thập phản hồi từ các bên liên quan.
+- **Điểm hạn chế**:
+  - Kết quả UI tạo ra thường thiếu sự hoàn thiện chi tiết về khoảng cách (spacing), phân cấp thông tin và khả năng tiếp cận (accessibility), đòi hỏi phải tinh chỉnh thủ công.
+  - Khó duy trì tính đồng bộ giao diện khi yêu cầu AI tạo ra hệ thống nhiều màn hình với các luồng nghiệp vụ đan xen phức tạp.
+  - Sử dụng cơ chế điểm tín dụng (credits) giới hạn số lượt tạo giao diện mỗi ngày.
+
+#### 4.3. Kiro (Software Engineering Agent IDE)
+- **Đặc điểm**: Khác với công cụ chat AI thông thường, Kiro là một trợ lý kỹ sư phần mềm tự trị (Software Engineering Agent) do AWS xây dựng. Kiro cho phép người dùng định nghĩa yêu cầu và kết quả mong muốn bằng ngôn ngữ tự nhiên; sau đó AI tự động lập kế hoạch, phân tích hệ thống, tạo môi trường độc lập (sandbox) và viết mã nguồn từ Front-end đến Back-end. Cuối cùng, Kiro đóng gói và gửi yêu cầu gộp mã (Pull Request) để nhóm kiểm duyệt.
+- **Điểm mạnh**:
+  - Tự động phân tích prompt để chuyển đổi thành tài liệu đặc tả, thiết kế kiến trúc và danh sách công việc có cấu trúc rõ ràng trước khi viết code.
+  - Chạy ngầm độc lập trong môi trường IDE, giúp nhà phát triển dễ dàng ủy quyền các tác vụ lập trình lặp đi lặp lại.
+  - Hỗ trợ xuyên suốt từ bước dựng nguyên mẫu (prototype) sơ khai đến khi triển khai hệ thống phần mềm thực tế.
+- **Điểm hạn chế**:
+  - Nếu yêu cầu nghiệp vụ mô tả mơ hồ hoặc thiếu logic, AI có thể sinh ra kiến trúc không phù hợp.
+  - Với các dự án có logic nghiệp vụ học vụ đặc thù (như công thức tính điểm TBM, quy chế xếp loại Thông tư 22), lập trình viên bắt buộc phải kiểm tra kỹ lưỡng các Pull Request do AI tạo ra để tránh sai lệch dữ liệu.
 
 ---
 
-### 4. Bảng So Sánh Tổng Hợp 3 Nền Tảng (Comparative Analysis Matrix)
+## CHƯƠNG III. SO SÁNH VÀ LỰA CHỌN CÔNG NGHỆ FRONT-END
 
-| Tiêu chí Đánh giá | WinForms (Desktop) | Web Platform (Trình duyệt) | Mobile App (Di động) |
-| :--- | :--- | :--- | :--- |
-| **Khả năng Đa nền tảng** | Kém (Chỉ chạy trên Windows) | **Rất cao** (Windows, macOS, Linux, iOS, Android) | Trung bình (Cần build riêng APK/IPA) |
-| **Yêu cầu Cài đặt** | Bắt buộc cài đặt file `.exe` | **Không cần** (Chạy trực tiếp qua Trình duyệt) | Bắt buộc tải từ App Store / Google Play |
-| **Khả năng Responsive** | Khó thiết kế linh hoạt | **Tối ưu xuất sắc** (Tự động co dãn màn hình) | Giới hạn khung hình màn hình nhỏ |
-| **Thao tác Bảng điểm lớn** | Tốt (`DataGridView`) | **Tốt** (Data Table + Sticky Headers) | Kém (Phải cuộn ngang nhiều) |
-| **Bảo trì & Cập nhật** | Phức tạp (Update từng máy) | **Rất dễ** (Cập nhật 1 lần trên Server) | Cần duyệt ứng dụng trên App Store |
-| **Trải nghiệm UX Đa vai trò** | Phù hợp với 1 vai trò Admin | **Phù hợp hoàn hảo cho cả 4 Roles** | Phù hợp cho xem tin nhắn, thông báo |
+### 1. Bảng So Sánh 4 Frameworks: React, Angular, Vue.js, Svelte
 
----
-
-## CHƯƠNG III. CÁC CÔNG CỤ & PHẦN MỀM THIẾT KẾ GIAO DIỆN (UI/UX DESIGN TOOLS)
-
-### 1. Figma
-- **Đặc điểm**: Phần mềm thiết kế giao diện và làm mẫu thử (Prototype) dựa trên nền tảng điện toán đám mây hàng đầu thế giới.
-- **Ứng dụng trong dự án**:
-  - Xây dựng bản vẽ khung xương (Wireframe) và giao diện chi tiết (Hi-Fi Prototype) cho 4 phân hệ người dùng.
-  - Cho phép 5 thành viên trong nhóm cùng làm việc song song trực tuyến (Real-time Collaboration).
-  - Xuất các CSS Tokens (mã màu HSL, typography font size, padding/margin) hỗ trợ lập trình viên Frontend.
-- **Trang chủ chính thống**: [https://help.figma.com](https://help.figma.com)
-
-### 2. Google Stitch & Design System Standards
-- **Đặc điểm**: Tập hợp các chuẩn mực thiết kế giao diện hiện đại từ Google (Material Design 3 / Stitch System).
-- **Ứng dụng trong dự án**:
-  - Định hình CSS Custom Properties (Variables) đồng nhất cho toàn hệ thống: Bảng màu tailoring HSL, Font chữ chủ đạo (`Inter` và `Outfit`).
-  - Áp dụng phong cách thị giác Glassmorphism (Thẻ hiệu ứng kính mờ, đổ bóng mềm `box-shadow`, bo góc `border-radius`).
-  - Xây dựng hiệu ứng tương thích động (Micro-animations) khi hover nút bấm, chuyển tab và hiển thị thông báo Toast.
-- **Trang chủ chính thống**: [https://m3.material.io](https://m3.material.io)
-
-### 3. Miro & Kiro Extension
-- **Đặc điểm**: Công cụ bảng trắng tư duy (Visual Collaboration Whiteboard) và tiện ích sơ đồ hóa luồng người dùng.
-- **Ứng dụng trong dự án**:
-  - Phân tích Bản đồ Hành trình Người dùng (User Journey Map) cho từng vai trò: Giáo viên nhập điểm -> Học sinh xem GPA -> Phụ huynh nhận thông báo.
-  - Sơ đồ hóa Luồng Chuyển màn hình UI (UI Flowchart Diagram).
+| Tiêu chí Đánh giá | React | Angular | Vue.js | Svelte |
+| :--- | :--- | :--- | :--- | :--- |
+| **Nhà phát triển** | Meta (Facebook) & Cộng đồng | Google | Evan You & Cộng đồng | Rich Harris & Cộng đồng |
+| **Phân loại** | Thư viện UI (UI Library) | Framework toàn diện (Full-fledged) | Framework tăng tiến (Progressive) | Trình biên dịch (Compiler / Framework) |
+| **Ngôn ngữ chính** | JavaScript / TypeScript (JSX) | TypeScript (Bắt buộc) | JavaScript / TypeScript | JavaScript / TypeScript |
+| **Cơ chế Render (DOM)** | **Virtual DOM (DOM ảo)** | Real DOM (DOM thật) | Virtual DOM (DOM ảo) | **Không dùng Virtual DOM (Thao tác trực tiếp Real DOM lúc compile)** |
+| **Quản lý Dữ liệu** | **Ràng buộc 1 chiều (One-way data binding)** | Ràng buộc 2 chiều (Two-way data binding) | Ràng buộc 2 chiều (Two-way data binding) | Phản ứng tự động lúc biên dịch (Build-time reactivity) |
+| **Độ khó tiếp cận** | Trung bình (Cần học JSX, Hooks, State) | Khó (Nhiều khái niệm: DI, RxJS, Services) | Dễ (Cú pháp tách bạch HTML, CSS, JS) | Rất dễ (Code gần giống HTML/JS thuần) |
+| **Hiệu suất & Dung lượng** | Nhanh, dung lượng bundle ở mức trung bình | Tốt cho dự án lớn, file build khá nặng | Rất nhanh, framework nhẹ | Cực nhanh, file build siêu nhỏ gọn |
+| **Hệ sinh thái & Cộng đồng** | **Khổng lồ, vô số thư viện bên thứ 3** | Rất lớn, chuẩn hóa doanh nghiệp | Lớn, tài liệu hướng dẫn chi tiết | Đang phát triển nhanh, cộng đồng nhỏ hơn 3 thư viện trên |
+| **Ứng dụng tiêu biểu** | Facebook, Netflix, Airbnb | Gmail, Forbes, Upwork | Alibaba, GitLab, Nintendo | Spotify, The New York Times, Brave |
 
 ---
 
-## CHƯƠNG IV. ĐỀ XUẤT VÀ LỰA CHỌN PHƯƠNG ÁN CÔNG NGHỆ NỀN TẢNG CHO DỰ ÁN (SMS)
+### 2. Lựa chọn Công nghệ Front-end cho Dự án
+
+Sau khi phân tích và đối chiếu các đặc điểm kỹ thuật của React, Angular, Vue.js và Svelte, nhóm quyết định lựa chọn **React (kết hợp công cụ Vite và Tailwind CSS)** làm nền tảng Front-end cốt lõi để phát triển Hệ thống Quản lý Trường học.
+
+**Các lý do lựa chọn chính**:
+1. **Tối ưu hóa tái sử dụng giao diện (Component-based)**: Cho phép xây dựng các thành phần UI phức tạp nhưng dùng chung nhiều lần (Bảng nhập điểm `GradebookTable`, Dropdown chọn khối/lớp, Thẻ thông báo, Widget thời khóa biểu), giúp tiết kiệm thời gian phát triển và đảm bảo tính đồng nhất toàn hệ thống.
+2. **Quản lý trạng thái (State) nghiệp vụ phức tạp**: Cơ chế React Hooks (`useState`, `useEffect`, `useMemo`) giúp xử lý dữ liệu động mượt mà, rất phù hợp với các phân hệ yêu cầu cập nhật liên tục như sổ điểm điện tử, điểm danh chuyên cần hàng ngày và thay đổi trạng thái đóng học phí.
+3. **Khả năng tương thích hệ sinh thái cao**: Dễ dàng kết hợp với các công cụ hiện đại như Vite (build tool siêu tốc), React Router DOM (điều hướng trang không reload) và đặc biệt tương thích hoàn hảo với Tailwind CSS để tùy biến giao diện linh hoạt.
+4. **Trải nghiệm đa nền tảng (Responsive & SPA)**: Hỗ trợ xây dựng ứng dụng trang đơn (Single Page Application) tải trang mượt mà. Mang lại trải nghiệm tối ưu trên màn hình lớn Desktop (dành cho Admin, Giáo viên nhập liệu bảng biểu) và tự động co dãn 1 cột trên Mobile Web (dành cho Phụ huynh, Học sinh tra cứu điểm số).
+5. **Khả năng mở rộng và bảo trì**: Hệ sinh thái khổng lồ, tài liệu dồi dào giúp nhóm dễ dàng bảo trì mã nguồn và thuận tiện tích hợp thêm các phân hệ mới trong tương lai.
+
+---
+
+## CHƯƠNG IV. ĐỀ XUẤT VÀ LỰA CHỌN PHƯƠNG ÁN CÔNG NGHỆ NỀN TẢNG CHO DỰ ÁN
 
 ### 1. Kết luận Phương án Công nghệ Chốt
-Dựa trên kết quả phân tích so sánh kỹ thuật ở Chương II và yêu cầu thực tiễn của đề tài, nhóm quyết định lựa chọn **Nền tảng Web Application (Web Platform)** kết hợp cùng **Kiến trúc Single Page Application (SPA)** làm nền tảng công nghệ UI/UX chính thức cho **Hệ thống Quản lý Trường học (SMS)**.
-
----
+Dựa trên kết quả phân tích so sánh kỹ thuật ở Chương II và yêu cầu thực tiễn của đề tài, nhóm quyết định lựa chọn **Nền tảng Web Application (Web Platform)** kết hợp cùng **Kiến trúc Single Page Application (SPA) trên nền React** làm nền tảng công nghệ UI/UX chính thức cho **Hệ thống Quản lý Trường học (HTQLLH)**.
 
 ### 2. Luận cứ Khoa học cho Lựa chọn Web Application
-
-1. **Phù hợp hoàn hảo với Mô hình Phân quyền 4 Roles**:
-   - Hệ thống Quản lý Trường học phục vụ 4 nhóm người dùng với nhu cầu thiết bị hoàn toàn khác nhau:
-     - *Admin & Giáo viên*: Thao tác chủ yếu trên Laptop/Desktop để nhập điểm, xếp thời khóa biểu và quản lý sĩ số.
-     - *Học sinh & Phụ huynh*: Thao tác chủ yếu trên Smartphone/Tablet để xem kết quả học tập, thông báo chuyên cần và đóng học phí.
-   - Nền tảng Web giúp đáp ứng tất cả các nhóm người dùng trên cùng một địa chỉ hệ thống duy nhất.
-
+1. **Phù hợp với Mô hình Đa vai trò (5 Vai trò người dùng)**:
+   - Hệ thống phục vụ 5 vai trò: Admin / Ban Giám Hiệu, Giáo viên Chủ nhiệm, Giáo viên Bộ môn, Học sinh và Phụ huynh.
+   - *Admin và Giáo viên*: Thao tác nhập liệu nhiều trên máy tính để bàn hoặc laptop.
+   - *Học sinh và Phụ huynh*: Thao tác tra cứu chủ yếu trên điện thoại thông minh.
+   - Nền tảng Web Responsive đáp ứng tất cả các nhóm người dùng trên cùng một địa chỉ URL duy nhất mà không bắt buộc cài đặt ứng dụng riêng.
 2. **Tối ưu UX cho Sổ điểm Điện tử & Thời khóa biểu**:
-   - Bố cục Web Layout cho phép thiết kế Bảng điểm linh hoạt với Sticky Header (cố định cột Họ tên khi cuộn ngang) và phím tắt chuyển ô nhập điểm (`Enter`, `Tab`, các phím mũi tên) giúp Giáo viên nhập điểm nhanh gấp 3 lần so với ứng dụng di động.
-
-3. **Tiết kiệm Chi phí Triển khai & Bảo trì**:
-   - Không cần phát triển 2 ứng dụng riêng biệt (Android/iOS), chỉ cần 1 bộ mã nguồn Web Responsive chuẩn HTML5/CSS3/JS.
-
----
-
-### 3. Quy chuẩn Định hình Giao diện (UI/UX Guidelines) áp dụng cho 4 Vai trò
-
-- **Admin Dashboard UI**:
-  - Bố cục Sidebar bên trái (Collapsible Sidebar), Header cố định chứa công cụ tìm kiếm và bộ chuyển vai trò (Role Switcher).
-  - Màn hình trung tâm hiển thị các thẻ Thống kê (Cards) sĩ số, biểu đồ phân bố điểm số và bảng quản lý phân quyền.
-- **Teacher View (Sổ điểm & Điểm danh)**:
-  - Giao diện dạng Lưới dữ liệu (Data Grid) phẳng, tương phản màu sắc rõ ràng giữa các cột điểm thường xuyên, giữa kỳ và cuối kỳ.
-  - Màu sắc cảnh báo trực quan: Học sinh vắng học (Màu đỏ), Học sinh đi trễ (Màu vàng), Điểm khống/chưa nhập (Màu xám).
-- **Student & Parent View (Sổ liên lạc & Kết quả)**:
-  - Thiết kế dạng Thẻ (Cards View) mượt mà, điểm trung bình GPA hiển thị nổi bật với Badge màu sắc xếp loại Học lực (*Xuất sắc: Xanh dương, Giỏi: Xanh lá, Khá: Vàng, TB: Cam, Yếu: Đỏ*).
-  - Tối ưu hiển thị Responsive 1 cột khi truy cập trên thiết bị di động.
+   - Web layout cho phép thiết kế bảng điểm linh hoạt với Sticky Header (cố định cột Họ tên khi cuộn ngang) và hỗ trợ phím tắt chuyển ô nhập điểm (`Enter`, `Tab`, phím mũi tên) giúp giáo viên nhập điểm nhanh chóng.
+3. **Tiết kiệm chi phí triển khai và bảo trì**:
+   - Cập nhật phiên bản mới tập trung một lần duy nhất tại máy chủ web, tất cả người dùng đều nhận được phiên bản mới nhất ngay khi mở trình duyệt.
 
 ---
 
-### 4. Hệ thống Design Tokens & Quy chuẩn Thị giác (Design Tokens & Glassmorphism System)
+## CHƯƠNG V. SƠ ĐỒ VÀ BẢN VẼ GIAO DIỆN CHI TIẾT (UI WIREFRAMES)
 
-1. **Bảng màu Tailored HSL Palette**:
-   - `Primary Brand`: `hsl(222, 74%, 40%)` (Xanh hải quân đậm, tạo sự tin cậy chuyên nghiệp).
-   - `Background`: `hsl(220, 20%, 97%)` (Xám ghi sáng dịu mắt cho việc nhập liệu lâu dài).
-   - `Surface Glass`: `rgba(255, 255, 255, 0.85)` kết hợp `backdrop-filter: blur(12px)` (Hiệu ứng kính mờ Glassmorphism).
-   - `Accent Status`:
-     - *Thành công / Đạt*: `hsl(142, 72%, 29%)` (Xanh lá)
-     - *Cảnh báo / Đi trễ*: `hsl(38, 92%, 50%)` (Hổ phách)
-     - *Nguy cơ / Vắng học*: `hsl(0, 84%, 60%)` (Đỏ rực)
-     - *Thông tin*: `hsl(199, 89%, 48%)` (Xanh lam)
-
-2. **Typography System**:
-   - `Font Family`: Font sans-serif hiện đại Google Fonts (`Inter` cho dữ liệu số/bảng điểm, `Outfit` cho tiêu đề).
-   - `Heading 1 (Page Title)`: 28px / SemiBold (1.3 line-height)
-   - `Body / Cell Text`: 14px / Regular (1.5 line-height)
-   - `Badge Text`: 12px / Medium
-
-3. **Vi hiệu ứng & Phản hồi Tương tác (Micro-animations)**:
-   - Button Hover: Shift nhẹ Y -2px, hiệu ứng đổ bóng `box-shadow: 0 4px 12px rgba(0,0,0,0.1)`.
-   - Toast Notification: Hiệu ứng trượt từ trên xuống (Slide-in) trong 250ms với đường cong gia tốc `cubic-bezier(0.16, 1, 0.3, 1)`.
-
----
-
-### 5. Tiêu chuẩn Khả năng Truy cập UI/UX (Accessibility & WCAG 2.1 Level AA)
-
-1. **Độ Tương phản Màu sắc (Color Contrast Ratio)**:
-   - Tất cả văn bản chữ và icon đều đạt tỷ lệ tương phản tối thiểu `4.5:1` so với màu nền, giúp người lớn tuổi (Giáo viên, Phụ huynh) xem dễ dàng.
-2. **Điều hướng Bàn phím Nhanh (Keyboard Navigation)**:
-   - Hỗ trợ toàn bộ các phím tắt `Tab`, `Shift+Tab`, `Enter` và `Phím mũi tên` trong màn hình Sổ điểm (`GradebookPage`) giúp Giáo viên nhập điểm liên tục cho 45 học sinh mà không cần đụng chuột.
-3. **Thẻ Nhãn Ngữ nghĩa (Semantic HTML & ARIA Labels)**:
-   - Sử dụng đúng các thẻ `<main>`, `<nav>`, `<header>`, `<table>` và bổ sung thuộc tính `aria-label`, `aria-expanded` hỗ trợ trình đọc màn hình.
-
----
-
-## CHƯƠNG V. SƠ ĐỒ KIẾN TRÚC VÀ BẢN VẼ GIAO DIỆN CHI TIẾT (VISUAL DIAGRAMS & UI WIREFRAMES)
-
-### 1. Sơ đồ So sánh Kiến trúc Tương tác 3 Nền tảng (Platform Architecture Diagram)
-
-```mermaid
-graph TD
-    subgraph Desktop_WinForms ["Desktop Application (WinForms)"]
-        W1["C# .NET Executable (.exe)"] --> W2["Local WinForms DataGridView"]
-        W2 --> W3["Windows OS Direct Hardware Access"]
-        W3 --> W4["Direct Database Connection"]
-    end
-
-    subgraph Web_Platform ["Web Application Platform (Selected)"]
-        WB1["Web Browser (Chrome/Safari/Edge/Mobile)"] --> WB2["Single Page Application (SPA UI)"]
-        WB2 --> WB3["RESTful API Gateway / JWT Auth"]
-        WB3 --> WB4["PostgreSQL Database & Storage"]
-    end
-
-    subgraph Mobile_App ["Mobile Application"]
-        M1["Mobile Operating System (iOS / Android)"] --> M2["Native Touch UI (Flutter/React Native)"]
-        M2 --> M3["Device Sensors & Push Notification"]
-        M3 --> M4["Mobile API Service"]
-    end
-```
-
-### 2. Sơ đồ Luồng Hành trình Người dùng trên Giao diện Web (UI User Journey Flowchart)
+### 1. Sơ đồ Luồng Hành trình Người dùng trên Giao diện Web (User Journey Flowchart)
 
 ```mermaid
 flowchart LR
-    A["Đăng nhập Hệ thống (Login)"] --> B{"Xác thực JWT & Role"}
+    A["Đăng nhập Hệ thống (Login)"] --> B{"Xác thực Token & Role"}
     B -->|Admin Role| C["Admin Portal Dashboard"]
-    B -->|Teacher Role| D["Teacher Portal (Sổ điểm & Điểm danh)"]
+    B -->|GVCN Role| D1["GVCN Portal (Điểm danh & Duyệt đơn)"]
+    B -->|GVBM Role| D2["GVBM Portal (Sổ điểm & Khóa sổ)"]
     B -->|Student Role| E["Student Portal (GPA & TKB)"]
     B -->|Parent Role| F["Parent Portal (Sổ liên lạc & Học phí)"]
 
     C --> C1["Quản lý Tài khoản & Phân quyền"]
     C --> C2["Cấu hình Môn & Phân công Giảng dạy"]
 
-    D --> D1["Nhập điểm Thành phần & TBM"]
-    D --> D2["Điểm danh Chuyên cần Lớp CN"]
-    D1 --> D3["Khóa Sổ điểm Học kỳ"]
+    D1 --> D11["Điểm danh Chuyên cần Hàng ngày"]
+    D1 --> D12["Duyệt Đơn xin nghỉ học"]
+
+    D2 --> D21["Nhập điểm Thành phần & TBM"]
+    D2 --> D22["Khóa Sổ điểm Bộ môn"]
 
     E --> E1["Tra cứu Bảng điểm & GPA"]
     E --> E2["Xem Thời khóa biểu & Lịch thi"]
 
-    F --> F1["Nộp Đơn xin nghỉ học"]
-    F --> F2["Thanh toán Học phí & Xuất Biên lai"]
+    F --> F1["Nộp Đơn xin nghỉ học trực tuyến"]
+    F --> F2["Thanh toán Học phí & Xem Biên lai"]
 ```
 
-### 3. Bản vẽ Bố cục Giao diện Chi tiết (UI Layout Wireframes)
-
-#### 3.1. Bố cục Giao diện Quản trị & Giáo viên (Admin & Teacher Web Dashboard Wireframe)
+### 2. Bản vẽ Bố cục Giao diện Sổ điểm Giáo viên (Teacher Gradebook Wireframe)
 ```
 +-----------------------------------------------------------------------------------+
-| SCHOOL MANAGEMENT SYSTEM (SMS)              [Role: Teacher] [User: Nguyễn Văn A]   |
+| HE THONG QUAN LY TRUONG HOC (HTQLLH)        [Vai tro: GVBM] [User: Tran Quang Vinh] |
 +------------------+----------------------------------------------------------------+
-| NAV MENU         | DASHBOARD > SỔ ĐIỂM LỚP 10A1 > MÔN TOÁN                       |
+| MENU CHUC NANG   | SO DIEM DIEN TU > LOP 10A1 > MON TOAN                         |
 |                  +----------------------------------------------------------------+
-| - Tổng quan      | [Lớp: 10A1 v] [Môn: Toán v] [Học kỳ: HK1 v] [Nút Khóa Sổ Điểm] |
-| - Quản lý Học sinh+----------------------------------------------------------------+
-| - Sổ điểm        | STT | Mã HS  | Họ và Tên   | Miệng | 15p | 1 Tiết | GK  | CK  | TBM |
-| - Điểm danh      |-----+--------+-------------+-------+-----+--------+-----+-----+-----+
-| - Thời khóa biểu | 01  | HS0001 | Nguyễn Văn B| 8.5   | 9.0 | 8.0    | 8.5 | 9.0 | 8.7 |
-| - Học phí        | 02  | HS0002 | Trần Thị C  | 7.0   | 7.5 | 8.0    | 7.0 | 8.0 | 7.6 |
-| - Thống kê       | 03  | HS0003 | Lê Hoàng D  | 6.0   | 6.5 | 7.0    | 6.0 | 7.5 | 6.7 |
+| - Tong quan      | [Lop: 10A1 v] [Mon: Toan v] [Hoc ky: HK1 v]  [Nut Khoa So Diem]|
+| - Quan ly hoc sinh+----------------------------------------------------------------+
+| - So diem        | STT | Ma HS  | Ho va Ten   | Mieng | 15p | 1 Tiet | GK  | CK  | TBM |
+| - Diem danh      |-----+--------+-------------+-------+-----+--------+-----+-----+-----+
+| - Thoi khoa bieu | 01  | HS0001 | Nguyen Van A| 8.5   | 9.0 | 8.0    | 8.5 | 9.0 | 8.7 |
+| - Hoc phi        | 02  | HS0002 | Tran Thi B  | 7.0   | 7.5 | 8.0    | 7.0 | 8.0 | 7.6 |
+| - Thong ke       | 03  | HS0003 | Le Hoang C  | 6.0   | 6.5 | 7.0    | 6.0 | 7.5 | 6.7 |
 |                  +----------------------------------------------------------------+
-| [Đăng xuất]      | [Thêm Học Sinh] [Xuất Excel] [Xuất PDF] | Trang: < [1] 2 3 >     |
+| [Dang xuat]      | [Them Hoc Sinh] [Xuat Excel] [Xuat PDF]   | Trang: < [1] 2 3 > |
 +------------------+----------------------------------------------------------------+
 ```
 
-#### 3.2. Bố cục Giao diện Di động Sổ Liên Lạc (Parent Mobile Responsive Wireframe)
+### 3. Bản vẽ Bố cục Giao diện Mobile Sổ Liên Lạc Phụ Huynh (Parent Mobile Wireframe)
 ```
 +-----------------------------------+
-|  [=] SỔ LIÊN LẠC ĐIỆN TỬ   [noti] |
+|  [=] SO LIEN LAC DIEN TU   [noti] |
 +-----------------------------------+
-|  HỌC SINH: NGUYỄN VĂN B           |
-|  Lớp: 10A1 - Trường THPT HSU      |
+|  HOC SINH: NGUYEN VAN A           |
+|  Lop: 10A1 - Truong THPT HSU      |
 +-----------------------------------+
-|  [ GPA HK1: 8.7 ] (Học lực Giỏi)  |
+|  [ GPA HK1: 8.7 ] (Hoc luc: Gioi) |
 +-----------------------------------+
-|  THÔNG BÁO TỪ GVCN:               |
-|  - Đã có kết quả điểm thi Giữa Kỳ |
-|  - Thông báo đóng học phí HK1     |
+|  THONG BAO TU NHA TRUONG:         |
+|  - Ket qua kiem tra giua ky da co |
+|  - Thong bao dong hoc phi HK1     |
 +-----------------------------------+
-|  CHUYÊN CẦN THÁNG:                |
-|  [Có mặt: 22 ngày] [Vắng: 0 ngày] |
+|  CHUYEN CAN THANG:                |
+|  [Co mat: 22 buoi] [Vang: 0 buoi] |
 +-----------------------------------+
-|  HỌC PHÍ HỌC KỲ 1:                |
-|  Số tiền: 2.500.000 VNĐ           |
-|  Trạng thái: [ĐÃ THANH TOÁN]      |
+|  HOC PHI HOC KY 1:                |
+|  So tien: 2.500.000 VND           |
+|  Trang thai: [DA THANH TOAN]      |
 +-----------------------------------+
-| [Bảng Điểm] [Nghỉ Học] [Học Phí]  |
+| [Bang Diem] [Nghi Hoc] [Hoc Phi]  |
 +-----------------------------------+
-```
-
-#### 3.3. Bố cục Giao diện Trung tâm Báo cáo & Thống kê Ban Giám Hiệu (BGH Analytics Dashboard Wireframe)
-```
-+-----------------------------------------------------------------------------------+
-| SMS ADMIN PORTAL                            [Ban Giám Hiệu] [User: Hiệu trưởng]   |
-+------------------+----------------------------------------------------------------+
-| DÀN HÀNG THỐNG KÊ| [ Tổng Học sinh: 1,250 ] [ GVCN: 36 ] [ Tỷ lệ Chuyên cần: 98.4% ] |
-+------------------+----------------------------------------------------------------+
-| BIỂU ĐỒ PHỔ ĐIỂM | PHỔ ĐIỂM HỌC KỲ I (TOÀN TRƯỜNG)                                |
-| & CHUYÊN CẦN     |  Giỏi     [===================] 45%                             |
-|                  |  Khá      [=============] 35%                                     |
-| - Tổng quan BGH  |  Trung bình[====] 15%                                          |
-| - Giám sát vắng  |  Yếu/Kém  [=] 5%                                              |
-| - Phê duyệt điểm +----------------------------------------------------------------+
-| - Cấu hình chung | CẢNH BÁO HỌC SINH VẮNG > 20% TIẾT (CẦN XỬ LÝ)                   |
-|                  | 1. Nguyễn Văn X - Lớp 11A2 (Vắng 12 buổi) -> [Gửi Cảnh Báo PH]  |
-|                  | 2. Trần Văn Y   - Lớp 10A5 (Vắng 10 buổi) -> [Gửi Cảnh Báo PH]  |
-+------------------+----------------------------------------------------------------+
 ```
 
 ---
 
-## CHƯƠNG VI. NGUỒN TÀI LIỆU THAM KHẢO CHÍNH THỐNG (OFFICIAL REFERENCES)
+## CHƯƠNG VI. TÀI LIỆU THAM KHẢO
 
-### 1. Tài liệu Kỹ thuật & Frameworks Chính thống (Official Tech Documentation)
-1. **Microsoft Learn WinForms Documentation**: Microsoft Corporation.  
-   Link: [https://learn.microsoft.com/en-us/dotnet/desktop/winforms/](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/)
-2. **W3C Web Architecture & Standards (HTML5, CSS3, ECMAScript Specification)**: World Wide Web Consortium.  
-   Link: [https://www.w3.org/TR/](https://www.w3.org/TR/)
-3. **React.js Official Documentation**: Meta Open Source.  
-   Link: [https://react.dev/learn](https://react.dev/learn) (Xem bản tiếng Việt: [https://viblo.asia/p/reactjs-docs-phan-1-Qpmle74VKrd](https://viblo.asia/p/reactjs-docs-phan-1-Qpmle74VKrd))
-4. **Angular Developer Documentation**: Google LLC.  
-   Link: [https://angular.dev/docs](https://angular.dev/docs) (Tài liệu phiên bản v17: [https://v17.angular.io/docs](https://v17.angular.io/docs))
-5. **Vue.js Official Guide & API Reference**: Evan You & Vue Core Team.  
+1. **React.js Documentation**: Meta Open Source.  
+   Link: [https://react.dev/learn](https://react.dev/learn) (Bản tiếng Việt: [https://viblo.asia/p/reactjs-docs-phan-1-Qpmle74VKrd](https://viblo.asia/p/reactjs-docs-phan-1-Qpmle74VKrd))
+2. **Angular Documentation**: Google LLC.  
+   Link: [https://v17.angular.io/docs](https://v17.angular.io/docs)
+3. **Vue.js Official Guide**: Evan You & Vue Team.  
    Link: [https://vuejs.org/guide/introduction.html](https://vuejs.org/guide/introduction.html)
-
-### 2. Tiêu chuẩn Thiết kế UI/UX & Công cụ (UI/UX Design Standards & Tools)
-6. **Figma Help Center & Design System Manual**: Figma Inc.  
+4. **Figma Help Center**: Figma Inc.  
    Link: [https://help.figma.com](https://help.figma.com)
-7. **Google Material Design 3 (Stitch Design System)**: Google Design Guidelines.  
-   Link: [https://m3.material.io](https://m3.material.io)
-8. **Nielsen Norman Group (NN/g) - 10 Usability Heuristics for User Interface Design**: Jakob Nielsen.  
-   Link: [https://www.nngroup.com/articles/ten-usability-heuristics/](https://www.nngroup.com/articles/ten-usability-heuristics/)
-9. **Apple Human Interface Guidelines (HIG)**: Apple Inc.  
-   Link: [https://developer.apple.com/design/human-interface-guidelines](https://developer.apple.com/design/human-interface-guidelines)
+5. **Google Material Design 3**: Google LLC.  
+   Link: [https://m3.material.io/](https://m3.material.io/)
+6. **Apple Human Interface Guidelines**: Apple Inc.  
+   Link: [https://developer.apple.com/design/human-interface-guidelines/](https://developer.apple.com/design/human-interface-guidelines/)
+7. **WinForms Documentation**: Microsoft Learn.  
+   Link: [https://learn.microsoft.com/en-us/dotnet/desktop/winforms/](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/)
+8. **Mã nguồn dự án Phat-Trien-Du-An-Phan-Mem**: Tài liệu nội bộ nhóm thực hiện đề tài Xây dựng Hệ thống Quản lý Trường học.

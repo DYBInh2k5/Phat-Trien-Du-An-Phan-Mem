@@ -1,257 +1,329 @@
-# BrainStorm Tuần 4: Chuyên Đề Nghiên Cứu Kiến Trúc Phần Mềm & Thiết Kế Clean Architecture Hệ Thống Quản Lý Trường Học (SMS)
+# BrainStorm Tuần 4: Chuyên Đề Nghiên Cứu Kiến Trúc Phần Mềm & Thiết Kế Clean Architecture Hệ Thống Quản Lý Trường Học (HTQLLH)
 
-Tài liệu nghiên cứu chuyên sâu về Kiến trúc Phần mềm (Software Architecture), đánh giá so sánh giữa 5 mô hình kiến trúc tiêu biểu: **3-Layer Architecture**, **N-Layer Architecture**, **Clean Architecture**, **Event-Driven Architecture** và **Microservices Architecture**; phân tích ưu nhược điểm và thiết kế chi tiết mô hình Clean Architecture cho **Hệ thống Quản lý Trường học (School Management System - SMS)**.
-
----
-
-## CHƯƠNG I. MỤC TIÊU VÀ PHẠM VI NGHIÊN CỨU
-
-### 1. Mục tiêu
-Chuyên đề này được thực hiện nhằm đánh giá toàn diện các mô hình kiến trúc phần mềm từ truyền thống đến hiện đại. Kết quả nghiên cứu cung cấp luận cứ khoa học thực tiễn để nhóm chọn lựa giải pháp kiến trúc tối ưu nhất cho **Dự án Hệ thống Quản lý Trường học (SMS)**, đảm bảo tính bảo trì, khả năng mở rộng và dễ dàng kiểm thử Unit Test.
-
-### 2. Giới hạn và Phạm vi nghiên cứu
-Chuyên đề tập trung nghiên cứu và đối chiếu 5 mô hình kiến trúc phần mềm chính:
-- **3-Layer Architecture**: Kiến trúc 3 tầng truyền thống (Presentation - BLL - DAL).
-- **N-Layer Architecture**: Kiến trúc đa tầng mở rộng.
-- **Clean Architecture (Onion / Hexagonal Architecture)**: Kiến trúc sạch dựa trên Nguyên lý Đảo ngược Phụ thuộc (Dependency Inversion Principle - DIP).
-- **Event-Driven Architecture (EDA)**: Kiến trúc xử lý hướng sự kiện bất đồng bộ.
-- **Microservices Architecture**: Kiến trúc phân tán theo các dịch vụ độc lập.
-
-Các tiêu chí đối chiếu bao gồm: Độ phức tạp khởi tạo, mức độ phụ thuộc giữa các thành phần (Coupling), khả năng kiểm thử độc lập (Testability), khả năng mở rộng (Scalability), chi phí hạ tầng vận hành và độ phù hợp cho đồ án môn học.
+Tài liệu nghiên cứu chuyên sâu về Kiến trúc Phần mềm (Software Architecture), khảo sát và so sánh 5 mô hình kiến trúc tiêu biểu: **3-Layer Architecture**, **N-Layer Architecture**, **Clean Architecture**, **Event-Driven Architecture** và **Microservice Architecture**; nghiên cứu chuyên sâu nền tảng Backend **Node.js**, **Express.js**, cơ chế **Event Loop / Non-blocking I/O** và thiết kế chi tiết mô hình **Clean Architecture kết hợp Node.js & PostgreSQL** cho **Hệ thống Quản lý Trường học (HTQLLH)**.
 
 ---
 
-## CHƯƠNG II. NGHIÊN CỨU VÀ SO SÁNH 5 MÔ HÌNH KIẾN TRÚC PHẦN MỀM
+## BẢNG PHÂN CÔNG NHIỆM VỤ THÀNH VIÊN
 
-### 1. 3-Layer Architecture (Kiến trúc 3 Tầng Truyền thống)
-
-#### 1.1. Đặc điểm chung
-Kiến trúc 3 tầng phân chia hệ thống thành 3 lớp tuần tự xếp chồng lên nhau từ trên xuống dưới:
-- **Presentation Layer (Tầng Giao diện)**: Hiển thị UI và tiếp nhận tương tác người dùng.
-- **Business Logic Layer - BLL (Tầng Nghiệp vụ)**: Xử lý các quy tắc và tính toán nghiệp vụ.
-- **Data Access Layer - DAL (Tầng Truy xuất Dữ liệu)**: Tương tác trực tiếp với CSDL (SQL/PostgreSQL).
-
-#### 1.2. Hướng phụ thuộc & Đặc tính
-Hướng phụ thuộc đi trực tiếp từ trên xuống dưới: `Presentation` $\rightarrow$ `BLL` $\rightarrow$ `DAL` $\rightarrow$ `Database`.
-
-#### 1.3. Điểm mạnh và Hạn chế
-- **Điểm mạnh**: Dễ hiểu, cấu trúc đơn giản, tốc độ triển khai ban đầu rất nhanh cho dự án quy mô nhỏ.
-- **Hạn chế**:
-  - Mức độ phụ thuộc cao (High Coupling): Tầng BLL bị phụ thuộc cứng vào DAL và Database.
-  - Rất khó viết Unit Test độc lập cho Business Logic mà không cần kết nối với CSDL thật.
-  - Khi thay đổi CSDL hoặc cấu trúc bảng, các tầng trên bị ảnh hưởng dây chuyền.
+| STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
+| :---: | :--- | :--- | :---: |
+| 1 | **Võ Duy Bình** | Nghiên cứu 3-Layer Architecture và N-Layer Architecture; trình bày khái niệm, cấu trúc, nguyên lý hoạt động, ưu điểm, hạn chế và trường hợp sử dụng | 20% |
+| 2 | **Nguyễn Minh Quốc Bảo** | Nghiên cứu Event-Driven Architecture và Microservice Architecture; trình bày khái niệm, cấu trúc, cơ chế hoạt động, ưu điểm, hạn chế và trường hợp sử dụng | 20% |
+| 3 | **Trần Quang Vinh** | Nghiên cứu Node.js, Event Loop, Non-blocking I/O, Express.js, RESTful API; phân tích Node.js kết hợp Clean Architecture, đề xuất cấu trúc Backend và thực hiện phần kết luận | 20% |
+| 4 | **Võ Hoàng Sơn** | Xây dựng mục tiêu nghiên cứu, phạm vi nghiên cứu, giới hạn nghiên cứu; định hướng nội dung và thống nhất phạm vi báo cáo; rà soát nội dung báo cáo | 20% |
+| 5 | **Huỳnh Trung Tính** | Thực hiện so sánh 5 kiến trúc, phân tích lý do lựa chọn Clean Architecture; nghiên cứu sâu các thành phần, Dependency Rule, luồng xử lý và ví dụ áp dụng vào hệ thống quản lý trường học | 20% |
 
 ---
 
-### 2. N-Layer Architecture (Kiến trúc N Tầng Đa Lớp)
+## CHƯƠNG I: MỤC TIÊU VÀ PHẠM VI NGHIÊN CỨU
 
-#### 1.1. Đặc điểm chung
-Mở rộng từ kiến trúc 3 tầng bằng cách tách nhỏ các trách nhiệm thành các tầng trung gian chuyên biệt: `Presentation Layer`, `Service Layer`, `Business Logic Layer`, `Data Access Layer`, `DTO (Data Transfer Object) Layer` và `Infrastructure Layer`.
+### 1.1. Mục tiêu nghiên cứu
+Chuyên đề tập trung khảo sát và đánh giá 5 mô hình kiến trúc phần mềm phổ biến, gồm:
+- 3-Layer Architecture.
+- N-Layer Architecture.
+- Clean Architecture.
+- Event-Driven Architecture.
+- Microservice Architecture.
 
-#### 1.2. Điểm mạnh và Hạn chế
-- **Điểm mạnh**: Tách biệt trách nhiệm rõ ràng hơn 3-Layer, dễ quản lý mã nguồn khi số lượng chức năng tăng lên.
-- **Hạn chế**: Phát sinh quá nhiều mã nguồn trung gian (Boilerplate Code) để chuyển đổi dữ liệu giữa các tầng (Entity $\rightarrow$ DTO $\rightarrow$ View Model), độ phức tạp tăng nhưng chưa giải quyết triệt để sự phụ thuộc vào CSDL.
+Trên cơ sở so sánh các kiến trúc theo những tiêu chí như cấu trúc, phân tách trách nhiệm, khả năng bảo trì, kiểm thử, mở rộng và độ phức tạp triển khai, chuyên đề lựa chọn **Clean Architecture** để phân tích chuyên sâu.
 
----
+Sau khi xác định kiến trúc, chuyên đề nghiên cứu **Node.js** làm nền tảng phát triển backend và xem xét cách tổ chức backend Node.js kết hợp Express.js và PostgreSQL theo Clean Architecture.
 
-### 3. Clean Architecture / Onion Architecture (Kiến trúc Sạch - Đề xuất Chốt)
+### 1.2. Phạm vi nghiên cứu
+Phạm vi nghiên cứu gồm ba nội dung chính:
+- **Kiến trúc phần mềm**: Khảo sát cấu trúc, đặc điểm, ưu điểm, hạn chế và phạm vi áp dụng của 5 kiến trúc; thực hiện so sánh và lựa chọn kiến trúc phù hợp.
+- **Clean Architecture**: Phân tích cấu trúc các thành phần chính (Entities, Use Cases, Interface Adapters, Frameworks & Drivers), trách nhiệm của từng lớp, quy tắc phụ thuộc (Dependency Rule) và luồng xử lý một yêu cầu trong hệ thống.
+- **Node.js Backend**: Nghiên cứu Node.js ở vai trò nền tảng backend, bao gồm Event Loop, cơ chế non-blocking I/O, xử lý bất đồng bộ (async/await), Express.js, REST API và kết nối cơ sở dữ liệu PostgreSQL. Đồng thời phân tích cách đặt các thành phần Node.js vào cấu trúc Clean Architecture.
+- Các ví dụ minh họa được xây dựng dựa trên Hệ thống Quản lý Trường học, tập trung vào các nghiệp vụ học sinh, lớp học, môn học và điểm số.
 
-#### 3.1. Đặc điểm chung
-Do Robert C. Martin (Uncle Bob) đề xướng, dựa trên **Nguyên lý Đảo ngược Phụ thuộc (Dependency Inversion Principle - DIP)** trong SOLID. Kiến trúc sắp xếp các tầng theo mô hình các vòng tròn đồng tâm, trong đó **Domain Entities** và **Core Business Logic** nằm ở vị trí trung tâm tuyệt đối.
-
-#### 3.2. Hướng phụ thuộc & Quy tắc Vòng tròn (The Dependency Rule)
-Quy tắc cốt lõi: Mọi phụ thuộc mã nguồn chỉ được phép trỏ **từ ngoài vào trong**. Các tầng bên trong tuyệt đối không được biết tới sự tồn tại của các tầng bên ngoài.
-- `Entities (Core Domain)` $\leftarrow$ `Use Cases (Application)` $\leftarrow$ `Controllers / Presenters` $\leftarrow$ `Web / UI / PostgreSQL / External Services`.
-
-#### 3.3. Điểm mạnh và Hạn chế
-- **Điểm mạnh**:
-  - **Độc lập hoàn toàn với CSDL & Framework**: Có thể đổi CSDL (từ SQL Server sang PostgreSQL) hoặc đổi Framework Web mà không phải sửa 1 dòng code nghiệp vụ tính GPA nào.
-  - **Dễ dàng kiểm thử độc lập (Testability)**: Viết Unit Test phủ $100\%$ các hàm nghiệp vụ trong vài giây bằng cách Mock Data Access Interfaces.
-  - Mức độ phụ thuộc lỏng lẻo (Loose Coupling) tối đa.
-- **Hạn chế**: Cần thời gian thiết kế cấu trúc Interfaces và DTO ban đầu cho dự án.
+### 1.3. Giới hạn nghiên cứu
+- Chuyên đề tập trung vào phân tích kiến trúc và công nghệ nền tảng, không triển khai hệ thống dạng phân tán phức tạp ở giai đoạn đầu.
+- Trong 5 kiến trúc được khảo sát, Clean Architecture là kiến trúc được phân tích chuyên sâu; các kiến trúc còn lại chủ yếu phục vụ việc so sánh và lựa chọn.
 
 ---
 
-### 4. Event-Driven Architecture (EDA - Kiến trúc Dựa trên Sự kiện)
+## CHƯƠNG II: NGHIÊN CỨU VÀ PHÂN TÍCH CÁC KIẾN TRÚC PHẦN MỀM
 
-#### 4.1. Đặc điểm chung
-Kiến trúc kết nối các thành phần dựa trên việc phát hành (Publish) và tiêu thụ (Consume) các Sự kiện (Events) bất đồng bộ thông qua một Event Broker trung gian (Apache Kafka, RabbitMQ, Redis Pub/Sub).
+### 2.1. 3-Layer Architecture (Kiến trúc 3 Tầng)
 
-#### 4.2. Luồng hoạt động
-`Event Producer` $\rightarrow$ `Event Broker (Message Queue)` $\rightarrow$ `Event Consumers`.
+#### 2.1.1. Khái niệm & Cấu trúc
+3-Layer Architecture tổ chức ứng dụng thành 3 lớp tuần tự theo trách nhiệm:
+- **Presentation Layer**: Tiếp nhận thao tác từ người dùng và hiển thị kết quả.
+- **Business Logic Layer (BLL)**: Xử lý nghiệp vụ và các quy tắc của hệ thống.
+- **Data Access Layer (DAL)**: Thực hiện truy vấn và lưu trữ dữ liệu.
+Luồng xử lý cơ bản: `Presentation` $\rightarrow$ `Business Logic` $\rightarrow$ `Data Access` $\rightarrow$ `Database`.
 
-#### 4.3. Điểm mạnh và Hạn chế
-- **Điểm mạnh**: Phù hợp cho xử lý tác vụ nền thời gian thực (ví dụ: tự động gửi SMS/Email thông báo cho phụ huynh ngay khi giáo viên bấm điểm danh vắng học mà không làm treo màn hình).
-- **Hạn chế**: Khó theo dõi luồng dữ liệu (Debugging), khó duy trì tính nhất quán dữ liệu tức thời (Eventual Consistency).
-
----
-
-### 5. Microservices Architecture (Kiến trúc Vi dịch vụ)
-
-#### 5.1. Đặc điểm chung
-Phân chia ứng dụng monolith thành danh sách các dịch vụ nhỏ độc lập (Independent Services), mỗi dịch vụ quản lý một miền nghiệp vụ riêng (ví dụ: Auth Service, Student Service, Grade Service, Tuition Service) và sở hữu CSDL riêng biệt.
-
-#### 5.2. Điểm mạnh và Hạn chế
-- **Điểm mạnh**: Mở rộng quy mô độc lập từng dịch vụ (Horizontal Scaling), cho phép các team phát triển bằng các ngôn ngữ/công nghệ khác nhau.
-- **Hạn chế**: Độ phức tạp quản trị hạ tầng rất cao (Container Orchestration với Kubernetes, API Gateway, Service Mesh), chi phí máy chủ và vận hành quá lớn so với đồ án sinh viên.
+#### 2.1.2. Ưu điểm & Hạn chế
+- **Ưu điểm**: Cấu trúc đơn giản, dễ tiếp cận; phân tách trách nhiệm rõ ràng; phù hợp ứng dụng quy mô nhỏ và vừa; dễ tổ chức mã nguồn theo nhóm chức năng ban đầu.
+- **Hạn chế**: Business Logic bị phụ thuộc trực tiếp vào Data Access; khi nghiệp vụ phát triển lớn, lớp Business Logic dễ trở nên phức tạp; thay đổi công nghệ hạ tầng (đổi CSDL) có thể ảnh hưởng dây chuyền đến các lớp bên trên.
 
 ---
 
-### 6. Bảng So Sánh Tổng Hợp 5 Mô Hình Kiến Trúc (Comparative Architectural Matrix)
+### 2.2. N-Layer Architecture (Kiến trúc Đa Tầng)
 
-| Tiêu chí Đánh giá | 3-Layer | N-Layer | Clean Architecture (Selected) | Event-Driven (EDA) | Microservices |
+#### 2.2.1. Khái niệm & Cấu trúc
+N-Layer Architecture mở rộng cách phân lớp của 3-Layer bằng cách chia ứng dụng thành nhiều lớp chuyên biệt hơn:
+`Presentation` $\rightarrow$ `API` $\rightarrow$ `Application` $\rightarrow$ `Business` $\rightarrow$ `Data Access` $\rightarrow$ `Database`.
+Ngoài các lớp chính, hệ thống có thêm các thành phần như DTO (Data Transfer Object), Mapper, Authentication và Logging.
+
+#### 2.2.2. Ưu điểm & Hạn chế
+- **Ưu điểm**: Phân tách trách nhiệm chi tiết hơn 3-Layer; dễ mở rộng khi số lượng chức năng tăng; có thể tổ chức riêng DTO và Mapper; dễ thay đổi một thành phần nếu duy trì ranh giới tốt.
+- **Hạn chế**: Nhiều lớp làm tăng số lượng tệp và thành phần cần quản lý; luồng xử lý dài; việc chia lớp quá mức có thể tạo ra các lớp trung gian không cần thiết (Boilerplate code).
+
+---
+
+### 2.3. Clean Architecture (Kiến trúc Sạch)
+
+#### 2.3.1. Khái niệm & Cấu trúc
+Clean Architecture tổ chức hệ thống theo các vòng đồng tâm, trong đó quy tắc nghiệp vụ cốt lõi nằm ở trung tâm và độc lập hoàn toàn với các yếu tố bên ngoài như giao diện, framework và cơ sở dữ liệu.
+Bốn vòng tròn đồng tâm gồm:
+`Entities` $\rightarrow$ `Use Cases` $\rightarrow$ `Interface Adapters` $\rightarrow$ `Frameworks & Drivers`.
+
+- **Entities**: Chứa các quy tắc nghiệp vụ cốt lõi của miền bài toán (Domain Business Rules).
+- **Use Cases**: Thực hiện các nghiệp vụ cụ thể của hệ thống (Application Business Rules).
+- **Interface Adapters**: Chuyển đổi dữ liệu giữa Use Cases và các thành phần bên ngoài (Controllers, Repositories, Presenters).
+- **Frameworks & Drivers**: Chứa các công nghệ cụ thể như Web Framework (Express.js), Database (PostgreSQL) và các thư viện bên ngoài.
+
+#### 2.3.2. Dependency Rule (Quy tắc Phụ thuộc)
+Nguyên tắc quan trọng nhất: **Dependency chỉ được hướng từ bên ngoài vào bên trong**.
+Entities và Use Cases không được phụ thuộc trực tiếp vào Controller, Database hoặc Framework.
+Đối với Database, Use Case sử dụng một abstraction (Repository Interface), còn phần triển khai (Repository Implementation) nằm ở lớp ngoài cùng:
+`Use Case` $\rightarrow$ `Repository Interface` $\leftarrow$ `Repository Implementation` $\rightarrow$ `Database`.
+
+#### 2.3.3. Ưu điểm & Hạn chế
+- **Ưu điểm**: Tách biệt nghiệp vụ khỏi công nghệ; kiểm soát hướng phụ thuộc rõ ràng; kiểm thử Use Case độc lập cực kỳ thuận lợi; dễ dàng thay đổi Framework hoặc Database; phù hợp với hệ thống có nghiệp vụ học vụ phức tạp cần bảo trì lâu dài.
+- **Hạn chế**: Thiết kế phức tạp hơn mô hình phân lớp đơn giản; cần viết thêm Interface, DTO, Mapper; chi phí thiết kế ban đầu cao hơn.
+
+---
+
+### 2.4. Event-Driven Architecture (EDA - Kiến trúc Hướng Sự kiện)
+
+#### 2.4.1. Khái niệm & Các thành phần chính
+EDA tổ chức giao tiếp giữa các thành phần dựa trên Event (thông tin mô tả một sự kiện đã xảy ra, ví dụ `StudentMarkedAbsent`).
+- **Event Producer**: Phát Event sau khi một sự kiện xảy ra trong hệ thống.
+- **Event**: Dữ liệu mô tả sự kiện (chứa `studentId`, `classId`, `date`, `absenceType`).
+- **Event Broker**: Tiếp nhận và phân phối Event đến các bên đăng ký (Message Broker).
+- **Event Consumer**: Nhận và xử lý Event một cách độc lập.
+Luồng cơ bản: `Producer` $\rightarrow$ `Event` $\rightarrow$ `Broker` $\rightarrow$ `Consumers`.
+
+#### 2.4.2. Cơ chế hoạt động & Đánh giá
+- **Ví dụ trong trường học**: Sau khi giáo viên hoàn tất điểm danh, hệ thống phát sự kiện `StudentMarkedAbsent`. Event này đồng thời kích hoạt:
+  1. *Notification Service*: Gửi thông báo đến ứng dụng của phụ huynh.
+  2. *Statistics Service*: Cập nhật tỷ lệ chuyên cần của lớp.
+  3. *Audit Service*: Ghi nhật ký thao tác.
+- **Ưu điểm**: Giảm phụ thuộc trực tiếp; dễ dàng thêm Consumer mới mà không sửa Producer; rất phù hợp cho các tác vụ nền và xử lý bất đồng bộ.
+- **Hạn chế**: Luồng xử lý khó theo dõi hơn giao tiếp trực tiếp; gỡ lỗi phức tạp; xuất hiện tính nhất quán cuối cùng (Eventual Consistency); cần bổ sung hạ tầng message broker và chi phí vận hành.
+
+---
+
+### 2.5. Microservice Architecture (Kiến trúc Vi dịch vụ)
+
+#### 2.5.1. Khái niệm & Cấu trúc
+Microservice chia hệ thống thành nhiều dịch vụ nhỏ, tương đối độc lập, mỗi dịch vụ phụ trách một phạm vi nghiệp vụ riêng (Student Service, Subject Service, Grade Service, Notification Service, Authentication Service).
+Các thành phần hỗ trợ: API Gateway, Service Discovery, Message Broker, Database riêng biệt cho từng dịch vụ.
+
+#### 2.5.2. Ưu điểm & Hạn chế
+- **Ưu điểm**: Các Service có thể triển khai và mở rộng độc lập; giảm phạm vi ảnh hưởng khi sửa đổi một chức năng; cho phép các nhóm phát triển làm việc độc lập.
+- **Hạn chế**: Độ phức tạp vận hành rất cao; quản lý giao tiếp mạng giữa các service phức tạp; phát sinh vấn đề nhất quán dữ liệu phân tán; không phù hợp nếu quy mô hệ thống chưa đủ lớn để bù đắp chi phí vận hành.
+
+---
+
+### 2.6. Phân loại 3 Cấp độ Kiến trúc
+
+Năm kiến trúc trên không hoàn toàn nằm ở cùng một cấp độ so sánh:
+
+| Cấp độ | Kiến trúc | Vấn đề giải quyết |
+| :--- | :--- | :--- |
+| **Tổ chức bên trong ứng dụng** | 3-Layer, N-Layer, Clean Architecture | Phân chia trách nhiệm và kiểm soát phụ thuộc giữa các tầng mã nguồn |
+| **Giao tiếp giữa các thành phần** | Event-Driven Architecture | Cách thức các thành phần trao đổi thông tin bất đồng bộ |
+| **Chia và triển khai hệ thống** | Microservice Architecture | Cách chia hệ thống thành các dịch vụ độc lập có thể triển khai riêng biệt |
+
+Do đó, các kiến trúc có thể được kết hợp: chẳng hạn một dịch vụ có thể áp dụng Clean Architecture bên trong và sử dụng Event-Driven để xử lý thông báo gửi cho phụ huynh.
+
+---
+
+## CHƯƠNG III: SO SÁNH VÀ LỰA CHỌN KIẾN TRÚC
+
+### 3.1. Bảng So Sánh 5 Kiến Trúc Phần Mềm
+
+| Tiêu chí Đánh giá | 3-Layer | N-Layer | Clean Architecture (Chốt) | Event-Driven | Microservice |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Hướng Phụ thuộc** | Trên $\rightarrow$ Dưới | Trên $\rightarrow$ Dưới | **Ngoài $\rightarrow$ Trong (DIP)** | Hướng Sự kiện (Broker) | Phân tán độc lập |
-| **Khả năng Unit Test** | Khó | Trung bình | **Rất dễ (Tuyệt đối)** | Trung bình | Phức tạp (Integration) |
-| **Độc lập với Database** | Phụ thuộc | Phụ thuộc | **Độc lập hoàn toàn** | Độc lập | Độc lập từng dịch vụ |
-| **Độ phức tạp khởi tạo** | Thấp | Trung bình | **Trung bình** | Cao | Rất cao |
-| **Tốc độ phản hồi API** | Nhanh | Nhanh | **Nhanh (Tối ưu)** | Bất đồng bộ | Phụ thuộc mạng API |
-| **Chi phí Hạ tầng** | Thấp | Thấp | **Thấp (1 Server)** | Trung bình | Rất đắt (Cluster) |
-| **Khả năng Bảo trì** | Kém khi code lớn | Khá | **Xuất sắc** | Phức tạp | Xuất sắc từng service |
-| **Phù hợp cho Dự án SMS** | Tạm được | Phù hợp | **Tối ưu nhất** | Dùng cho Module Nhắc nhở | Quá phức tạp |
+| **Độ phức tạp** | Thấp | Trung bình | **Trung bình - cao** | Cao | Cao |
+| **Phân tách trách nhiệm** | Khá | Tốt | **Rất tốt** | Tốt | Rất tốt |
+| **Khả năng bảo trì** | Tốt | Tốt | **Rất tốt** | Khá | Tốt |
+| **Khả năng kiểm thử nghiệp vụ** | Khá | Tốt | **Rất tốt** | Khá | Tốt |
+| **Mức độ phụ thuộc** | Trung bình | Trung bình | **Thấp (DIP)** | Thấp giữa Producer/Consumer | Thấp giữa các Service |
+| **Khả năng mở rộng** | Khá | Tốt | **Tốt** | Tốt | Rất tốt |
+| **Độ phức tạp vận hành** | Thấp | Thấp - trung bình | **Thấp (Triển khai đơn khối)** | Trung bình - cao | Cao |
+| **Phù hợp với đồ án** | Tốt | Tốt | **Rất tốt (Tối ưu nhất)** | Bổ sung (Xử lý thông báo) | Thấp (Chi phí quá cao) |
+
+### 3.2. Lý do Lựa chọn Clean Architecture
+1. **Phù hợp với đặc điểm nghiệp vụ**: Hệ thống có nhiều nhóm nghiệp vụ học vụ (học sinh, lớp, môn, điểm số, điểm danh, học phí, tài khoản). Clean Architecture giúp tách các quy tắc nghiệp vụ cốt lõi khỏi giao diện Web và CSDL PostgreSQL.
+2. **Kiểm soát hướng phụ thuộc**: Dependency Rule bảo đảm Controller, Express.js và PostgreSQL không trở thành dependency của business logic.
+3. **Hỗ trợ bảo trì và mở rộng**: Khi thay đổi công thức tính điểm TBM hoặc điều kiện sửa điểm, chỉ cần thay đổi trong Use Case hoặc Entity mà không ảnh hưởng tầng Controller và Database.
+4. **Hỗ trợ kiểm thử (Testability)**: Các Use Case có thể được kiểm thử độc lập với CSDL thật bằng cách sử dụng các Mock/Fake Repository.
+5. **Phù hợp với quy mô dự án**: Clean Architecture cho phép duy trì một backend thống nhất (Modular Monolith) nhưng vẫn có ranh giới rõ ràng, tránh sự phức tạp vận hành mạng của Microservice.
 
 ---
 
-## CHƯƠNG III. THIẾT KẾ KIẾN TRÚC SẠCH (CLEAN ARCHITECTURE) CHO HỆ THỐNG (SMS ARCHITECTURE DESIGN)
+## CHƯƠNG IV: PHÂN TÍCH CHI TIẾT CLEAN ARCHITECTURE
 
-### 1. Sơ đồ Vòng tròn Đồng tâm Clean Architecture (Mermaid Diagram)
+### 4.1. Các Thành phần Chính
+1. **Entities**: Chứa quy tắc nghiệp vụ cốt lõi (Student, Teacher, Subject, Grade, Class, Tuition).
+2. **Use Cases**: Điều phối luồng nghiệp vụ phục vụ từng chức năng (EnterGrade, CalculateGPA, MarkAttendance, PayTuition).
+3. **Interface Adapters**: Chuyển đổi dữ liệu (Controller, Presenter, DTO, Repository Implementation).
+4. **Frameworks & Drivers**: Công nghệ cụ thể bên ngoài (Node.js runtime, Express.js framework, PostgreSQL database).
 
-```mermaid
-graph TD
-    subgraph Layer4 ["Frameworks, Drivers & External (Tầng Ngoài cùng)"]
-        UI["Web Portal UI (HTML5/CSS3/JS)"]
-        DB["PostgreSQL Database & Storage"]
-        PDF["PDF/Excel Export Engine"]
-        AUTH["JWT / Auth Provider"]
-    end
+### 4.2. Dependency Rule và Cơ chế Trừu tượng hóa (Abstraction)
+Thay vì: `Use Case` $\rightarrow$ `PostgreSQL`  
+Clean Architecture áp dụng:  
+`Use Case` $\rightarrow$ `IGradeRepository (Interface)` $\leftarrow$ `GradeRepositoryPostgreSQL` $\rightarrow$ `PostgreSQL`.
 
-    subgraph Layer3 ["Interface Adapters / Controllers"]
-        CTRL["API Controllers / Presenters"]
-        REPO_IMPL["Repository Implementations"]
-    end
-
-    subgraph Layer2 ["Application / Use Cases (Tầng Nghiệp vụ Ứng dụng)"]
-        UC1["CalculateGPAUseCase"]
-        UC2["RankAcademicStatusUseCase"]
-        UC3["LockGradeSheetUseCase"]
-        UC4["MarkAttendanceUseCase"]
-        REPO_INT["IRepository Interfaces"]
-    end
-
-    subgraph Layer1 ["Core Domain / Entities (Trung tâm Trực thuộc)"]
-        E1["Student Entity"]
-        E2["Grade Entity"]
-        E3["Attendance Entity"]
-        E4["Business Rules & Evaluation Rules"]
-    end
-
-    UI --> CTRL
-    DB --> REPO_IMPL
-    PDF --> CTRL
-    AUTH --> CTRL
-
-    CTRL --> UC1
-    CTRL --> UC2
-    CTRL --> UC3
-    CTRL --> UC4
-    REPO_IMPL --> REPO_INT
-
-    UC1 --> E1
-    UC1 --> E2
-    UC2 --> E2
-    UC2 --> E4
-    UC3 --> E2
-    UC4 --> E3
 ```
+                         Express.js
+                              │
+                              ▼
+                         Controller
+                              │
+                              ▼
+                          Use Case
+                         /        \
+                        ▼          ▼
+                    Entity    Repository Interface
+                                   ▲
+                                   │ implements
+                                   │
+                         Repository Implementation
+                                   │
+                                   ▼
+                              PostgreSQL
+```
+
+### 4.3. Ví dụ Luồng Xử lý Nghiệp vụ Nhập Điểm (EnterGrade)
+1. **Client**: Gửi request `POST /api/grades` với dữ liệu `{ studentId: 101, subjectId: 5, score: 8.5 }`.
+2. **Controller**: `GradeController` tiếp nhận request, kiểm tra định dạng đầu vào cơ bản và chuyển dữ liệu cho `EnterGradeUseCase`.
+3. **Use Case**: `EnterGradeUseCase` thực hiện:
+   - Kiểm tra học sinh và môn học tồn tại.
+   - Kiểm tra giáo viên có quyền nhập điểm cho lớp/môn này.
+   - Kiểm tra giá trị điểm hợp lệ ($0.0 \le \text{score} \le 10.0$).
+   - Kiểm tra trạng thái sổ điểm (chưa bị khóa).
+   - Gọi abstraction `IGradeRepository.save(grade)`.
+4. **Repository Implementation**: `GradeRepositoryPostgreSQL` thực thi câu lệnh SQL với PostgreSQL.
+5. **Kết quả**: Trả kết quả ngược lại Use Case $\rightarrow$ Controller $\rightarrow$ HTTP Response JSON cho Client.
 
 ---
 
-### 2. Sơ đồ Luồng Dữ liệu Tương tác (Data Flow Diagram - Grade Calculation Use Case)
+## CHƯƠNG V: NGHIÊN CỨU VÀ LỰA CHỌN CÔNG NGHỆ BACKEND
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Teacher as Giáo viên Bộ môn
-    participant UI as Web UI (Presenter)
-    participant Ctrl as GradeController
-    participant UC as CalculateGPAUseCase
-    participant Domain as Grade & Academic Rules
-    participant Repo as IGradeRepository
-    participant DB as PostgreSQL DB
+### 5.1. Tổng quan Node.js
+Node.js là một môi trường runtime cho phép thực thi JavaScript ở phía máy chủ, được xây dựng trên JavaScript Engine V8 của Google. Node.js cung cấp các API cần thiết để xử lý HTTP request, đọc ghi tệp, và kết nối CSDL, kết hợp hệ sinh thái npm phong phú.
 
-    Teacher->>UI: Nhập điểm thi Cuối kỳ (ví dụ: 9.0)
-    UI->>Ctrl: Submit Grade Data (POST /api/grades)
-    Ctrl->>UC: Execute(studentId, subjectId, scores)
-    UC->>Domain: CalculateTBM(scores) & EvaluateRank()
-    Domain-->>UC: Return TBM = 8.7 & Rank = "GIỎI"
-    UC->>Repo: SaveGrade(gradeEntity)
-    Repo->>DB: UPDATE grades SET score_tbm = 8.7 ...
-    DB-->>Repo: Success
-    Repo-->>UC: Confirm Saved
-    UC-->>Ctrl: Return GradeSummaryDTO
-    Ctrl-->>UI: Response 200 OK (Render Badge GIỎI)
-    UI-->>Teacher: Hiển thị Thông báo "Cập nhật thành công"
+Phân biệt vai trò các thành phần trong hệ thống:
+| Thành phần | Vai trò |
+| :--- | :--- |
+| **JavaScript** | Ngôn ngữ lập trình xuyên suốt từ Frontend đến Backend |
+| **Node.js** | Môi trường runtime thực thi JavaScript phía máy chủ |
+| **Express.js** | Framework xây dựng ứng dụng Web và RESTful API trên Node.js |
+| **PostgreSQL** | Hệ quản trị cơ sở dữ liệu quan hệ lưu trữ dữ liệu |
+
+### 5.2. Kiến trúc và Cơ chế Hoạt động của Node.js
+1. **Mô hình Event Loop & Non-blocking I/O**:
+   - Node.js sử dụng mô hình đơn luồng sự kiện (Single-Threaded Event Loop) kết hợp cơ chế non-blocking I/O.
+   - Khi một request cần truy vấn PostgreSQL, Node.js ủy quyền tác vụ I/O cho luồng nền và tiếp tục nhận các request khác trong thời gian chờ kết quả. Khi thao tác I/O hoàn thành, callback/Promise được đưa trở lại Event Loop để phản hồi cho client.
+2. **Xử lý Bất đồng bộ với async/await**:
+   - Giúp mã nguồn rõ ràng, tránh callback hell khi thực hiện các chuỗi truy vấn dữ liệu học vụ.
+
+### 5.3. Express.js và Vai trò Xây dựng RESTful API
+- **Route & Controller**: Định nghĩa các endpoint chuẩn REST (`GET /api/students`, `POST /api/grades`, `PUT /api/grades/:id`, `DELETE /api/students/:id`). Controller chỉ tiếp nhận request, gọi Use Case và trả response, không chứa công thức nghiệp vụ.
+- **Middleware**: Thực hiện các tác vụ dùng chung xuyên suốt: Authentication (xác thực JWT), Authorization (kiểm tra quyền RBAC), Request Validation, Logging và Error Handling tập trung.
+
+### 5.4. So Sánh Node.js với Spring Boot và ASP.NET Core
+
+| Tiêu chí | Node.js (Selected) | Spring Boot | ASP.NET Core |
+| :--- | :--- | :--- | :--- |
+| **Ngôn ngữ** | JavaScript / TypeScript | Java | C# |
+| **Môi trường thực thi** | Node.js Runtime (V8) | JVM | .NET Runtime |
+| **Xử lý bất đồng bộ** | Rất tốt (Event Loop non-blocking) | Tốt (Reactive/Virtual Threads) | Tốt (Async/Await Task) |
+| **Xây dựng REST API** | Rất nhanh, gọn nhẹ | Toàn diện, chuẩn doanh nghiệp | Toàn diện, hiệu năng cao |
+| **Hệ sinh thái** | npm (Khổng lồ) | Maven / Gradle | NuGet |
+| **Độ linh hoạt** | Rất cao | Trung bình (Nhiều cấu hình) | Khá |
+| **Phù hợp với dự án HTQLLH** | **Tối ưu nhất (Dùng chung JS với React)** | Tốt nhưng nặng | Tốt nhưng phức tạp hơn |
+
+### 5.5. Lý do Lựa chọn Node.js cho Dự án
+- **Đồng nhất ngôn ngữ**: Cho phép sử dụng JavaScript cho cả React Frontend và Backend.
+- **Phù hợp với các tác vụ I/O**: Hệ thống trường học chủ yếu đọc/ghi CSDL PostgreSQL và xử lý HTTP API, rất phù hợp với Non-blocking I/O của Node.js.
+- **Hệ sinh thái phong phú**: Thư viện `pg`, `jsonwebtoken`, `bcrypt`, `cors`, `dotenv` hỗ trợ đầy đủ.
+- **Phù hợp triển khai Docker**: Khởi động nhanh, tốn ít tài nguyên bộ nhớ so với JVM.
+
+### 5.6. Cấu trúc Thư mục Backend Node.js theo Clean Architecture
+Backend được tổ chức theo cấu trúc chuẩn Clean Architecture:
+
 ```
-
----
-
-### 3. Cấu trúc Tổ chức Thư mục Mã nguồn Clean Architecture (Folder Structure)
-
-```
-src/
-├── Core/                              # Tầng Trung tâm (Domain & Application)
-│   ├── Domain/                        # 1. Domain Entities & Business Rules
-│   │   ├── Entities/                  # Student, Grade, Class, Attendance
-│   │   └── ValueObjects/              # ScoreValue, AcademicRank, Semester
-│   └── Application/                   # 2. Use Cases & Interfaces
-│       ├── UseCases/                  # CalculateGPA, RankAcademic, MarkAttendance
-│       ├── Interfaces/                # IStudentRepository, IGradeRepository
-│       └── DTOs/                      # GradeRequestDTO, StudentResponseDTO
+school-management-nodejs/
+├── src/
+│   ├── entities/                      # Vòng 1: Domain Entities & Quy tắc cốt lõi
+│   │   ├── Student.js
+│   │   ├── Teacher.js
+│   │   ├── Grade.js
+│   │   └── Class.js
+│   │
+│   ├── use-cases/                     # Vòng 2: Nghiệp vụ ứng dụng
+│   │   ├── EnterGrade.js
+│   │   ├── CalculateGPA.js
+│   │   ├── MarkAttendance.js
+│   │   └── CreateStudent.js
+│   │
+│   ├── interfaces/                    # Vòng 3: Adapters chuyển đổi dữ liệu
+│   │   ├── controllers/
+│   │   │   ├── AuthController.js
+│   │   │   ├── StudentController.js
+│   │   │   └── GradeController.js
+│   │   └── repositories/              # Interface định nghĩa hợp đồng
+│   │       ├── IStudentRepository.js
+│   │       └── IGradeRepository.js
+│   │
+│   ├── infrastructure/                # Vòng 4: Công nghệ & Chi tiết cụ thể
+│   │   ├── database/
+│   │   │   └── postgres.js            # Kết nối PostgreSQL (pg Pool)
+│   │   └── repositories/              # Triển khai thao tác SQL thật
+│   │       ├── StudentRepositoryPostgreSQL.js
+│   │       └── GradeRepositoryPostgreSQL.js
+│   │
+│   ├── routes/                        # Định tuyến Express
+│   │   ├── authRoutes.js
+│   │   ├── studentRoutes.js
+│   │   ├── gradeRoutes.js
+│   │   └── index.js
+│   │
+│   └── app.js                         # Cấu hình Express App & Middleware
 │
-├── Infrastructure/                    # Tầng Hạ tầng & Dữ liệu (Outermost Layer)
-│   ├── Persistence/                   # PostgreSQL Data Access & Repositories
-│   │   ├── Repositories/              # StudentRepositoryImpl, GradeRepositoryImpl
-│   │   └── PostgreSQLContext.js       # Database Connection & Storage Store
-│   └── Services/                      # External Services (JWT, PdfExport, AuditLogger)
-│
-└── Presentation/                      # Tầng Giao diện & API Controllers
-    ├── Controllers/                   # AuthController, GradeController, AttendanceController
-    └── WebUI/                         # HTML5, CSS3, JS App Portal
-        ├── css/                       # Design System & Main CSS
-        └── js/                        # Frontend Controllers & View Renderers
+├── server.js                          # Composition Root: Khởi động Server & kết nối
+└── package.json
 ```
 
----
-
-## CHƯƠNG IV. ĐỀ XUẤT VÀ LỰA CHỌN PHƯƠNG ÁN KIẾN TRÚC CHO DỰ ÁN (SMS)
-
-### 1. Kết luận Phương án Công nghệ Chốt
-Nhóm quyết định lựa chọn **Mô hình Clean Architecture (Onion Architecture)** kết hợp với phong cách **Modular Monolith** làm giải pháp kiến trúc phần mềm chính thức cho **Hệ thống Quản lý Trường học (SMS)**.
-
-### 2. Luận cứ Khoa học cho Lựa chọn Clean Architecture
-
-1. **Bảo vệ Tuyệt đối Thuật toán Tính Điểm & Xếp loại Học lực**:
-   - Các quy tắc nghiệp vụ tính TBM, GPA hệ 10/4, xếp loại học lực theo Thông tư 22 nằm hoàn toàn ở tầng `Core Domain`. Không bị pha tạp với mã nguồn giao diện HTML/CSS hay câu lệnh SQL của PostgreSQL.
-2. **Khả năng Viết Unit Test Đạt $100\%$ Coverage**:
-   - Cho phép viết các kịch bản kiểm thử tự động cho toàn bộ Use Cases tính điểm mà không cần khởi động CSDL hay Server Web.
-3. **Dễ dàng Bảo trì & Mở rộng Chức năng**:
-   - Khi cần thay đổi giao diện hoặc đổi thư viện xuất PDF/Excel, lập trình viên chỉ cần thao tác ở tầng `Infrastructure` hoặc `Presentation` mà không ảnh hưởng tới logic hệ thống.
-4. **Phù hợp với Năng lực & Quy mô Đồ án**:
-   - Khắc phục sự phụ thuộc cứng của 3-Layer truyền thống nhưng không bị sa lầy vào độ phức tạp quản trị của Microservices.
+Theo định hướng này, hệ thống được triển khai ban đầu dưới dạng một Backend đơn khối (Modular Monolith) sử dụng Node.js + Express.js và PostgreSQL, mã nguồn được phân tách chặt chẽ theo Clean Architecture.
 
 ---
 
-## CHƯƠNG V. NGUỒN TÀI LIỆU THAM KHẢO CHÍNH THỐNG (OFFICIAL REFERENCES)
+## CHƯƠNG VI: KẾT LUẬN
 
-1. **The Clean Architecture Essay**: Robert C. Martin (Uncle Bob).  
+1. Báo cáo chuyên đề đã hoàn thành khảo sát và so sánh 5 kiến trúc phần mềm (3-Layer, N-Layer, Clean Architecture, Event-Driven, Microservice), đồng thời khẳng định Clean Architecture là giải pháp tối ưu nhất cho Hệ thống Quản lý Trường học.
+2. Clean Architecture bảo vệ các quy tắc nghiệp vụ học vụ cốt lõi khỏi sự phụ thuộc vào framework và CSDL, giúp việc bảo trì, mở rộng và kiểm thử tự động trở nên dễ dàng.
+3. Node.js kết hợp cùng Express.js và PostgreSQL là nền tảng công nghệ phù hợp nhất cho dự án, mang lại tốc độ phản hồi cao, khả năng xử lý I/O bất đồng bộ vượt trội và tính đồng nhất ngôn ngữ JavaScript toàn hệ thống.
+
+---
+
+## CHƯƠNG VII: TÀI LIỆU THAM KHẢO
+
+1. **The Clean Architecture**: Robert C. Martin (Uncle Bob).  
    Link: [https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-2. **Common Web Application Architectures Guide**: Microsoft Learn.  
-   Link: [https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures](https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures)
-3. **N-tier Architecture Style Guide**: Microsoft Azure Architecture Center.  
-   Link: [https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier)
-4. **What is Event-Driven Architecture?**: Amazon Web Services (AWS Architecture Center).  
-   Link: [https://aws.amazon.com/event-driven-architecture/](https://aws.amazon.com/event-driven-architecture/)
-5. **Microservices Pattern & Architecture Guide**: Chris Richardson.  
-   Link: [https://microservices.io](https://microservices.io)
-6. **Software Architecture Patterns & Dependency Inversion Principle**: Martin Fowler.  
+2. **Node.js Documentation**: OpenJS Foundation.  
+   Link: [https://nodejs.org/docs/latest/api/](https://nodejs.org/docs/latest/api/)
+3. **Express.js Guide**: StrongLoop & OpenJS Foundation.  
+   Link: [https://expressjs.com/](https://expressjs.com/)
+4. **Software Architecture Patterns Guide**: Martin Fowler.  
    Link: [https://martinfowler.com/architecture/](https://martinfowler.com/architecture/)
+5. **PostgreSQL Documentation**: PostgreSQL Global Development Group.  
+   Link: [https://www.postgresql.org/docs/](https://www.postgresql.org/docs/)
+6. **Mã nguồn dự án Phat-Trien-Du-An-Phan-Mem**: Tài liệu nội bộ nhóm thực hiện đề tài Xây dựng Hệ thống Quản lý Trường học.

@@ -17,11 +17,11 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 
 | STT | Thành viên & Vai trò | Phân hệ & Công việc phụ trách | Thư mục công việc trên GitHub |
 | :---: | :--- | :--- | :--- |
-| 1 | Võ Duy Bình (PM / Lead BA) | Quản lý tiến độ, Tài liệu SRS, UAT Test Plan, Báo cáo Tuần | [members/member1_PM_BA/](members/member1_PM_BA/) |
-| 2 | Thành viên 2 (Frontend Dev) | UI/UX Design System, Portal Layout & Dashboard UI | [members/member2_Frontend/](members/member2_Frontend/) |
-| 3 | Thành viên 3 (Backend & DB Architect) | Thiết kế PostgreSQL ERD, Clean Architecture, State Store & MockData | [members/member3_Backend_DB/](members/member3_Backend_DB/) |
-| 4 | Thành viên 4 (Logic & Security Dev) | JWT Auth, RBAC 5 Roles, Thuật toán tính GPA hệ 10/4, Sổ điểm điện tử | [members/member4_Logic_Security/](members/member4_Logic_Security/) |
-| 5 | Thành viên 5 (Modules Dev & QA) | Module Điểm danh, Học phí, Export Excel/PDF Engine & Unit Testing | [members/member5_Modules_QA/](members/member5_Modules_QA/) |
+| 1 | **Võ Duy Bình** (PM / Lead BA) | Quản lý tiến độ, Tài liệu SRS, Phân hệ Web UI/UX, Báo cáo Tuần | [members/member1_PM_BA/](members/member1_PM_BA/) |
+| 2 | **Nguyễn Minh Quốc Bảo** (Frontend & System Dev) | Nghiên cứu PostgreSQL, Event-Driven & Microservices, UI Portal | [members/member2_Frontend/](members/member2_Frontend/) |
+| 3 | **Trần Quang Vinh** (Backend & DB Architect) | Nghiên cứu Node.js Clean Architecture, Express REST API, Unit of Work | [members/member3_Backend_DB/](members/member3_Backend_DB/) |
+| 4 | **Võ Hoàng Sơn** (Logic & Security Dev) | Nghiên cứu WinForms Desktop, DIP & DI, Xác thực JWT & Phân quyền RBAC | [members/member4_Logic_Security/](members/member4_Logic_Security/) |
+| 5 | **Huỳnh Trung Tính** (Modules Dev & QA) | Nghiên cứu Clean Architecture chuyên sâu, PostgreSQL Guide, QA Unit Test | [members/member5_Modules_QA/](members/member5_Modules_QA/) |
 
 ---
 

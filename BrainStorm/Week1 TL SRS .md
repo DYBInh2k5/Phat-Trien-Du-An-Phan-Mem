@@ -1,6 +1,18 @@
-# BrainStorm Tuần 1: Phân Tích SRS - Hệ Thống Quản Lý Trường Học (School Management System - SMS)
+# BrainStorm Tuần 1: Phân Tích SRS - Hệ Thống Quản Lý Trường Học (HTQLLH / SMS)
 
-Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requirements Specification), xác định các Actors (Tác nhân tương tác), Ma trận Phân quyền (RBAC Matrix), các FC (Functional Categories / Feature Components - Phân hệ tính năng), Quy tắc Nghiệp vụ (Business Rules) và Căn cứ Pháp lý Tham khảo cho Hệ thống Quản lý Trường học.
+Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requirements Specification), xác định các Actors (Tác nhân tương tác), Ma trận Phân quyền (RBAC Matrix), các FC (Functional Categories / Feature Components - Phân hệ tính năng), Quy tắc Nghiệp vụ (Business Rules) và Căn cứ Pháp lý Tham khảo cho **Hệ thống Quản lý Trường học (HTQLLH)**.
+
+---
+
+## BẢNG PHÂN CÔNG NHIỆM VỤ THÀNH VIÊN
+
+| STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
+| :---: | :--- | :--- | :---: |
+| 1 | **Võ Duy Bình** | Trưởng nhóm (Project Lead): Khảo sát thực tế, chủ trì xây dựng tài liệu SRS, xác lập ma trận phân quyền RBAC và quản lý tiến độ chung | 20% |
+| 2 | **Nguyễn Minh Quốc Bảo** | Phân tích phân hệ Sổ điểm điện tử, Đánh giá học vụ và xây dựng các quy tắc tính điểm theo Thông tư 22/2021/TT-BGDĐT | 20% |
+| 3 | **Trần Quang Vinh** | Phân tích phân hệ Hồ sơ học sinh, Lớp học, Giảng dạy và Lập kế hoạch thời khóa biểu | 20% |
+| 4 | **Võ Hoàng Sơn** | Phân tích phân hệ Điểm danh & Chuyên cần, Đơn xin nghỉ học và Sổ liên lạc điện tử | 20% |
+| 5 | **Huỳnh Trung Tính** | Phân tích phân hệ Quản lý Học phí & Thu chi, Báo cáo thống kê, rà soát Use Cases và ma trận RTM | 20% |
 
 ---
 

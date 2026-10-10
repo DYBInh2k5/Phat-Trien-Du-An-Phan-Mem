@@ -1,178 +1,272 @@
-# BrainStorm Tuần 3: Chuyên Đề Nghiên Cứu Cơ Sở Dữ Liệu & Thiết Kế CSDL Hệ Thống Quản Lý Trường Học (SMS)
+# BrainStorm Tuần 3: Chuyên Đề Nghiên Cứu Cơ Sở Dữ Liệu & Thiết Kế CSDL Hệ Thống Quản Lý Trường Học (HTQLLH)
 
-Tài liệu nghiên cứu chuyên sâu về công nghệ Cơ sở dữ liệu (Database Systems), đánh giá so sánh giữa 5 hệ CSDL tiêu biểu: **SQL Server**, **PostgreSQL**, **MySQL/MariaDB**, **Supabase** và **MongoDB**; phân tích ưu nhược điểm, mô hình lưu trữ và thiết kế sơ đồ CSDL ERD thực thể cho **Hệ thống Quản lý Trường học (School Management System - SMS)**.
+Tài liệu nghiên cứu chuyên sâu về công nghệ Cơ sở dữ liệu (Database Systems), khảo sát và đánh giá 5 giải pháp CSDL tiêu biểu: **Microsoft SQL Server**, **PostgreSQL**, **MySQL/MariaDB**, **Supabase** và **MongoDB**; hướng dẫn sử dụng chuyên sâu PostgreSQL và thiết kế sơ đồ CSDL ERD thực thể cho **Hệ thống Quản lý Trường học (HTQLLH)**.
+
+---
+
+## BẢNG PHÂN CÔNG NHIỆM VỤ THÀNH VIÊN
+
+| STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
+| :---: | :--- | :--- | :---: |
+| 1 | **Võ Duy Bình** | Khảo sát và phân tích Microsoft SQL Server, đánh giá ưu điểm, hạn chế và khả năng đáp ứng yêu cầu của hệ thống quản lý trường học | 20% |
+| 2 | **Nguyễn Minh Quốc Bảo** | Khảo sát và phân tích PostgreSQL, tập trung vào đặc điểm, ưu điểm, hạn chế và khả năng đáp ứng yêu cầu của hệ thống | 20% |
+| 3 | **Trần Quang Vinh** | Khảo sát và phân tích MySQL/MariaDB, Supabase và MongoDB, đồng thời tổng hợp đặc điểm và khả năng áp dụng của các giải pháp | 20% |
+| 4 | **Võ Hoàng Sơn** | Biên soạn Chương I, Chương V, tổng hợp kết quả khảo sát, rà soát và chuẩn hóa nội dung, hình thức báo cáo | 20% |
+| 5 | **Huỳnh Trung Tính** | Nghiên cứu chuyên sâu và hướng dẫn sử dụng PostgreSQL | 20% |
 
 ---
 
 ## CHƯƠNG I. MỤC TIÊU VÀ PHẠM VI NGHIÊN CỨU
 
 ### 1. Mục tiêu
-Chuyên đề này được thực hiện nhằm đánh giá toàn diện các hệ quản trị cơ sở dữ liệu quan hệ (RDBMS), cơ sở dữ liệu phi quan hệ (NoSQL) và nền tảng Backend-as-a-Service (BaaS). Kết quả nghiên cứu cung cấp luận cứ khoa học thực tiễn để nhóm chọn phương án CSDL tối ưu nhất cho **Dự án Hệ thống Quản lý Trường học (SMS)**.
+Chuyên đề này được thực hiện nhằm khảo sát, đánh giá và lựa chọn giải pháp Cơ sở Dữ liệu (CSDL) phù hợp cho đồ án "Xây dựng Hệ thống Quản lý Trường học". Trên cơ sở tài liệu đặc tả yêu cầu phần mềm (SRS) đã được xây dựng, chuyên đề tập trung nghiên cứu các giải pháp CSDL phổ biến, so sánh theo các tiêu chí kỹ thuật và thực tiễn, từ đó lựa chọn PostgreSQL để nghiên cứu chuyên sâu và áp dụng cho hệ thống.
 
-### 2. Giới hạn và Phạm vi nghiên cứu
-Chuyên đề tập trung nghiên cứu và đối chiếu 5 hệ quản trị cơ sở dữ liệu chính:
-- **Microsoft SQL Server**: Hệ CSDL quan hệ thương mại dành cho doanh nghiệp.
-- **PostgreSQL**: Hệ CSDL quan hệ đối tượng mã nguồn mở nâng cao.
-- **MySQL / MariaDB**: Hệ CSDL quan hệ mã nguồn mở phổ biến cho ứng dụng Web.
-- **Supabase**: Nền tảng BaaS phát triển dựa trên cơ sở dữ liệu PostgreSQL.
-- **MongoDB**: Hệ CSDL NoSQL hướng tài liệu (Document-Oriented Database).
+Cụ thể, chuyên đề hướng đến các mục tiêu sau:
+- Khảo sát 5 giải pháp CSDL tiêu biểu: Microsoft SQL Server, PostgreSQL, MySQL/MariaDB, Supabase và MongoDB.
+- So sánh và đánh giá các giải pháp trên các tiêu chí: Data Integrity, ACID, Performance, Security, Scalability, khả năng quản trị và chi phí.
+- Đối chiếu đặc điểm của từng giải pháp với các yêu cầu của hệ thống quản lý trường học, đặc biệt là dữ liệu có cấu trúc, tính toàn vẹn và độ an toàn cao.
+- Lựa chọn PostgreSQL và nghiên cứu chuyên sâu về kiến trúc, cách thức hoạt động, cài đặt, sử dụng và các chức năng quản trị cơ bản.
 
-Các tiêu chí đối chiếu bao gồm: Tính toàn vẹn giao dịch (ACID), khả năng ràng buộc khóa ngoại (Foreign Keys), hiệu năng xử lý truy vấn bảng điểm lớn, khả năng lưu trữ dữ liệu bán cấu trúc (JSON/JSONB), tính bảo mật và chi phí vận hành.
-
----
-
-## CHƯƠNG II. NGHIÊN CỨU VÀ SO SÁNH PHÂN TÍCH CHI TIẾT 5 HỆ QUẢN TRỊ CSDL
-
-### 1. Microsoft SQL Server (RDBMS Doanh nghiệp)
-
-#### 1.1. Đặc điểm chung & Tổng quan Kiến trúc
-Microsoft SQL Server là hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) hàng đầu dành cho doanh nghiệp do Microsoft phát triển, sử dụng ngôn ngữ truy vấn mở rộng T-SQL (Transact-SQL).
-
-![Kiến trúc tổng thể Microsoft SQL Server Engine](images/sql_server_architecture.jpg)
-
-#### 1.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
-1. **Cơ chế Lưu trữ Dữ liệu (Storage Engine Architecture)**:
-   - Sử dụng các tệp tin lưu trữ chính bao gồm `.mdf` (Master Data File), `.ndf` (Secondary Data File) và `.ldf` (Transaction Log File).
-   - Đơn vị lưu trữ cơ bản là trang dữ liệu **Page (8 KB)**. Tập hợp 8 trang dữ liệu liên tiếp hình thành một **Extent (64 KB)** giúp tối ưu hóa thao tác đọc/ghi I/O đĩa cứng.
-2. **Cơ chế Quản lý Bộ nhớ (Buffer Pool & Memory Management)**:
-   - **Buffer Pool**: Vùng nhớ RAM dành riêng để lưu trữ các trang dữ liệu (`Data Pages`) và trang chỉ mục (`Index Pages`).
-   - **Lazy Writer & Checkpoint**: Quá trình `Lazy Writer` liên tục dọn dẹp các trang nhớ ít dùng, trong khi tiến trình `Checkpoint` tự động đồng bộ các trang nhớ đã thay đổi (`Dirty Pages`) từ RAM xuống đĩa cứng để đảm bảo tính sẵn sàng.
-3. **Cơ chế Giao dịch & Ghi vết (Write-Ahead Logging - WAL)**:
-   - Áp dụng thuật toán phục hồi ARIES. Mọi thao tác ghi/sửa dữ liệu đều phải được ghi lại vào tệp nhật ký `Transaction Log (.ldf)` trước khi trang dữ liệu thực sự được ghi xuống tệp `.mdf`.
-4. **Tính năng Doanh nghiệp Nâng cao (Advanced Features)**:
-   - **In-Memory OLTP (Hekaton)**: Cho phép tạo các bảng tối ưu trực tiếp trong bộ nhớ RAM với các thủ tục lưu trữ biên dịch mã máy Native Compilation DLLs.
-   - **Columnstore Index**: Chỉ mục dạng cột phục vụ phân tích dữ liệu lớn và báo cáo BI.
-
-#### 1.3. Điểm mạnh và Hạn chế
-- **Điểm mạnh**: Độ ổn định cao, bảo mật doanh nghiệp xuất sắc, công cụ quản trị SSMS trực quan, xử lý giao dịch thương mại cực mạnh.
-- **Hạn chế**: Chi phí bản quyền thương mại đắt đỏ (Enterprise/Standard License), tốn nhiều tài nguyên RAM/CPU của Server, tối ưu nhất trên hệ điều hành Windows Server.
+### 2. Giới hạn nghiên cứu
+- **Khảo sát công nghệ CSDL**: Tập trung vào 5 giải pháp đại diện cho các hướng tiếp cận khác nhau (RDBMS: SQL Server, PostgreSQL, MySQL/MariaDB; BaaS: Supabase; NoSQL: MongoDB).
+- **Nghiên cứu chuyên sâu PostgreSQL**: Tập trung vào kiến trúc, cách hoạt động, cài đặt, quản trị, SQL, quan hệ giữa các bảng, ràng buộc, Transaction, Index, phân quyền và Backup/Restore.
+- **Bối cảnh đánh giá**: Mọi tiêu chí đánh giá được đặt trong bối cảnh hệ thống quản lý trường học với dữ liệu có cấu trúc chặt chẽ, yêu cầu cao về tính toàn vẹn, nhất quán và bảo mật.
+- **Phạm vi nghiên cứu**: Báo cáo khảo sát lý thuyết sử dụng các ví dụ về học sinh, lớp học, điểm số để minh họa cho các chức năng của PostgreSQL. Sau phần khảo sát, tài liệu mở rộng thiết kế ERD và schema triển khai thực tế cho dự án.
 
 ---
 
-### 2. PostgreSQL (RDBMS Mã nguồn mở Nâng cao - Đề xuất Chốt)
+## CHƯƠNG II. NGHIÊN CỨU CÁC CƠ SỞ DỮ LIỆU
 
-#### 2.1. Đặc điểm chung & Tổng quan Kiến trúc
-PostgreSQL là hệ quản trị cơ sở dữ liệu quan hệ đối tượng (ORDBMS) mã nguồn mở mạnh mẽ nhất thế giới, tuân thủ nghiêm ngặt chuẩn ANSI SQL và tính toàn vẹn ACID.
-
-![Kiến trúc tổng thể PostgreSQL Database Engine](images/postgresql_architecture.jpg)
-
-#### 2.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
-1. **Cơ chế Kiểm soát Đồng thời Đa phiên bản (MVCC - Multi-Version Concurrency Control)**:
-   - PostgreSQL không dùng khóa (Lock) cho thao tác đọc dữ liệu. Mỗi dòng dữ liệu (Tuple) lưu trữ các trường ẩn `xmin` (ID giao dịch tạo) và `xmax` (ID giao dịch xóa/sửa).
-   - Thao tác `UPDATE` thực chất là `INSERT` một bản sao mới và đánh dấu `xmax` cho bản sao cũ.
-   - **AutoVacuum Daemon**: Tự động dọn dẹp các dòng dữ liệu rác (`Dead Tuples`) và cập nhật bộ bản đồ độ hiển thị (`Visibility Map`).
-2. **Cơ chế Lưu trữ TOAST (The Oversized-Attribute Storage Technique)**:
-   - Khi một dòng dữ liệu vượt quá kích thước chuẩn $2\text{ KB}$ (như văn bản học bạ dài, JSONB lớn), PostgreSQL tự động kích hoạt cơ chế TOAST để nén và cắt nhỏ dữ liệu lưu vào bảng phụ TOAST chuyên biệt.
-3. **Hệ thống Chỉ mục Đa dạng (Advanced Indexing Engines)**:
-   - **B-Tree**: Chỉ mục mặc định cho các so sánh `=`, `<`, `>`.
-   - **GIN (Generalized Inverted Index)**: Chỉ mục đảo ngược cực mạnh dành riêng cho dữ liệu mảng (`Array`) và kiểu `JSONB` (tra cứu thuộc tính trong điểm số/audit log $< 1\text{ms}$).
-   - **GiST & BRIN**: Chỉ mục không gian và chỉ mục vùng khối cho dữ liệu chuỗi thời gian lớn.
-4. **Phân quyền Dòng dữ liệu (Row Level Security - RLS)**:
-   - Cho phép định nghĩa chính sách bảo mật chi tiết đến từng dòng trong bảng: Học sinh chỉ xem được dòng dữ liệu chứa `student_code` của chính mình.
-
-#### 2.3. Điểm mạnh và Hạn chế
-- **Điểm mạnh**:
-  - Miễn phí bản quyền $100\%$, mã nguồn mở hoàn toàn.
-  - Xử lý dữ liệu quan hệ phức tạp và dữ liệu phi cấu trúc (`JSONB`) với tốc độ vượt trội.
-  - Tính toàn vẹn dữ liệu ACID tuyệt đối, chống hỏng dữ liệu khi mất điện hoặc sự cố máy chủ.
-  - Hỗ trợ phân quyền bảng/dòng dữ liệu nâng cao (Row Level Security - RLS).
-- **Hạn chế**: Cấu hình tối ưu ban đầu cho các truy vấn phức tạp yêu cầu kiến thức DBA tốt.
+### 1. Tổng quan các trường phái và mô hình thiết kế dữ liệu
+- **CSDL quan hệ (RDBMS)**: Lưu trữ dữ liệu dưới dạng các bảng (Table) có cấu trúc cột/hàng cố định, các bảng liên kết với nhau qua khóa ngoại (Foreign Key), đảm bảo tính toàn vẹn tham chiếu và tuân thủ chuẩn ACID (Atomicity, Consistency, Isolation, Durability). Phù hợp với dữ liệu có quan hệ rõ ràng, cần độ chính xác cao.
+- **Nền tảng CSDL tích hợp dịch vụ (BaaS - Backend-as-a-Service)**: Cung cấp CSDL quan hệ đám mây đi kèm các dịch vụ tích hợp sẵn như Auto-generated REST/GraphQL API, Authentication, Realtime subscriptions và Row-Level Security. Giúp đơn giản hóa tầng Backend và kết nối trực tiếp với các framework Frontend hiện đại (React).
+- **CSDL phi quan hệ (NoSQL)**: Lưu trữ dữ liệu linh hoạt dưới dạng tài liệu (Document), cột (Column), khóa-giá trị (Key-Value) hoặc đồ thị (Graph), không bắt buộc lược đồ cố định (schema-less), ưu tiên khả năng mở rộng ngang (horizontal scaling) và tốc độ ghi/đọc với khối lượng dữ liệu lớn, biến động.
 
 ---
 
-### 3. MySQL / MariaDB (RDBMS Web Phổ biến)
-
-#### 3.1. Đặc điểm chung & Tổng quan Kiến trúc
-MySQL (thuộc Oracle) và MariaDB (bản rẽ nhánh mã nguồn mở) là các hệ quản trị CSDL quan hệ phổ biến nhất trong phát triển ứng dụng Web truyền thống (LAMP/LEMP stack).
-
-![Kiến trúc tổng thể MySQL InnoDB Storage Engine](images/mysql_innodb_architecture.jpg)
-
-#### 3.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
-1. **Kiến trúc Storage Engine Trừu tượng (Pluggable Storage Engine Architecture)**:
-   - Tách biệt tầng xử lý truy vấn SQL Parser với tầng lưu trữ đĩa cứng. Cho phép chọn lựa giữa các Engine: **InnoDB** (mặc định), **MyISAM**, **Memory**.
-2. **Cơ chế Lưu trữ InnoDB Engine**:
-   - **InnoDB Buffer Pool**: Vùng nhớ RAM lưu trữ Data Pages, Index Pages, Undo Pages và Change Buffer.
-   - **Doublewrite Buffer**: Tránh sự cố trang ghi dở dang (`Partial Page Write`) bằng cách ghi dữ liệu 2 lần xuống vùng đĩa nệm trước khi ghi vào tệp `.ibd`.
-3. **Hệ thống Nhật ký Giao dịch (Logging Mechanism)**:
-   - **Redo Log**: Tệp nhật ký vòng (Circular Log) phục vụ khôi phục dữ liệu (`Crash Recovery`).
-   - **Undo Log**: Lưu trữ bản sao dữ liệu cũ phục vụ Hủy bỏ giao dịch (`Rollback`) và cơ chế MVCC.
-   - **Binlog (Binary Log)**: Ghi lại các sự kiện DML/DDL phục vụ sao lưu nhân bản (`Replication`) và khôi phục theo thời điểm (PITR).
-4. **Cấu trúc Chỉ mục B+Tree (Clustered Index)**:
-   - Khóa chính (`Primary Key`) được lưu dưới dạng Clustered Index, nghĩa là dữ liệu thực tế của dòng nằm ngay tại các lá của cây B+Tree.
-
-#### 3.3. Điểm mạnh và Hạn chế
-- **Điểm mạnh**: Rất dễ cài đặt, cộng đồng hỗ trợ khổng lồ, tốc độ truy vấn đọc dữ liệu đơn giản (`SELECT`) cực nhanh.
-- **Hạn chế**: Khả năng xử lý kiểu dữ liệu JSON kém linh hoạt hơn PostgreSQL, các phép tính toán phức tạp hoặc Subquery lồng nhau xử lý chậm hơn.
+### 2. Microsoft SQL Server
+- **Đặc điểm chung**: Hệ quản trị CSDL quan hệ do Microsoft phát triển, sử dụng ngôn ngữ truy vấn T-SQL (Transact-SQL), vận hành ổn định trên cả Windows và Linux (từ phiên bản 2017 trở đi).
+- **Hệ sinh thái kỹ thuật**: Tích hợp chặt chẽ với bộ công cụ SQL Server Management Studio (SSMS) để quản trị trực quan; hỗ trợ mạnh cho hệ sinh thái .NET/C# thông qua Entity Framework, ADO.NET; có phiên bản đám mây Azure SQL Database cho phép mở rộng linh hoạt.
+- **Cơ chế kỹ thuật**: Trang dữ liệu chuẩn Page (8KB), Extent (64KB); Buffer Pool quản lý bộ nhớ; cơ chế Write-Ahead Logging (WAL) đảm bảo an toàn giao dịch; In-Memory OLTP và Columnstore Index phục vụ phân tích dữ liệu lớn.
+- **Điểm mạnh**: Bảo mật doanh nghiệp nâng cao (Always Encrypted, Row-Level Security, Transparent Data Encryption), công cụ backup/restore và giám sát hiệu năng (Query Store) trực quan.
+- **Hạn chế**: Chi phí bản quyền cho phiên bản Standard/Enterprise cao; phiên bản miễn phí SQL Server Express bị giới hạn dung lượng CSDL 10GB.
 
 ---
 
-### 4. Supabase (Backend-as-a-Service - BaaS)
-
-#### 4.1. Đặc điểm chung & Tổng quan Kiến trúc
-Supabase là nền tảng BaaS mã nguồn mở được coi là giải pháp thay thế Firebase, được phát triển trực tiếp trên nền cơ sở dữ liệu PostgreSQL.
-
-![Kiến trúc tổng thể Supabase Backend-as-a-Service Ecosystem](images/supabase_baas_architecture.jpg)
-
-#### 4.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
-1. **Cơ chế Tự động Khởi tạo REST API (PostgREST Engine)**:
-   - PostgREST tự động soi sơ đồ CSDL PostgreSQL (Tables, Views, Functions) và biên dịch trực tiếp các truy vấn HTTP RESTful sang câu lệnh SQL thuần với hiệu năng cực cao.
-2. **Cơ chế Lắng nghe Dữ liệu Thời gian thực (Realtime Server)**:
-   - Xây dựng trên ngôn ngữ Elixir/Phoenix, lắng nghe tệp Write-Ahead Log (WAL Logical Replication) của PostgreSQL để phát sự kiện qua kết nối WebSocket tới ứng dụng Web Client.
-3. **Xác thực & Bảo mật JWT (GoTrue & RLS Auth)**:
-   - Tích hợp dịch vụ GoTrue phát hành mã Token JWT. Sử dụng thuộc tính JWT Claims kết hợp trực tiếp với các chính sách Row Level Security (RLS) của PostgreSQL để kiểm soát quyền đọc/ghi dữ liệu.
-4. **Lưu trữ Tệp tin (Supabase Storage Engine)**:
-   - Quản lý tệp tin (ảnh đại diện, file PDF học bạ) lưu trên S3 Bucket tích hợp sẵn RLS để phân quyền truy cập.
-
-#### 4.3. Điểm mạnh và Hạn chế
-- **Điểm mạnh**: Tốc độ phát triển ứng dụng Web fullstack cực nhanh, tích hợp sẵn Auth & RLS security, không cần tự viết Backend API đơn giản.
-- **Hạn chế**: Phụ thuộc vào hạ tầng Cloud BaaS của bên thứ ba nếu dùng bản Cloud, giới hạn lưu trữ gói miễn phí.
+### 3. PostgreSQL
+- **Đặc điểm chung**: Hệ quản trị CSDL quan hệ - đối tượng (Object-Relational DBMS) mã nguồn mở, miễn phí hoàn toàn, được đánh giá cao về mức độ tuân thủ chuẩn ANSI SQL nghiêm ngặt và khả năng mở rộng kiểu dữ liệu phong phú (JSON, JSONB, mảng, hình học).
+- **Hệ sinh thái kỹ thuật**: Triển khai trên đa nền tảng (Linux, Windows, macOS, Docker container), tương thích tốt với nhiều ngôn ngữ lập trình (Node.js, Python, Java, C#) qua các driver và ORM phổ biến.
+- **Cơ chế kỹ thuật**:
+  - Kiểm soát đồng thời đa phiên bản (MVCC - Multi-Version Concurrency Control) giúp đọc và ghi không chặn lẫn nhau.
+  - Cơ chế lưu trữ TOAST tự động nén và cắt nhỏ các thuộc tính dữ liệu kích thước lớn.
+  - Hỗ trợ đa dạng chỉ mục: B-Tree, GIN (chuyên dụng cho mảng và JSONB), GiST, BRIN.
+  - Hỗ trợ Row-Level Security (RLS) cho phép bảo mật phân quyền đến từng dòng dữ liệu.
+- **Điểm mạnh**: Miễn phí $100\%$, mã nguồn mở, hiệu năng xử lý truy vấn quan hệ phức tạp xuất sắc, hỗ trợ kiểu JSONB lai giữa quan hệ và phi quan hệ, tuân thủ ACID nghiêm ngặt.
+- **Hạn chế**: Công cụ giao diện pgAdmin tiêu tốn RAM hơn so với SSMS; cần hiểu biết cấu hình để tối ưu tài nguyên cho các hệ thống lớn.
 
 ---
 
-### 5. MongoDB (NoSQL Document Store)
-
-#### 5.1. Đặc điểm chung & Tổng quan Kiến trúc
-MongoDB là hệ cơ sở dữ liệu NoSQL hướng tài liệu (Document-Oriented), lưu trữ dữ liệu dưới dạng các tài liệu BSON/JSON linh hoạt không cần lược đồ cố định (Schemaless).
-
-![Kiến trúc tổng thể MongoDB WiredTiger Architecture](images/mongodb_wiredtiger_architecture.jpg)
-
-#### 5.2. Các Cơ chế Kỹ thuật Chi tiết (Core Mechanisms)
-1. **Cơ chế Lưu trữ WiredTiger (WiredTiger Storage Engine)**:
-   - Sử dụng mô hình kiểm soát đồng thời không khóa (`Lock-free Concurrency`) ở cấp độ Document.
-   - Nén dữ liệu tự động bằng thuật toán Snappy hoặc Zlib giúp tiết kiệm không gian đĩa cứng từ $50\% - 70\%$.
-2. **Cơ chế Ghi vết Journaling**:
-   - Ghi nhận mọi thao tác thay đổi vào tệp nệm `Journal` trước khi đẩy xuống tệp dữ liệu chính để bảo vệ dữ liệu khi tắt nguồn đột ngột.
-3. **Cơ chế Sao lưu Nhân bản (Replica Sets & Oplog)**:
-   - Gồm nút Primary nhận thao tác Ghi và các nút Secondary đồng bộ dữ liệu qua tệp nhật ký `Oplog` (Operations Log) đảm bảo tính sẵn sàng cao (High Availability).
-4. **Cơ chế Phân tán Dữ liệu Hàng ngang (Sharding & mongos Router)**:
-   - Tiến trình `mongos` nhận truy vấn từ ứng dụng, tra cứu bản đồ dữ liệu tại `Config Servers` và định tuyến truy vấn đến đúng cụm đĩa `Shard` chứa dữ liệu qua khóa Shard Key.
-
-#### 5.3. Điểm mạnh và Hạn chế
-- **Điểm mạnh**: Linh hoạt thay đổi cấu trúc dữ liệu mà không cần chạy Migration CSDL, mở rộng hàng ngang (Horizontal Scaling) rất tốt cho Big Data.
-- **Hạn chế**:
-  - Không hỗ trợ ràng buộc Khóa ngoại (Foreign Keys) tự động.
-  - Dễ dẫn đến tình trạng trùng lặp dữ liệu (Denormalization).
-  - Nguy cơ sai lệch dữ liệu điểm số học sinh khi thực hiện các giao dịch liên hoàn (Multi-document Transactions).
+### 4. MySQL / MariaDB
+- **Đặc điểm chung**: Hai hệ quản trị CSDL quan hệ phổ biến nhất trong phát triển ứng dụng Web truyền thống, tuân thủ chuẩn SQL và sử dụng engine lưu trữ mặc định InnoDB hỗ trợ giao dịch ACID.
+- **Hệ sinh thái kỹ thuật**: Thành phần cốt lõi của LAMP/LEMP stack, hỗ trợ công cụ quản trị đa dạng như MySQL Workbench, phpMyAdmin, DBeaver.
+- **Cơ chế kỹ thuật**: Kiến trúc Pluggable Storage Engine (InnoDB, MyISAM, Memory); InnoDB Buffer Pool; Redo Log và Undo Log phục vụ khôi phục và rollback giao dịch.
+- **Điểm mạnh**: Miễn phí, mã nguồn mở, nhẹ, dễ cài đặt và cấu hình; cộng đồng hỗ trợ khổng lồ; truy vấn đọc đơn giản rất nhanh.
+- **Hạn chế**: Các tính năng bảo mật nâng cao và tối ưu hóa truy vấn phức tạp (subquery lồng nhau, JSON query nâng cao) chưa mạnh mẽ bằng PostgreSQL.
 
 ---
 
-### 6. Bảng So Sánh Tổng Hợp 5 Hệ CSDL (Comparative Analysis Matrix)
-
-| Tiêu chí Đánh giá | SQL Server | PostgreSQL (Selected) | MySQL / MariaDB | Supabase (BaaS) | MongoDB (NoSQL) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Mô hình Dữ liệu** | Relational (RDBMS) | **Object-Relational** | Relational (RDBMS) | **PostgreSQL BaaS** | Document (NoSQL) |
-| **Ràng buộc Khóa ngoại** | Chặt chẽ | **Chặt chẽ tuyệt đối** | Chặt chẽ (InnoDB) | **Chặt chẽ tuyệt đối** | Không có (Phải tự xử lý bằng code) |
-| **Tính toàn vẹn ACID** | Rất cao | **Rất cao (Chuẩn ANSI)** | Cao | **Rất cao** | Giới hạn theo Document |
-| **Xử lý Dữ liệu JSON** | Trung bình | **Tối ưu xuất sắc (`JSONB`)** | Trung bình | **Tối ưu xuất sắc** | Bản chất BSON/JSON |
-| **Chi phí Bản quyền** | Đắt (Doanh nghiệp) | **Miễn phí $100\%$** | Miễn phí | Miễn phí gói dev | Miễn phí bản Community |
-| **Tự động Sinh API** | Không có | Cần viết Backend API | Cần viết Backend API | **Có sẵn REST/GraphQL** | Cần viết Backend API |
-| **Phù hợp cho Dự án SMS** | Khá phù hợp | **Tối ưu nhất** | Phù hợp | **Rất phù hợp** | Không phù hợp |
+### 5. Supabase
+- **Đặc điểm chung**: Nền tảng mã nguồn mở thay thế cho Firebase, được xây dựng trực tiếp trên nền CSDL PostgreSQL, cung cấp giải pháp dữ liệu quan hệ đi kèm bộ công cụ lập trình hiện đại.
+- **Hệ sinh thái kỹ thuật**: Cung cấp CSDL PostgreSQL tích hợp tự động RESTful API (PostgREST) và GraphQL API, tích hợp dịch vụ Xác thực (Auth), Lưu trữ tệp (Storage) và Realtime Subscriptions; cung cấp SDK chính thức cho React.
+- **Điểm mạnh**: Tốc độ phát triển ứng dụng cực nhanh; kế thừa trọn vẹn độ tin cậy và tính toàn vẹn dữ liệu của PostgreSQL; hỗ trợ Row-Level Security trực quan.
+- **Hạn chế**: Gói miễn phí đám mây có giới hạn dung lượng và tạm ngưng dự án nếu không truy cập; nếu tự host bằng Docker đòi hỏi kỹ năng vận hành hạ tầng.
 
 ---
 
-## CHƯƠNG III. THIẾT KẾ CƠ SỞ DỮ LIỆU THỰC THỂ CHO HỆ THỐNG (SMS ERD & SCHEMA)
+### 6. MongoDB
+- **Đặc điểm chung**: Hệ quản trị CSDL NoSQL hướng tài liệu (Document-Oriented), lưu dữ liệu dưới định dạng BSON (Binary JSON), không yêu cầu lược đồ cố định (schema-less).
+- **Hệ sinh thái kỹ thuật**: Phổ biến trong các ứng dụng MERN stack (MongoDB, Express, React, Node.js), hỗ trợ mở rộng ngang dễ dàng qua Sharding và Replica Sets.
+- **Cơ chế kỹ thuật**: WiredTiger Storage Engine, nén dữ liệu Snappy, Journaling ghi vết giao dịch.
+- **Điểm mạnh**: Tốc độ ghi/đọc rất nhanh với dữ liệu phi cấu trúc hoặc cấu trúc thường xuyên biến đổi, phù hợp cho mạng xã hội, log hệ thống, chat.
+- **Hạn chế**: Do không hỗ trợ ràng buộc khóa ngoại và phép JOIN nguyên bản giữa các collection, việc đảm bảo tính toàn vẹn dữ liệu cho các nghiệp vụ học vụ (học sinh - lớp - môn - điểm số - học phí) đòi hỏi phải tự viết logic phức tạp ở tầng ứng dụng, tiềm ẩn rủi ro sai lệch dữ liệu.
 
-### 1. Sơ đồ Thực thể Mối quan hệ (Entity Relationship Diagram - ERD)
+---
+
+## CHƯƠNG III. SO SÁNH VÀ LỰA CHỌN CƠ SỞ DỮ LIỆU
+
+### 1. Đánh giá mức độ đáp ứng theo Yêu cầu Phi chức năng (SRS)
+Để làm cơ sở tham chiếu khoa học cho việc quyết định công nghệ ở giai đoạn triển khai, các giải pháp CSDL đã khảo sát được đối chiếu trực tiếp với các nhóm yêu cầu phi chức năng cốt lõi đã đặc tả trong SRS của hệ thống:
+1. **Yêu cầu Bảo mật và Phân quyền (Security)**: Phân quyền 5 vai trò (BGH, GVCN, GVBM, Học sinh, Phụ huynh) và bảo mật dữ liệu điểm số, thông tin cá nhân. PostgreSQL và SQL Server hỗ trợ mạnh mẽ cơ chế Role/Permission và Row-Level Security (RLS) đến từng dòng dữ liệu (ví dụ học sinh chỉ xem được dòng điểm của chính mình).
+2. **Yêu cầu Tính toàn vẹn dữ liệu (Data Integrity)**: Dữ liệu học vụ yêu cầu chính xác tuyệt đối, tuân thủ ACID. Các hệ quan hệ (PostgreSQL, SQL Server, MySQL) vượt trội nhờ ràng buộc Primary Key, Foreign Key, CHECK constraint (điểm số $0.0 - 10.0$), NOT NULL và UNIQUE.
+3. **Yêu cầu Giao dịch và Tính nhất quán (Transaction & ACID)**: Các thao tác lưu bảng điểm cả lớp 45 học sinh hoặc thu học phí phải nằm trong một giao dịch (BEGIN, COMMIT, ROLLBACK), đảm bảo tính nguyên tử (Atomicity).
+4. **Yêu cầu Hiệu năng và Tải hệ thống (Performance)**: Phản hồi API dưới 1 giây, xử lý tốt truy vấn JOIN nhiều bảng, GROUP BY và phân trang khi xuất danh sách học sinh.
+5. **Yêu cầu Khả năng mở rộng (Scalability)**: Hỗ trợ chỉ mục Index (B-Tree, GIN), partitioning bảng khi số lượng học sinh tăng qua các năm học.
+6. **Yêu cầu Tương thích và Tích hợp (Compatibility & Integration)**: Kết nối thuận tiện với ứng dụng Web Node.js/Express thông qua thư viện `pg`, hỗ trợ dữ liệu bán cấu trúc qua kiểu `JSONB`.
+
+---
+
+### 2. Bảng Tổng Hợp Đánh Giá 5 Giải Pháp CSDL theo Tiêu Chí SRS
+
+| Yêu cầu SRS | Nội dung yêu cầu | Giải pháp đáp ứng tốt | Cơ chế kỹ thuật |
+| :--- | :--- | :--- | :--- |
+| **Security** | Phân quyền người dùng, hạn chế truy cập và bảo vệ dữ liệu nhạy cảm | **PostgreSQL**, SQL Server, Supabase | Role/Permission; PostgreSQL hỗ trợ Row-Level Security (RLS); Supabase cung cấp RLS dựa trên PostgreSQL |
+| **Data Integrity** | Đảm bảo dữ liệu điểm số, điểm danh, học phí chính xác và nhất quán | **PostgreSQL**, SQL Server, MySQL/MariaDB | Primary Key, Foreign Key, UNIQUE, NOT NULL, CHECK Constraint; Transaction và ACID |
+| **Transaction & ACID**| Đảm bảo cập nhật dữ liệu không dở dang khi có lỗi (nhập điểm cả lớp, thu học phí) | **PostgreSQL**, SQL Server, MySQL/MariaDB | BEGIN, COMMIT, ROLLBACK; cơ chế Transaction và các thuộc tính ACID |
+| **Performance** | Truy vấn nhanh, xử lý tốt khi số lượng dữ liệu và người dùng tăng | **PostgreSQL**, SQL Server, MySQL/MariaDB | Index (B-Tree, GIN), Query Planner/Optimizer, JOIN, GROUP BY, phân trang Paging |
+| **Scalability** | Đáp ứng khi dữ liệu điểm số và học sinh tích lũy qua nhiều năm học | **PostgreSQL**, SQL Server, MongoDB | Index tối ưu, Table Partitioning, Connection Pooling |
+| **Compatibility** | Kết nối với ứng dụng Web Node.js và hỗ trợ các kiểu dữ liệu hiện đại | **PostgreSQL**, MySQL/MariaDB, Supabase | Driver `pg`, chuẩn SQL ANSI, kiểu `JSONB`; Supabase cung cấp SDK |
+
+---
+
+### 3. Phân tích và Lựa chọn PostgreSQL
+- **SQL Server**: Rất mạnh nhưng chi phí bản quyền thương mại đắt đỏ khi triển khai thực tế.
+- **MySQL/MariaDB**: Phổ biến nhưng xử lý JSON và tính năng bảo mật nâng cao không bằng PostgreSQL.
+- **MongoDB**: Không phù hợp với dữ liệu học vụ có nhiều mối quan hệ liên kết chặt chẽ.
+- **Supabase**: Rất thuận tiện và thực chất sử dụng PostgreSQL làm nền tảng CSDL cốt lõi.
+- **PostgreSQL**: Cân bằng tối ưu giữa tính toàn vẹn dữ liệu, giao dịch ACID, hiệu năng xử lý truy vấn phức tạp, bảo mật dòng dữ liệu RLS, hỗ trợ JSONB và hoàn toàn miễn phí mã nguồn mở.
+
+**Kết luận**: Nhóm thống nhất lựa chọn **PostgreSQL** làm hệ quản trị cơ sở dữ liệu chính thức cho Hệ thống Quản lý Trường học.
+
+---
+
+## CHƯƠNG IV. NGHIÊN CỨU VÀ HƯỚNG DẪN SỬ DỤNG POSTGRESQL
+
+### 1. Tổng quan Kiến trúc Client - Server của PostgreSQL
+PostgreSQL hoạt động theo mô hình Client - Server:
+- **Client**: Gửi câu lệnh SQL (`psql`, `pgAdmin`, ứng dụng backend Node.js).
+- **Parser**: Tiếp nhận, phân tích cú pháp câu lệnh SQL và kiểm tra tính hợp lệ.
+- **Planner / Optimizer**: Phân tích các phương án thực thi và chọn kế hoạch thực thi tối ưu nhất (sử dụng Index quét bảng hay tuần tự).
+- **Executor**: Thực thi kế hoạch truy vấn do Planner lựa chọn và truy xuất dữ liệu từ bộ nhớ hoặc đĩa cứng.
+- **Storage & WAL (Write-Ahead Logging)**: Lưu trữ dữ liệu thực tế trên đĩa và ghi nhận nhật ký giao dịch trước khi ghi dữ liệu nhằm phục hồi hệ thống khi gặp sự cố.
+
+### 2. Cài đặt và Quản trị Cơ bản
+
+#### 2.1. Cài đặt và Kiểm tra
+PostgreSQL hoạt động mặc định trên cổng `5432` (hoặc cấu hình cổng phụ `5434` nếu máy đã có service khác). Kiểm tra phiên bản bằng dòng lệnh PowerShell:
+```powershell
+psql --version
+# Kết quả: psql (PostgreSQL) 17.x
+```
+
+#### 2.2. Đăng nhập qua psql CLI
+```powershell
+psql -U postgres -p 5432
+# Sau khi nhập mật khẩu, dấu nhắc lệnh hiển thị: postgres=#
+```
+Các lệnh điều khiển hữu ích trong psql:
+- `\l`: Xem danh sách tất cả Database.
+- `\c <dbname>`: Kết nối đến một Database cụ thể.
+- `\dt`: Xem danh sách các bảng trong Schema hiện tại.
+- `\d <tablename>`: Xem cấu trúc chi tiết của một bảng.
+- `\q`: Thoát khỏi psql.
+
+#### 2.3. Sử dụng pgAdmin
+pgAdmin cung cấp giao diện đồ họa trực quan hỗ trợ: tạo Database, tạo bảng, nhập liệu trực quan, chạy truy vấn Query Tool, quản lý User/Role, xem kế hoạch thực thi EXPLAIN và thực hiện Backup/Restore.
+
+---
+
+### 3. Kiểu Dữ Liệu, Ràng Buộc & Thao Tác SQL Cơ Bản
+
+#### 3.1. Các kiểu dữ liệu phổ biến trong hệ thống
+| Kiểu dữ liệu | Ý nghĩa | Ví dụ trong hệ thống |
+| :--- | :--- | :--- |
+| `INTEGER` | Số nguyên 4 bytes | Sĩ số lớp, số tiết học |
+| `BIGINT` | Số nguyên lớn 8 bytes | Khóa chính tự tăng khi cần |
+| `VARCHAR(n)` | Chuỗi ký tự độ dài giới hạn | Mã học sinh, họ tên, email |
+| `TEXT` | Chuỗi văn bản độ dài không giới hạn | Nội dung thông báo, lý do nghỉ học |
+| `DATE` | Ngày tháng năm | Ngày sinh, ngày điểm danh |
+| `TIMESTAMP` | Ngày và giờ chính xác | Thời điểm tạo bản ghi, thời điểm đóng học phí |
+| `BOOLEAN` | Đúng / Sai (`TRUE`/`FALSE`) | Trạng thái khóa sổ điểm, tài khoản kích hoạt |
+| `NUMERIC(p, s)` | Số thập phân chính xác | Điểm số `NUMERIC(3, 1)`, số tiền học phí `NUMERIC(12, 2)` |
+| `JSONB` | Dữ liệu JSON định dạng nhị phân | Cấu hình môn học, nhật ký chỉnh sửa điểm (Audit Log) |
+
+#### 3.2. Các Ràng buộc Dữ liệu (Constraints)
+- **PRIMARY KEY**: Định danh duy nhất bản ghi (`student_id` hoặc `id UUID`).
+- **FOREIGN KEY**: Tham chiếu ràng buộc toàn vẹn quan hệ giữa các bảng.
+- **NOT NULL**: Bắt buộc phải có giá trị (họ tên học sinh, tên lớp).
+- **UNIQUE**: Không được trùng lặp (mã học sinh, email người dùng).
+- **CHECK Constraint**: Kiểm tra miền giá trị hợp lệ ngay tại tầng CSDL:
+  ```sql
+  CHECK (score_tbm >= 0.0 AND score_tbm <= 10.0)
+  ```
+
+#### 3.3. Thao tác CRUD Cơ bản
+```sql
+-- Thêm học sinh
+INSERT INTO students (student_code, full_name, dob, gender, class_id)
+VALUES ('HS0001', 'Nguyen Van A', '2008-05-15', 'Nam', 1);
+
+-- Truy vấn học sinh
+SELECT student_code, full_name FROM students WHERE class_id = 1;
+
+-- Cập nhật thông tin
+UPDATE students SET full_name = 'Nguyen Van Anh' WHERE student_code = 'HS0001';
+
+-- Xóa dữ liệu
+DELETE FROM students WHERE student_code = 'HS0001';
+```
+
+---
+
+### 4. Transaction và Chuẩn ACID
+Transaction là một nhóm thao tác được thực thi như một khối công việc duy nhất:
+- **Atomicity (Tính nguyên tử)**: Tất cả câu lệnh cùng thành công hoặc cùng bị hủy bỏ.
+- **Consistency (Tính nhất quán)**: Dữ liệu chuyển từ trạng thái hợp lệ này sang trạng thái hợp lệ khác, không vi phạm ràng buộc.
+- **Isolation (Tính cô lập)**: Các giao dịch đồng thời không gây sai lệch dữ liệu lẫn nhau.
+- **Durability (Tính bền vững)**: Dữ liệu sau khi COMMIT được lưu chắc chắn xuống đĩa cứng, không bị mất khi mất điện.
+
+Ví dụ nghiệp vụ thu học phí đảm bảo ACID:
+```sql
+BEGIN;
+  -- Bước 1: Ghi nhận thanh toán vào bảng giao dịch
+  INSERT INTO payment_transactions (student_id, amount, payment_method)
+  VALUES (101, 2500000, 'VIETQR');
+
+  -- Bước 2: Cập nhật trạng thái học phí
+  UPDATE tuition_bills SET status = 'PAID', paid_at = CURRENT_TIMESTAMP
+  WHERE student_id = 101 AND semester = 'HK1';
+COMMIT;
+-- Nếu có lỗi ở bước 2, hệ thống tự động ROLLBACK toàn bộ.
+```
+
+---
+
+### 5. Index & Tối Ưu Truy Vấn
+Tạo chỉ mục giúp tăng tốc độ tìm kiếm từ quét toàn bộ bảng (Seq Scan) sang quét chỉ mục (Index Scan):
+```sql
+CREATE INDEX idx_grades_student_subject ON grades (student_id, subject_id);
+```
+Kiểm tra hiệu năng truy vấn bằng lệnh `EXPLAIN ANALYZE`:
+```sql
+EXPLAIN ANALYZE
+SELECT * FROM grades WHERE student_id = 101 AND subject_id = 5;
+```
+
+---
+
+### 6. Phân Quyền User/Role và Sao Lưu Backup/Restore
+- **Tạo Role và Phân quyền**:
+  ```sql
+  CREATE ROLE school_app_user WITH LOGIN PASSWORD 'secure_password';
+  GRANT CONNECT ON DATABASE school_management TO school_app_user;
+  GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO school_app_user;
+  ```
+- **Sao lưu Backup bằng `pg_dump`**:
+  ```powershell
+  pg_dump -U postgres -d school_management -F p -f backup_school.sql
+  ```
+- **Khôi phục Restore**:
+  ```powershell
+  psql -U postgres -d school_management -f backup_school.sql
+  ```
+
+---
+
+## CHƯƠNG V. THIẾT KẾ CƠ SỞ DỮ LIỆU THỰC TẾ CHO HỆ THỐNG (HTQLLH ERD & SCHEMA)
+
+Sau khi hoàn thành khảo sát và nghiên cứu PostgreSQL, nhóm tiến hành thiết kế mô hình dữ liệu quan hệ hoàn chỉnh phục vụ triển khai phần mềm quản lý trường học.
+
+### 1. Sơ đồ Thực thể Mối quan hệ (ERD - Entity Relationship Diagram)
 
 ```mermaid
 erDiagram
@@ -273,8 +367,8 @@ erDiagram
 -- 1. Khởi tạo Bảng Roles & Users
 CREATE TABLE roles (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    role_code VARCHAR(20) UNIQUE NOT NULL,
-    role_name VARCHAR(50) NOT NULL
+    role_code VARCHAR(30) UNIQUE NOT NULL,
+    role_name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE users (
@@ -307,11 +401,19 @@ CREATE TABLE students (
     status VARCHAR(20) DEFAULT 'STUDYING'
 );
 
--- 3. Khởi tạo Bảng Sổ điểm Điện tử & Chỉ mục Hiệu năng
+-- 3. Khởi tạo Bảng Môn học
+CREATE TABLE subjects (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    subject_code VARCHAR(20) UNIQUE NOT NULL,
+    subject_name VARCHAR(100) NOT NULL,
+    weight_factor NUMERIC(2,1) DEFAULT 1.0
+);
+
+-- 4. Khởi tạo Bảng Sổ điểm Điện tử với Ràng buộc Tính toàn vẹn
 CREATE TABLE grades (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID REFERENCES students(id) ON DELETE CASCADE,
-    subject_id UUID NOT NULL,
+    subject_id UUID REFERENCES subjects(id),
     semester VARCHAR(10) NOT NULL,
     score_oral NUMERIC(3,1) CHECK (score_oral BETWEEN 0 AND 10),
     score_15min NUMERIC(3,1) CHECK (score_15min BETWEEN 0 AND 10),
@@ -324,35 +426,30 @@ CREATE TABLE grades (
     CONSTRAINT unique_student_subject_semester UNIQUE(student_id, subject_id, semester)
 );
 
--- Tối ưu chỉ mục truy vấn điểm số theo học sinh và học kỳ
+-- Tối ưu chỉ mục truy vấn điểm số
 CREATE INDEX idx_grades_student_semester ON grades(student_id, semester);
 ```
 
 ---
 
-## CHƯƠNG IV. ĐỀ XUẤT VÀ LỰA CHỌN PHƯƠNG ÁN CSDL CHO DỰ ÁN (SMS)
+## CHƯƠNG VI. KẾT LUẬN
 
-### 1. Kết luận Phương án Công nghệ Chốt
-Nhóm quyết định lựa chọn **Hệ Quản trị Cơ sở Dữ liệu PostgreSQL** (kết hợp nền tảng Cloud **Supabase** cho môi trường Web Development) làm giải pháp lưu trữ dữ liệu chính thức cho **Hệ thống Quản lý Trường học (SMS)**.
-
-### 2. Luận cứ Khoa học cho Lựa chọn PostgreSQL / Supabase
-1. **Bảo vệ Tuyệt đối Tính Toàn vẹn Điểm số**: Ràng buộc Khóa ngoại (Foreign Keys) và Ràng buộc Kiểm tra (`CHECK score BETWEEN 0 AND 10`) của PostgreSQL ngăn chặn triệt để dữ liệu rác hoặc điểm số bất hợp lệ.
-2. **Hiệu năng Xử lý Bảng điểm Quy mô lớn**: Hệ thống chỉ mục B-Tree giúp truy vấn bảng điểm sĩ số 45 học sinh và tính GPA toàn trường dưới $100\text{ms}$.
-3. **Lưu trữ Audit Log bằng `JSONB`**: Cho phép ghi nhận lịch sử chỉnh sửa điểm cũ/mới dạng JSON cực kỳ linh hoạt mà không cần tạo quá nhiều bảng phụ.
-4. **Miễn phí Bản quyền & Dễ dàng Triển khai Cloud**: Tiết kiệm tối đa chi phí phát triển cho đồ án môn học.
+1. Báo cáo chuyên đề đã hoàn thành mục tiêu khảo sát, phân tích và so sánh 5 giải pháp CSDL phổ biến (SQL Server, PostgreSQL, MySQL/MariaDB, Supabase, MongoDB) dựa trên các yêu cầu phi chức năng cốt lõi của Hệ thống Quản lý Trường học.
+2. PostgreSQL được chứng minh là lựa chọn tối ưu nhất nhờ khả năng bảo toàn toàn vẹn dữ liệu học vụ, hỗ trợ transaction ACID mạnh mẽ, bảo mật Row-Level Security, hỗ trợ kiểu JSONB và hoàn toàn miễn phí mã nguồn mở.
+3. Chuyên đề đã nghiên cứu và làm chủ các kỹ năng thực hành PostgreSQL (psql, pgAdmin, CRUD, Constraints, Transactions, Indexing, Roles và Backup/Restore), tạo nền tảng vững chắc để triển khai CSDL hoàn chỉnh cho dự án.
 
 ---
 
-## CHƯƠNG V. NGUỒN TÀI LIỆU THAM KHẢO CHÍNH THỐNG (OFFICIAL REFERENCES)
+## CHƯƠNG VII. TÀI LIỆU THAM KHẢO
 
-1. **PostgreSQL Official Documentation**: PostgreSQL Global Development Group.  
+1. **PostgreSQL Documentation**: PostgreSQL Global Development Group.  
    Link: [https://www.postgresql.org/docs/](https://www.postgresql.org/docs/)
-2. **Microsoft SQL Server Technical Documentation**: Microsoft Learn.  
-3. **MySQL Developer Documentation & Reference Manual**: Oracle Corporation.  
+2. **Microsoft SQL Server Documentation**: Microsoft Learn.  
+   Link: [https://learn.microsoft.com/en-us/sql/sql-server/](https://learn.microsoft.com/en-us/sql/sql-server/)
+3. **MySQL Documentation**: Oracle Corporation.  
    Link: [https://dev.mysql.com/doc/](https://dev.mysql.com/doc/)
-4. **MariaDB Knowledge Base & Documentation**: MariaDB Foundation.  
-   Link: [https://mariadb.org/documentation/](https://mariadb.org/documentation/)
-5. **Supabase Documentation & Architecture Manual**: Supabase Inc.  
+4. **Supabase Documentation**: Supabase Inc.  
    Link: [https://supabase.com/docs](https://supabase.com/docs)
-6. **MongoDB Manual & Architecture Guide**: MongoDB Inc.  
+5. **MongoDB Documentation**: MongoDB Inc.  
    Link: [https://www.mongodb.com/docs/](https://www.mongodb.com/docs/)
+6. **Mã nguồn dự án Phat-Trien-Du-An-Phan-Mem**: Tài liệu nội bộ nhóm thực hiện đề tài Xây dựng Hệ thống Quản lý Trường học.

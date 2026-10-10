@@ -10,15 +10,15 @@ Trưởng nhóm & Quản lý: **Võ Duy Bình (PM / Lead BA)**
 
 | Tuần | Tên Chuyên Đề / Hạng Mục Công Việc | Tài Liệu Báo Cáo (`BrainStorm/`) | Trạng Thái | Thành Viên Phụ Trách chính |
 | :---: | :--- | :--- | :---: | :--- |
-| **Tuần 1** | Phân tích Yêu cầu Phần mềm (SRS), RBAC 5 Roles, Business Rules & Legal Framework | [Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md) | **HOÀN THÀNH** | Võ Duy Bình (PM/BA) |
-| **Tuần 2** | Nghiên cứu UI/UX, Design System, Glassmorphism, TailwindCSS & Component Library | [Week2 UXUI .md](BrainStorm/Week2%20UXUI%20.md) | **HOÀN THÀNH** | Thành viên 2 (Frontend) |
-| **Tuần 3** | Nghiên cứu Cơ sở Dữ liệu PostgreSQL, Thiết kế ERD, DDL Schema & REST API Integration | [Week3 DB .md](BrainStorm/Week3%20DB%20.md) | **HOÀN THÀNH** | Thành viên 3 (Backend & DB) |
-| **Tuần 4** | Kiến trúc Phần mềm (Node.js Express + PostgreSQL Clean Architecture, DTOs & Services) | [Week4 KT .md](BrainStorm/Week4%20KT%20.md) | **HOÀN THÀNH (Tuần 4)** | Cả nhóm / Backend Lead |
-| **Tuần 5** | Design Patterns (MVC, Repository Pattern, Unit of Work, Dependency Injection) | [Week5 Pattern .md](BrainStorm/Week5%20Pattern%20.md) | **HOÀN THÀNH (Tuần 5)** | Cả nhóm |
-| **Tuần 6** | Export Engine Báo Báo (Xuất file Excel `.xlsx`, In ấn Học bạ / Biên lai PDF) | [Week6 Export .md](BrainStorm/Week6%20Export%20.md) | **HOÀN THÀNH (Tuần 6)** | Thành viên 5 (Modules/QA) |
-| **Tuần 7** | Xác thực & Bảo mật (JWT, Session Token, Node Auth, RBAC 5 Roles, CORS) | [Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md) | **HOÀN THÀNH (Tuần 7)** | Thành viên 4 (Security) |
-| **Tuần 8** | Ghi nhật ký hệ thống (Centralized Audit Logging - Vết lịch sử sửa điểm) | [Week8 Logging .md](BrainStorm/Week8%20Logging%20.md) | **HOÀN THÀNH (Tuần 8)** | Backend / Security |
-| **Tuần 9** | Kiểm thử Phần mềm (Unit Testing, Automated QA Test Suite) | [Week9 Testing .md](BrainStorm/Week9%20Testing%20.md) | **HOÀN THÀNH (Tuần 9)** | QA Lead / Member 5 |
+| **Tuần 1** | Phân tích Yêu cầu Phần mềm (SRS), RBAC 5 Roles, Business Rules & Legal Framework | [Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md) | **HOÀN THÀNH** | Võ Duy Bình (PM/Lead BA) |
+| **Tuần 2** | Nghiên cứu UI/UX, Design System, Glassmorphism, TailwindCSS & Component Library (Chuyên đề 1) | [Week2 UXUI .md](BrainStorm/Week2%20UXUI%20.md) | **HOÀN THÀNH** | Võ Duy Bình & Trần Quang Vinh |
+| **Tuần 3** | Nghiên cứu Cơ sở Dữ liệu PostgreSQL, Thiết kế ERD, DDL Schema & REST API (Chuyên đề 2) | [Week3 DB .md](BrainStorm/Week3%20DB%20.md) | **HOÀN THÀNH** | Nguyễn Minh Quốc Bảo & Huỳnh Trung Tính |
+| **Tuần 4** | Kiến trúc Phần mềm (Node.js Express + PostgreSQL Clean Architecture, Chuyên đề 3) | [Week4 KT .md](BrainStorm/Week4%20KT%20.md) | **HOÀN THÀNH (Tuần 4)** | Trần Quang Vinh & Huỳnh Trung Tính |
+| **Tuần 5** | Design Patterns (MVC/MVVM, Repository Pattern, Unit of Work, DI & DIP, Chuyên đề 4) | [Week5 Pattern .md](BrainStorm/Week5%20Pattern%20.md) | **HOÀN THÀNH (Tuần 5)** | Cả nhóm / Võ Hoàng Sơn |
+| **Tuần 6** | Export Engine Báo Cáo (Xuất file Excel `.xlsx`, In ấn Học bạ / Biên lai PDF) | [Week6 Export .md](BrainStorm/Week6%20Export%20.md) | **HOÀN THÀNH (Tuần 6)** | Huỳnh Trung Tính |
+| **Tuần 7** | Xác thực & Bảo mật (JWT, Session Token, Node Auth, RBAC 5 Roles, CORS) | [Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md) | **HOÀN THÀNH (Tuần 7)** | Võ Hoàng Sơn |
+| **Tuần 8** | Ghi nhật ký hệ thống (Centralized Audit Logging - Vết lịch sử sửa điểm) | [Week8 Logging .md](BrainStorm/Week8%20Logging%20.md) | **HOÀN THÀNH (Tuần 8)** | Trần Quang Vinh |
+| **Tuần 9** | Kiểm thử Phần mềm (Unit Testing, Automated QA Test Suite) | [Week9 Testing .md](BrainStorm/Week9%20Testing%20.md) | **HOÀN THÀNH (Tuần 9)** | Huỳnh Trung Tính & Cả nhóm |
 
 ---
 
