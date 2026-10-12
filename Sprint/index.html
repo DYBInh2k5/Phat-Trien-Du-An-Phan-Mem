@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTQLLH - Slide Thuyết Trình Đồ Án (Sprint Demo)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-light: #eff6ff;
+      --primary-dark: #1e40af;
+      --accent: #0284c7;
+      --success: #059669;
+      --success-light: #ecfdf5;
+      --warning: #d97706;
+      --warning-light: #fffbeb;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b1120;
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* TOP BAR CONTROLS */
+    .topbar {
+      height: 52px;
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      color: #94a3b8;
+      font-size: 13px;
+      z-index: 100;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .topbar-badge {
+      background: #1e3a8a;
+      color: #60a5fa;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid #2563eb;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-ctrl {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-ctrl:hover {
+      background: #334155;
+      color: #ffffff;
+      border-color: #475569;
+    }
+
+    .btn-ctrl.active {
+      background: #2563eb;
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+
+    .timer-badge {
+      font-family: 'JetBrains Mono', monospace;
+      background: #1e293b;
+      padding: 5px 10px;
+      border-radius: 6px;
+      color: #38bdf8;
+      font-weight: 600;
+      border: 1px solid #334155;
+    }
+
+    /* SLIDE STAGE */
+    .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 32px;
+      background: #0f172a;
+      position: relative;
+    }
+
+    .slide-wrapper {
+      width: 100%;
+      max-width: 1360px;
+      height: 100%;
+      max-height: 765px; /* 16:9 ratio */
+      background: var(--surface);
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      transition: transform 0.3s ease;
+    }
+
+    /* SLIDE HEADER & FOOTER */
+    .slide-header {
+      height: 48px;
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background: #fafafa;
+    }
+
+    .slide-header-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+    }
+
+    .slide-header-tag::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .slide-content {
+      flex: 1;
+      padding: 32px 40px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 16px;
+    }
+
+    .slide-footer {
+      height: 40px;
+      border-top: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: #fafafa;
+    }
+
+    /* TYPOGRAPHY */
+    .slide-title-main {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+    }
+
+    .slide-subtitle {
+      font-size: 14px;
+      color: #475569;
+      margin-top: 6px;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      font-size: 13px;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .card-body ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    /* TABLES */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .data-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .data-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      color: #334155;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    /* BADGES */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .badge-primary { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .badge-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+    .badge-warning { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .badge-danger  { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+    /* CALLOUT BOXES */
+    .callout {
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .callout-info {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      color: #1e3a8a;
+    }
+
+    .callout-success {
+      background: #ecfdf5;
+      border-left: 4px solid var(--success);
+      color: #064e3b;
+    }
+
+    .callout-warning {
+      background: #fffbeb;
+      border-left: 4px solid var(--warning);
+      color: #78350f;
+    }
+
+    /* IMAGES DISPLAY IN DEMO SLIDES */
+    .demo-container {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 20px;
+      align-items: center;
+      height: 100%;
+    }
+
+    .demo-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .demo-frame {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      background: #f8fafc;
+      position: relative;
+      max-height: 480px;
+    }
+
+    .demo-frame img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .demo-frame:hover img {
+      transform: scale(1.02);
+    }
+
+    .demo-caption {
+      padding: 8px 12px;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* SPEAKER NOTES DRAWER */
+    .notes-drawer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-top: 3px solid #2563eb;
+      padding: 18px 32px;
+      box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.5);
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 90;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .notes-drawer.open {
+      transform: translateY(0);
+    }
+
+    .notes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .notes-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #60a5fa;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .notes-content {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      font-style: italic;
+    }
+
+    /* PROGRESS BAR */
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: #1e293b;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* NAVIGATION BUTTONS ON SCREEN */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid #334155;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.2s;
+      z-index: 50;
+    }
+
+    .nav-btn:hover {
+      background: #2563eb;
+      border-color: #3b82f6;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .nav-prev { left: 8px; }
+    .nav-next { right: 8px; }
+
+    /* HIDE INACTIVE SLIDES */
+    .slide {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    /* MODAL FOR SLIDE OVERVIEW */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 900px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+    }
+
+    .modal-grid {
+      padding: 20px 24px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .modal-item {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      color: #e2e8f0;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .modal-item:hover, .modal-item.active {
+      background: #2563eb;
+      border-color: #3b82f6;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .modal-item-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .modal-item:hover .modal-item-num, .modal-item.active .modal-item-num {
+      color: #bfdbfe;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR CONTROLS -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span>HTQLLH</span>
+      <span class="topbar-badge">Sprint Review &amp; Prototype Demo</span>
+      <span style="font-weight: 400; font-size: 12px; color: #64748b;">| ĐH Hoa Sen (HSU)</span>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="timer-badge" id="timerDisplay">00:00</div>
+      <button class="btn-ctrl" id="btnToggleTimer" title="Bắt đầu / Dừng đếm giờ">Bắt đầu giờ</button>
+      <button class="btn-ctrl" id="btnToggleNotes" title="Bật/Tắt Lời Thoại Thuyết Trình (Phím N)">
+        Lời thoại (N)
+      </button>
+      <button class="btn-ctrl" id="btnOverview" title="Danh mục các Slide (Phím O / M)">
+        Tất cả slide
+      </button>
+      <button class="btn-ctrl" id="btnFullscreen" title="Toàn màn hình (Phím F)">
+        Toàn màn hình
+      </button>
+    </div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- SLIDE STAGE -->
+  <main class="stage">
+    <button class="nav-btn nav-prev" id="btnPrev" title="Slide trước (Mũi tên trái)">&#8592;</button>
+    <button class="nav-btn nav-next" id="btnNext" title="Slide tiếp (Mũi tên phải)">&#8594;</button>
+
+    <div class="slide-wrapper">
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 1: TRANG TIÊU ĐỀ                                                     -->
+      <!-- ========================================================================= -->
+      <section class="slide active" data-index="1">
+        <div class="slide-header">
+          <div class="slide-header-tag">Báo Cáo Đồ Án Phát Triển Dự Án Phần Mềm</div>
+          <div>Mã môn: SW320DV01 (3 Tín Chỉ)</div>
+        </div>
+        <div class="slide-content" style="justify-content: center; align-items: center; text-align: center; gap: 24px;">
+          <div class="badge badge-primary" style="font-size: 13px; padding: 6px 16px;">
+            KHOA CÔNG NGHỆ THÔNG TIN • ĐẠI HỌC HOA SEN (HSU)
+          </div>
+          <div>
+            <h1 class="slide-title-main" style="font-size: 40px; color: #1d4ed8; margin-bottom: 10px;">
+              HỆ THỐNG QUẢN LÝ LỚP HỌC &amp; HỌC VỤ (HTQLLH)
+            </h1>
+            <p style="font-size: 18px; color: #475569; font-weight: 500;">
+              Báo Cáo Tiến Độ Sprint: Từ Phân Tích SRS Đến Kiến Trúc &amp; Mẫu Thiết Kế (Design Patterns)
+            </p>
+            <p style="font-size: 14px; color: #059669; font-weight: 600; margin-top: 6px;">
+              Điểm Đột Phá: Hiện thực hóa Working Prototype chạy thực tế kết nối CSDL PostgreSQL
+            </p>
+          </div>
+
+          <div class="card" style="max-width: 720px; width: 100%; text-align: left; background: #f8fafc; border: 1px solid #cbd5e1;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13px;">
+              <div>
+                <p style="color: #64748b; font-weight: 600;">CHỦ NHIỆM ĐỀ TÀI / LEAD BA:</p>
+                <p style="font-size: 15px; font-weight: 800; color: #1e3a8a;">Võ Duy Bình (PM / Lead BA)</p>
+                <p style="color: #64748b; font-size: 12px;">Đại diện thuyết trình &amp; Điều phối kỹ thuật</p>
+              </div>
+              <div>
+                <p style="color: #64748b; font-weight: 600;">THÀNH VIÊN ĐỒ ÁN:</p>
+                <p style="font-weight: 600; color: #0f172a;">Nguyễn Minh Quốc Bảo • Trần Quang Vinh</p>
+                <p style="font-weight: 600; color: #0f172a;">Võ Hoàng Sơn • Huỳnh Trung Tính</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Học kỳ 1 (2025–2026)</div>
+          <div>Slide 1 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Kính thưa Thầy/Cô và các bạn, hôm nay nhóm chúng em xin đại diện báo cáo kết quả thực hiện đồ án Phát triển Dự án Phần mềm với đề tài: Hệ thống Quản lý Lớp học & Học vụ (HTQLLH). Bám sát chương trình đào tạo của lớp, báo cáo hôm nay sẽ trình bày trọn vẹn 5 cột mốc: Tài liệu SRS, Chuyên đề UI/UX, Cơ sở dữ liệu PostgreSQL, Kiến trúc phần mềm Clean Architecture và Mẫu thiết kế Design Patterns. Đặc biệt, nhóm em xin phép chứng minh năng lực triển khai thực tế khi đã chủ động đi trước tiến độ lý thuyết của lớp, hiện thực hóa toàn bộ thành phiên bản chạy thực tế (Working Prototype) có kết nối CSDL PostgreSQL thật để demo trực quan trước Thầy/Cô.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 2: BỐI CẢNH & MỤC TIÊU SPRINT                                        -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="2">
+        <div class="slide-header">
+          <div class="slide-header-tag">Tổng Quan Bài Toán &amp; Mục Tiêu</div>
+          <div>SW320DV01 • Sprint Review</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Bối Cảnh Nghiệp Vụ &amp; Mục Tiêu Sprint</h2>
+            <p class="slide-subtitle">Tin học hóa quản lý học đường và giải quyết các bài toán phân tán dữ liệu</p>
+          </div>
+
+          <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="card">
+              <div class="card-title">
+                <span>VẤN ĐỀ THỰC TIỄN TRƯỜNG HỌC</span>
+              </div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>Sổ sách rời rạc</strong>: Việc ghi điểm, điểm danh hàng ngày và duyệt đơn nghỉ học tại nhiều cơ sở còn phụ thuộc sổ giấy hoặc tệp Excel phân tán.</li>
+                  <li><strong>Sai lệch dữ liệu</strong>: Khi nhiều giáo viên cùng chỉnh sửa điểm số hoặc phụ huynh gửi đơn phép chậm trễ, dữ liệu tổng hợp dễ bị vênh.</li>
+                  <li><strong>Khó khăn phân quyền</strong>: Chưa có ranh giới bảo mật rõ ràng giữa thẩm quyền khóa sổ điểm của BGH và quyền nhập điểm của GV bộ môn.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--success);">
+                <span>MỤC TIÊU CỐT LÕI CỦA SPRINT</span>
+              </div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>Chuẩn hóa 5 Vai trò RBAC</strong>: Ban Giám Hiệu, Giáo viên Chủ nhiệm, Giáo viên Bộ môn, Học sinh và Phụ huynh.</li>
+                  <li><strong>Hệ thống 43 Use Cases</strong>: Xây dựng quy trình học vụ tuân thủ đúng chuẩn <strong>Thông tư 22/2021/TT-BGDĐT</strong>.</li>
+                  <li><strong>Lập hồ sơ 4 Chuyên đề học phần</strong>: UI/UX Web SPA, CSDL PostgreSQL 3NF, Clean Architecture và Mẫu thiết kế SOLID.</li>
+                  <li><strong>Hiện thực hóa Prototype</strong>: Đảm bảo phần mềm chạy được thực tế, không dừng ở mô hình lý thuyết.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <strong>Mô hình Phân quyền RBAC 5 Đối tượng:</strong> Hệ thống kiểm soát quyền hạn nghiêm ngặt theo nguyên tắc đặc quyền tối thiểu (Least Privilege), bảo đảm giáo viên bộ môn chỉ nhìn thấy lớp dạy của mình, GVCN theo dõi lớp chủ nhiệm, và BGH quản trị toàn quyền.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Trưởng nhóm: Võ Duy Bình</div>
+          <div>Slide 2 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Xuất phát từ thực tế chuyển đổi số giáo dục, việc quản lý sổ điểm, chuyên cần và liên lạc gia đình - nhà trường còn phân mảnh. Đề tài của nhóm hướng tới mục tiêu xây dựng một nền tảng học vụ chuẩn mực, kết nối thông suốt 5 đối tượng: Ban Giám Hiệu, GVCN, GV Bộ môn, Học sinh và Phụ huynh. Trong Sprint này, nhóm đặt mục tiêu không chỉ hoàn thiện toàn bộ hồ sơ phân tích kỹ thuật từ SRS đến Design Patterns, mà còn hiện thực hóa thành bản chạy thực tế để chứng minh tính khả thi tuyệt đối của đồ án.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 3: TIẾN ĐỘ TRÊN LỚP VS ĐIỂM ĐỘT PHÁ CỦA NHÓM                        -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="3">
+        <div class="slide-header">
+          <div class="slide-header-tag">So Sánh Tiến Độ &amp; Năng Lực Triển Khai</div>
+          <div>Sprint Milestones</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Tiến Độ Môn Học Trên Lớp &amp; Điểm Đột Phá Của Nhóm</h2>
+            <p class="slide-subtitle">Chủ động bứt phá đi trước tiến độ lý thuyết của học phần</p>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Hạng Mục Học Phần</th>
+                <th style="width: 35%;">Tiến Độ Giảng Dạy Trên Lớp</th>
+                <th style="width: 40%;">Mức Độ Hoàn Thiện Thực Tế Của Nhóm</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Phân Tích Yêu Cầu (SRS)</strong></td>
+                <td>Nộp tài liệu đặc tả chức năng, Use Case cơ bản</td>
+                <td><span class="badge badge-success">HOÀN TẤT 100%</span> 43 Use Cases, Ma trận CRUDAL, Căn cứ TT22</td>
+              </tr>
+              <tr>
+                <td><strong>2. Chuyên Đề 1 (UI/UX)</strong></td>
+                <td>Nghiên cứu lý thuyết UI, vẽ wireframe giấy/Figma</td>
+                <td><span class="badge badge-success">HOÀN TẤT 100%</span> Hoàn thiện Web SPA React 18, Pure Light Theme</td>
+              </tr>
+              <tr>
+                <td><strong>3. Chuyên Đề 2 (CSDL)</strong></td>
+                <td>Thiết kế lược đồ ERD, viết câu lệnh SQL mẫu</td>
+                <td><span class="badge badge-success">HOÀN TẤT 100%</span> Docker PostgreSQL 15, DDL 8 bảng, dữ liệu thật</td>
+              </tr>
+              <tr>
+                <td><strong>4. Chuyên Đề 3 (Kiến Trúc)</strong></td>
+                <td>Khảo sát các mô hình kiến trúc phần mềm</td>
+                <td><span class="badge badge-success">HOÀN TẤT 100%</span> Node.js Clean Architecture 4 tầng, Non-blocking I/O</td>
+              </tr>
+              <tr>
+                <td><strong>5. Chuyên Đề 4 (Design Patterns)</strong></td>
+                <td>Tìm hiểu mẫu MVC, Repository, Unit of Work</td>
+                <td><span class="badge badge-success">HOÀN TẤT 100%</span> Cài đặt Unit of Work, Repository, DI Composition Root</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout callout-success">
+            <strong>Điểm Khác Biệt Cốt Lõi:</strong> Trong khi tiến độ môn học trên lớp mới dừng lại ở việc nộp báo cáo nghiên cứu lý thuyết theo tuần, nhóm em đã chủ động ráp nối toàn bộ mã nguồn Frontend - Backend - Database thành một phiên bản <strong>Working Prototype hoàn chỉnh</strong>, sẵn sàng thao tác trực tiếp.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Đồng bộ: docs/KICH_BAN_DEMO.md</div>
+          <div>Slide 3 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Kính thưa Thầy/Cô, đây là bảng đối chiếu tiến độ mà nhóm muốn nhấn mạnh. Trên lớp, tiến độ bài học hiện đang ở giai đoạn hoàn thành các chuyên đề lý thuyết SRS, UI/UX, CSDL và Kiến trúc. Nhóm chúng em đã bám sát 100% các yêu cầu học thuật này nhưng chủ động làm nhanh hơn một bước: kết nối toàn bộ thành một hệ thống phần mềm sống thực sự, giúp Thầy/Cô có thể thẩm định trực quan các quyết định thiết kế của nhóm.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 4: TÀI LIỆU PHÂN TÍCH SRS & 43 USE CASES                            -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="4">
+        <div class="slide-header">
+          <div class="slide-header-tag">Hồ Sơ Yêu Cầu Phần Mềm</div>
+          <div>SRS Specification</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Phân Tích Yêu Cầu Phần Mềm (SRS &amp; 43 Use Cases)</h2>
+            <p class="slide-subtitle">Chuẩn hóa 7 phân hệ tính năng và căn cứ pháp lý Thông tư 22/2021/TT-BGDĐT</p>
+          </div>
+
+          <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="card">
+              <div class="card-title">FC-01 &amp; FC-02: TÀI KHOẢN &amp; HỒ SƠ</div>
+              <div class="card-body">
+                <ul>
+                  <li>Xác thực đăng nhập phân quyền RBAC 5 Roles.</li>
+                  <li>Quản lý hồ sơ học sinh, phân loại trạng thái học sinh (đang học, chuyển trường).</li>
+                  <li>Quản lý khối lớp, sĩ số quy chuẩn (35–45 em).</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">FC-03 &amp; FC-04: GIẢNG DẠY &amp; SỔ ĐIỂM</div>
+              <div class="card-body">
+                <ul>
+                  <li>Phân công giảng dạy, thời khóa biểu ma trận.</li>
+                  <li>Nhập điểm thành phần: Miệng, 15p, 1 tiết, HK.</li>
+                  <li>Tự động tính TBM và GPA hệ 10 và 4.</li>
+                  <li>Quy trình <strong>Khóa chốt sổ điểm 2 cấp</strong>.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">FC-05, FC-06, FC-07: CHUYÊN CẦN &amp; BÁO CÁO</div>
+              <div class="card-body">
+                <ul>
+                  <li>Điểm danh nề nếp hàng ngày &amp; theo tiết.</li>
+                  <li>Phụ huynh gửi đơn xin nghỉ học trực tuyến.</li>
+                  <li>Quản lý học phí &amp; xuất biên lai điện tử.</li>
+                  <li>Thống kê phổ điểm lớp, khối toàn trường.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <strong>Ma Trận Phân Quyền CRUDAL Chặt Chẽ:</strong>
+            Chỉ BGH có quyền Lock/Unlock sổ điểm toàn trường; GV Bộ môn chỉ có quyền nhập điểm cho lớp được phân công dạy; GVCN kiểm soát chuyên cần và phê duyệt đơn nghỉ học của lớp; Học sinh và Phụ huynh chỉ xem được dữ liệu cá nhân.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Tài liệu: BrainStorm/Week1 TL SRS .md | USE_CASES.md</div>
+          <div>Slide 4 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Về tài liệu SRS, nhóm đã nghiên cứu kỹ lưỡng Thông tư 22 của Bộ GD&ĐT để xây dựng 43 Use Cases chi tiết trong 7 phân hệ. Điểm then chốt là Ma trận phân quyền CRUDAL: Giáo viên bộ môn không thể tự ý sửa điểm của lớp khác; Giáo viên chủ nhiệm quản lý sĩ số và tiếp nhận đơn xin nghỉ học; trong khi Ban Giám Hiệu là cấp duy nhất có quyền khóa hoặc mở chốt sổ điểm, ngăn ngừa hoàn toàn nguy cơ sửa điểm trái phép.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 5: CHUYÊN ĐỀ 1 - NGHIÊN CỨU & THIẾT KẾ UI/UX                         -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="5">
+        <div class="slide-header">
+          <div class="slide-header-tag">Chuyên Đề 1</div>
+          <div>UI/UX &amp; Design System</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Chuyên Đề 1: Nghiên Cứu &amp; Thiết Kế UI/UX</h2>
+            <p class="slide-subtitle">Xây dựng giao diện Sáng chuẩn sư phạm trên nền tảng Web SPA React 18</p>
+          </div>
+
+          <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="card">
+              <div class="card-title">KHẢO SÁT 3 NỀN TẢNG CÔNG NGHỆ</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>WinForms / Desktop</strong>: Hiệu năng tốt nhưng phụ thuộc máy cài đặt Windows, không hỗ trợ phụ huynh dùng di động, chi phí bảo trì phân tán cao.</li>
+                  <li><strong>Mobile App thuần</strong>: Phù hợp cho phụ huynh nhưng quá bất tiện cho thầy cô khi thao tác bảng điểm lớn 45 cột.</li>
+                  <li><strong>Web SPA (React 18 + Vite)</strong>: <em>Lựa chọn tối ưu nhất</em>. Đáp ứng đa thiết bị (PC, tablet, mobile), tải trang tức thời, Virtual DOM mượt mà.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">TRIẾT LÝ PURE LIGHT THEME &amp; BỐ CỤC</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>Giao diện Sáng (Pure Light Theme)</strong>: Màu nền sạch, độ tương phản cao đạt chuẩn WCAG 2.1, bảo vệ thị lực giáo viên khi nhập điểm liên tục.</li>
+                  <li><strong>Loại bỏ râu ria rườm rà</strong>: Tinh giản các huy hiệu quảng cáo để dồn 100% diện tích cho dữ liệu học sinh, bảng điểm và thời khóa biểu.</li>
+                  <li><strong>Role Switcher thông minh</strong>: Cho phép chuyển đổi nhanh 5 vai trò trên cổng đăng nhập để kiểm tra phân quyền tức thì.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <strong>Bố Cục 3 Khối Chuẩn Hóa:</strong> Mọi trang đều tuân theo chuẩn Sidebar điều hướng cố định theo vai trò, Header ngữ cảnh tài khoản và Content Panel trung tâm cuộn độc lập.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Tài liệu: BrainStorm/Week2 UXUI .md | Chuyên Đề 1 UXUI.docx</div>
+          <div>Slide 5 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Ở Chuyên đề 1 về UI/UX, nhóm đã cân nhắc giữa Desktop WinForms, Mobile và Web SPA. Nhóm chọn Web Single Page Application với React 18 và TailwindCSS vì tính phổ biến và khả năng đáp ứng đa thiết bị. Về mặt thị giác, nhóm chọn phong cách Pure Light Theme hiện đại, loại bỏ các chi tiết trang trí thừa để giúp thầy cô tập trung tối đa vào số liệu học sinh mà không bị rối mắt.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 6: CHUYÊN ĐỀ 2 - CƠ SỞ DỮ LIỆU & LƯU TRỮ (POSTGRESQL)                -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="6">
+        <div class="slide-header">
+          <div class="slide-header-tag">Chuyên Đề 2</div>
+          <div>Database &amp; Storage Architecture</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Chuyên Đề 2: Cơ Sở Dữ Liệu &amp; Lưu Trữ (PostgreSQL)</h2>
+            <p class="slide-subtitle">Mô hình thực thể ERD 8 bảng chuẩn 3NF, bảo đảm toàn vẹn giao dịch ACID</p>
+          </div>
+
+          <div class="card-grid" style="grid-template-columns: 1.1fr 1fr;">
+            <div class="card">
+              <div class="card-title">MÔ HÌNH 8 BẢNG DỮ LIỆU CỐT LÕI (3NF)</div>
+              <div class="card-body">
+                <ul>
+                  <li><code class="badge badge-primary">users</code>: Quản lý tài khoản, mật khẩu băm, phân quyền vai trò.</li>
+                  <li><code class="badge badge-primary">classes</code> &amp; <code class="badge badge-primary">students</code>: Khối lớp và hồ sơ học sinh liên kết 1-N.</li>
+                  <li><code class="badge badge-primary">teachers</code> &amp; <code class="badge badge-primary">subjects</code>: Danh mục giáo viên, môn học &amp; phân công.</li>
+                  <li><code class="badge badge-primary">grade_books</code>: Bảng điểm chi tiết các cột thành phần, TBM, trạng thái khóa.</li>
+                  <li><code class="badge badge-primary">attendances</code>: Điểm danh chuyên cần theo ngày và tiết học.</li>
+                  <li><code class="badge badge-primary">leave_requests</code>: Đơn xin nghỉ học trực tuyến của phụ huynh.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">LÝ DO CHỌN POSTGRESQL TRONG DOCKER</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>Chuẩn ACID tuyệt đối</strong>: Dữ liệu điểm số và học phí đòi hỏi tính nhất quán cao, không cho phép mất mát giao dịch như NoSQL.</li>
+                  <li><strong>Ràng buộc toàn vẹn</strong>: Khóa ngoại <code>ON DELETE CASCADE</code> bảo đảm không sinh ra bản ghi mồ côi khi học sinh chuyển lớp.</li>
+                  <li><strong>Ràng buộc miền giá trị</strong>: Kiểm tra logic trực tiếp tại CSDL (<span class="badge badge-warning">0.0 &le; điểm &le; 10.0</span>).</li>
+                  <li><strong>Docker hóa</strong>: Khởi chạy nhất quán qua container, độc lập môi trường cài đặt.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <strong>Dữ Liệu Thật Được Nạp Sẵn:</strong> Container <code>htqllh_postgres</code> đã được nạp sẵn dữ liệu demo thực tế của trường THPT Hoa Sen, bao gồm danh sách lớp 10A1, giáo viên chủ nhiệm, bảng điểm và lịch sử điểm danh.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Tài liệu: BrainStorm/Week3 DB .md | database/schema.sql</div>
+          <div>Slide 6 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Tại Chuyên đề 2 về CSDL, nhóm chọn PostgreSQL 15 trong môi trường Docker Container độc lập. Dữ liệu học vụ đòi hỏi tính nhất quán tuyệt đối, vì vậy mô hình ERD 8 bảng đã được chuẩn hóa về 3NF. Các ràng buộc khóa ngoại và kiểm tra miền giá trị điểm số từ 0 đến 10 được thiết lập trực tiếp ở tầng CSDL để bảo vệ tính trong sạch của dữ liệu học vụ ngay từ tầng thấp nhất.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 7: CHUYÊN ĐỀ 3 - KIẾN TRÚC PHẦN MỀM (CLEAN ARCHITECTURE)              -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="7">
+        <div class="slide-header">
+          <div class="slide-header-tag">Chuyên Đề 3</div>
+          <div>Software Architecture</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Chuyên Đề 3: Kiến Trúc Phần Mềm (Clean Architecture)</h2>
+            <p class="slide-subtitle">Mô hình phân tầng độc lập kết hợp cơ chế Non-blocking I/O của Node.js</p>
+          </div>
+
+          <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="card">
+              <div class="card-title">SO SÁNH &amp; LỰA CHỌN KIẾN TRÚC</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>3-Layer truyền thống</strong>: Tầng Business Logic bị phụ thuộc ngược vào CSDL, khó thay đổi công nghệ.</li>
+                  <li><strong>Microservices</strong>: Quá phức tạp về giao tiếp mạng, phân tán CSDL và chi phí vận hành cho bài toán trường học.</li>
+                  <li><strong>Clean Architecture (Modular Monolith)</strong>: <em>Lựa chọn tối ưu nhất</em>. Tách biệt quy tắc nghiệp vụ khỏi Web Framework và CSDL; kiểm thử độc lập dễ dàng.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">CẤU TRÚC 4 PHÂN TẦNG CLEAN ARCHITECTURE</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>1. Entities (Domain Core)</strong>: Định nghĩa các thực thể học sinh, giáo viên, sổ điểm và công thức tính điểm TBM.</li>
+                  <li><strong>2. Use Cases / Services</strong>: Xử lý nghiệp vụ ứng dụng (nhập điểm, khóa sổ điểm, duyệt đơn nghỉ học).</li>
+                  <li><strong>3. Interface Adapters</strong>: Controllers và Repositories chuyển đổi dữ liệu giữa HTTP và CSDL.</li>
+                  <li><strong>4. Frameworks &amp; Drivers</strong>: Node.js Express API, PostgreSQL client.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <strong>Node.js Event Loop &amp; Non-blocking I/O:</strong> Xử lý đồng thời hàng trăm thao tác điểm danh và nhập điểm trong các giờ cao điểm mà không làm tắc nghẽn luồng xử lý chính.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Tài liệu: BrainStorm/Week4 KT .md | Chuyên đề 3 Kiến trúc.docx</div>
+          <div>Slide 7 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Ở Chuyên đề 3 về Kiến trúc, nhóm chọn Clean Architecture trên nền Node.js Express. Thay vì viết mã SQL trực tiếp trong các Route của Express, hệ thống chia thành 4 phân tầng độc lập. Áp dụng nguyên lý Dependency Rule một chiều hướng vào trung tâm giúp tầng nghiệp vụ tính điểm hoàn toàn độc lập với Express và PostgreSQL. Nếu sau này trường học muốn đổi CSDL sang một hệ thống khác, toàn bộ logic nghiệp vụ ở tầng Service hoàn toàn không bị ảnh hưởng.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 8: CHUYÊN ĐỀ 4 - MẪU THIẾT KẾ (DESIGN PATTERNS & SOLID)              -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="8">
+        <div class="slide-header">
+          <div class="slide-header-tag">Chuyên Đề 4</div>
+          <div>Design Patterns &amp; SOLID Principles</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Chuyên Đề 4: Mẫu Thiết Kế Phần Mềm (Design Patterns)</h2>
+            <p class="slide-subtitle">Phối hợp 6 mẫu và nguyên lý thiết kế hướng đối tượng trong mã nguồn thực tế</p>
+          </div>
+
+          <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="card">
+              <div class="card-title">1. MVC &amp; MVVM</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>MVC tách đôi</strong>: Controller &amp; Model ở Backend; View ở React SPA.</li>
+                  <li><strong>MVVM (React Hooks)</strong>: Quản lý UI state, inline validation dữ liệu bảng điểm trước khi gửi lệnh lưu.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">2. REPOSITORY &amp; UNIT OF WORK</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>Repository Pattern</strong>: Trừu tượng hóa thao tác SQL qua các Interface hướng đối tượng.</li>
+                  <li><strong>Unit of Work</strong>: Gom 45 bản ghi điểm cả lớp vào <strong>1 transaction duy nhất</strong>; lỗi 1 em thì rollback toàn bộ.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">3. DIP &amp; DEPENDENCY INJECTION</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>DIP (SOLID)</strong>: Module cấp cao không phụ thuộc module cấp thấp, cả hai phụ thuộc Abstraction.</li>
+                  <li><strong>Constructor Injection</strong>: Lắp ráp tại Composition Root (<code>server.js</code>), phân biệt vòng đời Singleton và Scoped.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-warning">
+            <strong>Bảo Vệ Tính Toàn Vẹn Bảng Điểm Bằng Unit of Work:</strong> Giáo viên lưu một lần 45 học sinh; nếu bản ghi thứ 40 bị lỗi mạng hoặc sai định dạng, Unit of Work sẽ tự động ROLLBACK toàn bộ 39 bản ghi trước đó, bảo đảm CSDL không bao giờ bị dở dang.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Tài liệu: BrainStorm/Week5 Pattern .md | Chuyên đề 4 Pattern.docx</div>
+          <div>Slide 8 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Chuyển sang Chuyên đề 4 về Design Patterns, nhóm đã áp dụng đồng thời 6 mẫu thiết kế: MVC tách đôi và MVVM ở frontend, Repository Pattern ở backend để trừu tượng hóa SQL, và đặc biệt là Unit of Work Pattern. Unit of Work giải quyết bài toán cốt tử: khi giáo viên lưu bảng điểm cả lớp 45 học sinh, toàn bộ 45 thao tác được gom trong một transaction duy nhất; nếu có lỗi ở bất kỳ học sinh nào, hệ thống sẽ rollback ngay lập tức, bảo đảm tính toàn vẹn dữ liệu.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 9: BƯỚC ĐỘT PHÁ - HIỆN THỰC HÓA WORKING PROTOTYPE                   -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="9">
+        <div class="slide-header">
+          <div class="slide-header-tag">Điểm Nhấn Đột Phá</div>
+          <div>Working Prototype Demonstration</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Bước Đột Phá: Hiện Thực Hóa Working Prototype</h2>
+            <p class="slide-subtitle">Không dừng lại ở lý thuyết bài tập – Toàn bộ hệ thống đã chạy được thực tế</p>
+          </div>
+
+          <div class="card-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="card" style="text-align: center; padding: 24px 16px;">
+              <div style="font-size: 32px; font-weight: 800; color: var(--primary); font-family: 'Outfit';">100%</div>
+              <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 4px;">DỮ LIỆU THẬT</div>
+              <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Docker PostgreSQL 8 bảng kết nối trực tiếp</div>
+            </div>
+
+            <div class="card" style="text-align: center; padding: 24px 16px;">
+              <div style="font-size: 32px; font-weight: 800; color: var(--success); font-family: 'Outfit';">4 TẦNG</div>
+              <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 4px;">CLEAN ARCHITECTURE</div>
+              <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Node.js Express API cổng 8081</div>
+            </div>
+
+            <div class="card" style="text-align: center; padding: 24px 16px;">
+              <div style="font-size: 32px; font-weight: 800; color: var(--accent); font-family: 'Outfit';">5 VAI TRÒ</div>
+              <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 4px;">PHÂN QUYỀN RBAC</div>
+              <div style="font-size: 11px; color: #64748b; margin-top: 4px;">BGH, GVCN, GV Bộ Môn, HS, PH</div>
+            </div>
+
+            <div class="card" style="text-align: center; padding: 24px 16px;">
+              <div style="font-size: 32px; font-weight: 800; color: #7c3aed; font-family: 'Outfit';">28 MÀN HÌNH</div>
+              <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 4px;">GIAO DIỆN SÁNG</div>
+              <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Đã chụp lưu vết đầy đủ trong thư mục Images/</div>
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <strong>Sẵn Sàng Trình Chiếu Live Demo:</strong> Sau đây, nhóm xin trân trọng kính mời Thầy/Cô cùng theo dõi các màn hình chức năng thực tế của hệ thống tương ứng với các quyết định kiến trúc đã báo cáo.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Trưởng nhóm: Võ Duy Bình</div>
+          <div>Slide 9 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Điểm đặc biệt nhất trong báo cáo của nhóm: Nhóm không dừng lại ở lý thuyết bài tập trên lớp, mà đã hiện thực hóa toàn bộ thành Working Prototype thực tế. CSDL PostgreSQL thật đã nạp dữ liệu, Backend Clean Architecture đã sẵn sàng lắng nghe, và Giao diện React SPA 28 màn hình cho 5 vai trò đã hoàn thiện. Sau đây nhóm xin kính mời Thầy/Cô cùng theo dõi phần Live Demo trực quan hệ thống.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 10: DEMO TRỰC QUAN - CỔNG ĐĂNG NHẬP                                 -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="10">
+        <div class="slide-header">
+          <div class="slide-header-tag">Live Demo Prototype</div>
+          <div>Phân Hệ Xác Thực &amp; Đăng Nhập</div>
+        </div>
+        <div class="slide-content">
+          <div class="demo-container">
+            <div class="demo-info">
+              <h2 class="slide-title-main" style="font-size: 24px;">Cổng Đăng Nhập Phân Quyền</h2>
+              <p class="slide-subtitle">Pure Light Theme &amp; Role Switcher 5 Vai Trò</p>
+
+              <div class="card">
+                <div class="card-title">ĐẶC ĐIỂM THIẾT KẾ NỔI BẬT</div>
+                <div class="card-body">
+                  <ul>
+                    <li><strong>Hình ảnh Digital Campus 3D</strong>: Nhận diện trường học số hiện đại, thân thiện sư phạm.</li>
+                    <li><strong>Role Switcher 5 Tab</strong>: Chuyển đổi linh hoạt giữa BGH, GVCN, GV Bộ Môn, Học Sinh và Phụ Huynh.</li>
+                    <li><strong>Đăng nhập 1-chạm</strong>: Tự động điền tài khoản mẫu thực tế giúp thẩm định phân quyền tức thì.</li>
+                    <li><strong>Giao diện sạch</strong>: Loại bỏ hoàn toàn các huy hiệu trang trí rườm rà.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="badge badge-success" style="align-self: flex-start; padding: 6px 12px;">
+                Đã kiểm thử: http://localhost:5173/login
+              </div>
+            </div>
+
+            <div class="demo-frame">
+              <img src="../Images/01_Dang_Nhap.png" alt="Cổng Đăng Nhập Hệ Thống">
+              <div class="demo-caption">
+                <span>Ảnh chụp thực tế: 01_Dang_Nhap.png</span>
+                <span class="badge badge-primary">React 18 SPA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Minh họa: Images/01_Dang_Nhap.png</div>
+          <div>Slide 10 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Màn hình đầu tiên là Cổng Đăng Nhập thống nhất của hệ thống. Nhóm thiết kế theo phong cách Pure Light Theme tinh gọn. Điểm đặc biệt là thanh Role Switcher 5 vai trò. Khi nhấp vào từng vai trò, hệ thống sẽ tự động cập nhật ngữ cảnh tài khoản mẫu và hỗ trợ đăng nhập 1-chạm để hội đồng thẩm định có thể trải nghiệm trực quan từng phân hệ.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 11: DEMO TRỰC QUAN - PHÂN HỆ BAN GIÁM HIỆU                          -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="11">
+        <div class="slide-header">
+          <div class="slide-header-tag">Live Demo Prototype</div>
+          <div>Phân Hệ Ban Giám Hiệu (BGH)</div>
+        </div>
+        <div class="slide-content">
+          <div class="demo-container">
+            <div class="demo-info">
+              <h2 class="slide-title-main" style="font-size: 24px;">Phân Hệ Ban Giám Hiệu</h2>
+              <p class="slide-subtitle">Quản trị vĩ mô &amp; Thẩm quyền phê duyệt Khóa/Mở sổ điểm</p>
+
+              <div class="card">
+                <div class="card-title">CHỨC NĂNG CỐT LÕI BGH</div>
+                <div class="card-body">
+                  <ul>
+                    <li><strong>Dashboard Vĩ Mô</strong>: Tổng hợp số lượng học sinh toàn trường, biểu đồ tỷ lệ chuyên cần hôm nay.</li>
+                    <li><strong>Quản Lý Sổ Điểm</strong>: Giám sát trạng thái sổ điểm các lớp (đang mở hoặc đã khóa).</li>
+                    <li><strong>Thẩm Quyền Tối Cao</strong>: BGH là cấp duy nhất có quyền duyệt <strong>Mở khóa sổ điểm</strong> khi có phúc khảo hợp lệ.</li>
+                    <li><strong>Trung Tâm Báo Cáo</strong>: Thống kê học lực, hạnh kiểm và xuất báo cáo.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="badge badge-primary" style="align-self: flex-start; padding: 6px 12px;">
+                Tài khoản: bgh.admin / 123456 (Thầy Trần Quốc Bảo)
+              </div>
+            </div>
+
+            <div class="demo-frame">
+              <img src="../Images/02_BGH_Dashboard.png" alt="Dashboard Ban Giám Hiệu">
+              <div class="demo-caption">
+                <span>Ảnh chụp thực tế: 02_BGH_Dashboard.png | 03_BGH_So_Diem.png</span>
+                <span class="badge badge-success">ROLE_BGH Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Minh họa: Images/02_BGH_Dashboard.png &amp; 03_BGH_So_Diem.png</div>
+          <div>Slide 11 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Với vai trò Ban Giám Hiệu, người dùng có bức tranh tổng thể về nề nếp và học lực toàn trường từ CSDL PostgreSQL. BGH nắm giữ thẩm quyền tối cao đối với tính hợp lệ của sổ điểm: có thể giám sát trạng thái sổ điểm từng lớp và thực hiện quyền khóa hoặc mở chốt sổ điểm để ngăn chặn gian lận điểm số.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 12: DEMO TRỰC QUAN - PHÂN HỆ GIÁO VIÊN CHỦ NHIỆM                    -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="12">
+        <div class="slide-header">
+          <div class="slide-header-tag">Live Demo Prototype</div>
+          <div>Phân Hệ Giáo Viên Chủ Nhiệm (GVCN)</div>
+        </div>
+        <div class="slide-content">
+          <div class="demo-container">
+            <div class="demo-info">
+              <h2 class="slide-title-main" style="font-size: 24px;">Giáo Viên Chủ Nhiệm (Lớp 10A1)</h2>
+              <p class="slide-subtitle">Điểm danh nề nếp, duyệt đơn xin nghỉ học &amp; sổ điểm tổng hợp</p>
+
+              <div class="card">
+                <div class="card-title">NGHIỆP VỤ CHỦ NHIỆM KHÉP KÍN</div>
+                <div class="card-body">
+                  <ul>
+                    <li><strong>Điểm Danh Chuyên Cần Lớp</strong>: Điểm danh vào đầu giờ với trạng thái: Có mặt, Vắng có phép, Vắng không phép.</li>
+                    <li><strong>Duyệt Đơn Nghỉ Học</strong>: Tiếp nhận đơn gửi trực tiếp từ tài khoản phụ huynh và phê duyệt tức thì.</li>
+                    <li><strong>Sổ Điểm Tổng Hợp Lớp</strong>: Giám sát điểm số tất cả các môn của 40 học sinh lớp 10A1 để đánh giá hạnh kiểm cuối kỳ.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="badge badge-primary" style="align-self: flex-start; padding: 6px 12px;">
+                Tài khoản: gvcn.10a1 / 123456 (Cô Lê Minh Châu)
+              </div>
+            </div>
+
+            <div class="demo-frame">
+              <img src="../Images/11_GVCN_Diem_Danh.png" alt="Điểm Danh Lớp Chủ Nhiệm">
+              <div class="demo-caption">
+                <span>Ảnh chụp thực tế: 11_GVCN_Diem_Danh.png | 15_GVCN_Lien_Lac_Phu_Huynh.png</span>
+                <span class="badge badge-success">Lớp 10A1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Minh họa: Images/11_GVCN_Diem_Danh.png &amp; 15_GVCN_Lien_Lac_Phu_Huynh.png</div>
+          <div>Slide 12 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Ở phân hệ GVCN của Cô Lê Minh Châu lớp 10A1, các công tác nề nếp được số hóa tập trung: GVCN điểm danh sĩ số buổi sáng, tiếp nhận lý do nghỉ học từ phụ huynh và đối chiếu bảng điểm tổng hợp của cả lớp để đánh giá hạnh kiểm một cách khách quan nhất.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 13: DEMO TRỰC QUAN - PHÂN HỆ GIÁO VIÊN BỘ MÔN                       -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="13">
+        <div class="slide-header">
+          <div class="slide-header-tag">Live Demo Prototype</div>
+          <div>Phân Hệ Giáo Viên Bộ Môn (GV)</div>
+        </div>
+        <div class="slide-content">
+          <div class="demo-container">
+            <div class="demo-info">
+              <h2 class="slide-title-main" style="font-size: 24px;">Giáo Viên Bộ Môn (Môn Toán)</h2>
+              <p class="slide-subtitle">Nhập điểm thành phần &amp; Áp dụng Unit of Work an toàn giao dịch</p>
+
+              <div class="card">
+                <div class="card-title">NHẬP ĐIỂM CHUẨN THÔNG TƯ 22</div>
+                <div class="card-body">
+                  <ul>
+                    <li><strong>Phân quyền lớp dạy</strong>: Thầy Nguyễn Văn An chỉ có quyền nhập điểm cho đúng môn Toán tại các lớp được phân công.</li>
+                    <li><strong>Các cột điểm thành phần</strong>: Miệng, 15 phút, 1 tiết, Giữa kỳ, Cuối kỳ. Hệ thống tự động tính điểm TBM.</li>
+                    <li><strong>Bảo đảm Unit of Work</strong>: Khi nhấn lưu điểm cả lớp 45 học sinh, dữ liệu được cập nhật trong 1 transaction an toàn tuyệt đối.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="badge badge-primary" style="align-self: flex-start; padding: 6px 12px;">
+                Tài khoản: gv.an / 123456 (Thầy Nguyễn Văn An - GV Toán)
+              </div>
+            </div>
+
+            <div class="demo-frame">
+              <img src="../Images/17_GV_So_Diem.png" alt="Nhập Điểm Bộ Môn">
+              <div class="demo-caption">
+                <span>Ảnh chụp thực tế: 17_GV_So_Diem.png | 19_GV_Thoi_Khoa_Bieu.png</span>
+                <span class="badge badge-warning">Unit of Work Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Minh họa: Images/17_GV_So_Diem.png</div>
+          <div>Slide 13 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Tuân thủ chặt chẽ mô hình Clean Architecture và RBAC, giáo viên bộ môn chỉ có quyền truy cập và nhập điểm cho đúng môn Toán tại các lớp mình phụ trách. Khi lưu bảng điểm cả lớp, mẫu thiết kế Unit of Work phát huy tác dụng: gom toàn bộ thao tác vào một transaction duy nhất, bảo đảm CSDL không bao giờ bị dở dang.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 14: DEMO TRỰC QUAN - PHÂN HỆ HỌC SINH & PHỤ HUYNH                   -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="14">
+        <div class="slide-header">
+          <div class="slide-header-tag">Live Demo Prototype</div>
+          <div>Phân Hệ Học Sinh &amp; Phụ Huynh</div>
+        </div>
+        <div class="slide-content">
+          <div class="demo-container">
+            <div class="demo-info">
+              <h2 class="slide-title-main" style="font-size: 24px;">Học Sinh &amp; Phụ Huynh</h2>
+              <p class="slide-subtitle">Sổ liên lạc điện tử, tra cứu bảng điểm &amp; gửi đơn xin nghỉ học</p>
+
+              <div class="card">
+                <div class="card-title">KẾT NỐI HAI CHIỀU GIA ĐÌNH - NHÀ TRƯỜNG</div>
+                <div class="card-body">
+                  <ul>
+                    <li><strong>Học Sinh (hs.anh)</strong>: Tự tra cứu bảng điểm cá nhân chi tiết các môn, xem thời khóa biểu và lịch thi học kỳ.</li>
+                    <li><strong>Phụ Huynh (ph.hs0001)</strong>: Cổng phụ huynh theo dõi sát sao tình hình học lực và chuyên cần của con.</li>
+                    <li><strong>Nộp đơn xin nghỉ học trực tuyến</strong>: Điền ngày nghỉ và lý do, hệ thống tự động gửi thẳng đến GVCN lớp 10A1.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="badge badge-primary" style="align-self: flex-start; padding: 6px 12px;">
+                Tài khoản: ph.hs0001 / hs.anh (Chị Hương / Em Ánh)
+              </div>
+            </div>
+
+            <div class="demo-frame">
+              <img src="../Images/24_PH_Cong_Phu_Huynh.png" alt="Cổng Phụ Huynh">
+              <div class="demo-caption">
+                <span>Ảnh chụp thực tế: 24_PH_Cong_Phu_Huynh.png | 25_PH_Don_Xin_Nghi_Hoc.png</span>
+                <span class="badge badge-success">Cổng Phụ Huynh</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Minh họa: Images/20_HS_Bang_Diem.png &amp; 24_PH_Cong_Phu_Huynh.png</div>
+          <div>Slide 14 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Cuối cùng là phân hệ Học sinh và Phụ huynh, tạo nên cầu nối liên lạc hai chiều minh bạch. Phụ huynh có thể nộp đơn xin phép nghỉ học trực tuyến kèm lý do, theo dõi tiến độ phê duyệt và tra cứu kết quả học tập của con em mình bất cứ lúc nào.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 15: ĐÁNH GIÁ SPRINT & KẾ HOẠCH BƯỚC TIẾP THEO                       -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="15">
+        <div class="slide-header">
+          <div class="slide-header-tag">Sprint Review &amp; Roadmap</div>
+          <div>Kế Hoạch Các Sprint Kế Tiếp</div>
+        </div>
+        <div class="slide-content">
+          <div>
+            <h2 class="slide-title-main">Đánh Giá Sprint &amp; Lộ Trình Hoàn Thiện</h2>
+            <p class="slide-subtitle">100% mục tiêu của Sprint đã hoàn thành xuất sắc – Định hướng các chuyên đề sau</p>
+          </div>
+
+          <div class="card-grid" style="grid-template-columns: 1.1fr 1fr;">
+            <div class="card">
+              <div class="card-title">ĐÓNG GÓP 5 THÀNH VIÊN (100% KPI)</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>Võ Duy Bình (PM/Lead BA)</strong>: Quản lý SRS, Web UI/UX, Báo cáo (20%).</li>
+                  <li><strong>Nguyễn Minh Quốc Bảo</strong>: CSDL PostgreSQL, ERD, Repository (20%).</li>
+                  <li><strong>Trần Quang Vinh</strong>: Node.js Clean Architecture, Unit of Work (20%).</li>
+                  <li><strong>Võ Hoàng Sơn</strong>: Logic tính điểm TT22, Phân quyền RBAC (20%).</li>
+                  <li><strong>Huỳnh Trung Tính</strong>: Clean Architecture chuyên sâu, RTM, Test (20%).</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">LỘ TRÌNH CÁC CHUYÊN ĐỀ KẾ TIẾP</div>
+              <div class="card-body">
+                <ul>
+                  <li><strong>Chuyên đề 5 (Export Engine)</strong>: Xuất bảng điểm Excel (<code>.xlsx</code>) và in học bạ PDF.</li>
+                  <li><strong>Chuyên đề 6 (Security)</strong>: Xác thực nâng cao JWT Refresh Token, bảo mật CORS.</li>
+                  <li><strong>Chuyên đề 7 (Audit Logging)</strong>: Ghi vết nhật ký lịch sử sửa điểm phục vụ thanh tra.</li>
+                  <li><strong>Chuyên đề 8 (Testing QA)</strong>: Bộ kiểm thử tự động Unit Testing cho toàn bộ Use Cases.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <strong>Nền Tảng Vững Chắc:</strong> Nhờ kiến trúc Clean Architecture và CSDL PostgreSQL đã hoàn thiện, việc tích hợp các chuyên đề xuất báo cáo, ghi log hay kiểm thử ở các tuần sau sẽ diễn ra rất thuận lợi.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Kế hoạch: timeline.md</div>
+          <div>Slide 15 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Cả 5 thành viên nhóm đã hoàn thành 100% KPI của Sprint đúng thời hạn. Trên nền móng kiến trúc và CSDL vững chắc này, trong các tuần tiếp theo, nhóm sẽ tiếp tục hiện thực hóa các chuyên đề nâng cao: Export Engine, Bảo mật JWT chuyên sâu, Centralized Audit Logging và Kiểm thử tự động QA.
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- SLIDE 16: KẾT LUẬN & HỎI ĐÁP PHẢN BIỆN (Q&A)                               -->
+      <!-- ========================================================================= -->
+      <section class="slide" data-index="16">
+        <div class="slide-header">
+          <div class="slide-header-tag">Kết Thúc Báo Cáo</div>
+          <div>Q&amp;A Session</div>
+        </div>
+        <div class="slide-content" style="justify-content: center; align-items: center; text-align: center; gap: 20px;">
+          <div class="badge badge-success" style="font-size: 13px; padding: 6px 16px;">
+            SPRINT DEMO COMPLETED SUCCESSFULLY
+          </div>
+
+          <h2 class="slide-title-main" style="font-size: 36px; color: #1d4ed8;">
+            CẢM ƠN THẦY/CÔ VÀ CÁC BẠN ĐÃ THEO DÕI!
+          </h2>
+
+          <p style="font-size: 16px; color: #475569; max-width: 680px; line-height: 1.6;">
+            Nhóm rất mong nhận được những câu hỏi phản biện và ý kiến đóng góp quý báu từ Thầy/Cô để đồ án ngày càng hoàn thiện hơn trong các giai đoạn tiếp theo.
+          </p>
+
+          <div class="card" style="max-width: 720px; width: 100%; text-align: left; background: #f8fafc;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13px;">
+              <div>
+                <p style="color: #64748b; font-weight: 600;">HỒ SƠ TÀI LIỆU DỰ ÁN:</p>
+                <p>• Kịch bản Demo: <code class="badge badge-primary">docs/KICH_BAN_DEMO.md</code></p>
+                <p>• Đặc tả Use Cases: <code class="badge badge-primary">USE_CASES.md</code> (43 UC)</p>
+                <p>• Lược đồ CSDL: <code class="badge badge-primary">database/schema.sql</code></p>
+              </div>
+              <div>
+                <p style="color: #64748b; font-weight: 600;">MÃ NGUỒN &amp; HỆ THỐNG:</p>
+                <p>• Frontend: React 18 SPA (Port 5173)</p>
+                <p>• Backend: Node.js Express API (Port 8081)</p>
+                <p>• Database: PostgreSQL 15 Docker (Port 5434)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div>Repository: DYBInh2k5/Phat-Trien-Du-An-Phan-Mem</div>
+          <div>Slide 16 / 16</div>
+        </div>
+        <div class="speaker-notes-content" style="display: none;">
+          Nhóm xin chân thành cảm ơn Thầy/Cô và các bạn đã chú ý lắng nghe. Nhóm đã sẵn sàng lắng nghe các câu hỏi nhận xét và phản biện từ Thầy/Cô!
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- SPEAKER NOTES DRAWER -->
+  <aside class="notes-drawer" id="notesDrawer">
+    <div class="notes-header">
+      <div class="notes-title" id="notesTitle">LỜI THOẠI THUYẾT TRÌNH (SPEAKER NOTES) - SLIDE 1</div>
+      <button class="btn-ctrl" id="btnCloseNotes" style="padding: 4px 8px; font-size: 11px;">Đóng [N]</button>
+    </div>
+    <div class="notes-content" id="notesContent">
+      Đang tải lời thoại thuyết trình...
+    </div>
+  </aside>
+
+  <!-- MODAL OVERVIEW -->
+  <div class="modal-overlay" id="modalOverview">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span>DANH MỤC TẤT CẢ 16 SLIDE THUYẾT TRÌNH</span>
+        <button class="btn-ctrl" id="btnCloseModal" style="padding: 4px 8px;">Đóng [Esc]</button>
+      </div>
+      <div class="modal-grid" id="modalGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    // SLIDE DATA & NAVIGATION LOGIC
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 1;
+
+    const progressBar = document.getElementById('progressBar');
+    const notesDrawer = document.getElementById('notesDrawer');
+    const notesTitle = document.getElementById('notesTitle');
+    const notesContent = document.getElementById('notesContent');
+    const modalOverview = document.getElementById('modalOverview');
+    const modalGrid = document.getElementById('modalGrid');
+
+    // BUILD MODAL THUMBNAILS
+    slides.forEach((s, idx) => {
+      const slideNum = idx + 1;
+      const titleElem = s.querySelector('.slide-title-main');
+      const title = titleElem ? titleElem.innerText.replace(/[\n\r]+/g, ' ').trim() : 'Slide ' + slideNum;
+
+      const item = document.createElement('div');
+      item.className = 'modal-item' + (slideNum === 1 ? ' active' : '');
+      item.innerHTML = `
+        <div class="modal-item-num">SLIDE ${slideNum} / ${totalSlides}</div>
+        <div style="font-weight: 600; line-height: 1.3;">${title}</div>
+      `;
+      item.addEventListener('click', () => {
+        goToSlide(slideNum);
+        closeModal();
+      });
+      modalGrid.appendChild(item);
+    });
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        if (idx + 1 === currentSlide) {
+          s.classList.add('active');
+          const notesText = s.querySelector('.speaker-notes-content');
+          if (notesText) {
+            notesTitle.innerText = `LỜI THOẠI THUYẾT TRÌNH - SLIDE ${currentSlide} / ${totalSlides}`;
+            notesContent.innerText = `"${notesText.innerText.trim()}"`;
+          }
+        } else {
+          s.classList.remove('active');
+        }
+      });
+
+      // Update progress bar
+      const pct = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+      progressBar.style.width = pct + '%';
+
+      // Update modal items
+      document.querySelectorAll('.modal-item').forEach((item, idx) => {
+        if (idx + 1 === currentSlide) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(num) {
+      if (num >= 1 && num <= totalSlides) {
+        currentSlide = num;
+        updateSlide();
+      }
+    }
+
+    // EVENT LISTENERS
+    document.getElementById('btnNext').addEventListener('click', nextSlide);
+    document.getElementById('btnPrev').addEventListener('click', prevSlide);
+
+    // KEYBOARD NAVIGATION
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        goToSlide(1);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        goToSlide(totalSlides);
+      } else if (e.key.toLowerCase() === 'n') {
+        e.preventDefault();
+        toggleNotes();
+      } else if (e.key.toLowerCase() === 'o' || e.key.toLowerCase() === 'm') {
+        e.preventDefault();
+        toggleModal();
+      } else if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // NOTES DRAWER
+    function toggleNotes() {
+      notesDrawer.classList.toggle('open');
+      document.getElementById('btnToggleNotes').classList.toggle('active');
+    }
+    document.getElementById('btnToggleNotes').addEventListener('click', toggleNotes);
+    document.getElementById('btnCloseNotes').addEventListener('click', toggleNotes);
+
+    // MODAL
+    function toggleModal() {
+      modalOverview.classList.toggle('open');
+    }
+    function closeModal() {
+      modalOverview.classList.remove('open');
+    }
+    document.getElementById('btnOverview').addEventListener('click', toggleModal);
+    document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+
+    // FULLSCREEN
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+    document.getElementById('btnFullscreen').addEventListener('click', toggleFullscreen);
+
+    // TIMER
+    let timerInterval = null;
+    let secondsElapsed = 0;
+    const timerDisplay = document.getElementById('timerDisplay');
+    const btnToggleTimer = document.getElementById('btnToggleTimer');
+
+    function formatTime(secs) {
+      const m = Math.floor(secs / 60).toString().padStart(2, '0');
+      const s = (secs % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    btnToggleTimer.addEventListener('click', () => {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btnToggleTimer.innerText = 'Tiếp tục';
+        btnToggleTimer.classList.remove('active');
+      } else {
+        timerInterval = setInterval(() => {
+          secondsElapsed++;
+          timerDisplay.innerText = formatTime(secondsElapsed);
+          if (secondsElapsed > 900) { // 15 mins warning
+            timerDisplay.style.color = '#ef4444';
+          }
+        }, 1000);
+        btnToggleTimer.innerText = 'Tạm dừng';
+        btnToggleTimer.classList.add('active');
+      }
+    });
+
+    // INIT
+    updateSlide();
+  </script>
+</body>
+</html>
