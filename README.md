@@ -70,6 +70,7 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
   - [Week14.md](BrainStorm/Week14.md): Đóng gói Bản phát hành Release v1.0 & Cẩm nang Hướng dẫn Sử dụng. (Đã hoàn thành)
   - [Week15.md](BrainStorm/Week15.md): Tổng kết Toàn diện Dự án, Kịch bản Thuyết trình Đồ án & Đánh giá KPI 5 Thành viên. (Đã hoàn thành)
 - docs/: Thư mục tài liệu kỹ thuật & quy trình:
+  - [docs/KICH_BAN_DEMO.md](docs/KICH_BAN_DEMO.md): Kịch bản thuyết trình và hướng dẫn demo trực quan đồ án (SRS -> UI/UX -> CSDL -> Kiến trúc -> Mẫu thiết kế Patterns -> Live Demo Prototype).
   - [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md): Hướng dẫn cài đặt nhanh bằng Docker Compose & tài khoản mẫu 5 Roles.
   - [docs/API_SPECIFICATION.md](docs/API_SPECIFICATION.md): Đặc tả chi tiết các RESTful API Endpoints cho toàn hệ thống.
   - [docs/Requirements_Traceability_Matrix.md](docs/Requirements_Traceability_Matrix.md): Ma trận truy xuất yêu cầu SRS - Code - UAT.
