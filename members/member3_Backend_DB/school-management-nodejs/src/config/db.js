@@ -128,8 +128,41 @@ export async function initDatabaseSchema() {
         credits INT DEFAULT 1
       );
     `);
+    // ===== Chức năng quên mật khẩu =====
+    await query(`
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(255);
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS token_version INT NOT NULL DEFAULT 0;
+      CREATE UNIQUE INDEX IF NOT EXISTS users_email_unique_idx
+        ON users (LOWER(email)) WHERE email IS NOT NULL;
+
+      CREATE TABLE IF NOT EXISTS password_reset_tokens (
+        id SERIAL PRIMARY KEY,
+        user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        token_hash CHAR(64) NOT NULL UNIQUE,
+        expires_at TIMESTAMPTZ NOT NULL,
+        used_at TIMESTAMPTZ,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_user_id
+        ON password_reset_tokens (user_id);
+    `);
   } catch (err) {
     console.error('[DB INIT ERROR] Không thể khởi tạo schema PostgreSQL:', err.message);
     throw err;
+  }
+}
+
+export async function withTransaction(callback) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const result = await callback(client);
+    await client.query('COMMIT');
+    return result;
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
   }
 }

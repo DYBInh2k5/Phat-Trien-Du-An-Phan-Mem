@@ -13,7 +13,7 @@ import { TuitionController } from './src/controllers/TuitionController.js';
 import { ClassController } from './src/controllers/ClassController.js';
 import { SubjectController } from './src/controllers/SubjectController.js';
 import { authenticateToken } from './src/middleware/authMiddleware.js';
-
+import { forgotPasswordLimiter, resetPasswordLimiter } from './src/middleware/rateLimiters.js';
 dotenv.config();
 
 const app = express();
@@ -49,6 +49,8 @@ app.get('/api/health', (req, res) => {
 
 // Auth Routes (public)
 app.post('/api/auth/login', AuthController.login);
+app.post('/api/auth/forgot-password', forgotPasswordLimiter, AuthController.forgotPassword);
+app.post('/api/auth/reset-password', resetPasswordLimiter, AuthController.resetPassword);
 // Auth - restore session (protected)
 app.get('/api/auth/me', authenticateToken, AuthController.me);
 

@@ -1,6 +1,16 @@
 import { UserRepository } from '../repositories/UserRepository.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import {
+  PasswordResetService,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+} from '../services/PasswordResetService.js';
+
+const FORGOT_PASSWORD_MESSAGE =
+  'Nếu email này đã đăng ký trong hệ thống, chúng tôi đã gửi hướng dẫn đặt lại mật khẩu. Vui lòng kiểm tra hộp thư (kể cả mục Spam).';
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const RESET_TOKEN_REGEX = /^[a-f0-9]{64}$/;
 
 const JWT_SECRET = process.env.JWT_SECRET || 'htqllh-secret-key-2025';
 const JWT_EXPIRES_IN = '24h';
@@ -53,6 +63,7 @@ export class AuthController {
         id: user.id,
         username: user.username,
         role: user.role,
+        tv: user.token_version ?? 0, // dùng để vô hiệu hóa JWT cũ khi đổi mật khẩu
       };
       const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 
@@ -100,6 +111,66 @@ export class AuthController {
     } catch (err) {
       console.error('[AuthController] /me error:', err.message);
       return res.status(500).json({ success: false, message: 'Lỗi server.' });
+    }
+  }
+
+  static async forgotPassword(req, res) {
+    const email = typeof req.body?.email === 'string' ? req.body.email.trim().toLowerCase() : '';
+
+    if (!email || email.length > 255 || !EMAIL_REGEX.test(email)) {
+      return res.status(400).json({ success: false, message: 'Vui lòng nhập địa chỉ email hợp lệ.' });
+    }
+
+    try {
+      await PasswordResetService.requestReset(email);
+    } catch (err) {
+      // Chỉ ghi log. Vẫn trả phản hồi chung để không lộ thông tin tài khoản.
+      console.error('[AuthController] forgotPassword error:', err.message);
+    }
+
+    return res.status(200).json({ success: true, message: FORGOT_PASSWORD_MESSAGE });
+  }
+
+  static async resetPassword(req, res) {
+    const { token, newPassword } = req.body || {};
+
+    if (typeof token !== 'string' || !RESET_TOKEN_REGEX.test(token)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Liên kết đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.',
+        code: 'INVALID_OR_EXPIRED_TOKEN',
+      });
+    }
+
+    // Kiểm tra mật khẩu TRƯỚC khi dùng token, để nhập sai định dạng không làm mất token.
+    if (
+      typeof newPassword !== 'string' ||
+      newPassword.length < PASSWORD_MIN_LENGTH ||
+      newPassword.length > PASSWORD_MAX_LENGTH
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: `Mật khẩu mới phải có từ ${PASSWORD_MIN_LENGTH} đến ${PASSWORD_MAX_LENGTH} ký tự.`,
+        code: 'INVALID_PASSWORD_FORMAT',
+      });
+    }
+
+    try {
+      const ok = await PasswordResetService.resetPassword(token, newPassword);
+      if (!ok) {
+        return res.status(400).json({
+          success: false,
+          message: 'Liên kết đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.',
+          code: 'INVALID_OR_EXPIRED_TOKEN',
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: 'Đặt lại mật khẩu thành công. Vui lòng đăng nhập bằng mật khẩu mới.',
+      });
+    } catch (err) {
+      console.error('[AuthController] resetPassword error:', err.message);
+      return res.status(500).json({ success: false, message: 'Lỗi server. Vui lòng thử lại sau.' });
     }
   }
 }
