@@ -12,6 +12,7 @@ import { LeaveRequestController } from './src/controllers/LeaveRequestController
 import { TuitionController } from './src/controllers/TuitionController.js';
 import { ClassController } from './src/controllers/ClassController.js';
 import { SubjectController } from './src/controllers/SubjectController.js';
+import { authenticateToken } from './src/middleware/authMiddleware.js';
 
 dotenv.config();
 
@@ -19,7 +20,20 @@ const app = express();
 const PORT = process.env.PORT || 8081;
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',  // Vite default
+    'http://localhost:5174',  // Vite alternate
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:8080',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5174',
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 
 // Logging Middleware
@@ -33,8 +47,10 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'UP', service: 'HTQLLH Node.js Express Backend', timestamp: new Date().toISOString() });
 });
 
-// Auth Routes
+// Auth Routes (public)
 app.post('/api/auth/login', AuthController.login);
+// Auth - restore session (protected)
+app.get('/api/auth/me', authenticateToken, AuthController.me);
 
 // Students Routes
 app.get('/api/students', StudentController.getStudents);
@@ -86,6 +102,13 @@ app.listen(PORT, async () => {
   console.log(`  URL: http://localhost:${PORT}/api/health`);
   console.log(`====================================================`);
 
-  await initDatabaseSchema();
-  await seedDemoData();
+  try {
+    await initDatabaseSchema();
+    await seedDemoData();
+    console.log('[SERVER] PostgreSQL connected and schema initialized successfully.');
+  } catch (err) {
+    console.error('[SERVER ERROR] Không thể kết nối PostgreSQL:', err.message);
+    console.error('[SERVER ERROR] Kiểm tra cấu hình DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD trong .env');
+    console.error('[SERVER ERROR] Server tiếp tục chạy nhưng chức năng đăng nhập sẽ không hoạt động cho đến khi DB sẵn sàng.');
+  }
 });

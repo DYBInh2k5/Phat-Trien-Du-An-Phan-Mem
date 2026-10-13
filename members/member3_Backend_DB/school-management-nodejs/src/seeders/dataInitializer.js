@@ -82,6 +82,7 @@ export async function seedDemoData() {
 
     console.log('[SEEDER] Initial demo data seeded successfully.');
   } catch (err) {
-    console.warn('[SEEDER WARNING] Seeder warning (will use in-memory data fallback if DB offline):', err.message);
+    console.warn('[SEEDER WARNING] Seeder skipped - DB may be unavailable:', err.message);
+    console.warn('[SEEDER WARNING] Chạy lại server khi PostgreSQL đã sẵn sàng để seed dữ liệu.');
   }
 }

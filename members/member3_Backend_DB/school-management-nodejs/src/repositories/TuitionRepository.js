@@ -1,4 +1,4 @@
-import { query } from '../config/db.js';
+﻿import { querySafe as query } from '../config/db.js';
 
 export class TuitionRepository {
   static async findAll() {
@@ -38,3 +38,4 @@ export class TuitionRepository {
     }
   }
 }
+

@@ -1,4 +1,4 @@
-import { query } from '../config/db.js';
+import { querySafe as query } from '../config/db.js';
 
 let memGrades = [
   { id: 1, student_id: 1, studentId: 1, student_code: 'HS001', studentCode: 'HS001', student_name: 'Nguyễn Thị Ánh', studentName: 'Nguyễn Thị Ánh', class_name: '10A1', className: '10A1', subject_name: 'Toán', subjectName: 'Toán', semester: 'HK1', school_year: '2024-2025', schoolYear: '2024-2025', score_oral: 9.0, scoreOral: 9.0, score_15m: 8.5, score15m: 8.5, score_1hour: 8.0, score1Hour: 8.0, score_mid_term: 8.5, scoreMidTerm: 8.5, score_final_term: 9.0, scoreFinalTerm: 9.0, average_score: 8.7, averageScore: 8.7, grade_letter: 'Giỏi', gradeLetter: 'Giỏi', status: 'APPROVED' },

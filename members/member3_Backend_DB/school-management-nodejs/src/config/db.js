@@ -16,15 +16,27 @@ export const pool = new Pool({
   connectionTimeoutMillis: 2000,
 });
 
+/**
+ * query() - Strict: throws nếu có lỗi DB. Dùng cho authentication (UserRepository).
+ */
 export async function query(text, params = []) {
+  const res = await pool.query(text, params);
+  return res;
+}
+
+/**
+ * querySafe() - Soft: trả null nếu DB lỗi. Dùng cho các repository có in-memory fallback.
+ */
+export async function querySafe(text, params = []) {
   try {
     const res = await pool.query(text, params);
     return res;
   } catch (err) {
-    console.warn(`[DB WARN] PostgreSQL query failed ("${text}"): ${err.message}. Using fallback memory store.`);
+    console.warn(`[DB WARN] PostgreSQL query failed ("${text.substring(0, 60)}..."): ${err.message}`);
     return null;
   }
 }
+
 
 export async function initDatabaseSchema() {
   console.log('[DB INIT] Initializing PostgreSQL database tables...');
@@ -117,6 +129,7 @@ export async function initDatabaseSchema() {
       );
     `);
   } catch (err) {
-    console.warn('[DB INIT WARN] Fallback to Memory Data Store.');
+    console.error('[DB INIT ERROR] Không thể khởi tạo schema PostgreSQL:', err.message);
+    throw err;
   }
 }
