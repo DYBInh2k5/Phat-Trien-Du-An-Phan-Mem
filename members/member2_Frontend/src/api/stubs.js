@@ -109,32 +109,19 @@ export const fetchSubjects = async () => {
 
 // ── POST / Action Handlers ───────────────────────────────────────────────────
 
+/**
+ * Đăng nhập qua API thật. KHÔNG có fallback giả thành công.
+ * Nếu API lỗi (sai mật khẩu, không kết nối được,...) sẽ throw lỗi thực sự.
+ * Chú ý: AuthContext.jsx đã gọi trực tiếp apiClient('/auth/login'), hàm này
+ * giữ lại để tương thích với các file khác có thể gọi trực tiếp.
+ */
 export const handleLoginSubmit = async ({ username, password, role }) => {
   console.log('[API CALL] handleLoginSubmit -> Node.js Express Backend', { username, role });
-  
-  try {
-    const data = await apiClient('/auth/login', {
-      method: 'POST',
-      body: { username, password, role },
-    });
-    if (data) return data;
-  } catch (err) {
-    console.info('[API Fallback] Không kết nối được Backend Node.js Express (cổng 8081). Sử dụng dữ liệu giả định.');
-    if (username === 'error') {
-      throw new Error('Tài khoản hoặc mật khẩu không chính xác.');
-    }
-  }
-
-  return new Promise((resolve) =>
-    setTimeout(() => {
-      resolve({
-        success: true,
-        user: { username, role, name: username },
-        token: 'demo-local-jwt-token',
-        source: 'stub',
-      });
-    }, 300)
-  );
+  const data = await apiClient('/auth/login', {
+    method: 'POST',
+    body: { username, password, role },
+  });
+  return data;
 };
 
 export const handleSaveGrades       = createStub('handleSaveGrades', '/gradebook/save');

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { ROLES } from '../../constants/roles.js';
-import { ROLE_DASHBOARD } from '../../constants/routes.js';
+import { ROLE_DASHBOARD, ROUTES } from '../../constants/routes.js';
 
 const ROLE_CONFIGS = [
   {
@@ -105,8 +105,19 @@ export default function LoginPage() {
     try {
       await login({ username: usernameVal, password: passwordVal, role: targetRole });
       navigate(ROLE_DASHBOARD[targetRole], { replace: true });
-    } catch {
-      setError('Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại.');
+    } catch (err) {
+      // Ưu tiên thông báo từ backend, fallback về thông báo lỗi kết nối
+      if (err?.status === 401) {
+        setError(err.message || 'Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại.');
+      } else if (err?.status === 400) {
+        setError(err.message || 'Vui lòng nhập đầy đủ thông tin đăng nhập.');
+      } else if (err?.status === 500) {
+        setError('Lỗi kết nối cơ sở dữ liệu. Vui lòng liên hệ Quản trị viên.');
+      } else if (err?.message?.includes('fetch') || err?.message?.includes('Failed to fetch') || err?.message?.includes('NetworkError')) {
+        setError('Không thể kết nối đến server (cổng 8081). Kiểm tra backend có đang chạy không.');
+      } else {
+        setError(err?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -181,11 +192,11 @@ export default function LoginPage() {
 
         {/* Bottom Metadata on Left */}
         <div className="relative z-10 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-slate-500">
-          <div>
+          {/* <div>
             <span className="font-medium text-slate-700">Khoa CNTT • Đại học Hoa Sen (HSU)</span>
             <span className="mx-2 text-slate-400">•</span>
             <span>Đồ án Phát triển Dự án Phần mềm</span>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2 text-slate-600 font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>Học kỳ 1 • 2025–2026</span>
@@ -235,11 +246,10 @@ export default function LoginPage() {
                     key={cfg.role}
                     type="button"
                     onClick={() => handleRoleSelect(cfg.role)}
-                    className={`py-2 px-1 rounded-lg text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${
-                      isActive
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
-                    }`}
+                    className={`py-2 px-1 rounded-lg text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${isActive
+                      ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+                      }`}
                   >
                     <span className="material-symbols-outlined text-[18px]">{cfg.icon}</span>
                     <span className="text-[11px] leading-tight truncate w-full text-center">
@@ -318,13 +328,12 @@ export default function LoginPage() {
                 />
                 <span className="font-medium">Ghi nhớ phiên đăng nhập</span>
               </label>
-              <button
-                type="button"
-                onClick={() => alert('Vui lòng liên hệ Quản trị viên (BGH) để khôi phục mật khẩu tài khoản.')}
+              <Link
+                to={ROUTES.FORGOT_PASSWORD}
                 className="text-blue-600 hover:text-blue-700 font-semibold transition-colors cursor-pointer"
               >
                 Quên mật khẩu?
-              </button>
+              </Link>
             </div>
 
             {/* Error Message Alert */}

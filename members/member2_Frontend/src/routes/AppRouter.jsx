@@ -8,6 +8,8 @@ import MainLayout from '../components/layout/MainLayout.jsx';
 
 // Auth pages
 import LoginPage from '../pages/auth/LoginPage.jsx';
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage.jsx';
+import ResetPasswordPage from '../pages/auth/ResetPasswordPage.jsx';
 import UnauthorizedPage from '../pages/auth/UnauthorizedPage.jsx';
 import NotFoundPage from '../pages/shared/NotFoundPage.jsx';
 
@@ -57,6 +59,8 @@ export default function AppRouter() {
 
       {/* Public routes */}
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+      <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
       <Route path={ROUTES.UNAUTHORIZED} element={<UnauthorizedPage />} />
 
       {/* Protected routes inside MainLayout */}
@@ -106,10 +110,10 @@ export default function AppRouter() {
 
         {/* HS / PH routes */}
         <Route element={<ProtectedRoute roles={[ROLES.HS, ROLES.PH]} />}>
-          <Route path={ROUTES.STUDENT_GRADEBOOK}  element={<StudentGradebookPage />} />
+          <Route path={ROUTES.STUDENT_GRADEBOOK} element={<StudentGradebookPage />} />
           <Route path={ROUTES.STUDENT_ATTENDANCE} element={<StudentAttendancePage />} />
-          <Route path={ROUTES.STUDENT_SCHEDULE}   element={<StudentSchedulePage />} />
-          <Route path={ROUTES.STUDENT_EXAMS}      element={<StudentExamsPage />} />
+          <Route path={ROUTES.STUDENT_SCHEDULE} element={<StudentSchedulePage />} />
+          <Route path={ROUTES.STUDENT_EXAMS} element={<StudentExamsPage />} />
         </Route>
       </Route>
 
