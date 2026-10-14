@@ -70,6 +70,7 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
   - [Week14.md](BrainStorm/Week14.md): Đóng gói Bản phát hành Release v1.0 & Cẩm nang Hướng dẫn Sử dụng. (Đã hoàn thành)
   - [Week15.md](BrainStorm/Week15.md): Tổng kết Toàn diện Dự án, Kịch bản Thuyết trình Đồ án & Đánh giá KPI 5 Thành viên. (Đã hoàn thành)
 - docs/: Thư mục tài liệu kỹ thuật & quy trình:
+  - [docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md): Cẩm nang kỹ thuật toàn diện giải thích tường tận RESTful API, Layout Components, Docker và mối liên kết mã nguồn.
   - [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](docs/CHI_TIET_CONG_NGHE_HE_THONG.md): Báo cáo kỹ thuật chi tiết toàn bộ công nghệ, thư viện, kiến trúc và mẫu thiết kế của hệ thống.
   - [docs/KICH_BAN_DEMO.md](docs/KICH_BAN_DEMO.md): Kịch bản thuyết trình và hướng dẫn demo trực quan đồ án (SRS -> UI/UX -> CSDL -> Kiến trúc -> Mẫu thiết kế Patterns -> Live Demo Prototype).
   - [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md): Hướng dẫn cài đặt nhanh bằng Docker Compose & tài khoản mẫu 5 Roles.

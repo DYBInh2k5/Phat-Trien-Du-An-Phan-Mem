@@ -46,5 +46,9 @@ Trưởng nhóm & Quản lý: **Võ Duy Bình (PM / Lead BA)**
 14. **Tuần 14 (Release Packaging & Hướng dẫn Sử dụng)**: Đóng gói Release v1.0, biên soạn `docs/DEPLOYMENT_GUIDE.md` và `docs/API_SPECIFICATION.md`.
 15. **Tuần 15 (Tổng kết Đồ án & Kịch bản Bảo vệ)**: Đánh giá KPI 5 thành viên (20% mỗi người - 100% hoàn thành) và dàn ý thuyết trình bảo vệ đồ án.
 
+---
 
-
+## Tài Liệu Kiến Trúc & Cẩm Nang Kỹ Thuật Bổ Sung
+- [docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md): Cẩm nang kỹ thuật toàn diện giải thích tường tận RESTful API, Layout Components, Docker và mối liên kết mã nguồn.
+- [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](docs/CHI_TIET_CONG_NGHE_HE_THONG.md): Báo cáo kỹ thuật chi tiết toàn bộ công nghệ, thư viện, kiến trúc và mẫu thiết kế của hệ thống.
+- [docs/API_SPECIFICATION.md](docs/API_SPECIFICATION.md): Đặc tả chi tiết các RESTful API Endpoints cho toàn hệ thống.
