@@ -16,6 +16,60 @@ export class AttendanceRepository {
     return res.rows;
   }
 
+  /**
+   * Tổng hợp điểm danh theo lớp trong khoảng ngày, kết hợp thông tin lớp.
+   * Trả về mảng { class_name, gvcn_name, total_students, total_records, present_count }.
+   * @param {string|null} dateFrom - YYYY-MM-DD
+   * @param {string|null} dateTo   - YYYY-MM-DD
+   * @param {string|null} className
+   */
+  static async getSummaryByClass(dateFrom, dateTo, className) {
+    const conditions = [`a.att_date ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'`];
+    const params = [];
+
+    if (dateFrom) {
+      params.push(dateFrom);
+      conditions.push(`a.att_date::date >= $${params.length}::date`);
+    }
+    if (dateTo) {
+      params.push(dateTo);
+      conditions.push(`a.att_date::date <= $${params.length}::date`);
+    }
+    if (className) {
+      params.push(className);
+      conditions.push(`a.class_name = $${params.length}`);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const res = await query(
+      `SELECT
+         a.class_name,
+         sc.gvcn_name,
+         COUNT(DISTINCT a.student_code)                        AS total_students,
+         COUNT(*)                                              AS total_records,
+         COUNT(*) FILTER (WHERE a.status = 'PRESENT')         AS present_count
+       FROM attendances a
+       LEFT JOIN school_classes sc ON sc.class_name = a.class_name
+       ${whereClause}
+       GROUP BY a.class_name, sc.gvcn_name
+       HAVING COUNT(*) > 0
+       ORDER BY a.class_name ASC`,
+      params
+    );
+    if (!res) return [];
+    return res.rows;
+  }
+
+  /** Lấy danh sách tất cả class_name hiện có trong bảng attendances. */
+  static async getDistinctClassNames() {
+    const res = await query(
+      `SELECT DISTINCT class_name FROM attendances ORDER BY class_name ASC`
+    );
+    if (!res) return [];
+    return res.rows.map((r) => r.class_name);
+  }
+
   static async save(att) {
     if (att.id) {
       const res = await query(

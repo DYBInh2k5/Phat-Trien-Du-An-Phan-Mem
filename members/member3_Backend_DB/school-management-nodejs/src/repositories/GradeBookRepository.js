@@ -13,6 +13,24 @@ export class GradeBookRepository {
     return memGrades;
   }
 
+  /**
+   * Lấy toàn bộ grades theo lớp + học kỳ, kèm semester filter.
+   */
+  static async findByClassNameAndSemester(className, semester, schoolYear) {
+    const params = [className];
+    const conditions = ['class_name = $1'];
+    if (semester) { params.push(semester); conditions.push(`semester = $${params.length}`); }
+    if (schoolYear) { params.push(schoolYear); conditions.push(`school_year = $${params.length}`); }
+    const res = await query(
+      `SELECT * FROM grade_books WHERE ${conditions.join(' AND ')} ORDER BY student_name ASC, subject_name ASC`,
+      params
+    );
+    if (res && res.rows) return res.rows;
+    return memGrades.filter(
+      (g) => (g.class_name === className || g.className === className) &&
+             (!semester || g.semester === semester)
+    );
+  }
   static async findById(id) {
     const res = await query('SELECT * FROM grade_books WHERE id = $1', [id]);
     if (res && res.rows) return res.rows[0] || null;

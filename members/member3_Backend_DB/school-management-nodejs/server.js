@@ -12,6 +12,10 @@ import { LeaveRequestController } from './src/controllers/LeaveRequestController
 import { TuitionController } from './src/controllers/TuitionController.js';
 import { ClassController } from './src/controllers/ClassController.js';
 import { SubjectController } from './src/controllers/SubjectController.js';
+import { DashboardController } from './src/controllers/DashboardController.js';
+import { ScheduleController } from './src/controllers/ScheduleController.js';
+import { ReportController } from './src/controllers/ReportController.js';
+import { UserController } from './src/controllers/UserController.js';
 import { authenticateToken } from './src/middleware/authMiddleware.js';
 import { forgotPasswordLimiter, resetPasswordLimiter } from './src/middleware/rateLimiters.js';
 dotenv.config();
@@ -62,13 +66,16 @@ app.put('/api/students/:id', StudentController.updateStudent);
 app.post('/api/students/:id/calculate-gpa', StudentController.calculateGPA);
 
 // GradeBook Routes
-app.get('/api/gradebook', GradeBookController.getGradeBook);
-app.post('/api/gradebook/save', GradeBookController.saveGrades);
-app.post('/api/gradebook/lock', GradeBookController.lockGradeSheet);
-app.post('/api/gradebook/unlock', GradeBookController.unlockGradeSheet);
+app.get('/api/gradebook',               GradeBookController.getGradeBook);
+app.get('/api/gradebook/page-data',     authenticateToken, GradeBookController.getPageData);
+app.post('/api/gradebook/save',         GradeBookController.saveGrades);
+app.post('/api/gradebook/save-spreadsheet', authenticateToken, GradeBookController.saveSpreadsheet);
+app.post('/api/gradebook/lock',         GradeBookController.lockGradeSheet);
+app.post('/api/gradebook/unlock',       GradeBookController.unlockGradeSheet);
 
 // Attendance Routes
 app.get('/api/attendance', AttendanceController.getAttendance);
+app.get('/api/attendance/summary', AttendanceController.getAttendanceSummary);
 app.post('/api/attendance/save', AttendanceController.saveAttendance);
 
 // Leave Requests Routes
@@ -85,6 +92,26 @@ app.get('/api/classes', ClassController.getClasses);
 app.post('/api/classes', ClassController.createClass);
 app.get('/api/subjects', SubjectController.getSubjects);
 app.post('/api/subjects', SubjectController.createSubject);
+
+// Dashboard Routes
+app.get('/api/dashboard/bgh', authenticateToken, DashboardController.getBGHDashboard);
+
+// Schedule Routes
+app.get('/api/schedules',    authenticateToken, ScheduleController.getSchedulePageData);
+app.post('/api/schedules',   authenticateToken, ScheduleController.saveSlot);
+app.delete('/api/schedules', authenticateToken, ScheduleController.deleteSlot);
+
+// Report Routes (BGH)
+app.get('/api/reports/bgh',             authenticateToken, ReportController.getReportData);
+app.post('/api/reports/bgh/approve',    authenticateToken, ReportController.approveClass);
+app.post('/api/reports/bgh/lock-all',   authenticateToken, ReportController.lockAll);
+
+// User Management Routes (Settings)
+app.get('/api/users',                   authenticateToken, UserController.getUsers);
+app.post('/api/users',                  authenticateToken, UserController.createUser);
+app.put('/api/users/:id',               authenticateToken, UserController.updateUser);
+app.patch('/api/users/:id/deactivate',  authenticateToken, UserController.deactivateUser);
+app.delete('/api/users/:id',            authenticateToken, UserController.deleteUser);
 
 // Global 404 Handler
 app.use((req, res) => {

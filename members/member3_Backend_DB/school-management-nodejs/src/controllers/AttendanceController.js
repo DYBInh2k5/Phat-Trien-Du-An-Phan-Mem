@@ -10,6 +10,26 @@ export class AttendanceController {
     }
   }
 
+  /**
+   * GET /api/attendance/summary
+   * Tổng hợp chuyên cần theo lớp cho BGH.
+   * Query params: dateFrom, dateTo, className
+   */
+  static async getAttendanceSummary(req, res) {
+    try {
+      const { dateFrom, dateTo, className } = req.query;
+      const result = await AttendanceService.getAttendanceSummaryForBGH({
+        dateFrom,
+        dateTo,
+        className,
+      });
+      return res.json({ success: true, ...result });
+    } catch (err) {
+      console.error('[AttendanceController] getAttendanceSummary error:', err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  }
+
   static async saveAttendance(req, res) {
     try {
       const payload = req.body;

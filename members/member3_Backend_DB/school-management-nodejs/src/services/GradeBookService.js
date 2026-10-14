@@ -1,6 +1,92 @@
 import { GradeBookRepository } from '../repositories/GradeBookRepository.js';
+import { StudentRepository } from '../repositories/StudentRepository.js';
+import { SubjectRepository } from '../repositories/SubjectRepository.js';
+import { ClassRepository } from '../repositories/ClassRepository.js';
 
 export class GradeBookService {
+  /**
+   * Lấy toàn bộ dữ liệu cần thiết cho trang GradebookPage:
+   *   - classes, subjects, students trong lớp, gradeRows
+   * @param {string} className
+   * @param {string} semester  - 'HK1' | 'HK2'
+   * @param {string} schoolYear
+   */
+  static async getGradebookPageData(className, semester, schoolYear) {
+    const [rawClasses, rawSubjects, rawStudents, rawGrades] = await Promise.all([
+      ClassRepository.findAll(),
+      SubjectRepository.findAll(),
+      StudentRepository.findByClassName(className),
+      GradeBookRepository.findByClassNameAndSemester(className, semester, schoolYear),
+    ]);
+
+    const classes = rawClasses.map((c) => ({
+      id:   c.class_name,
+      name: c.class_name,
+    }));
+
+    const subjects = rawSubjects.map((s) => ({
+      id:   s.code || s.name,
+      name: s.name,
+    }));
+
+    const students = rawStudents.map((s) => ({
+      id:        s.student_code || s.studentCode,
+      name:      s.full_name    || s.fullName,
+      classId:   s.class_name   || s.className,
+      code:      s.student_code || s.studentCode,
+    }));
+
+    // Build gradeRows: flat array dễ dùng ở frontend
+    const gradeRows = rawGrades.map((g) => ({
+      id:            g.id,
+      studentCode:   g.student_code || g.studentCode,
+      studentName:   g.student_name || g.studentName,
+      className:     g.class_name   || g.className,
+      subjectName:   g.subject_name || g.subjectName,
+      subjectId:     g.subject_name || g.subjectName, // dùng name làm id cho đồng nhất
+      semester:      g.semester,
+      schoolYear:    g.school_year  || g.schoolYear,
+      scoreOral:     g.score_oral   != null ? parseFloat(g.score_oral)   : null,
+      score15m:      g.score_15m    != null ? parseFloat(g.score_15m)    : null,
+      score1Hour:    g.score_1hour  != null ? parseFloat(g.score_1hour)  : null,
+      scoreMidTerm:  g.score_mid_term  != null ? parseFloat(g.score_mid_term)  : null,
+      scoreFinalTerm:g.score_final_term!= null ? parseFloat(g.score_final_term): null,
+      averageScore:  g.average_score   != null ? parseFloat(g.average_score)   : null,
+      status:        g.status,
+    }));
+
+    return { classes, subjects, students, gradeRows };
+  }
+
+  /**
+   * Lưu hàng loạt grades từ spreadsheet.
+   * Mỗi item: { studentCode, studentName, className, subjectId (=subjectName),
+   *             semester, schoolYear, scoreOral, score15m, score1Hour,
+   *             scoreMidTerm, scoreFinalTerm }
+   */
+  static async saveGradesFromSpreadsheet(items) {
+    const results = [];
+    for (const item of items) {
+      const gb = {
+        studentCode:    item.studentCode,
+        studentName:    item.studentName,
+        className:      item.className,
+        subjectName:    item.subjectId, // subjectId is subjectName on this page
+        semester:       item.semester,
+        schoolYear:     item.schoolYear,
+        scoreOral:      item.scoreOral,
+        score15m:       item.score15m,
+        score1Hour:     item.score1Hour,
+        scoreMidTerm:   item.scoreMidTerm,
+        scoreFinalTerm: item.scoreFinalTerm,
+        status:         'APPROVED',
+      };
+      const saved = await this.saveGrade(gb);
+      results.push(saved);
+    }
+    return results;
+  }
+
   static async getGrades({ studentCode, className, subjectName }) {
     if (studentCode) {
       return await GradeBookRepository.findByStudentCode(studentCode);

@@ -127,11 +127,36 @@ export async function initDatabaseSchema() {
         name VARCHAR(50) NOT NULL,
         credits INT DEFAULT 1
       );
+      CREATE TABLE IF NOT EXISTS schedules (
+        id SERIAL PRIMARY KEY,
+        class_id   VARCHAR(30) NOT NULL,
+        week_start VARCHAR(20) NOT NULL,
+        day_of_week INT NOT NULL CHECK (day_of_week BETWEEN 1 AND 7),
+        period     INT NOT NULL CHECK (period BETWEEN 1 AND 10),
+        subject_name VARCHAR(100),
+        teacher_name VARCHAR(100),
+        room         VARCHAR(50),
+        time_range   VARCHAR(30),
+        UNIQUE (class_id, week_start, day_of_week, period)
+      );
+      CREATE TABLE IF NOT EXISTS grade_book_closures (
+        id           SERIAL PRIMARY KEY,
+        class_id     VARCHAR(30) NOT NULL,
+        class_name   VARCHAR(30) NOT NULL,
+        gvcn_name    VARCHAR(100),
+        semester     VARCHAR(10) NOT NULL DEFAULT 'HK1',
+        school_year  VARCHAR(20) NOT NULL DEFAULT '2024-2025',
+        status       VARCHAR(20) NOT NULL DEFAULT 'pending',
+        submitted_at TIMESTAMPTZ,
+        approved_at  TIMESTAMPTZ,
+        UNIQUE (class_id, semester, school_year)
+      );
     `);
     // ===== Chức năng quên mật khẩu =====
     await query(`
       ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(255);
       ALTER TABLE users ADD COLUMN IF NOT EXISTS token_version INT NOT NULL DEFAULT 0;
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT TRUE;
       CREATE UNIQUE INDEX IF NOT EXISTS users_email_unique_idx
         ON users (LOWER(email)) WHERE email IS NOT NULL;
 
