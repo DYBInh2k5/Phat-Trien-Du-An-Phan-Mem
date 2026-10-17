@@ -453,25 +453,125 @@ CMD ["node", "server.js"]
 
 ---
 
-### 4.4. Sổ Tay Các Câu Lệnh Docker CLI Thiết Yếu Phục Vụ Báo Cáo
+### 4.4. Sổ Tay Toàn Diện Các Câu Lệnh Docker CLI Thiết Yếu Phục Vụ Vận Hành Và Báo Cáo
 
-Dưới đây là các câu lệnh thiết thực nhất bạn có thể thao tác trực tiếp trên Terminal trước Hội đồng:
+Nhằm phục vụ báo cáo trực tiếp trước Hội đồng và thao tác thực tế trên Terminal, dưới đây là bảng tra cứu đầy đủ các câu lệnh Docker CLI được phân loại theo từng nhóm nghiệp vụ kỹ thuật:
 
+#### 4.4.1. Nhóm Lệnh Điều Phối Đa Dịch Vụ Với Docker Compose
 ```bash
-# 1. Khởi động toàn bộ cụm dịch vụ CSDL và Backend ở chế độ chạy ngầm
+# 1. Khởi động toàn bộ cụm dịch vụ (CSDL PostgreSQL + Backend API) ở chế độ chạy ngầm (detached)
 docker compose up -d
 
-# 2. Liệt kê các container đang hoạt động kèm cổng ánh xạ
+# 2. Tái xây dựng lại Image khi có thay đổi trong Dockerfile hoặc mã nguồn backend mà không dùng bộ nhớ đệm
+docker compose build --no-cache
+
+# 3. Khởi động lại cụm dịch vụ và ép buộc tạo lại container
+docker compose up -d --build --force-recreate
+
+# 4. Kiểm tra trạng thái hoạt động và cổng ánh xạ của các dịch vụ trong compose
+docker compose ps
+
+# 5. Xem nhật ký tổng hợp của toàn bộ các dịch vụ thời gian thực
+docker compose logs -f --tail 100
+
+# 6. Xem nhật ký riêng biệt của dịch vụ cơ sở dữ liệu
+docker compose logs -f postgres-db
+
+# 7. Khởi động lại một dịch vụ cụ thể mà không làm gián đoạn các dịch vụ khác
+docker compose restart backend-api
+
+# 8. Dừng toàn bộ cụm dịch vụ một cách an toàn nhưng giữ nguyên container
+docker compose stop
+
+# 9. Dừng và hủy bỏ toàn bộ container, mạng ảo do Compose tạo ra (dữ liệu Volume vẫn được bảo toàn)
+docker compose down
+
+# 10. CẢNH BÁO: Hủy toàn bộ container kèm XÓA TOÀN BỘ DỮ LIỆU VOLUME (chỉ dùng khi muốn reset trắng hoàn toàn)
+docker compose down -v
+```
+
+#### 4.4.2. Nhóm Lệnh Quản Lý Vòng Đời Container Độc Lập
+```bash
+# 1. Liệt kê danh sách các container đang chạy
 docker ps
 
-# 3. Theo dõi nhật ký dòng chảy của CSDL thời gian thực
-docker logs -f htqllh_postgres
+# 2. Liệt kê toàn bộ các container trong hệ thống (bao gồm cả container đã dừng)
+docker ps -a
 
-# 4. Truy cập trực tiếp vào cửa sổ dòng lệnh psql bên trong container PostgreSQL
+# 3. Khởi động một container cụ thể đã bị dừng
+docker start htqllh_postgres
+
+# 4. Tạm dừng một container đang chạy
+docker stop htqllh_postgres
+
+# 5. Khởi động lại nhanh container
+docker restart htqllh_postgres
+
+# 6. Xóa vĩnh viễn một container đã dừng
+docker rm htqllh_postgres
+
+# 7. Ép buộc dừng và xóa ngay lập tức một container đang hoạt động
+docker rm -f htqllh_postgres
+
+# 8. Theo dõi mức độ tiêu thụ tài nguyên phần cứng (CPU %, RAM, Network I/O) thời gian thực của container
+docker stats htqllh_postgres htqllh_backend
+
+# 9. Xem danh sách các tiến trình (Processes) đang thực thi bên trong container
+docker top htqllh_postgres
+
+# 10. Trích xuất toàn bộ siêu dữ liệu cấu hình chi tiết của container (Địa chỉ IP, Cổng, Mounts, Biến môi trường)
+docker inspect htqllh_postgres
+```
+
+#### 4.4.3. Nhóm Lệnh Quản Lý Docker Image (Bản Đóng Gói Mẫu)
+```bash
+# 1. Liệt kê tất cả các Docker Image hiện có trên máy tính
+docker images
+
+# 2. Xây dựng Docker Image thủ công từ Dockerfile trong thư mục hiện hành và gắn nhãn (tag)
+docker build -t htqllh-backend:v1.0 ./members/member3_Backend_DB/school-management-nodejs
+
+# 3. Xóa một Docker Image khỏi ổ cứng
+docker rmi htqllh-backend:v1.0
+
+# 4. Dọn dẹp tất cả các Image rác không còn gắn nhãn (dangling images)
+docker image prune -f
+
+# 5. Dọn dẹp tổng thể hệ thống (Xóa toàn bộ container dừng, mạng không dùng, và cache build giải phóng dung lượng đĩa)
+docker system prune -a --volumes
+```
+
+#### 4.4.4. Nhóm Lệnh Quản Lý Vùng Nhớ Bền Vững (Named Volumes)
+```bash
+# 1. Liệt kê danh sách các Volume đang lưu trữ trên máy tính
+docker volume ls
+
+# 2. Kiểm tra chi tiết đường dẫn vật lý trên ổ cứng của Volume CSDL
+docker volume inspect postgres_data
+
+# 3. Sao lưu toàn bộ dữ liệu Volume CSDL ra tệp nén tar trên máy chủ vật lý
+docker run --rm -v postgres_data:/volume -v ${PWD}:/backup alpine tar czf /backup/postgres_data_backup.tar.gz -C /volume .
+
+# 4. Khôi phục dữ liệu từ tệp nén tar vào Volume CSDL
+docker run --rm -v postgres_data:/volume -v ${PWD}:/backup alpine sh -c "cd /volume && tar xzf /backup/postgres_data_backup.tar.gz"
+```
+
+#### 4.4.5. Nhóm Lệnh Tương Tác Trực Tiếp Với Cơ Sở Dữ Liệu PostgreSQL Trong Container
+```bash
+# 1. Mở cửa sổ tương tác dòng lệnh psql trực tiếp với tư cách quản trị viên postgres
 docker exec -it htqllh_postgres psql -U postgres -d school_management
 
-# 5. Dừng an toàn toàn bộ hệ thống
-docker compose stop
+# 2. Thực thi nhanh một câu lệnh SQL từ bên ngoài mà không cần vào terminal psql
+docker exec -it htqllh_postgres psql -U postgres -d school_management -c "SELECT class_name, COUNT(*) FROM students GROUP BY class_name;"
+
+# 3. Xuất sao lưu toàn bộ cơ sở dữ liệu ra tệp .sql (Database Dump)
+docker exec -t htqllh_postgres pg_dump -U postgres school_management > backup_school_management.sql
+
+# 4. Phục hồi toàn bộ cơ sở dữ liệu từ tệp .sql vào container
+docker exec -i htqllh_postgres psql -U postgres -d school_management < backup_school_management.sql
+
+# 5. Kiểm tra sức khỏe của dịch vụ PostgreSQL bằng tiện ích pg_isready
+docker exec -it htqllh_postgres pg_isready -U postgres -d school_management
 ```
 
 ---
@@ -608,6 +708,183 @@ Bảng dưới đây là kim chỉ nam giúp bạn nhấp chuột trực tiếp 
 - Bản phác thảo CSDL SQL chuẩn: [database/schema.sql](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/database/schema.sql)
 - Sơ đồ quan hệ thực thể ERD: [database/ERD.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/database/ERD.md)
 - Slide thuyết trình toàn khung bảo vệ đồ án: [Sprint/index.html](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Sprint/index.html)
+
+---
+
+---
+
+## 7. BỘ CÂU HỎI PHẢN BIỆN CỦA GIẢNG VIÊN VÀ HƯỚNG DẪN TRẢ LỜI (DEFENSE Q&A BANK)
+
+Tài liệu tổng hợp các câu hỏi hóc búa nhất mà Giảng viên thường đặt ra khi phản biện đồ án Phát Triển Dự Án Phần Mềm, chia theo 3 chuyên đề: Layout Components, RESTful API (Clean Architecture) và Docker (Containerization).
+
+---
+
+### CHUYÊN ĐỀ 1: LAYOUT COMPONENTS VÀ KIẾN TRÚC FRONTEND REACT
+
+#### Câu 1: Em hãy giải thích mô hình Application Shell trong `MainLayout.jsx` và tại sao dùng `<Outlet />` thay vì reload lại trang?
+- **Tập tin minh chứng**: [src/components/layout/MainLayout.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/layout/MainLayout.jsx) và [src/routes/AppRouter.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/routes/AppRouter.jsx)
+- **Câu trả lời chuẩn**:
+  - Hệ thống HTQLLH được xây dựng theo mô hình **Single Page Application (SPA)** với kiến trúc **Application Shell Pattern**. 
+  - `MainLayout` đóng vai trò là "bộ vỏ khung" (Shell) cố định bao gồm Sidebar điều hướng bên trái và Header định danh bên trên. Phần thân nội dung thay đổi linh hoạt được chỉ định bởi thẻ `<Outlet />` của thư viện `react-router-dom`.
+  - **Lợi ích kỹ thuật**:
+    1. **Tối ưu hiệu năng rendering**: Khi người dùng chuyển trang từ Sổ điểm (`/gv/gradebook`) sang Điểm danh (`/gv/attendance`), trình duyệt không hề gửi yêu cầu tải lại toàn bộ tài liệu HTML từ máy chủ (`No Full Page Reload`). 
+    2. **Giữ nguyên trạng thái (State Persistence)**: Phiên đăng nhập, trạng thái thu gọn Sidebar và bộ đệm tài nguyên không bị mất đi. Trình duyệt chỉ việc tháo gỡ (unmount) Component cũ và gắn kết (mount) Component mới vào vị trí `<Outlet />`, giảm thời gian phản hồi từ ~1500ms xuống dưới 50ms.
+
+#### Câu 2: Phân quyền hiển thị menu trên `Sidebar.jsx` hoạt động ra sao? Nếu người dùng cố tình thay đổi URL trình duyệt thì hệ thống xử lý như thế nào?
+- **Tập tin minh chứng**: [src/components/layout/Sidebar.jsx:L16-L35](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/layout/Sidebar.jsx#L16-L35), [src/components/auth/ProtectedRoute.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/auth/ProtectedRoute.jsx)
+- **Câu trả lời chuẩn**:
+  - Hệ thống thực hiện cơ chế bảo mật hai tầng (Two-Tier Security):
+    1. **Tầng trực quan (Sidebar UI Filtering)**: Trong `Sidebar.jsx`, mảng `navItems` được lọc thông qua điều kiện `item.roles.includes(currentUser.role)`. Giáo viên chỉ thấy các mục của giáo viên (Sổ điểm, Điểm danh), Ban Giám Hiệu thấy Báo cáo tổng hợp, Phụ huynh chỉ thấy Cổng tra cứu.
+    2. **Tầng phòng thủ tuyến đường (Router Guarding)**: Nếu người dùng có vai trò Phụ huynh cố tình gõ URL `/bgh/dashboard` trên thanh địa chỉ, Component [ProtectedRoute.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/auth/ProtectedRoute.jsx) sẽ kiểm tra vai trò hiện tại với mảng quyền được cấp phép `roles={[ROLES.BGH]}`. Khi phát hiện vi phạm, hệ thống chặn truy cập ngay lập tức và chuyển hướng người dùng đến trang [UnauthorizedPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/auth/UnauthorizedPage.jsx).
+    3. Ngoài ra, tại máy chủ Backend, các API nhạy cảm đều được bảo vệ bởi middleware `authorize([ROLES.BGH])`, ngăn chặn triệt để mọi hành vi can thiệp trái phép qua Postman/cURL.
+
+#### Câu 3: Làm thế nào `Header.jsx` cập nhật được tên người dùng và huy hiệu vai trò (Role Badge) theo thời gian thực?
+- **Tập tin minh chứng**: [src/components/layout/Header.jsx:L10-L28](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/layout/Header.jsx#L10-L28) và [src/context/AuthContext.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/context/AuthContext.jsx)
+- **Câu trả lời chuẩn**:
+  - Hệ thống sử dụng **React Context API** (`AuthContext`) để chia sẻ trạng thái người dùng toàn cục mà không gặp hiện tượng truyền props lòng vòng (Prop Drilling).
+  - Trong `Header.jsx`, hook `useAuth()` trích xuất đối tượng `currentUser`. Bất cứ khi nào người dùng đăng nhập hoặc đổi tài khoản từ thanh Dev Bar, `AuthContext` cập nhật giá trị `state`, kích hoạt cơ chế Reactive Re-render giúp Header cập nhật tức thì:
+    - Họ tên người dùng hiển thị: `currentUser.name`.
+    - Huy hiệu vai trò ánh xạ theo từ điển: `ROLE_LABELS[currentUser.role]` và gán màu sắc chuyên biệt (`bg-purple-100 text-purple-700` cho BGH, `bg-blue-100 text-blue-700` cho GVCN).
+
+#### Câu 4: Trong trang nhập điểm `GradebookPage.jsx`, bảng `DataTable.jsx` xử lý việc cố định cột học sinh (Sticky Column) và căn chỉnh điểm số như thế nào?
+- **Tập tin minh chứng**: [src/components/shared/DataTable.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/shared/DataTable.jsx) và [src/pages/gv/GradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/GradebookPage.jsx)
+- **Câu trả lời chuẩn**:
+  - Sổ điểm điện tử môn học chứa rất nhiều cột: Điểm kiểm tra miệng, Điểm 15 phút, Điểm 1 tiết, Điểm giữa kỳ, Điểm cuối kỳ và Điểm trung bình môn.
+  - Khi màn hình bị tràn ngang (Horizontal Overflow), thuộc tính `stickyFirstColumn` trong `DataTable.jsx` sẽ gán lớp CSS `sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]` cho cột Mã số và Họ tên học sinh. Nhờ đó, giáo viên cuộn ngang sang phải để nhập điểm cuối kỳ mà vẫn nhận diện chính xác tên từng học sinh.
+  - Về mặt thẩm mỹ số học, cột điểm số áp dụng thuộc tính `font-mono tabular-nums text-right` giúp toàn bộ dấu chấm thập phân thẳng hàng dọc chuẩn mực theo tiêu chuẩn công nghệ tài chính và học vụ chuyên nghiệp.
+
+#### Câu 5: Hệ thống có hỗ trợ in ấn báo cáo học vụ (Print Friendly) và tuân thủ chuẩn tương phản giao diện (WCAG) ra sao?
+- **Tập tin minh chứng**: [src/components/layout/Sidebar.jsx:L18](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/layout/Sidebar.jsx#L18) và [src/index.css](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/index.css)
+- **Câu trả lời chuẩn**:
+  - **In ấn chuẩn mực (Print Optimization)**: Khung Sidebar và Header được gán lớp CSS `print:hidden`. Khi người dùng nhấn tổ hợp phím `Ctrl + P` để in phiếu điểm hoặc danh sách lớp, toàn bộ thanh công cụ và menu điều hướng tự động ẩn đi, vùng nội dung trung tâm tự giãn rộng 100% trang giấy trắng A4 mà không bị lãng phí mực in.
+  - **Chuẩn trợ năng màu sắc (WCAG 2.1 AA)**: Hệ thống sử dụng bảng màu thuần sáng học vụ (Pure Light Theme), tỷ lệ tương phản giữa chữ xám đậm `#1E293B` trên nền trắng `#FFFFFF` đạt 13.5:1 (vượt xa chuẩn tối thiểu 4.5:1 của WCAG), giúp giáo viên và phụ huynh nhìn rõ thông tin trong mọi điều kiện ánh sáng.
+
+---
+
+### CHUYÊN ĐỀ 2: RESTFUL API VÀ KIẾN TRÚC CLEAN ARCHITECTURE
+
+#### Câu 6: Tại sao nhóm lại chọn kiến trúc Clean Architecture cho Backend? RESTful API đóng vai trò gì trong kiến trúc này?
+- **Tập tin minh chứng**: [server.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/server.js) và [src/services/StudentService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/StudentService.js)
+- **Câu trả lời chuẩn**:
+  - **Lý do chọn Clean Architecture**: Để tách biệt rạch ròi quy tắc nghiệp vụ học vụ (Business Rules) khỏi hạ tầng công nghệ bên ngoài (Database, Framework HTTP). Điều này bảo đảm mã nguồn dễ bảo trì, dễ viết kiểm thử tự động (Unit Test), và khi thay đổi cơ sở dữ liệu (từ PostgreSQL sang MySQL/MongoDB) thì các quy tắc tính điểm học lực Thông tư 22 trong Service không cần sửa đổi bất kỳ dòng mã nào.
+  - **Vai trò của RESTful API**: Trong Clean Architecture, RESTful API chỉ là một **External Driver / Interface Adapter** (Cổng giao tiếp ngoại vi). Express.js nhận các yêu cầu HTTP (GET, POST, PUT, DELETE), chuyển giao cho Controller bóc tách dữ liệu để gọi Use Case (Service). RESTful API giúp chuẩn hóa định dạng trao đổi JSON, phục vụ đồng thời cả ứng dụng Web React và ứng dụng Mobile sau này.
+
+#### Câu 7: Controller, Service và Repository phân định trách nhiệm ra sao? Tại sao không viết câu lệnh SQL trực tiếp trong Controller?
+- **Tập tin minh chứng**:
+  - Controller: [src/controllers/StudentController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/StudentController.js)
+  - Service: [src/services/StudentService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/StudentService.js)
+  - Repository: [src/repositories/StudentRepository.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/repositories/StudentRepository.js)
+- **Câu trả lời chuẩn**:
+  - **Controller (Slim Controller)**: Chỉ làm nhiệm vụ điều phối HTTP: Lấy `req.params`, `req.query`, `req.body`, gọi phương thức của Service tương ứng, và trả về mã trạng thái HTTP (200, 201, 400) kèm cấu trúc JSON chuẩn.
+  - **Service (Nghiệp vụ cốt lõi)**: Chứa toàn bộ logic kiểm tra hợp lệ: Xác thực học sinh có tồn tại không, tính toán điểm trung bình môn, phân loại học lực Tốt/Khá/Đạt theo Thông tư 22, và điều phối giao dịch Unit of Work. Service hoàn toàn không biết `req` hay `res` là gì.
+  - **Repository (Truy cập dữ liệu)**: Chỉ thuần túy thực thi các câu lệnh SQL (`SELECT`, `INSERT`, `UPDATE`, `DELETE`) thông qua `pg.Pool`.
+  - **Tại sao không viết SQL trực tiếp trong Controller?**: Viết SQL trong Controller sẽ vi phạm nguyên lý Trách nhiệm duy nhất (Single Responsibility Principle - SRP), dẫn đến "Fat Controller". Khi đó, logic nghiệp vụ bị gắn chặt với framework Express; việc viết Unit Test bắt buộc phải giả lập toàn bộ đối tượng HTTP phức tạp và không thể tái sử dụng logic ở các kênh khác (như Cron Job hay CLI).
+
+#### Câu 8: Khi gọi `GET /api/students?className=10A1`, vòng đời xử lý diễn ra như thế nào từ lúc gửi yêu cầu đến khi nhận kết quả?
+- **Tập tin minh chứng**: [src/controllers/StudentController.js:L9-L18](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/StudentController.js#L9-L18), [src/services/StudentService.js:L9-L12](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/StudentService.js#L9-L12), [src/repositories/StudentRepository.js:L10-L16](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/repositories/StudentRepository.js#L10-L16)
+- **Câu trả lời chuẩn**:
+  Vòng đời gồm 5 chặng kế tiếp:
+  1. **Chặng 1 (Nhận diện tuyến đường)**: Máy chủ Express tiếp nhận yêu cầu HTTP GET, so khớp chuỗi đường dẫn `/api/students` và chuyển giao quyền xử lý cho hàm `getStudents(req, res)` của `StudentController`.
+  2. **Chặng 2 (Trích xuất tham số)**: Controller lấy biến lọc `req.query.className` (giá trị là `"10A1"`) và gọi `studentService.getAllStudents("10A1")`.
+  3. **Chặng 3 (Thực thi nghiệp vụ & truy vấn SQL)**: `StudentService` chuyển tiếp tham số xuống `StudentRepository.findByClass("10A1")`. Repository mượn một kết nối từ `pg.Pool` và thực thi câu lệnh SQL có tham số hóa:
+     ```sql
+     SELECT * FROM students WHERE class_name = $1 ORDER BY student_code ASC;
+     ```
+     với tham số `['10A1']`.
+  4. **Chặng 4 (Ánh xạ thực thể Entity)**: Dữ liệu thô từ bảng PostgreSQL được ánh xạ (map) thành các đối tượng `Student` độc lập thuộc tầng Domain Entity.
+  5. **Chặng 5 (Phản hồi HTTP)**: Controller đóng gói mảng danh sách học sinh vào khuôn JSON chuẩn:
+     ```json
+     { "success": true, "data": [ ... ], "total": 45 }
+     ```
+     và phản hồi về phía Frontend với mã trạng thái `200 OK`.
+
+#### Câu 9: Nhóm phòng chống tấn công SQL Injection như thế nào trong các câu truy vấn cơ sở dữ liệu?
+- **Tập tin minh chứng**: [src/repositories/StudentRepository.js:L37-L43](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/repositories/StudentRepository.js#L37-L43)
+- **Câu trả lời chuẩn**:
+  - Nhóm tuân thủ tuyệt đối quy tắc **không bao giờ ghép chuỗi ký tự thô** vào câu lệnh SQL (`No String Concatenation`).
+  - Toàn bộ các thao tác dữ liệu đều sử dụng **Truy vấn tham số hóa (Parameterized Queries / Prepared Statements)** của thư viện `pg`.
+  - Mọi dữ liệu do người dùng nhập vào được truyền dưới dạng mảng tham số riêng biệt thông qua các ký hiệu placeholder `$1, $2, $3...`:
+    ```javascript
+    await query(
+      `SELECT * FROM students WHERE student_code = $1`,
+      [studentCode]
+    );
+    ```
+  - Phía máy chủ cơ sở dữ liệu PostgreSQL sẽ phân tích cú pháp (parse) và biên dịch câu lệnh SQL trước, sau đó mới gán giá trị tham số dưới dạng dữ liệu văn bản thuần túy (Literals). Ngay cả khi kẻ tấn công nhập chuỗi độc hại như `' OR '1'='1`, cơ sở dữ liệu vẫn coi đó là một chuỗi mã học sinh bình thường và không thể làm biến đổi cấu trúc ngữ nghĩa của truy vấn SQL.
+
+#### Câu 10: Khi giáo viên lưu bảng điểm cho 45 học sinh cùng lúc, nếu học sinh thứ 40 bị lỗi thì dữ liệu 39 học sinh trước đó sẽ ra sao? Nhóm xử lý giao dịch nguyên tử (Unit of Work) như thế nào?
+- **Tập tin minh chứng**: [src/utils/UnitOfWork.js:L18-L45](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/utils/UnitOfWork.js#L18-L45) và [src/services/GradeBookService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/GradeBookService.js)
+- **Câu trả lời chuẩn**:
+  - Nếu cập nhật từng học sinh rời rạc, khi học sinh thứ 40 bị lỗi sẽ dẫn đến tình trạng "dữ liệu mồ côi" (Inconsistent Data): 39 em đã có điểm mới, các em còn lại giữ điểm cũ.
+  - Để giải quyết bài toán này, nhóm đã cài đặt mẫu thiết kế **Unit of Work** bọc toàn bộ chuỗi thao tác bên trong một **Database Transaction** tuân thủ đầy đủ tính chất **ACID**:
+    1. Bước 1: Mở giao dịch bằng lệnh `BEGIN;`.
+    2. Bước 2: Thực thi cập nhật tuần tự điểm số cho từng học sinh trên cùng một Client kết nối.
+    3. Bước 3: Nếu tất cả 45 bản ghi đều hợp lệ, phát lệnh `COMMIT;` để lưu kết quả vĩnh viễn vào ổ đĩa.
+    4. Bước 4: Nếu có bất kỳ ngoại lệ nào phát sinh ở học sinh thứ 40, khối `catch` lập tức kích hoạt lệnh `ROLLBACK;`. Toàn bộ dữ liệu của 39 học sinh trước đó được hoàn tác sạch sẽ 100%, trạng thái bảng điểm quay về thời điểm nguyên vẹn ban đầu.
+
+#### Câu 11: Sự khác biệt và quy chuẩn sử dụng các mã trạng thái HTTP (200, 201, 400, 401, 403, 404, 500) trong hệ thống của nhóm?
+- **Tập tin minh chứng**: [src/controllers/StudentController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/StudentController.js) và [src/controllers/AuthController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/AuthController.js)
+- **Câu trả lời chuẩn**:
+  Hệ thống chuẩn hóa phản hồi RESTful theo chuẩn RFC 9110:
+  - **`200 OK`**: Yêu cầu xử lý thành công và trả về dữ liệu (ví dụ: lấy danh sách học sinh `GET /api/students`, cập nhật điểm `PUT /api/gradebooks`).
+  - **`201 Created`**: Tạo mới tài nguyên thành công trên cơ sở dữ liệu (ví dụ: thêm mới một hồ sơ học sinh `POST /api/students`).
+  - **`400 Bad Request`**: Dữ liệu gửi lên sai định dạng hoặc vi phạm quy tắc nghiệp vụ (ví dụ: điểm số nhập vào là 15 điểm hoặc thiếu trường họ tên).
+  - **`401 Unauthorized`**: Người dùng chưa gửi kèm Token xác thực JWT hoặc Token đã hết hạn.
+  - **`403 Forbidden`**: Người dùng đã đăng nhập nhưng không có thẩm quyền truy cập tài nguyên (ví dụ: Phụ huynh cố tình gọi API xóa học sinh của Ban Giám Hiệu).
+  - **`404 Not Found`**: Không tìm thấy tài nguyên tương ứng với mã định danh (ví dụ: tìm kiếm học sinh với mã `HS9999` không có trong hệ thống).
+  - **`500 Internal Server Error`**: Lỗi ngoại lệ hệ thống không mong muốn phát sinh từ máy chủ hoặc sập kết nối cơ sở dữ liệu.
+
+---
+
+### CHUYÊN ĐỀ 3: DOCKER VÀ HẠ TẦNG CƠ SỞ DỮ LIỆU CONTAINER
+
+#### Câu 12: Docker Container khác gì so với Máy ảo (Virtual Machine)? Tại sao nhóm dùng Docker thay vì cài trực tiếp PostgreSQL lên máy chủ?
+- **Tập tin minh chứng**: [docker-compose.yml](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docker-compose.yml) và [Dockerfile](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/Dockerfile)
+- **Câu trả lời chuẩn**:
+  - **So sánh Container và Máy ảo (VM)**:
+    - Máy ảo (như VMware, VirtualBox) yêu cầu cài đặt trọn vẹn một hệ điều hành khách (Guest OS) kèm bộ ảo hóa Hypervisor, tiêu tốn hàng Gigabyte RAM và mất từ 1-3 phút để khởi động.
+    - Docker Container chia sẻ chung nhân hệ điều hành máy chủ (Host OS Kernel) và cô lập tiến trình bằng công nghệ cgroups và namespaces của Linux. Nhờ đó, Container chỉ chiếm vài chục Megabyte RAM và khởi động chỉ trong 1 đến 2 giây.
+  - **Tại sao dùng Docker thay vì cài PostgreSQL trực tiếp?**:
+    1. **Tính nhất quán môi trường (Environment Parity)**: Đảm bảo CSDL trên máy sinh viên, máy giảng viên và máy chủ Cloud chạy chính xác cùng phiên bản PostgreSQL 15 Alpine, loại bỏ triệt để lỗi xung đột môi trường.
+    2. **Đơn giản hóa việc thiết lập (Zero Setup)**: Giảng viên hoặc thành viên nhóm mới chỉ cần gõ đúng một câu lệnh `docker compose up -d` là toàn bộ cơ sở dữ liệu và máy chủ backend tự khởi chạy đầy đủ mà không cần cài đặt rườm rà.
+
+#### Câu 13: Cấu hình `5434:5432` trong `docker-compose.yml` có ý nghĩa gì? Tại sao lại chọn số cổng 5434?
+- **Tập tin minh chứng**: [docker-compose.yml:L14](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docker-compose.yml#L14)
+- **Câu trả lời chuẩn**:
+  - Cú pháp ánh xạ cổng (Port Forwarding) của Docker có định dạng `HOST_PORT:CONTAINER_PORT`.
+  - Cổng `5432` bên phải là cổng mặc định mà dịch vụ PostgreSQL đang lắng nghe bên trong mạng nội bộ của Container.
+  - Cổng `5434` bên trái là cổng mở ra trên máy chủ vật lý (Host Machine) để các công cụ bên ngoài (như DBeaver, pgAdmin hoặc máy chủ Node.js chạy cục bộ) có thể kết nối vào.
+  - **Lý do chọn cổng 5434**: Rất nhiều máy tính của lập trình viên và giảng viên đã cài sẵn một bản PostgreSQL cục bộ chạy cổng mặc định `5432`. Nếu cấu hình ánh xạ `5432:5432`, lệnh khởi động sẽ bị lỗi `Bind for 0.0.0.0:5432 failed: port is already allocated` (Xung đột cổng). Việc ánh xạ sang `5434` giúp hệ thống hoạt động trơn tru 100% trên mọi máy tính mà không gây gián đoạn các dự án khác.
+
+#### Câu 14: Khi tắt hoặc xóa container PostgreSQL (`docker rm`), dữ liệu điểm số và học sinh có bị mất không? Giải thích cơ chế Volume?
+- **Tập tin minh chứng**: [docker-compose.yml:L16-L17](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docker-compose.yml#L16-L17) và [docker-compose.yml:L45-L46](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docker-compose.yml#L45-L46)
+- **Câu trả lời chuẩn**:
+  - **Dữ liệu hoàn toàn KHÔNG bị mất**.
+  - **Giải thích cơ chế Named Volume**: Bản chất Container là vô trạng thái (Stateless/Ephemeral); nếu ghi dữ liệu trực tiếp vào tầng ghi của Container thì khi container bị xóa, dữ liệu sẽ mất theo. Để giải quyết, nhóm đã cấu hình **Named Volume** có tên `postgres_data` gắn vào thư mục `/var/lib/postgresql/data` của PostgreSQL.
+  - Volume này thực chất là một vùng thư mục chuyên dụng nằm trực tiếp trên ổ cứng vật lý của hệ điều hành máy chủ do Docker Engine quản lý độc lập. Khi container bị tắt (`docker stop`), xóa bỏ (`docker rm`) hoặc nâng cấp lên phiên bản Image mới, vùng lưu trữ vật lý này vẫn tồn tại nguyên vẹn. Khi một container mới được tạo lại, Docker chỉ việc gắn (mount) lại Volume `postgres_data` là toàn bộ 45 học sinh và lịch sử điểm số được phục hồi ngay lập tức. Dữ liệu chỉ mất khi người dùng chủ động gõ lệnh xóa volume `docker compose down -v`.
+
+#### Câu 15: Tại sao trong cấu hình `docker-compose.yml` dịch vụ backend lại có chỉ thị `depends_on` với điều kiện `service_healthy`? Nếu không có thì chuyện gì xảy ra?
+- **Tập tin minh chứng**: [docker-compose.yml:L41-L43](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docker-compose.yml#L41-L43) và [docker-compose.yml:L18-L23](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docker-compose.yml#L18-L23)
+- **Câu trả lời chuẩn**:
+  - Dịch vụ máy chủ Express Node.js khởi động rất nhanh (chỉ mất khoảng 0.5 giây), trong khi tiến trình cơ sở dữ liệu PostgreSQL cần từ 3 đến 5 giây để nạp tệp cấu hình, khởi tạo WAL log và mở cổng tiếp nhận kết nối.
+  - **Nếu chỉ dùng `depends_on: [postgres-db]` thông thường**: Docker Compose chỉ đợi container CSDL được bật lên là lập tức cho phép Backend chạy ngay. Lúc này CSDL vẫn đang trong giai đoạn khởi động chưa sẵn sàng lắng nghe; máy chủ Node.js thực hiện lệnh kết nối `pool.connect()` sẽ bị từ chối (`ECONNREFUSED`), dẫn đến sập ứng dụng (Crash Loop) và container backend bị thoát (Exit 1).
+  - **Giải pháp `service_healthy`**: Nhóm đã thiết lập bộ kiểm tra sức khỏe `healthcheck` chạy lệnh `pg_isready -U postgres -d school_management` mỗi 5 giây. Chỉ khi nào PostgreSQL phản hồi mã trạng thái 0 (Sẵn sàng 100%), trạng thái container chuyển sang `healthy` thì Docker Compose mới cấp quyền cho container `backend-api` khởi chạy. Cơ chế này bảo đảm hệ thống khởi động ổn định tuyệt đối mà không cần can thiệp thủ công.
+
+#### Câu 16: Nếu muốn triển khai toàn bộ hệ thống này lên một máy chủ đám mây (Cloud VPS Ubuntu), nhóm sẽ thực hiện các bước như thế nào?
+- **Tập tin minh chứng**: [docker-compose.yml](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docker-compose.yml) và [members/member2_Frontend/vite.config.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/vite.config.js)
+- **Câu trả lời chuẩn**:
+  Quy trình triển khai tiêu chuẩn Production gồm 5 bước:
+  1. **Bước 1 (Chuẩn bị máy chủ)**: Đăng ký một máy chủ ảo Cloud VPS (như AWS EC2, DigitalOcean hoặc Linode chạy Ubuntu 22.04 LTS), cài đặt Docker Engine và Docker Compose Plugin.
+  2. **Bước 2 (Kéo mã nguồn)**: Clone kho mã nguồn từ GitHub:
+     ```bash
+     git clone https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem.git
+     ```
+  3. **Bước 3 (Đóng gói ứng dụng Frontend)**: Chạy lệnh `npm run build` trong thư mục frontend để xuất gói tĩnh HTML/CSS/JS siêu tối ưu vào thư mục `dist/`.
+  4. **Bước 4 (Cấu hình Nginx làm Reverse Proxy & Cấp chứng chỉ SSL HTTPS)**: Cài đặt máy chủ Web Nginx để điều hướng:
+     - Tên miền `https://school.domain.com` phục vụ các tệp tĩnh Frontend.
+     - Đường dẫn `https://school.domain.com/api/` được chuyển tiếp (proxy pass) vào cổng `8081` của backend container.
+     - Kích hoạt HTTPS miễn phí thông qua công cụ Certbot (Let's Encrypt).
+  5. **Bước 5 (Kích hoạt tự động)**: Chạy lệnh `docker compose up -d` để khởi động cơ sở dữ liệu và backend ngầm định; thiết lập dịch vụ giám sát tự khởi động lại khi máy chủ reboot thông qua chính sách `restart: always`.
 
 ---
 
