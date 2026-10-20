@@ -76,6 +76,7 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
   - [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md): Hướng dẫn cài đặt nhanh bằng Docker Compose & tài khoản mẫu 5 Roles.
   - [docs/API_SPECIFICATION.md](docs/API_SPECIFICATION.md): Đặc tả chi tiết các RESTful API Endpoints cho toàn hệ thống.
   - [docs/Requirements_Traceability_Matrix.md](docs/Requirements_Traceability_Matrix.md): Ma trận truy xuất yêu cầu SRS - Code - UAT.
+  - [docs/UML_DIAGRAMS.md](docs/UML_DIAGRAMS.md): Hồ sơ thiết kế mô hình hóa UML toàn diện (Use Case Diagrams, Class Diagram Clean Architecture, Sequence Diagrams, Activity & Deployment Diagrams).
   - [docs/UAT_Testing_Plan.md](docs/UAT_Testing_Plan.md): Kế hoạch và kịch bản kiểm thử chấp nhận người dùng UAT.
   - [docs/project2_specs.md](docs/project2_specs.md): Đặc tả yêu cầu kỹ thuật đồ án.
 - CHUYENDE/: Thư mục báo cáo chuyên đề chính thức định dạng Microsoft Word (.docx):
