@@ -5,56 +5,61 @@
 DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC THPT HSU (HTQLLH / SCHOOL MANAGEMENT SYSTEM)
 THÀNH VIÊN: TRẦN QUANG VINH
 VAI TRÒ: CORE LOGIC & SECURITY SPECIALIST (LOGIC SECURITY)
+TÀI KHOẢN JIRA CLOUD: tqvcontacts
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 VỊ TRÍ TÀI LIỆU: members/member4_Logic_Security/README.md
-NGÀY CẬP NHẬT: 27/10/2026
+NGÀY CẬP NHẬT: 27/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
 ================================================================================
 ```
 
 ---
 
-## 1. VỊ TRÍ & VAI TRÒ CHÍNH TRONG HỆ THỐNG
+## 1. BẢNG TRA CỨU NHANH CÁC THẺ CÔNG VIỆC TRÊN JIRA CLOUD
 
-- **Chức danh đảm nhiệm**: Kỹ sư An ninh Ứng dụng (Security Engineer) & Chuyên viên Phát triển Thuật toán Học vụ Cốt lõi (Core Academic Logic Developer).
-- **Vị trí trong quy trình phát triển**:
-  - Chịu trách nhiệm bảo đảm tính an toàn bảo mật, cơ chế kiểm soát truy cập phân quyền RBAC đa vai trò và mã hóa dữ liệu.
-  - Xây dựng các thuật toán tính toán học vụ phức tạp: Tính điểm trung bình môn theo Thông tư 22, quy đổi GPA hệ 4.0, xếp loại học lực và kiểm soát trạng thái khóa sổ điểm.
+| Mã Thẻ Jira | Tên Hạng Mục Công Việc | Phân Hệ Component | Phiên Bản | Trạng Thái | Liên Kết Mã Nguồn / Logic |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36) | **MEMBER-04: Hồ sơ Trần Quang Vinh** | Security & Authentication | `v0.7-beta` | **Idea** | [members/member4_Logic_Security/](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/) |
+| [KAN-6](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-6) | **EPIC-01: Xác thực & Quản trị Phân quyền (Auth & RBAC)** | Security & Authentication | `v0.7-beta` | **Idea** | [rbacMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/rbacMiddleware.js) |
+| [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) | **EPIC-04: Sổ điểm Điện tử Thông tư 22** | Core Logic & Circular 22 | `v0.5-beta` | **Idea** | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js) |
+| [KAN-12](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-12) | **EPIC-06: Nhật ký Kiểm toán Học vụ (Audit Trail)** | Audit & Centralized Logging | `v0.8-rc` | **Idea** | [BrainStorm/Week8 Logging .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week8%20Logging%20.md) |
+| [KAN-45](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-45) | **UML-03: Sơ đồ Tuần tự SD-01: JWT & RBAC** | Security & Authentication | `v0.2-alpha` | **Done** | [docs/UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md) |
+| [KAN-46](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-46) | **UML-04: Sơ đồ Tuần tự SD-02: Nhập điểm & ACID** | Core Logic & Circular 22 | `v0.2-alpha` | **Done** | [docs/UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md) |
+| [KAN-49](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-49) | **UML-07: Sơ đồ Hoạt động tính điểm & Khóa sổ** | Core Logic & Circular 22 | `v0.2-alpha` | **Done** | [docs/UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md) |
+| [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) | **PBI-09: Tính ĐTBmhk chia 9 & Xếp loại TT22** | Core Logic & Circular 22 | `v0.5-beta` | **Done** | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js) |
+| [KAN-22](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-22) | **PBI-10: Cơ chế chốt khóa sổ điểm học kỳ LOCKED** | Core Logic & Circular 22 | `v0.5-beta` | **Done** | [GradeBookService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/GradeBookService.js) |
+| [KAN-91](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-91) | **CD-04: Chuyên đề 4 - Mẫu Thiết kế & ACID (Word)** | Core Logic & Circular 22 | `v0.5-beta` | **Done** | [CHUYENDE/Chuyên đề 4 Pattern.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%204%20Pattern.docx) |
+| [KAN-69](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-69) | **WEEK-05: Báo cáo Tuần 5 - Mẫu Thiết Kế & ACID** | Core Logic & Circular 22 | `v0.5-beta` | **Done** | [BrainStorm/Week5 Pattern .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week5%20Pattern%20.md) |
+| [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7) | **PBI-01: Đăng nhập Stateless JWT & 1-Click Login** | Security & Authentication | `v0.7-beta` | **In Progress** | [jwtAuthMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/jwtAuthMiddleware.js) |
+| [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15) | **PBI-02: Middleware phân quyền RBAC 5 cấp bậc** | Security & Authentication | `v0.7-beta` | **In Progress** | [rbacMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/rbacMiddleware.js) |
+| [KAN-93](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-93) | **CD-06: Chuyên đề 6 - Xác thực JWT & RBAC (Word)** | Security & Authentication | `v0.7-beta` | **In Progress** | [CHUYENDE/Chuyên đề 6 Authentication.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%206%20Authentication%20Authorization.docx) |
+| [KAN-71](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-71) | **WEEK-07: Báo cáo Tuần 7 - Xác thực & RBAC** | Security & Authentication | `v0.7-beta` | **In Progress** | [BrainStorm/Week7.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week7.md) |
+| [KAN-27](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-27) | **PBI-13: Ghi nhật ký kiểm toán Audit Trail bảo mật** | Audit & Centralized Logging | `v0.8-rc` | **To Do** | [BrainStorm/Week8 Logging .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week8%20Logging%20.md) |
+| [KAN-72](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-72) | **WEEK-08: Báo cáo Tuần 8 - Centralized Audit Logging** | Audit & Centralized Logging | `v0.8-rc` | **To Do** | [BrainStorm/Week8 Logging .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week8%20Logging%20.md) |
 
 ---
 
-## 2. NHIỆM VỤ ĐÃ HOÀN THÀNH TRÊN HỆ THỐNG
+## 2. TIẾN ĐỘ & PHÂN ĐỊNH CHI TIẾT THEO CỘT MỐC THỜI GIAN
 
-### 2.1 Xây Dựng Cơ Chế Xác Thực JWT (JSON Web Token) Vô Trạng Thái
-- Phát triển thành phần xác thực đăng nhập vô trạng thái (Stateless Authentication) tại [jwtAuthMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/jwtAuthMiddleware.js) và [authMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/middlewares/authMiddleware.js):
-  + Bóc tách mã Bearer Token từ HTTP Authorization Header.
-  + Kiểm tra chữ ký điện tử với bí mật `JWT_SECRET` và kiểm tra thời hạn hết hạn (TTL 15 phút).
-  + Đính kèm thông tin danh tính người dùng (`userId`, `username`, `roleCode`) vào đối tượng `req.user`.
-
-### 2.2 Xây Dựng Middleware Phân Quyền RBAC (Role-Based Access Control)
-- Phát triển [rbacMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/rbacMiddleware.js) triển khai ma trận kiểm soát truy cập cho 5 nhóm vai trò:
-  + `ADMIN` / `BGH`: Ban Giám Hiệu toàn quyền kiểm soát hệ thống và chốt khóa sổ điểm.
-  + `GVCN`: Giáo viên chủ nhiệm quản lý học sinh và duyệt đơn nghỉ học lớp chủ nhiệm.
-  + `GVBM`: Giáo viên bộ môn chỉ được phép nhập điểm cho lớp và môn học mình được phân công.
-  + `STUDENT`: Học sinh chỉ được xem điểm của chính mình.
-  + `PARENT`: Phụ huynh chỉ được xem thông tin con em mình.
-- Tự động chặn và trả mã lỗi `403 Forbidden` khi người dùng cố tình truy cập tài nguyên vượt quá thẩm quyền.
-
-### 2.3 Cài Đặt Thuật Toán Học Vụ Chuẩn Thông Tư 22/2021/TT-BGDĐT
-- Lập trình mô đun [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js) và tích hợp vào [GradeBookService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/GradeBookService.js):
-  + Công thức tính Điểm trung bình môn học kỳ (ĐTBmhk):
+### 2.1 Phần Việc Đã Hoàn Thành (Tuần 1 -> Tuần 6)
+- **Cài đặt thuật toán học vụ Thông tư 22/2021/TT-BGDĐT**:
+  + Mô đun [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js):
     `ĐTBmhk = (ĐĐGtx_mieng + ĐĐGtx_15p + ĐĐGtx_1tiet*2 + ĐĐGgk*2 + ĐĐGck*3) / 9`
-  + Làm tròn số học chuẩn xác 1 chữ số thập phân.
-  + Thuật toán quy đổi sang thang điểm 4.0 và thang điểm chữ (A, B, C, D, F).
-  + Thuật toán xếp loại học lực 4 mức: Tốt (Giỏi), Khá, Đạt (Trung bình), Chưa đạt (Yếu).
+  + Làm tròn 1 chữ số thập phân, quy đổi sang GPA hệ 4.0 và xếp loại học lực 4 mức chuẩn Bộ GD&ĐT (Tốt, Khá, Đạt, Chưa đạt).
+- **Cài đặt máy trạng thái khóa sổ điểm (Gradebook State Machine)**:
+  + Chặn sửa điểm trái phép khi sổ điểm ở trạng thái `LOCKED`, chỉ cho phép sửa khi có phê duyệt mở khóa từ Ban Giám Hiệu.
+- **Nghiên cứu & mô hình hóa UML**:
+  + Vẽ các sơ đồ tuần tự SD-01 (JWT & RBAC), SD-02 (ACID Transaction) và Activity Diagram tính điểm khóa sổ.
+  + Hoàn thành Báo cáo Chuyên đề 4 tại [CHUYENDE/Chuyên đề 4 Pattern.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%204%20Pattern.docx) (`KAN-91`).
 
-### 2.4 Xây Dựng Máy Trạng Thái Khóa Sổ Điểm (Gradebook Lifecycle State Machine)
-- Triển khai logic kiểm soát trạng thái sổ điểm: `DRAFT` (Bản nháp) -> `SUBMITTED` (Đã nộp) -> `APPROVED` (Đã duyệt) -> `LOCKED` (Đã chốt khóa).
-- Ngăn chặn triệt để hành vi cố ý sửa điểm khi sổ điểm đã bị khóa bởi Ban Giám Hiệu (nêu rõ mã lỗi `400 Bad Request: Sổ điểm đã chốt`).
+### 2.2 Phần Việc Đang Thực Hiện (Tuần 7 - Thời Điểm Hiện Tại: 27/10/2026)
+- **Hoàn thiện giải pháp Xác thực Stateless JWT & Phân quyền RBAC 5 Roles (Thẻ Jira [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7), [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15), [KAN-71](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-71))**:
+  + Middleware xác thực [jwtAuthMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/jwtAuthMiddleware.js) kiểm tra Bearer Token, kiểm tra chữ ký và hạn sử dụng token.
+  + Middleware phân quyền [rbacMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/rbacMiddleware.js) thực thi ma trận RBAC cho 5 nhóm vai trò (`ADMIN`, `GVCN`, `GVBM`, `STUDENT`, `PARENT`).
+  + Hoàn thành Báo cáo Chuyên đề 6 tại [CHUYENDE/Chuyên đề 6 Authentication Authorization.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%206%20Authentication%20Authorization.docx) (`KAN-93`).
 
-### 2.5 Phòng Thủ An Ninh Mạng & Bảo Vệ Ứng Dụng
-- Thiết lập cấu hình bảo vệ lớp biên với `helmet` (chặn Clickjacking, XSS Protection, HSTS).
-- Thiết lập cấu hình CORS nghiêm ngặt chỉ chấp nhận các nguồn tin cậy từ Frontend Client.
-- Nghiên cứu chuyên đề bảo mật chuyên sâu tại [BrainStorm/Week7 Authentication Authorization .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week7%20Authentication%20Authorization%20.md).
+### 2.3 Phần Việc Sắp Thực Hiện (Tuần 8 -> Tuần 15)
+- **Tuần 8 (02/11 - 08/11/2026)**: Triển khai giải pháp bảo mật dữ liệu và ghi nhật ký kiểm toán [BrainStorm/Week8 Logging .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week8%20Logging%20.md) (`KAN-27`, `KAN-72`).
+- **Tuần 10**: Đánh giá và kiểm thử phòng thủ toàn diện các lỗ hổng theo tiêu chuẩn OWASP Top 10 (SQL Injection, XSS, Broken Object Level Authorization - BOLA).
 
 ---
 
@@ -66,4 +71,5 @@ NGÀY CẬP NHẬT: 27/10/2026
 | `members/member4_Logic_Security/rbacMiddleware.js` | Middleware kiểm tra quyền hạn Role-Based Access Control |
 | `members/member4_Logic_Security/gpaCalculationLogic.js` | Thuật toán tính ĐTBmhk, GPA hệ 10/4 và xếp loại Thông tư 22 |
 | `src/middlewares/authMiddleware.js` | Middleware tích hợp trong Backend Node.js Express chính |
-| `BrainStorm/Week7 Authentication Authorization .md` | Báo cáo nghiên cứu chuyên đề Xác thực & Bảo mật tuần 7 |
+| `CHUYENDE/Chuyên đề 4 Pattern.docx` | Báo cáo nghiên cứu Chuyên đề 4 Mẫu thiết kế & ACID Word |
+| `CHUYENDE/Chuyên đề 6 Authentication.docx` | Báo cáo nghiên cứu Chuyên đề 6 Xác thực & RBAC Word |
