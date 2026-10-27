@@ -96,7 +96,11 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 
 ---
 
-## 6. Liên kết Repository
+## 6. Liên kết Quản lý Dự án & Repository
 
+- Bảng Jira Cloud Kanban: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
+- Danh mục 91 Thẻ Ranked trên Jira: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC
+- Cẩm nang Ánh xạ Jira & GitHub: [docs/JIRA_KANBAN_MAPPING.md](docs/JIRA_KANBAN_MAPPING.md) (Đầy đủ 9 Components, 6 Fix Versions, 11 Epics, 8 Chuyên Đề, 5 Docs, 91 Thẻ & Ma trận Issue Links)
 - GitHub Repository: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
 - Branch chính: main
+
