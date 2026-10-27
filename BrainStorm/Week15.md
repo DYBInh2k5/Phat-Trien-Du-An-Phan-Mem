@@ -37,11 +37,11 @@ Trải qua 15 tuần làm việc theo quy trình phát triển phần mềm chu�
 
 | STT | Họ và tên | Vai trò trong Dự án | Trọng số Đóng góp | Tỷ lệ Hoàn thành | Đánh giá Đóng góp |
 | :---: | :--- | :--- | :---: | :---: | :--- |
-| 1 | **Võ Duy Bình** | Trưởng nhóm / Project Manager & Lead BA | 20% | **100%** | Điều phối toàn diện dự án; lập tài liệu SRS, Use Cases, RTM; chủ trì biên soạn các báo cáo chuyên đề và quản lý kho lưu trữ GitHub. |
-| 2 | **Nguyễn Minh Quốc Bảo** | Frontend Developer & System Architect | 20% | **100%** | Nghiên cứu công nghệ lưu trữ PostgreSQL; thiết kế giao diện UI Portal; lập trình các màn hình Dashboard BGH và Giáo viên. |
-| 3 | **Trần Quang Vinh** | Backend Architect & Database Developer | 20% | **100%** | Thiết kế kiến trúc Clean Architecture, kết nối CSDL PostgreSQL; xây dựng REST API Controllers và Unit of Work. |
-| 4 | **Võ Hoàng Sơn** | Security Specialist & Logic Developer | 20% | **100%** | Nghiên cứu nguyên lý DIP & DI; lập trình thuật toán tính điểm TBM/GPA; triển khai middleware xác thực JWT và phân quyền RBAC. |
-| 5 | **Huỳnh Trung Tính** | Modules Specialist & QA Lead | 20% | **100%** | Triển khai Export Engine (Excel SheetJS, PDF jsPDF); xây dựng bộ kiểm thử tự động `unitTestingSuite.test.js`; cấu hình Docker và CI/CD. |
+| 1 | **Võ Duy Bình** | Trưởng nhóm / Project Manager & Lead BA | 20% | **100%** | Điều phối toàn diện dự án, phân bổ Sprint trên Jira Kanban; lập tài liệu đặc tả SRS IEEE 830, Use Cases, RTM; chuẩn hóa quy chế Thông tư 22 và quản lý tiến độ 15 tuần. |
+| 2 | **Võ Hoàng Sơn** | Dev Frontend (Frontend Developer) | 20% | **100%** | Thiết kế UI/UX Wireframes 8 màn hình; lập trình ứng dụng Web SPA Responsive trên React 18, Vite, TailwindCSS; xây dựng 5 cổng portal cho 5 nhóm vai trò người dùng. |
+| 3 | **Huỳnh Trung Tính** | Dev Backend (Backend Developer) | 20% | **100%** | Thiết kế kiến trúc Clean Architecture 4 tầng trên Node.js/Express; thiết kế và chuẩn hóa CSDL quan hệ PostgreSQL đạt dạng chuẩn 3NF; xây dựng REST API và các dịch vụ đào tạo. |
+| 4 | **Trần Quang Vinh** | Logic Security (Core Logic & Security Specialist) | 20% | **100%** | Xây dựng thuật toán tính ĐTBmhk chia 9 và xếp loại Thông tư 22; triển khai xác thực JWT, Middleware RBAC 5 Roles; cài đặt Unit of Work bảo toàn ACID và Audit Trail. |
+| 5 | **Nguyễn Minh Quốc Bảo** | Tester (QA/QC Testing Lead) | 20% | **100%** | Xây dựng kịch bản kiểm thử UAT Plan toàn diện cho 5 nhóm tác nhân; phát triển bộ kiểm thử tự động QA Unit Testing Suite; thẩm định chất lượng giao phẩm và kiểm thử tải hệ thống. |
 | - | **TỔNG CỘNG** | **Toàn thể Nhóm Dự án** | **100%** | **100%** | **HOÀN THÀNH XUẤT SẮC ĐỒ ÁN** |
 
 ---
@@ -51,12 +51,12 @@ Trải qua 15 tuần làm việc theo quy trình phát triển phần mềm chu�
 1. **Phần 1: Giới thiệu Đề tài & Bối cảnh (3 phút - Võ Duy Bình)**:
    - Sự cần thiết của việc số hóa quản lý trường học.
    - Phạm vi 5 vai trò người dùng (BGH, GVCN, GVBM, Học sinh, Phụ huynh) và 43 Use Cases.
-2. **Phần 2: Kiến trúc Hệ thống & Cơ sở Dữ liệu (4 phút - Trần Quang Vinh & Nguyễn Minh Quốc Bảo)**:
-   - Trình bày kiến trúc Clean Architecture và mô hình Docker Compose.
-   - Sơ đồ cơ sở dữ liệu quan hệ PostgreSQL ERD và tối ưu hóa hiệu năng.
-3. **Phần 3: Thuật toán Nghiệp vụ & Bảo mật (4 phút - Võ Hoàng Sơn)**:
-   - Thuật toán tính điểm có trọng số, xếp loại học lực theo quy chế.
-   - Cơ chế xác thực không trạng thái JWT và phòng ngự tấn công CSRF/CORS.
+2. **Phần 2: Kiến trúc Hệ thống & Cơ sở Dữ liệu (4 phút - Huỳnh Trung Tính & Võ Hoàng Sơn)**:
+   - Trình bày kiến trúc Clean Architecture 4 tầng và mô hình kết nối PostgreSQL.
+   - Thiết kế giao diện trực quan 5 Portals trên React SPA và Wireframes.
+3. **Phần 3: Thuật toán Nghiệp vụ, Bảo mật & Kiểm thử (4 phút - Trần Quang Vinh & Nguyễn Minh Quốc Bảo)**:
+   - Thuật toán tính điểm có trọng số ĐTBmhk chia 9, xếp loại Thông tư 22, bảo toàn giao dịch ACID.
+   - Cơ chế xác thực không trạng thái JWT, phân quyền RBAC 5 Roles và bộ kiểm thử tự động QA Suite.
 4. **Phần 4: Demo Trực tiếp Sản phẩm (5 phút - Cả nhóm)**:
    - Đăng nhập và demo luồng nghiệp vụ 5 vai trò trên React Frontend.
    - Demo xuất sổ điểm Excel và phiếu báo điểm PDF.

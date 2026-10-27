@@ -4,6 +4,19 @@ Tài liệu nghiên cứu chuyên sâu về các giải pháp Xác thực (Authe
 
 ---
 
+## BẢNG PHÂN CÔNG NHIỆM VỤ THÀNH VIÊN TUẦN 7 (26/10/2026 - 01/11/2026)
+*Thời điểm cập nhật: Ngày 27/10/2026 - Tiến độ Tuần 7 đang thực hiện*
+
+| STT | Họ và tên | Vai trò đảm nhiệm | Nhiệm vụ phân công cụ thể | Tỷ lệ hoàn thành |
+| :---: | :--- | :--- | :--- | :---: |
+| 1 | **Võ Duy Bình** | Project Manager & Lead BA | Quản lý tiến độ Tuần 7, rà soát ma trận phân quyền RBAC 5 nhóm vai trò và điều phối Jira Kanban | 100% |
+| 2 | **Võ Hoàng Sơn** | Dev Frontend | Xây dựng giao diện đăng nhập đa vai trò, tích hợp tính năng 1-Click Demo Login và ProtectedRoute trên React | 100% |
+| 3 | **Huỳnh Trung Tính** | Dev Backend | Xây dựng tầng điều khiển xác thực Auth Controller, kết nối bảng users và phát hành JWT Token | 100% |
+| 4 | **Trần Quang Vinh** | Logic Security | Chủ trì nghiên cứu cơ chế JWT, CORS, CSRF, lập trình jwtAuthMiddleware và rbacMiddleware đa tầng | 100% |
+| 5 | **Nguyễn Minh Quốc Bảo** | Tester | Kiểm thử bảo mật API xác thực, kiểm tra mã lỗi 401/403 khi truy cập trái phép và kiểm thử hạn Token TTL | 100% |
+
+---
+
 ## CHƯƠNG I. MỤC TIÊU VÀ PHẠM VI NGHIÊN CỨU
 
 ### 1. Mục tiêu

@@ -8,11 +8,11 @@ Tài liệu nghiên cứu chuyên sâu về thiết kế Giao diện người d�
 
 | STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
 | :---: | :--- | :--- | :---: |
-| 1 | **Võ Duy Bình** | Phụ trách mảng công nghệ nền tảng Web và thiết kế UI/UX Web | 30% |
-| 2 | **Nguyễn Vũ Minh Huy** | Phụ trách mảng nền tảng Mobile và thiết kế UI/UX cho thiết bị di động | 10% |
-| 3 | **Trần Quang Vinh** | Phụ trách tổng quan khái niệm UI/UX, công cụ Figma và các tiêu chí chọn lựa công nghệ | 20% |
-| 4 | **Võ Hoàng Sơn** | Phụ trách nghiên cứu mảng ứng dụng Desktop với WinForms | 20% |
-| 5 | **Huỳnh Trung Tính** | Hỗ trợ UI/UX và hoàn thiện tài liệu | 20% |
+| 1 | **Võ Duy Bình** | Quản lý tiến độ, khảo sát yêu cầu giao diện người dùng và biên soạn tài liệu | 20% |
+| 2 | **Võ Hoàng Sơn** | Chủ trì nghiên cứu Web SPA React/Vite/TailwindCSS và thiết kế 8 Wireframes phân hệ | 20% |
+| 3 | **Huỳnh Trung Tính** | Nghiên cứu tích hợp giao diện với API Backend và mô hình dữ liệu | 20% |
+| 4 | **Trần Quang Vinh** | Nghiên cứu luồng giao diện xác thực JWT và chuyển đổi vai trò RBAC | 20% |
+| 5 | **Nguyễn Minh Quốc Bảo** | Đánh giá tính khả dụng UX/UI (Usability Testing) và kiểm thử giao diện Responsive | 20% |
 
 ---
 

@@ -8,11 +8,11 @@ Tài liệu nghiên cứu chuyên sâu về Kiến trúc Phần mềm (Software 
 
 | STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
 | :---: | :--- | :--- | :---: |
-| 1 | **Võ Duy Bình** | Nghiên cứu 3-Layer Architecture và N-Layer Architecture; trình bày khái niệm, cấu trúc, nguyên lý hoạt động, ưu điểm, hạn chế và trường hợp sử dụng | 20% |
-| 2 | **Nguyễn Minh Quốc Bảo** | Nghiên cứu Event-Driven Architecture và Microservice Architecture; trình bày khái niệm, cấu trúc, cơ chế hoạt động, ưu điểm, hạn chế và trường hợp sử dụng | 20% |
-| 3 | **Trần Quang Vinh** | Nghiên cứu Node.js, Event Loop, Non-blocking I/O, Express.js, RESTful API; phân tích Node.js kết hợp Clean Architecture, đề xuất cấu trúc Backend và thực hiện phần kết luận | 20% |
-| 4 | **Võ Hoàng Sơn** | Xây dựng mục tiêu nghiên cứu, phạm vi nghiên cứu, giới hạn nghiên cứu; định hướng nội dung và thống nhất phạm vi báo cáo; rà soát nội dung báo cáo | 20% |
-| 5 | **Huỳnh Trung Tính** | Thực hiện so sánh 5 kiến trúc, phân tích lý do lựa chọn Clean Architecture; nghiên cứu sâu các thành phần, Dependency Rule, luồng xử lý và ví dụ áp dụng vào hệ thống quản lý trường học | 20% |
+| 1 | **Võ Duy Bình** | Quản trị kiến trúc tổng thể, nghiên cứu 3-Layer Architecture và mô hình hóa Use Case UML | 20% |
+| 2 | **Võ Hoàng Sơn** | Phân tích kiến trúc tầng Presentation (React SPA Client) và giao tiếp RESTful API | 20% |
+| 3 | **Huỳnh Trung Tính** | Chủ trì thiết kế kiến trúc Clean Architecture 4 tầng trên Node.js Express và cấu trúc DTOs | 20% |
+| 4 | **Trần Quang Vinh** | Phân tích cơ chế bảo mật tầng kiến trúc, phân quyền Middleware RBAC và xử lý bất đồng bộ | 20% |
+| 5 | **Nguyễn Minh Quốc Bảo** | Phân tích tính khả thử (Testability) của kiến trúc và chuẩn bị kế hoạch kiểm thử tự động | 20% |
 
 ---
 
