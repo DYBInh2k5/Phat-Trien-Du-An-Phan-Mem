@@ -1,4 +1,4 @@
-# CẨM NANG ÁNH XẠ HỆ THỐNG JIRA CLOUD & QUY TRÌNH KANBAN (JIRA KANBAN MAPPING)
+# CẨM NANG ÁNH XẠ HỆ THỐNG JIRA CLOUD & GITHUB REPOSITORY (JIRA KANBAN MAPPING)
 
 ```
 ================================================================================
@@ -7,132 +7,133 @@ MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA 
 TỔNG QUAN TIẾN ĐỘ: 15 TUẦN HỌC KỲ 2631 (14/09/2026 - 27/12/2026)
 THỜI ĐIỂM ĐÁNH GIÁ: 27/10/2026 (TUẦN 7 / 15 TUẦN)
 PROJECT KEY: KAN | BOARD ID: 2 (KAN board)
-ĐƯỜNG DẪN BẢNG KANBAN: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
-DANH SÁCH CÔNG VIỆC RANKED: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC
+BẢNG JIRA KANBAN: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
+DANH SÁCH RANKED: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC
+KHO LƯU TRỮ GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
 ================================================================================
 ```
 
 ---
 
-## 1. ĐỊNH BIÊN VAI TRÒ 5 THÀNH VIÊN TRÊN HỆ THỐNG
+## 1. ĐỊNH BIÊN VAI TRÒ 5 THÀNH VIÊN TRÊN HỆ THỐNG & GITHUB
 
-| Mã Jira | Họ và Tên | Vai Trò Chính | Phân Hệ Phụ Trách & Trách Nhiệm | Thư Mục Mã Nguồn |
+| Mã Thẻ Jira | Họ và Tên | Vai Trò Đảm Nhiệm | Phân Hệ Phụ Trách & Trách Nhiệm | Liên Kết Thư Mục GitHub |
 | :---: | :--- | :--- | :--- | :--- |
-| [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33) | **Võ Duy Bình** | **Project Manager & Lead BA** | Quản lý tiến độ toàn diện, điều phối Jira Kanban, biên soạn đặc tả SRS IEEE 830, chuẩn hóa quy chế Thông tư 22/2021/TT-BGDĐT và RTM Matrix. | `members/member1_PM_BA/` |
-| [KAN-34](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-34) | **Võ Hoàng Sơn** | **Dev Frontend (Frontend Developer)** | Thiết kế 8 Wireframes UI/UX, lập trình Web SPA Responsive trên React 18, Vite, TailwindCSS (Dashboard BGH, Cổng GVCN, Lưới sổ điểm, Cổng Phụ huynh & Học sinh). | `members/member2_Frontend/` |
-| [KAN-35](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-35) | **Huỳnh Trung Tính** | **Dev Backend (Backend Developer)** | Thiết kế kiến trúc Clean Architecture 4 tầng trên Node.js/Express, chuẩn hóa CSDL quan hệ PostgreSQL 3NF, lập trình DDL schema.sql và cẩm nang POSTGRESQL_GUIDE.md. | `members/member3_Backend_DB/` |
-| [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36) | **Trần Quang Vinh** | **Logic Security (Core Logic & Security)** | Xây dựng thuật toán tính ĐTBmhk chia 9 và xếp loại Thông tư 22, thiết lập xác thực JWT, Middleware RBAC 5 Roles, Unit of Work bảo toàn ACID và Audit Trail. | `members/member4_Logic_Security/` |
-| [KAN-37](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-37) | **Nguyễn Minh Quốc Bảo** | **Tester (QA/QC Testing Lead)** | Xây dựng kịch bản kiểm thử UAT Plan cho 5 nhóm tác nhân, phát triển bộ kiểm thử tự động QA Unit Testing Suite kiểm chứng logic điểm số, kiểm thử tải và bảo mật. | `members/member5_Modules_QA/` |
+| [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33) | **Võ Duy Bình** | **Project Manager & Lead BA** | Quản lý tiến độ, điều phối Jira Kanban, biên soạn đặc tả SRS IEEE 830, chuẩn hóa quy chế Thông tư 22/2021/TT-BGDĐT và RTM Matrix. | [GitHub: members/member1_PM_BA](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member1_PM_BA) |
+| [KAN-34](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-34) | **Võ Hoàng Sơn** | **Dev Frontend (Frontend Developer)** | Thiết kế 8 Wireframes UI/UX, lập trình Web SPA Responsive trên React 18, Vite, TailwindCSS (Dashboard BGH, Cổng GVCN, Lưới sổ điểm, Cổng Phụ huynh & Học sinh). | [GitHub: members/member2_Frontend](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend) |
+| [KAN-35](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-35) | **Huỳnh Trung Tính** | **Dev Backend (Backend Developer)** | Thiết kế kiến trúc Clean Architecture 4 tầng trên Node.js/Express, chuẩn hóa CSDL PostgreSQL 3NF, lập trình DDL schema.sql và cẩm nang POSTGRESQL_GUIDE.md. | [GitHub: members/member3_Backend_DB](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member3_Backend_DB) |
+| [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36) | **Trần Quang Vinh** | **Logic Security (Core Logic & Security)** | Xây dựng thuật toán tính ĐTBmhk chia 9 và xếp loại Thông tư 22, thiết lập xác thực JWT, Middleware RBAC 5 Roles, Unit of Work bảo toàn ACID và Audit Trail. | [GitHub: members/member4_Logic_Security](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member4_Logic_Security) |
+| [KAN-37](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-37) | **Nguyễn Minh Quốc Bảo** | **Tester (QA/QC Testing Lead)** | Xây dựng kịch bản kiểm thử UAT Plan cho 5 nhóm tác nhân, phát triển bộ kiểm thử tự động QA Unit Testing Suite kiểm chứng logic điểm số, kiểm thử tải và bảo mật. | [GitHub: members/member5_Modules_QA](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member5_Modules_QA) |
 
 ---
 
-## 2. DANH MỤC 11 EPICS THEO TRÌNH TỰ TIẾN TRÌNH MÔN HỌC
+## 2. DANH MỤC 11 EPICS ÁNH XẠ GITHUB REPOSITORY
 
-| STT | Mã Epic | Tên Epic Nghiệp Vụ | Giai Đoạn & Tuần Áp Dụng | Mô Tả Trọng Tâm |
-| :---: | :---: | :--- | :---: | :--- |
-| 1 | [KAN-38](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-38) | **EPIC-00: Khảo Sát, Phân Tích & Thiết Kế Kiến Trúc** | Tuần 1 - Tuần 4 | Đặc tả SRS IEEE 830, Thông tư 22, Sơ đồ UML và CSDL PostgreSQL 3NF |
-| 2 | [KAN-64](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-64) | **EPIC-10: Thiết Kế Giao Diện Trực Quan (Wireframes)** | Tuần 2 | Bộ 8 Wireframes phân hệ cho 5 nhóm tác nhân và Design System |
-| 3 | [KAN-8](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-8) | **EPIC-02: Quản lý Hồ sơ, Lớp học & Đào tạo** | Tuần 1 & Tuần 3 | Danh mục Khối/Lớp, Hồ sơ Học sinh, Phân công Giảng dạy |
-| 4 | [KAN-9](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-9) | **EPIC-03: Điểm danh & Chuyên cần Học đường** | Tuần 4 | Điểm danh đầu giờ (GVCN), điểm danh theo tiết (GVBM), cảnh báo vắng 20% |
-| 5 | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) | **EPIC-04: Sổ điểm Điện tử Thông tư 22** | Tuần 5 | Lưới nhập điểm Spreadsheet, tự động tính ĐTBmhk chia 9, khóa sổ LOCKED |
-| 6 | [KAN-11](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-11) | **EPIC-05: Giao dịch Điểm ACID & Mẫu Thiết kế** | Tuần 5 | Repository Pattern, Unit of Work bảo toàn giao dịch cho 45 học sinh |
-| 7 | [KAN-13](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-13) | **EPIC-07: Thời khóa biểu & Chống Xung đột Lịch** | Tuần 5 | Thời khóa biểu tự động kiểm tra chống trùng giáo viên và phòng học |
-| 8 | [KAN-14](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-14) | **EPIC-08: Xuất Báo cáo & Cổng Giao tiếp Phụ huynh** | Tuần 6 | Export Engine Excel .xlsx, In ấn PDF học bạ và cổng phụ huynh |
-| 9 | [KAN-6](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-6) | **EPIC-01: Xác thực & Quản trị Phân quyền (Auth & RBAC)** | Tuần 7 (Hiện tại 27/10) | Đăng nhập JWT, 1-Click Demo Login, Middleware RBAC 5 Roles |
-| 10 | [KAN-12](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-12) | **EPIC-06: Nhật ký Kiểm toán Học vụ (Audit Trail)** | Tuần 8 | Ghi vết sửa điểm, lịch sử truy cập và nhật ký kiểm toán trung tâm |
-| 11 | [KAN-63](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-63) | **EPIC-09: Tiến Độ 15 Tuần Nghiên Cứu Môn Học** | Tuần 1 - Tuần 15 | Tập hợp 15 mốc báo cáo nghiên cứu học thuật hàng tuần (WEEK-01 đến WEEK-15) |
+| STT | Mã Epic Jira | Tên Epic Nghiệp Vụ | Tuần Áp Dụng | Mô Tả Trọng Tâm | Tài Liệu & Mã Nguồn Trên GitHub |
+| :---: | :---: | :--- | :---: | :--- | :--- |
+| 1 | [KAN-38](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-38) | **EPIC-00: Khảo Sát, Phân Tích & Thiết Kế Kiến Trúc** | Tuần 1 - 4 | Đặc tả SRS IEEE 830, Thông tư 22, Sơ đồ UML và CSDL PostgreSQL 3NF | [USE_CASES.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/USE_CASES.md)<br>[UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md) |
+| 2 | [KAN-64](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-64) | **EPIC-10: Thiết Kế Giao Diện Trực Quan (Wireframes)** | Tuần 2 | Bộ 8 Wireframes phân hệ cho 5 nhóm tác nhân và Design System | [member2_Frontend/](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend)<br>[Week2 UXUI .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week2%20UXUI%20.md) |
+| 3 | [KAN-8](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-8) | **EPIC-02: Quản lý Hồ sơ, Lớp học & Đào tạo** | Tuần 1 & 3 | Danh mục Khối/Lớp, Hồ sơ Học sinh, CSDL PostgreSQL 3NF | [database/ERD.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/ERD.md)<br>[database/schema.sql](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/schema.sql) |
+| 4 | [KAN-9](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-9) | **EPIC-03: Điểm danh & Chuyên cần Học đường** | Tuần 4 | Điểm danh đầu giờ (GVCN), điểm danh theo tiết (GVBM), cảnh báo vắng 20% | [CHI_TIET_NGHIEP_VU.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) |
+| 5 | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) | **EPIC-04: Sổ điểm Điện tử Thông tư 22** | Tuần 5 | Lưới nhập điểm Spreadsheet, tự động tính ĐTBmhk chia 9, khóa sổ LOCKED | [GradebookPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/GradebookPage.jsx)<br>[gpaCalculationLogic.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member4_Logic_Security/gpaCalculationLogic.js) |
+| 6 | [KAN-11](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-11) | **EPIC-05: Giao dịch Điểm ACID & Mẫu Thiết kế** | Tuần 5 | Repository Pattern, Unit of Work bảo toàn giao dịch cho 45 học sinh | [UnitOfWork.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/utils/UnitOfWork.js)<br>[GradeBookRepository.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/repositories/GradeBookRepository.js) |
+| 7 | [KAN-13](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-13) | **EPIC-07: Thời khóa biểu & Chống Xung đột Lịch** | Tuần 5 | Thời khóa biểu tự động kiểm tra chống trùng giáo viên và phòng học | [CHI_TIET_NGHIEP_VU.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) |
+| 8 | [KAN-14](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-14) | **EPIC-08: Xuất Báo cáo & Cổng Giao tiếp Phụ huynh** | Tuần 6 | Export Engine Excel .xlsx, In ấn PDF học bạ và cổng phụ huynh | [exportEngine.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member5_Modules_QA/exportEngine.js)<br>[ParentPortalPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) |
+| 9 | [KAN-6](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-6) | **EPIC-01: Xác thực & Quản trị Phân quyền (Auth & RBAC)** | Tuần 7 (Hiện tại 27/10) | Đăng nhập JWT, 1-Click Demo Login, Middleware RBAC 5 Roles | [LoginPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/auth/LoginPage.jsx)<br>[rbacMiddleware.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member4_Logic_Security/rbacMiddleware.js) |
+| 10 | [KAN-12](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-12) | **EPIC-06: Nhật ký Kiểm toán Học vụ (Audit Trail)** | Tuần 8 | Ghi vết sửa điểm, lịch sử truy cập và nhật ký kiểm toán trung tâm | [AuditLogger.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js)<br>[Week8 Logging .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week8%20Logging%20.md) |
+| 11 | [KAN-63](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-63) | **EPIC-09: Tiến Độ 15 Tuần Nghiên Cứu Môn Học** | Tuần 1 - 15 | Tập hợp 15 mốc báo cáo nghiên cứu học thuật hàng tuần (WEEK-01 đến WEEK-15) | [timeline.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/timeline.md)<br>[BrainStorm/](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/BrainStorm) |
 
 ---
 
-## 3. DANH SÁCH CHI TIẾT CÁC CÔNG VIỆC THEO TIẾN TRÌNH THỜI GIAN
+## 3. DANH SÁCH CHI TIẾT CÁC CÔNG VIỆC ÁNH XẠ LIÊN KẾT GITHUB & JIRA
 
 ### Tuần 1 (14/09/2026 - 20/09/2026): Khởi Động & Yêu Cầu SRS IEEE 830
-- [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33): MEMBER-01 - Võ Duy Bình (Trạng thái: Idea)
-- [KAN-34](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-34): MEMBER-02 - Võ Hoàng Sơn (Trạng thái: Idea)
-- [KAN-35](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-35): MEMBER-03 - Huỳnh Trung Tính (Trạng thái: Idea)
-- [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36): MEMBER-04 - Trần Quang Vinh (Trạng thái: Idea)
-- [KAN-37](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-37): MEMBER-05 - Nguyễn Minh Quốc Bảo (Trạng thái: Idea)
-- [KAN-39](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-39): SRS-01 - Khảo sát & Biên soạn SRS theo chuẩn IEEE 830 (Trạng thái: Done)
-- [KAN-40](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-40): SRS-02 - Đặc tả chi tiết 43 Use Cases cho 5 nhóm tác nhân (Trạng thái: Done)
-- [KAN-41](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-41): SRS-03 - Xây dựng Ma trận Truy xuất Yêu cầu RTM Matrix (Trạng thái: Done)
-- [KAN-42](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-42): SRS-04 - Chuẩn hóa khung pháp lý Thông tư 22/2021/TT-BGDĐT (Trạng thái: Done)
-- [KAN-17](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-17): PBI-03 - Quản lý danh mục Lớp học & Hồ sơ Học sinh (Trạng thái: Done)
-- [KAN-18](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-18): PBI-04 - Phân công giảng dạy môn học theo từng lớp (Trạng thái: Done)
-- [KAN-65](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-65): WEEK-01 - Báo cáo Tuần 1: Yêu cầu SRS & Pháp lý Thông tư 22 (Trạng thái: Done)
+- Thẻ Jira [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33): MEMBER-01 - Võ Duy Bình (Trạng thái: Idea) | [GitHub: members/member1_PM_BA](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member1_PM_BA)
+- Thẻ Jira [KAN-34](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-34): MEMBER-02 - Võ Hoàng Sơn (Trạng thái: Idea) | [GitHub: members/member2_Frontend](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend)
+- Thẻ Jira [KAN-35](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-35): MEMBER-03 - Huỳnh Trung Tính (Trạng thái: Idea) | [GitHub: members/member3_Backend_DB](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member3_Backend_DB)
+- Thẻ Jira [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36): MEMBER-04 - Trần Quang Vinh (Trạng thái: Idea) | [GitHub: members/member4_Logic_Security](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member4_Logic_Security)
+- Thẻ Jira [KAN-37](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-37): MEMBER-05 - Nguyễn Minh Quốc Bảo (Trạng thái: Idea) | [GitHub: members/member5_Modules_QA](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member5_Modules_QA)
+- Thẻ Jira [KAN-39](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-39): SRS-01 - Khảo sát & Biên soạn SRS theo chuẩn IEEE 830 (Trạng thái: Done) | [GitHub: USE_CASES.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/USE_CASES.md)
+- Thẻ Jira [KAN-40](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-40): SRS-02 - Đặc tả chi tiết 43 Use Cases cho 5 nhóm tác nhân (Trạng thái: Done) | [GitHub: USE_CASES.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/USE_CASES.md)
+- Thẻ Jira [KAN-41](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-41): SRS-03 - Xây dựng Ma trận Truy xuất Yêu cầu RTM Matrix (Trạng thái: Done) | [GitHub: Requirements_Traceability_Matrix.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/Requirements_Traceability_Matrix.md)
+- Thẻ Jira [KAN-42](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-42): SRS-04 - Chuẩn hóa khung pháp lý Thông tư 22/2021/TT-BGDĐT (Trạng thái: Done) | [GitHub: CHI_TIET_NGHIEP_VU_HE_THONG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)
+- Thẻ Jira [KAN-17](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-17): PBI-03 - Quản lý danh mục Lớp học & Hồ sơ Học sinh (Trạng thái: Done) | [GitHub: PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
+- Thẻ Jira [KAN-18](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-18): PBI-04 - Phân công giảng dạy môn học theo từng lớp (Trạng thái: Done) | [GitHub: PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
+- Thẻ Jira [KAN-65](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-65): WEEK-01 - Báo cáo Tuần 1: Yêu cầu SRS & Pháp lý Thông tư 22 (Trạng thái: Done) | [GitHub: Week1 TL SRS .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week1%20TL%20SRS%20.md)
 
 ### Tuần 2 (21/09/2026 - 27/09/2026): Chuyên Đề 1 - UI/UX & Wireframes
-- [KAN-55](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-55): UI-01 - Nghiên cứu Web SPA Responsive vs Desktop WinForms (Trạng thái: Done)
-- [KAN-56](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-56): UI-02 - Xây dựng Design System & TailwindCSS (Trạng thái: Done)
-- [KAN-80](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-80): WF-01 - Wireframe Đăng nhập 5 Roles & 1-Click Demo Login (Trạng thái: Done)
-- [KAN-81](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-81): WF-02 - Wireframe Dashboard Ban Giám Hiệu (Trạng thái: Done)
-- [KAN-82](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-82): WF-03 - Wireframe Giám sát Chuyên cần Toàn trường (Trạng thái: Done)
-- [KAN-83](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-83): WF-04 - Wireframe Lưới Sổ Điểm Spreadsheet (GVBM) (Trạng thái: Done)
-- [KAN-84](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-84): WF-05 - Wireframe Điểm Danh Chuyên Cần Theo Tiết (Trạng thái: Done)
-- [KAN-85](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-85): WF-06 - Wireframe Cổng Giáo Viên Chủ Nhiệm (Trạng thái: Done)
-- [KAN-86](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-86): WF-07 - Wireframe Sổ Liên Lạc Điện Tử & Cổng Phụ Huynh (Trạng thái: Done)
-- [KAN-87](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-87): WF-08 - Wireframe Bảng Điểm Cá Nhân Học Sinh (Trạng thái: Done)
-- [KAN-66](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-66): WEEK-02 - Báo cáo Tuần 2: Nghiên cứu UI/UX & Wireframes (Trạng thái: Done)
+- Thẻ Jira [KAN-55](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-55): UI-01 - Nghiên cứu Web SPA Responsive vs Desktop WinForms (Trạng thái: Done) | [GitHub: Week2 UXUI .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week2%20UXUI%20.md)
+- Thẻ Jira [KAN-56](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-56): UI-02 - Xây dựng Design System & TailwindCSS (Trạng thái: Done) | [GitHub: member2_Frontend/](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend)
+- Thẻ Jira [KAN-80](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-80): WF-01 - Wireframe Đăng nhập 5 Roles & 1-Click Demo Login (Trạng thái: Done) | [GitHub: LoginPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/auth/LoginPage.jsx)
+- Thẻ Jira [KAN-81](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-81): WF-02 - Wireframe Dashboard Ban Giám Hiệu (Trạng thái: Done) | [GitHub: BGHDashboardPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/bgh/BGHDashboardPage.jsx)
+- Thẻ Jira [KAN-82](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-82): WF-03 - Wireframe Giám sát Chuyên cần Toàn trường (Trạng thái: Done) | [GitHub: BGHAttendanceMonitorPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/bgh/BGHAttendanceMonitorPage.jsx)
+- Thẻ Jira [KAN-83](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-83): WF-04 - Wireframe Lưới Sổ Điểm Spreadsheet (GVBM) (Trạng thái: Done) | [GitHub: GradebookPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/GradebookPage.jsx)
+- Thẻ Jira [KAN-84](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-84): WF-05 - Wireframe Điểm Danh Chuyên Cần Theo Tiết (Trạng thái: Done) | [GitHub: AttendancePage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/AttendancePage.jsx)
+- Thẻ Jira [KAN-85](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-85): WF-06 - Wireframe Cổng Giáo Viên Chủ Nhiệm (Trạng thái: Done) | [GitHub: GVCNDashboardPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/GVCNDashboardPage.jsx)
+- Thẻ Jira [KAN-86](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-86): WF-07 - Wireframe Sổ Liên Lạc Điện Tử & Cổng Phụ Huynh (Trạng thái: Done) | [GitHub: ParentPortalPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx)
+- Thẻ Jira [KAN-87](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-87): WF-08 - Wireframe Bảng Điểm Cá Nhân Học Sinh (Trạng thái: Done) | [GitHub: member2_Frontend/src/pages/](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend/src/pages)
+- Thẻ Jira [KAN-66](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-66): WEEK-02 - Báo cáo Tuần 2: Nghiên cứu UI/UX & Wireframes (Trạng thái: Done) | [GitHub: Week2 UXUI .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week2%20UXUI%20.md) | [Word: Chuyên Đề 1 UXUI.docx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%90%E1%BB%81%201%20UXUI.docx)
 
 ### Tuần 3 (28/09/2026 - 04/10/2026): Chuyên Đề 2 - CSDL PostgreSQL & ERD 3NF
-- [KAN-51](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-51): ERD-01 - Thiết kế Sơ đồ Thực thể Quan hệ CSDL Chuẩn Hóa 3NF (Trạng thái: Done)
-- [KAN-52](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-52): ERD-02 - Xây dựng Từ điển Dữ liệu (Data Dictionary) 14 bảng quan hệ (Trạng thái: Done)
-- [KAN-53](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-53): ERD-03 - Lập trình tập lệnh DDL PostgreSQL schema.sql (Trạng thái: Done)
-- [KAN-54](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-54): ERD-04 - Cẩm nang Quản trị CSDL POSTGRESQL_GUIDE.md (Trạng thái: Done)
-- [KAN-16](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-16): PBI-18 - Cấu hình Singleton PostgreSQL Connection Pool (Trạng thái: Done)
-- [KAN-67](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-67): WEEK-03 - Báo cáo Tuần 3: CSDL PostgreSQL, ERD 3NF & Schema (Trạng thái: Done)
+- Thẻ Jira [KAN-51](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-51): ERD-01 - Thiết kế Sơ đồ Thực thể Quan hệ CSDL Chuẩn Hóa 3NF (Trạng thái: Done) | [GitHub: database/ERD.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/ERD.md)
+- Thẻ Jira [KAN-52](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-52): ERD-02 - Xây dựng Từ điển Dữ liệu (Data Dictionary) 14 bảng quan hệ (Trạng thái: Done) | [GitHub: database/ERD.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/ERD.md)
+- Thẻ Jira [KAN-53](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-53): ERD-03 - Lập trình tập lệnh DDL PostgreSQL schema.sql (Trạng thái: Done) | [GitHub: database/schema.sql](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/schema.sql)
+- Thẻ Jira [KAN-54](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-54): ERD-04 - Cẩm nang Quản trị CSDL POSTGRESQL_GUIDE.md (Trạng thái: Done) | [GitHub: POSTGRESQL_GUIDE.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/POSTGRESQL_GUIDE.md)
+- Thẻ Jira [KAN-16](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-16): PBI-18 - Cấu hình Singleton PostgreSQL Connection Pool (Trạng thái: Done) | [GitHub: db.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/config/db.js)
+- Thẻ Jira [KAN-67](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-67): WEEK-03 - Báo cáo Tuần 3: CSDL PostgreSQL, ERD 3NF & Schema (Trạng thái: Done) | [GitHub: Week3 DB .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week3%20DB%20.md) | [Word: Chuyên đề 2 Storages.docx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%202%20Storages.docx)
 
 ### Tuần 4 (05/10/2026 - 11/10/2026): Chuyên Đề 3 - Clean Architecture & UML Diagrams
-- [KAN-43](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-43): UML-01 - Sơ đồ Use Case Tổng thể & 5 Sơ đồ Phân rã chức năng (Trạng thái: Done)
-- [KAN-44](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-44): UML-02 - Sơ đồ Lớp thực thể Clean Architecture (Class Diagram) (Trạng thái: Done)
-- [KAN-45](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-45): UML-03 - Sơ đồ Tuần tự SD-01: Xác thực JWT & Phân quyền RBAC (Trạng thái: Done)
-- [KAN-46](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-46): UML-04 - Sơ đồ Tuần tự SD-02: Nhập bảng điểm hàng loạt & ACID (Trạng thái: Done)
-- [KAN-47](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-47): UML-05 - Sơ đồ Tuần tự SD-03: Điểm danh & Duyệt đơn nghỉ học (Trạng thái: Done)
-- [KAN-48](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-48): UML-06 - Sơ đồ Tuần tự SD-04: Thu học phí & Xuất biên lai PDF (Trạng thái: Done)
-- [KAN-49](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-49): UML-07 - Sơ đồ Hoạt động (Activity Diagram) tính điểm và khóa sổ (Trạng thái: Done)
-- [KAN-50](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-50): UML-08 - Sơ đồ Triển khai Hạ tầng Docker (Deployment Diagram) (Trạng thái: Done)
-- [KAN-19](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-19): PBI-05 - Điểm danh chuyên cần đầu giờ (GVCN) (Trạng thái: Done)
-- [KAN-25](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-25): PBI-06 - Điểm danh chi tiết theo từng tiết học (GVBM) (Trạng thái: Done)
-- [KAN-26](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-26): PBI-07 - Tự động cảnh báo học sinh vắng quá 20% số tiết (Trạng thái: Done)
-- [KAN-68](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-68): WEEK-04 - Báo cáo Tuần 4: Clean Architecture & UML Diagrams (Trạng thái: Done)
+- Thẻ Jira [KAN-43](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-43): UML-01 - Sơ đồ Use Case Tổng thể & 5 Sơ đồ Phân rã chức năng (Trạng thái: Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
+- Thẻ Jira [KAN-44](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-44): UML-02 - Sơ đồ Lớp thực thể Clean Architecture (Class Diagram) (Trạng thái: Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
+- Thẻ Jira [KAN-45](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-45): UML-03 - Sơ đồ Tuần tự SD-01: Xác thực JWT & Phân quyền RBAC (Trạng thái: Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
+- Thẻ Jira [KAN-46](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-46): UML-04 - Sơ đồ Tuần tự SD-02: Nhập bảng điểm hàng loạt & ACID (Trạng thái: Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
+- Thẻ Jira [KAN-47](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-47): UML-05 - Sơ đồ Tuần tự SD-03: Điểm danh & Duyệt đơn nghỉ học (Trạng thái: Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
+- Thẻ Jira [KAN-48](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-48): UML-06 - Sơ đồ Tuần tự SD-04: Thu học phí & Xuất biên lai PDF (Trạng thái: Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
+- Thẻ Jira [KAN-49](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-49): UML-07 - Sơ đồ Hoạt động (Activity Diagram) tính điểm và khóa sổ (Trạng thái: Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
+- Thẻ Jira [KAN-50](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-50): UML-08 - Sơ đồ Triển khai Hạ tầng Docker (Deployment Diagram) (Trạng thái: Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
+- Thẻ Jira [KAN-19](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-19): PBI-05 - Điểm danh chuyên cần đầu giờ (GVCN) (Trạng thái: Done) | [GitHub: docs/PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
+- Thẻ Jira [KAN-25](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-25): PBI-06 - Điểm danh chi tiết theo từng tiết học (GVBM) (Trạng thái: Done) | [GitHub: docs/PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
+- Thẻ Jira [KAN-26](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-26): PBI-07 - Tự động cảnh báo học sinh vắng quá 20% số tiết (Trạng thái: Done) | [GitHub: docs/PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
+- Thẻ Jira [KAN-68](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-68): WEEK-04 - Báo cáo Tuần 4: Clean Architecture & UML Diagrams (Trạng thái: Done) | [GitHub: Week4 KT .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week4%20KT%20.md) | [Word: Chuyên đề 3 Kiến trúc.docx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%203%20Ki%E1%BA%BFn%20tr%C3%BAc.docx)
 
 ### Tuần 5 (12/10/2026 - 18/10/2026): Chuyên Đề 4 - Design Patterns, Unit of Work & Sổ Điểm TT22
-- [KAN-23](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-23): PBI-11 - Repository Pattern trừu tượng hóa câu lệnh SQL (Trạng thái: Done)
-- [KAN-24](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-24): PBI-12 - Unit of Work bảo vệ giao dịch ACID 45 học sinh (Trạng thái: Done)
-- [KAN-20](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-20): PBI-08 - Nhập điểm thành phần trên giao diện Spreadsheet (Trạng thái: Done)
-- [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21): PBI-09 - Tự động tính ĐTBmhk chia 9 và xếp loại Thông tư 22 (Trạng thái: Done)
-- [KAN-22](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-22): PBI-10 - Cơ chế chốt khóa sổ điểm học kỳ LOCKED (Trạng thái: Done)
-- [KAN-28](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-28): PBI-14 - Thời khóa biểu tự động kiểm tra chống xung đột lịch dạy (Trạng thái: Done)
-- [KAN-69](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-69): WEEK-05 - Báo cáo Tuần 5: Mẫu Thiết Kế Patterns & ACID (Trạng thái: Done)
+- Thẻ Jira [KAN-23](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-23): PBI-11 - Repository Pattern trừu tượng hóa câu lệnh SQL (Trạng thái: Done) | [GitHub: GradeBookRepository.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/repositories/GradeBookRepository.js)
+- Thẻ Jira [KAN-24](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-24): PBI-12 - Unit of Work bảo vệ giao dịch ACID 45 học sinh (Trạng thái: Done) | [GitHub: UnitOfWork.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/utils/UnitOfWork.js)
+- Thẻ Jira [KAN-20](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-20): PBI-08 - Nhập điểm thành phần trên giao diện Spreadsheet (Trạng thái: Done) | [GitHub: GradebookPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/GradebookPage.jsx)
+- Thẻ Jira [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21): PBI-09 - Tự động tính ĐTBmhk chia 9 và xếp loại Thông tư 22 (Trạng thái: Done) | [GitHub: gpaCalculationLogic.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member4_Logic_Security/gpaCalculationLogic.js)
+- Thẻ Jira [KAN-22](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-22): PBI-10 - Cơ chế chốt khóa sổ điểm học kỳ LOCKED (Trạng thái: Done) | [GitHub: GradeBookService.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/services/GradeBookService.js)
+- Thẻ Jira [KAN-28](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-28): PBI-14 - Thời khóa biểu tự động kiểm tra chống xung đột lịch dạy (Trạng thái: Done) | [GitHub: CHI_TIET_NGHIEP_VU_HE_THONG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)
+- Thẻ Jira [KAN-69](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-69): WEEK-05 - Báo cáo Tuần 5: Mẫu Thiết Kế Patterns & ACID (Trạng thái: Done) | [GitHub: Week5 Pattern .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week5%20Pattern%20.md) | [Word: Chuyên đề 4 Pattern.docx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%204%20Pattern.docx)
 
 ### Tuần 6 (19/10/2026 - 25/10/2026): Chuyên Đề 5 - Export Engine & Cổng Phụ Huynh
-- [KAN-30](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-30): PBI-15 - Xuất bảng điểm lớp ra file Excel .xlsx (SheetJS) (Trạng thái: Done)
-- [KAN-31](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-31): PBI-16 - Xuất và in ấn phiếu báo điểm / học bạ PDF (jsPDF) (Trạng thái: Done)
-- [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29): PBI-17 - Cổng phụ huynh tra cứu điểm tức thời & nộp đơn nghỉ học (Trạng thái: Done)
-- [KAN-70](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-70): WEEK-06 - Báo cáo Tuần 6: Export Engine (Excel & PDF) (Trạng thái: Done)
+- Thẻ Jira [KAN-30](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-30): PBI-15 - Xuất bảng điểm lớp ra file Excel .xlsx (SheetJS) (Trạng thái: Done) | [GitHub: exportEngine.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member5_Modules_QA/exportEngine.js)
+- Thẻ Jira [KAN-31](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-31): PBI-16 - Xuất và in ấn phiếu báo điểm / học bạ PDF (jsPDF) (Trạng thái: Done) | [GitHub: exportEngine.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member5_Modules_QA/exportEngine.js)
+- Thẻ Jira [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29): PBI-17 - Cổng phụ huynh tra cứu điểm tức thời & nộp đơn nghỉ học (Trạng thái: Done) | [GitHub: ParentPortalPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx)
+- Thẻ Jira [KAN-70](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-70): WEEK-06 - Báo cáo Tuần 6: Export Engine (Excel & PDF) (Trạng thái: Done) | [GitHub: Week6 Export .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week6%20Export%20.md) | [Word: Chuyên đề 5 Export.docx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%205%20Export.docx)
 
 ### Tuần 7 (26/10/2026 - 01/11/2026): Chuyên Đề 6 - Xác Thực JWT & RBAC (THỜI ĐIỂM HIỆN TẠI: 27/10/2026)
-- [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7): PBI-01 - Đăng nhập hệ thống & tính năng 1-Click Demo Login 5 Roles (Trạng thái: Done)
-- [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15): PBI-02 - Middleware phân quyền RBAC 5 cấp bậc bảo vệ Endpoints (Trạng thái: Done)
-- [KAN-71](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-71): WEEK-07 - Báo cáo Tuần 7: Xác thực JWT & Phân quyền RBAC (**Trạng thái: In Progress**)
+- Thẻ Jira [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7): PBI-01 - Đăng nhập hệ thống & tính năng 1-Click Demo Login 5 Roles (Trạng thái: Done) | [GitHub: LoginPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/auth/LoginPage.jsx)
+- Thẻ Jira [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15): PBI-02 - Middleware phân quyền RBAC 5 cấp bậc bảo vệ Endpoints (Trạng thái: Done) | [GitHub: rbacMiddleware.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member4_Logic_Security/rbacMiddleware.js)
+- Thẻ Jira [KAN-71](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-71): WEEK-07 - Báo cáo Tuần 7: Xác thực JWT & Phân quyền RBAC (**Trạng thái: In Progress**) | [GitHub: BrainStorm/Week7.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week7.md) | [Word: Chuyên đề 6 Authentication Authorization.docx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%206%20Authentication%20Authorization.docx)
 
 ### Các Tuần Tiếp Theo (Từ Tuần 8 Đến Tuần 15 - Sau Ngày 27/10/2026)
 - **Tuần 8 (02/11 - 08/11/2026)**:
-  - [KAN-27](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-27): PBI-13 - Ghi nhật ký kiểm toán Audit Trail lưu vết sửa điểm (Trạng thái: To Do)
-  - [KAN-72](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-72): WEEK-08 - Báo cáo Tuần 8: Centralized Audit Logging (Trạng thái: To Do)
+  - Thẻ Jira [KAN-27](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-27): PBI-13 - Ghi nhật ký kiểm toán Audit Trail lưu vết sửa điểm (Trạng thái: To Do) | [GitHub: AuditLogger.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js)
+  - Thẻ Jira [KAN-72](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-72): WEEK-08 - Báo cáo Tuần 8: Centralized Audit Logging (Trạng thái: To Do) | [GitHub: Week8 Logging .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week8%20Logging%20.md) | [Word: Chuyên đề 7 Logging.docx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%207%20Logging.docx)
 - **Tuần 9 (09/11 - 15/11/2026)**:
-  - [KAN-32](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-32): PBI-19 - Bộ kiểm thử tự động QA Unit Testing Suite (Trạng thái: To Do)
-  - [KAN-73](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-73): WEEK-09 - Báo cáo Tuần 9: Automated QA Testing (Trạng thái: To Do)
+  - Thẻ Jira [KAN-32](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-32): PBI-19 - Bộ kiểm thử tự động QA Unit Testing Suite (Trạng thái: To Do) | [GitHub: unitTestingSuite.test.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member5_Modules_QA/tests/unitTestingSuite.test.js)
+  - Thẻ Jira [KAN-73](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-73): WEEK-09 - Báo cáo Tuần 9: Automated QA Testing (Trạng thái: To Do) | [GitHub: Week9 Testing .md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week9%20Testing%20.md) | [Word: Chuyên đề 8 Testing.docx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%208%20Testing.docx)
 - **Tuần 10 (16/11 - 22/11/2026)**:
-  - [KAN-74](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-74): WEEK-10 - Tích hợp hệ thống & phòng thủ OWASP Top 10 (Trạng thái: To Do)
+  - Thẻ Jira [KAN-74](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-74): WEEK-10 - Tích hợp hệ thống & phòng thủ OWASP Top 10 (Trạng thái: To Do) | [GitHub: Week10.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week10.md)
 - **Tuần 11 (23/11 - 29/11/2026)**:
-  - [KAN-75](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-75): WEEK-11 - Tối ưu hóa hiệu năng, Indexes & Redis Caching (Trạng thái: To Do)
+  - Thẻ Jira [KAN-75](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-75): WEEK-11 - Tối ưu hóa hiệu năng, Indexes & Redis Caching (Trạng thái: To Do) | [GitHub: Week11.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week11.md)
 - **Tuần 12 (30/11 - 06/12/2026)**:
-  - [KAN-76](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-76): WEEK-12 - Đóng gói Docker Compose & CI/CD GitHub Actions (Trạng thái: To Do)
+  - Thẻ Jira [KAN-76](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-76): WEEK-12 - Đóng gói Docker Compose & CI/CD GitHub Actions (Trạng thái: To Do) | [GitHub: Week12.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week12.md)
 - **Tuần 13 (07/12 - 13/12/2026)**:
-  - [KAN-61](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-61): QA-01 - Kịch bản kiểm thử chấp nhận người dùng UAT Plan (Trạng thái: Done)
-  - [KAN-77](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-77): WEEK-13 - Nghiệm thu kỹ thuật & UAT 43 Use Cases (Trạng thái: To Do)
+  - Thẻ Jira [KAN-61](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-61): QA-01 - Kịch bản kiểm thử chấp nhận người dùng UAT Plan (Trạng thái: Done) | [GitHub: UAT_Testing_Plan.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UAT_Testing_Plan.md)
+  - Thẻ Jira [KAN-77](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-77): WEEK-13 - Nghiệm thu kỹ thuật & UAT 43 Use Cases (Trạng thái: To Do) | [GitHub: Week13.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week13.md)
 - **Tuần 14 (14/12 - 20/12/2026)**:
-  - [KAN-62](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-62): QA-02 - Cẩm nang triển khai hệ thống Deployment Guide (Trạng thái: Done)
-  - [KAN-78](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-78): WEEK-14 - Đóng gói Release v1.0 & Cẩm nang Hướng dẫn Sử dụng (Trạng thái: To Do)
+  - Thẻ Jira [KAN-62](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-62): QA-02 - Cẩm nang triển khai hệ thống Deployment Guide (Trạng thái: Done) | [GitHub: DEPLOYMENT_GUIDE.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/DEPLOYMENT_GUIDE.md)
+  - Thẻ Jira [KAN-78](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-78): WEEK-14 - Đóng gói Release v1.0 & Cẩm nang Hướng dẫn Sử dụng (Trạng thái: To Do) | [GitHub: Week14.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week14.md)
 - **Tuần 15 (21/12 - 27/12/2026)**:
-  - [KAN-79](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-79): WEEK-15 - Tổng kết dự án, Thuyết trình bảo vệ & Đánh giá KPI (Trạng thái: To Do)
+  - Thẻ Jira [KAN-79](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-79): WEEK-15 - Tổng kết dự án, Thuyết trình bảo vệ & Đánh giá KPI (Trạng thái: To Do) | [GitHub: Week15.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week15.md)
