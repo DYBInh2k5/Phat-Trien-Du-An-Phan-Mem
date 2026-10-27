@@ -1,108 +1,70 @@
-# Hướng Dẫn Sử Dụng & Tài Liệu Kỹ Thuật Frontend — Hệ Thống Quản Lý Lớp Học & Học Vụ (HTQLLH)
-
-Thư mục mã nguồn Ứng dụng Web Frontend Single Page Application (SPA) phát triển bằng **React.js + Vite + TailwindCSS** thuộc đề tài **Hệ thống Quản lý Trường học (School Management System - SMS)** — Môn học *Phát triển dự án phần mềm (SW320DV01)* - Đại học Hoa Sen (HSU).
-
-- **Thành viên phụ trách (Frontend Lead)**: Thành viên 2 & Võ Duy Bình (PM)
-- **Công nghệ cốt lõi**: React 18, React Router v6, TailwindCSS v3, SheetJS (`xlsx`), jsPDF/Print Engine
-- **Trạng thái**: **100% Hoàn thành (Release Candidate)**
-
----
-
-## 1. Danh Sách 5 Vai Trò Phân Quyền & Tài Khoản Trải Nghiệm Demo
-
-Hệ thống được thiết kế phân quyền nghiêm ngặt theo **5 Vai trò Tác nhân (5 Actors)** chuẩn SRS IEEE 830. Tại màn hình Đăng nhập (`/login`), người dùng có thể nhấp **1-Click Đăng Nhập Nhanh Demo** cho bất kỳ vai trò nào bên dưới:
-
-| STT | Vai Trò (Actor) | Mã Role | Tài Khoản Demo | Mật Khẩu | Trang Dashboard Mặc Định | Chức Năng Chính Phụ Trách |
-| :---: | :--- | :---: | :---: | :---: | :--- | :--- |
-| 1 | **Ban Giám Hiệu** | `BGH` | `bgh.admin` | `123` | `/bgh/dashboard` | Quản trị hệ thống, duyệt khóa/mở sổ điểm toàn trường, phân công giảng dạy, xem báo cáo tổng hợp & cài đặt tài khoản. |
-| 2 | **GV Chủ Nhiệm** | `GVCN` | `gvcn.10a1` | `123` | `/gvcn/dashboard` | Quản lý lớp 10A1, điểm danh hàng ngày, đánh giá Hạnh kiểm học kỳ (BR-05), duyệt đơn xin nghỉ học & nhắn tin với Phụ huynh. |
-| 3 | **GV Bộ Môn** | `GV` | `gv.toan` | `123` | `/gv/dashboard` | Điểm danh theo tiết dạy, nhập điểm thành phần (Miệng, 15p, 1 tiết, GK, CK), tự động tính TBM & gửi đơn xin mở khóa sổ điểm phúc khảo. |
-| 4 | **Học Sinh** | `HS` | `hs0001` | `123` | `/student/gradebook` | Tra cứu bảng điểm cá nhân, GPA hệ 10 và 4, xếp loại Học lực (Xuất sắc/Giỏi/Khá/TB/Yếu), xem thời khóa biểu, lịch thi & chuyên cần. |
-| 5 | **Phụ Huynh** | `PH` | `ph.hs0001` | `123` | `/parent/dashboard` | Sổ liên lạc điện tử con em, nộp đơn xin nghỉ học trực tuyến, nhận thông báo vắng học, tra cứu & đóng học phí kèm in biên lai PDF. |
-
----
-
-## 2. Chi Tiết Các Phân Hệ Chức Năng (Feature Breakdown)
-
-### 2.1. Phân hệ Đăng Nhập & Bảo Mật (`src/pages/auth/LoginPage.jsx`)
-- Giao diện 5 Tab chọn vai trò trực quan (`BGH`, `GVCN`, `GV`, `HS`, `PH`).
-- Tự động điền tài khoản mẫu và hỗ trợ nút Đăng nhập Nhanh Demo 1-click.
-- Bảo vệ tuyến đường (`ProtectedRoute.jsx`) tự động chuyển hướng khi truy cập trái phép (`/unauthorized`).
-
-### 2.2. Phân hệ Quản lý Sổ Điểm Điện Tử (`src/pages/gv/GradebookPage.jsx`)
-- Giao diện dạng Lưới dữ liệu (Spreadsheet) phẳng, cố định cột STT và Tên học sinh khi cuộn ngang.
-- Tự động tính Điểm trung bình môn (TBM) theo đúng trọng số quy định Bộ GD&ĐT:
-  $$\text{TBM} = \frac{\sum (\text{TX}) + 2 \times \text{GK} + 3 \times \text{CK}}{\text{Tổng hệ số}}$$
-- Phân biệt 2 chế độ: **Chế độ Chỉnh sửa cho GV** và **Chế độ Chỉ Xem (Read-only) cho BGH**.
-- Nút **Xin mở khóa / Phúc khảo**: Mở Modal đệ trình đơn xin sửa điểm gửi Ban Giám Hiệu theo quy định BR-03.
-
-### 2.3. Phân hệ Điểm Danh & Giám Sát Chuyên Cần (`src/pages/gv/AttendancePage.jsx`)
-- Hỗ trợ 2 chế độ: **Điểm danh Hàng ngày (GVCN)** và **Điểm danh Theo tiết (GVBM)**.
-- Các trạng thái chuyên cần: *Có mặt, Vắng có phép, Vắng không phép, Đi trễ*.
-- Cảnh báo học sinh vắng $> 20\%$ tiết học có nguy cơ cấm thi (`BGHAttendanceMonitorPage.jsx`).
-
-### 2.4. Phân hệ Cổng GV Chủ Nhiệm (`src/pages/gv/GVCNDashboardPage.jsx`)
-- Dashboard quản lý lớp 10A1 (Sĩ số 45).
-- Đánh giá Hạnh kiểm học kỳ/cả năm (*Tốt, Khá, Trung bình, Yếu*) theo Thông tư 22/2021/TT-BGDĐT.
-- Tiếp nhận và phê duyệt/từ chối Đơn xin nghỉ học từ Phụ huynh.
-
-### 2.5. Phân hệ Cổng Phụ Huynh & Sổ Liên Lạc (`src/pages/communication/ParentPortalPage.jsx`)
-- Tra cứu bảng điểm & Sổ liên lạc điện tử con em.
-- Form nộp **Đơn Xin Nghỉ Học Trực Tuyến** gửi Giáo viên Chủ nhiệm.
-- Tra cứu khoản thu học phí, nút thanh toán QR mô phỏng và **In Biên Lai Thu Học Phí (PDF)**.
-
-### 2.6. Engine Xuất Báo Cáo Excel & PDF (`src/utils/exportEngine.js`)
-- **Xuất Excel (`exportToExcel`)**: Tự động tính độ rộng cột và xuất file `.xlsx` chuẩn định dạng SheetJS.
-- **Xuất PDF (`exportToPDF`)**: Tạo giao diện trang in chính thức (*SỞ GIÁO DỤC VÀ ĐÀO TẠO - TRƯỜNG THPT HSU*), hỗ trợ xem trước và in/lưu PDF.
-
----
-
-## 3. Cấu Trúc Thư Mục Mã Nguồn (`src/`)
+# THÔNG TIN THÀNH VIÊN 2: FRONTEND LEAD DEVELOPER & SYSTEM INTEGRATION SPECIALIST
 
 ```
-src/
-├── api/                  # RESTful API Stubs mô phỏng (stubs.js)
-├── components/           # UI Components dùng chung
-│   ├── auth/            # Guard bảo vệ tuyến đường (ProtectedRoute.jsx)
-│   ├── layout/          # MainLayout, Sidebar navigation, Header
-│   └── shared/          # Modal, DataTable, KpiCard, StatusBadge
-├── constants/            # Định nghĩa Roles (roles.js) & Routes (routes.js)
-├── context/              # Quản lý Trạng thái Xác thực (AuthContext.jsx)
-├── data/                 # CSDL Giả lập (mockData.js - 45 học sinh, sổ điểm, TKB, học phí)
-├── pages/                # Các trang giao diện cho 5 vai trò
-│   ├── auth/            # LoginPage.jsx, UnauthorizedPage.jsx
-│   ├── bgh/             # BGHDashboardPage.jsx, BGHReportCenterPage.jsx, SystemSettingsPage.jsx, BGHAttendanceMonitorPage.jsx, ScheduleAdminPage.jsx
-│   ├── gv/              # GVDashboardPage.jsx, GVCNDashboardPage.jsx, GradebookPage.jsx, AttendancePage.jsx
-│   ├── communication/   # ParentCommunicationPage.jsx, ParentPortalPage.jsx
-│   ├── schedule/        # TimetablePage.jsx
-│   ├── student/         # StudentGradebookPage.jsx, StudentAttendancePage.jsx, StudentSchedulePage.jsx, StudentExamsPage.jsx
-│   └── students/        # StudentListPage.jsx
-├── routes/               # Bộ điều hướng tuyến đường AppRouter.jsx
-└── utils/                # Tiện ích Xuất Báo cáo exportEngine.js (Excel & PDF)
+================================================================================
+DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC THPT HSU (HTQLLH / SCHOOL MANAGEMENT SYSTEM)
+THÀNH VIÊN: VÕ HOÀNG SƠN
+VAI TRÒ: FRONTEND DEVELOPER (DEV FRONTEND)
+MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
+VỊ TRÍ TÀI LIỆU: members/member2_Frontend/README.md
+NGÀY CẬP NHẬT: 27/10/2026
+================================================================================
 ```
 
 ---
 
-## 4. Hướng Dẫn Khởi Chạy Dự Án
+## 1. VỊ TRÍ & VAI TRÒ CHÍNH TRONG HỆ THỐNG
 
-### Bước 1: Di chuyển vào thư mục Frontend
-```bash
-cd members/member2_Frontend
-```
+- **Chức danh đảm nhiệm**: Trưởng nhóm Lập trình Giao diện (Frontend Lead Developer) & Chuyên viên Nghiên cứu Kiến trúc Mở rộng (System Integration).
+- **Vị trí trong quy trình phát triển**:
+  - Chịu trách nhiệm thiết kế, lập trình và tối ưu hóa toàn bộ Ứng dụng Web Single Page Application (SPA) phía máy khách (Client-side).
+  - Đảm bảo trải nghiệm người dùng (UX/UI) mượt mà, phân quyền giao diện nghiêm ngặt cho 5 nhóm vai trò và kết nối RESTful API với Backend Node.js.
 
-### Bước 2: Cài đặt các gói phụ thuộc (Dependencies)
-```bash
-npm install
-```
+---
 
-### Bước 3: Chạy máy chủ phát triển (Dev Server)
-```bash
-npm run dev
-```
-Trình duyệt sẽ tự động mở hoặc truy cập địa chỉ local: `http://localhost:5173/`.
+## 2. NHIỆM VỤ ĐÃ HOÀN THÀNH TRÊN HỆ THỐNG
 
-### Bước 4: Kiểm tra đóng gói Production Bundle (Build Check)
-```bash
-npm run build
-```
-Lệnh sẽ thực thi `vite build` và kiểm tra 100% tính hợp lệ của mã nguồn mà không phát sinh bất kỳ lỗi nào.
+### 2.1 Xây Dựng Khung Ứng Dụng Web SPA Chuẩn Công Nghệ
+- Khởi tạo và cấu hình hoàn chỉnh dự án React 18 kết hợp Vite bundler và TailwindCSS tại `members/member2_Frontend/`.
+- Xây dựng hệ thống Design System hiện đại: Bảng màu học đường chuyên nghiệp, Typography chuẩn Inter/Segoe UI, Card bo tròn, hiệu ứng bóng mờ (box-shadow) và tương thích hoàn toàn trên Desktop, Tablet và Mobile.
+- Thiết lập hệ thống định tuyến phân quyền đa tầng bằng `react-router-dom` v6 kèm thành phần bảo vệ tuyến đường `ProtectedRoute.jsx`.
+
+### 2.2 Phát Triển 5 Cổng Thông Tin Riêng Biệt Cho 5 Vai Trò (5 Portals)
+- **Cổng Ban Giám Hiệu (`/bgh`)**:
+  + [BGHDashboardPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/BGHDashboardPage.jsx): Tổng quan sĩ số toàn trường, tình trạng chốt sổ điểm các khối lớp.
+  + [BGHAttendanceMonitorPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/BGHAttendanceMonitorPage.jsx): Theo dõi chuyên cần học sinh toàn trường, tự động lọc học sinh có nguy cơ cấm thi do vắng quá 20% số tiết.
+  + Quản lý danh mục khối/lớp và phân công giáo viên.
+- **Cổng Giáo Viên Chủ Nhiệm (`/gvcn`)**:
+  + [GVCNDashboardPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/GVCNDashboardPage.jsx): Quản trị lớp 10A1 (sĩ số 45 học sinh).
+  + Đánh giá hạnh kiểm học kỳ theo 4 mức Thông tư 22 (Tốt, Khá, Đạt, Chưa đạt).
+  + Tiếp nhận, xem lý do và duyệt đơn xin nghỉ học từ phụ huynh.
+- **Cổng Giáo Viên Bộ Môn (`/gv`)**:
+  + [GradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/GradebookPage.jsx): Lưới dữ liệu bảng điểm (Spreadsheet Grid) cố định cột Mã và Tên học sinh, tự động tính ĐTBmhk theo thời gian thực.
+  + [AttendancePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/AttendancePage.jsx): Điểm danh nhanh theo tiết học với 4 trạng thái chuyên cần.
+  + Chức năng gửi yêu cầu mở khóa sổ điểm phúc khảo gửi Ban Giám Hiệu.
+- **Cổng Học Sinh (`/student`)**:
+  + Tra cứu bảng điểm cá nhân, GPA hệ 10 và hệ 4, xếp loại học lực và số buổi vắng học.
+- **Cổng Phụ Huynh (`/parent`)**:
+  + [ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx): Sổ liên lạc điện tử con em, nộp đơn xin nghỉ học kèm lý do trực tuyến, tra cứu và in biên lai học phí.
+
+### 2.3 Cơ Chế Đăng Nhập & Chuyển Vai Trò 1-Click Demo
+- Phát triển trang [LoginPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/auth/LoginPage.jsx) với 5 Tab trực quan cho 5 vai trò.
+- Tích hợp tính năng 1-Click Demo Login giúp hội đồng đánh giá và giảng viên trải nghiệm ngay lập tức các quyền hạn mà không cần gõ mật khẩu thủ công.
+
+### 2.4 Nghiên Cứu Kiến Trúc Hệ Thống Mở Rộng
+- Đồng chủ trì nghiên cứu giải pháp Cơ sở dữ liệu và lộ trình mở rộng kiến trúc Event-Driven, Microservices trong [BrainStorm/Week3 DB .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week3%20DB%20.md) và [Week4 KT .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week4%20KT%20.md).
+
+---
+
+## 3. DANH MỤC TỆP MÃ NGUỒN PHỤ TRÁCH CHÍNH
+
+| Thư mục / Tệp mã nguồn | Vai Trò & Chức Năng Cụ Thể |
+| :--- | :--- |
+| `src/pages/auth/LoginPage.jsx` | Màn hình đăng nhập đa vai trò và nút đăng nhập nhanh 1-click |
+| `src/pages/bgh/` | Bộ màn hình quản trị toàn trường cho Ban Giám Hiệu |
+| `src/pages/gv/GradebookPage.jsx` | Bảng nhập điểm tương tác thời gian thực cho Giáo viên bộ môn |
+| `src/pages/gv/AttendancePage.jsx` | Giao diện điểm danh chuyên cần theo ngày và theo tiết học |
+| `src/pages/gv/GVCNDashboardPage.jsx` | Bảng điều khiển quản lý lớp chủ nhiệm và duyệt đơn nghỉ học |
+| `src/pages/communication/ParentPortalPage.jsx` | Cổng thông tin sổ liên lạc điện tử dành cho phụ huynh |
+| `src/components/common/ProtectedRoute.jsx` | Bộ lọc kiểm tra phân quyền và điều hướng bảo vệ tuyến đường |
+| `src/utils/exportEngine.js` | Tích hợp xuất bảng điểm ra Excel và xem trước in ấn PDF |

@@ -49,6 +49,9 @@ Trưởng nhóm & Quản lý: **Võ Duy Bình (PM / Lead BA)**
 ---
 
 ## Tài Liệu Kiến Trúc & Cẩm Nang Kỹ Thuật Bổ Sung
+- [docs/PRODUCT_BACKLOG.md](docs/PRODUCT_BACKLOG.md): Danh mục yêu cầu sản phẩm chuẩn Scrum (19 PBIs, 8 Epics, Story Points, MoSCoW, DoR/DoD & Kế hoạch 5 Sprints).
+- [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](docs/CHI_TIET_NGHIEP_VU_HE_THONG.md): Đặc tả chi tiết Nghiệp vụ học vụ (Thông tư 22, Điểm danh 2 cấp, Khóa sổ điểm, Kiểm toán Audit Trail, Chống xung đột TKB).
+- [docs/KIEN_TRUC_CHI_TIET_HE_THONG.md](docs/KIEN_TRUC_CHI_TIET_HE_THONG.md): Đặc tả chi tiết Kiến trúc hệ thống (Clean Architecture 4 tầng, C4 Container, Sequence Diagram, 4 Design Patterns, ERD 3NF, RBAC).
 - [docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md): Cẩm nang kỹ thuật toàn diện giải thích tường tận RESTful API, Layout Components, Docker và mối liên kết mã nguồn.
 - [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](docs/CHI_TIET_CONG_NGHE_HE_THONG.md): Báo cáo kỹ thuật chi tiết toàn bộ công nghệ, thư viện, kiến trúc và mẫu thiết kế của hệ thống.
 - [docs/API_SPECIFICATION.md](docs/API_SPECIFICATION.md): Đặc tả chi tiết các RESTful API Endpoints cho toàn hệ thống.

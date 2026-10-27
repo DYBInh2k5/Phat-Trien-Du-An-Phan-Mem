@@ -17,11 +17,11 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 
 | STT | Thành viên & Vai trò | Phân hệ & Công việc phụ trách | Thư mục công việc trên GitHub |
 | :---: | :--- | :--- | :--- |
-| 1 | **Võ Duy Bình** (PM / Lead BA) | Quản lý tiến độ, Tài liệu SRS, Phân hệ Web UI/UX, Báo cáo Tuần | [members/member1_PM_BA/](members/member1_PM_BA/) |
-| 2 | **Nguyễn Minh Quốc Bảo** (Frontend & System Dev) | Nghiên cứu PostgreSQL, Event-Driven & Microservices, UI Portal | [members/member2_Frontend/](members/member2_Frontend/) |
-| 3 | **Trần Quang Vinh** (Backend & DB Architect) | Nghiên cứu Node.js Clean Architecture, Express REST API, Unit of Work | [members/member3_Backend_DB/](members/member3_Backend_DB/) |
-| 4 | **Võ Hoàng Sơn** (Logic & Security Dev) | Nghiên cứu WinForms Desktop, DIP & DI, Xác thực JWT & Phân quyền RBAC | [members/member4_Logic_Security/](members/member4_Logic_Security/) |
-| 5 | **Huỳnh Trung Tính** (Modules Dev & QA) | Nghiên cứu Clean Architecture chuyên sâu, PostgreSQL Guide, QA Unit Test | [members/member5_Modules_QA/](members/member5_Modules_QA/) |
+| 1 | **Võ Duy Bình** (Project Manager / Lead Business Analyst) | Quản lý tiến độ, Tài liệu SRS IEEE 830, Quy chế Thông tư 22, Điều phối Jira Kanban | [members/member1_PM_BA/](members/member1_PM_BA/) |
+| 2 | **Võ Hoàng Sơn** (Frontend Developer) | Thiết kế UI/UX Wireframes, Ứng dụng Web React/Vite/TailwindCSS, 8 Màn hình Phân hệ | [members/member2_Frontend/](members/member2_Frontend/) |
+| 3 | **Huỳnh Trung Tính** (Backend Developer) | Kiến trúc Clean Architecture, RESTful API Node.js/Express, Thiết kế CSDL PostgreSQL 3NF | [members/member3_Backend_DB/](members/member3_Backend_DB/) |
+| 4 | **Trần Quang Vinh** (Core Logic & Security Specialist) | Phân quyền RBAC, Bảo mật JWT, Tính điểm Thông tư 22, Unit of Work & Audit Trail | [members/member4_Logic_Security/](members/member4_Logic_Security/) |
+| 5 | **Nguyễn Minh Quốc Bảo** (QA/QC Tester) | Kế hoạch kiểm thử UAT, Bộ kiểm thử tự động QA Unit Testing Suite, Thẩm định Ma trận RTM | [members/member5_Modules_QA/](members/member5_Modules_QA/) |
 
 ---
 
@@ -50,6 +50,9 @@ Kho lưu trữ tài liệu phân tích, kiến trúc hệ thống và mã nguồ
 ## 5. Cấu trúc tài liệu và thư mục (Repository Structure)
 
 - README.md: Tổng quan dự án, thông tin nhóm và hướng dẫn.
+- [docs/PRODUCT_BACKLOG.md](docs/PRODUCT_BACKLOG.md): Danh mục yêu cầu sản phẩm chuẩn Scrum (19 PBIs, 8 Epics, Story Points, MoSCoW, DoR/DoD & Kế hoạch 5 Sprints).
+- [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](docs/CHI_TIET_NGHIEP_VU_HE_THONG.md): Đặc tả chi tiết Nghiệp vụ học vụ (Thông tư 22, Điểm danh 2 cấp, Khóa sổ điểm, Kiểm toán Audit Trail, Chống xung đột TKB).
+- [docs/KIEN_TRUC_CHI_TIET_HE_THONG.md](docs/KIEN_TRUC_CHI_TIET_HE_THONG.md): Đặc tả chi tiết Kiến trúc hệ thống (Clean Architecture 4 tầng, C4 Container, Sequence Diagram, 4 Design Patterns, ERD 3NF, RBAC).
 - [USE_CASES.md](USE_CASES.md): Tài liệu đặc tả chi tiết 43 Use Cases, 5 sơ đồ Mermaid phân rã & 4 Sequence Diagrams cho 5 vai trò.
 - [database/ERD.md](database/ERD.md): Sơ đồ thực thể quan hệ ERD Mermaid & Từ điển dữ liệu Data Dictionary 8 thực thể.
 - [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án theo tuần (Hoàn thành Tuần 1 - Tuần 9).
