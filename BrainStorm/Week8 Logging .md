@@ -57,6 +57,6 @@ Dịch vụ Audit Logging tập trung đã được triển khai chính thức t
 
 ## CHƯƠNG III. NGƯỜI THỰC HIỆN & LIÊN HỆ
 
-- **Trưởng nhóm / PM**: Võ Duy Bình (DYBInh2k5)
-- **Thành viên phụ trách**: Backend Developer & Logic Security
+- **Trưởng nhóm / PM**: Võ Duy Bình (Member 1 - PM & BA)
+- **Thành viên phụ trách chuyên đề**: Trần Quang Vinh (Member 4 - Logic Security) & Huỳnh Trung Tính (Member 3 - Dev Backend)
 - **Hệ thống**: HTQLLH (School Management System - SMS)

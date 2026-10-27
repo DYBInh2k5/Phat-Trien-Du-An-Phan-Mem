@@ -61,6 +61,6 @@ Trải qua 15 tuần làm việc theo quy trình phát triển phần mềm chu�
    - Đăng nhập và demo luồng nghiệp vụ 5 vai trò trên React Frontend.
    - Demo xuất sổ điểm Excel và phiếu báo điểm PDF.
    - Demo lưu vết sửa điểm trong nhật ký kiểm toán (Audit Log).
-5. **Phần 5: Kiểm thử QA & Kết luận (4 phút - Huỳnh Trung Tính & Võ Duy Bình)**:
+5. **Phần 5: Kiểm thử QA & Kết luận (4 phút - Nguyễn Minh Quốc Bảo & Võ Duy Bình)**:
    - Báo cáo kết quả kiểm thử tự động Unit Test (Pass 100%) và nghiệm thu UAT.
    - Bài học kinh nghiệm và định hướng phát triển tương lai.

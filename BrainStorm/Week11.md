@@ -58,7 +58,9 @@ export async function getCachedSubjectList() {
 
 ## CHƯƠNG III. KẾT QUẢ ĐẠT ĐƯỢC VÀ PHÂN CÔNG THỰC HIỆN
 
-- **Võ Duy Bình (PM)**: Xây dựng tiêu chí đánh giá tải và giám sát benchmark.
-- **Trần Quang Vinh (Member 3)**: Phân tích Query Execution Plan (`EXPLAIN ANALYZE`) và thiết lập Composite Indexes.
-- **Nguyễn Minh Quốc Bảo (Member 2)**: Cấu hình phân tầng bộ nhớ đệm Redis và kiểm thử phản hồi giao diện.
+- **Võ Duy Bình (Member 1 - PM & BA)**: Xây dựng tiêu chí đánh giá tải và giám sát benchmark hiệu năng hệ thống.
+- **Võ Hoàng Sơn (Member 2 - Dev Frontend)**: Tối ưu hóa render React SPA, lazy loading component và đo lường thời gian phản hồi giao diện.
+- **Huỳnh Trung Tính (Member 3 - Dev Backend)**: Phân tích Query Execution Plan (`EXPLAIN ANALYZE`), thiết lập Composite Indexes và tối ưu Connection Pool PostgreSQL.
+- **Trần Quang Vinh (Member 4 - Logic Security)**: Cấu hình phân tầng bộ nhớ đệm Redis (Cache-Aside Pattern) an toàn và tối ưu hóa xử lý bất đồng bộ.
+- **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**: Thực hiện kiểm thử tải (Load Testing), đo lường chỉ số Latency/Throughput và thẩm định kết quả.
 - **Trạng thái tuần 11**: Tốc độ phản hồi API danh mục giảm từ 180ms xuống dưới 15ms.

@@ -1,7 +1,8 @@
 # Kế hoạch Kiểm thử Chấp nhận Người dùng (UAT Testing Plan) - EduManage Pro (SMS)
 
 - **Dự án:** Hệ thống Quản lý Trường học EduManage Pro (School Management System - SMS)
-- **Người lập kịch bản (Lead BA / PM):** Võ Duy Bình (Member 1)
+- **Người lập kịch bản (Lead BA / PM):** Võ Duy Bình (Member 1 - PM & BA)
+- **Trưởng nhóm kiểm thử (QA/QC Testing Lead):** Nguyễn Minh Quốc Bảo (Member 5 - Tester)
 - **Môn học:** Phát triển dự án phần mềm (SW320DV01) - HSU
 - **Mục tiêu:** Kiểm thử nghiệm thu chức năng trên giao diện Web Application cho 4 đối tượng người dùng.
 

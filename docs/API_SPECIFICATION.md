@@ -2,8 +2,11 @@
 
 Hệ thống: **Hệ thống Quản lý Trường học (HTQLLH / EduManage Pro)**  
 Môn học: **Phát triển dự án phần mềm (SW320DV01)** - Đại học Hoa Sen (HSU)  
-Trưởng nhóm & Lead BA: **Võ Duy Bình (PM / Lead BA)**  
-Backend Architect: **Trần Quang Vinh (Member 3)**  
+Trưởng nhóm & Lead BA: **Võ Duy Bình (Member 1 - PM & BA)**  
+Frontend Developer: **Võ Hoàng Sơn (Member 2 - Dev Frontend)**  
+Backend Developer & DBA: **Huỳnh Trung Tính (Member 3 - Dev Backend)**  
+Core Logic & Security Specialist: **Trần Quang Vinh (Member 4 - Logic Security)**  
+QA/QC Testing Lead: **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**  
 
 ---
 

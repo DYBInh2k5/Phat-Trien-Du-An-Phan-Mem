@@ -49,6 +49,6 @@ PASS: [Test 5: PDF Report Card Success Status] -> Result: true
 
 ## CHƯƠNG III. NGƯỜI THỰC HIỆN & LIÊN HỆ
 
-- **Trưởng nhóm / PM**: Võ Duy Bình (DYBInh2k5)
-- **Thành viên phụ trách**: QA Lead & Modules Developer (Thành viên 5)
+- **Trưởng nhóm / PM**: Võ Duy Bình (Member 1 - PM & BA)
+- **Thành viên phụ trách chuyên đề**: Nguyễn Minh Quốc Bảo (Member 5 - QA/QC Testing Lead)
 - **Hệ thống**: HTQLLH (School Management System - SMS)
