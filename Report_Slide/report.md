@@ -11,6 +11,7 @@ THỜI ĐIỂM GHI NHẬN TIẾN ĐỘ: 28/10/2026 (TUẦN 7 / 15 TUẦN HỌC K
 TRẠNG THÁI HIỆN TẠI: ĐÃ HOÀN THÀNH VƯỢT TIẾN ĐỘ WORKING PROTOTYPE (TUẦN 1 - 6),
                      ĐANG TRIỂN KHAI HOÀN THIỆN XÁC THỰC JWT & RBAC (TUẦN 7)
 MÃ NGUỒN GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
+SLIDE TRỰC TUYẾN CANVA: https://www.canva.com/d/YLrratHffoqRdvK
 ================================================================================
 ```
 
