@@ -70,11 +70,9 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 28/10/2026 (TUẦN 7 / 15 TUẦN HỌC
 - [Report_Slide/report.md](Report_Slide/report.md): Báo cáo hệ thống đồ án môn học cuối kỳ toàn diện (11 chương chi tiết, đầy đủ cơ sở lý thuyết, kiến trúc, CSDL, thuật toán Thông tư 22, hiện trạng Tuần 7 và kế hoạch hoàn thiện).
 - [Report_Slide/slide.md](Report_Slide/slide.md): Bộ trình chiếu 16 Slide thuyết trình đồ án trước Hội đồng chấm thi HSU (có kèm Speaker Notes và sơ đồ Mermaid).
 - [Slide Trực Tuyến Trên Canva](https://www.canva.com/d/YLrratHffoqRdvK): Bản trình chiếu slide đồ án được thiết kế chuyên nghiệp trên Canva (16 trang slide, liên kết rút gọn: [https://canva.link/gephtdene513j71](https://canva.link/gephtdene513j71)).
-- [Sprint/index.html](Sprint/index.html): Bản Slide HTML toàn màn hình độc lập tích hợp điều khiển tương tác trực quan chạy trực tiếp trên trình duyệt.
 
 ### 5.2 Tài Liệu Yêu Cầu, Kiến Trúc & Kỹ Thuật (docs/)
 - [docs/PRODUCT_BACKLOG.md](docs/PRODUCT_BACKLOG.md): Danh mục yêu cầu sản phẩm chuẩn Scrum (19 PBIs, 8 Epics, 90 Story Points chia đều 5 thành viên, tiêu chuẩn INVEST, DoR/DoD & Lộ trình 5 Sprints).
-- [docs/PRODUCT_BACKLOG.pdf](docs/PRODUCT_BACKLOG.pdf): Bản in ấn xuất bản PDF chính thức của Product Backlog.
 - [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](docs/CHI_TIET_NGHIEP_VU_HE_THONG.md): Đặc tả chi tiết Nghiệp vụ học vụ (Quy chế Thông tư 22, Điểm danh 2 cấp, Khóa sổ điểm, Kiểm toán Audit Trail, Chống xung đột TKB).
 - [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](docs/CHI_TIET_CONG_NGHE_HE_THONG.md): Báo cáo chi tiết toàn bộ công nghệ, thư viện, kiến trúc, bảng phân công nhiệm vụ 5 thành viên và cây phả hệ tập tin mã nguồn.
 - [docs/KIEN_TRUC_CHI_TIET_HE_THONG.md](docs/KIEN_TRUC_CHI_TIET_HE_THONG.md): Đặc tả chi tiết Kiến trúc hệ thống Clean Architecture 4 tầng, C4 Container, Sequence Diagram, 4 Design Patterns, ERD 3NF và RBAC.
@@ -158,4 +156,4 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 28/10/2026 (TUẦN 7 / 15 TUẦN HỌC
 - **Danh mục 91 Thẻ Ranked Trên Jira**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC)
 - **Cẩm nang Ánh xạ Jira & GitHub**: [docs/JIRA_KANBAN_MAPPING.md](docs/JIRA_KANBAN_MAPPING.md)
 - **Bản Slide Trình Chiếu Trực Tuyến Trên Canva**: [https://www.canva.com/d/YLrratHffoqRdvK](https://www.canva.com/d/YLrratHffoqRdvK) (Liên kết xem trước: [https://www.canva.com/d/JGTJ4NEiF-bDcpc](https://www.canva.com/d/JGTJ4NEiF-bDcpc))
-- **Bản Slide Trình Chiếu HTML Tương Tác**: [Sprint/index.html](Sprint/index.html)
+

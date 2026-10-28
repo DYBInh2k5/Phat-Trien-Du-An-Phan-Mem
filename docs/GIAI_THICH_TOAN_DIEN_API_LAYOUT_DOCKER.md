@@ -707,7 +707,7 @@ Bảng dưới đây là kim chỉ nam giúp bạn nhấp chuột trực tiếp 
 - Cấu hình điều phối hạ tầng: [docker-compose.yml](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docker-compose.yml)
 - Bản phác thảo CSDL SQL chuẩn: [database/schema.sql](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/database/schema.sql)
 - Sơ đồ quan hệ thực thể ERD: [database/ERD.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/database/ERD.md)
-- Slide thuyết trình toàn khung bảo vệ đồ án: [Sprint/index.html](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Sprint/index.html)
+- Bộ Slide thuyết trình đồ án: [Report_Slide/slide.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Report_Slide/slide.md) và [Bản trực tuyến Canva](https://www.canva.com/d/YLrratHffoqRdvK)
 
 ---
 

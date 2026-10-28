@@ -9,7 +9,6 @@ VỊ TRÍ TỆP: Report_Slide/slide.md
 THỜI ĐIỂM BÁO CÁO: 28/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
 TRẠNG THÁI HỆ THỐNG: WORKING PROTOTYPE ĐÃ KẾT NỐI CSDL THẬT & MÃ NGUỒN HOÀN CHỈNH
 MÃ NGUỒN GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
-SLIDE HTML CHẠY TRỰC TIẾP: Sprint/index.html
 SLIDE TRỰC TUYẾN CANVA: https://www.canva.com/d/YLrratHffoqRdvK
 ================================================================================
 ```
@@ -327,6 +326,5 @@ timeline
 
 - **Kho lưu trữ GitHub**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
 - **Tài liệu Báo cáo chi tiết**: [Report_Slide/report.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Report_Slide/report.md)
-- **Bản Slide HTML trình chiếu độc lập**: [Sprint/index.html](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Sprint/index.html)
 - **Bản Slide trực tuyến trên Canva**: [https://www.canva.com/d/YLrratHffoqRdvK](https://www.canva.com/d/YLrratHffoqRdvK)
 - **Xin chân thành cảm ơn Quý Thầy Cô và Hội Đồng!**

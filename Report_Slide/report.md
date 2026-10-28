@@ -304,7 +304,7 @@ Hệ thống đã có thể khởi chạy và demo trực tiếp bất kỳ lúc
 - **Cơ sở dữ liệu PostgreSQL**: Đang sẵn sàng tại cổng `5434` (Database: `school_management`).
 - **Máy chủ Backend Express**: Đang sẵn sàng tại cổng `http://localhost:8081` (Endpoint kiểm tra: `/api/health`).
 - **Giao diện Web SPA React Vite**: Đang sẵn sàng tại cổng `http://localhost:5173`.
-- **Slide Thuyết Trình Toàn Khung (HTML/CSS)**: Đang sẵn sàng tại [Sprint/index.html](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Sprint/index.html).
+- **Slide Thuyết Trình Đồ Án**: Đang sẵn sàng tại [Slide Canva](https://www.canva.com/d/YLrratHffoqRdvK) và [Report_Slide/slide.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Report_Slide/slide.md).
 
 ---
 
