@@ -59,6 +59,16 @@ export const fetchAttendance = async (className, attDate) => {
   return null;
 };
 
+/**
+ * Nộp đơn xin nghỉ học.
+ * @param {{ studentCode, fromDate, toDate, reason }} payload
+ */
+export const submitLeaveRequest = async (payload) => {
+  const data = await apiClient('/leave-requests', { method: 'POST', body: payload });
+  if (!data?.success) throw new Error(data?.message || 'Nộp đơn xin nghỉ thất bại');
+  return data;
+};
+
 export const fetchLeaveRequests = async (className, studentCode) => {
   try {
     let query = [];
