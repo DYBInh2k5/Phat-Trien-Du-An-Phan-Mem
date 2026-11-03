@@ -83,6 +83,10 @@ app.get('/api/gradebook/closure',                authenticateToken, ClosureContr
 app.post('/api/gradebook/closure/submit',        authenticateToken, ClosureController.submitClosure);
 app.post('/api/gradebook/closure/request-unlock', authenticateToken, ClosureController.requestUnlock);
 
+// GradeBook Review Request Routes (MUST be before generic routes to avoid conflict)
+app.post('/api/gradebook/review-request',  authenticateToken, GradeBookController.submitReviewRequest);
+app.get('/api/gradebook/review-requests',  authenticateToken, GradeBookController.getReviewRequests);
+
 // GradeBook Routes
 app.get('/api/gradebook',               authenticateToken, resolveGvcnClass, GradeBookController.getGradeBook);
 app.get('/api/gradebook/page-data',     authenticateToken, resolveGvcnClass, GradeBookController.getPageData);

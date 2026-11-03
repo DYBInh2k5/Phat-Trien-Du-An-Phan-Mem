@@ -137,4 +137,88 @@ export class GradeBookController {
       return res.status(400).json({ success: false, message: err.message });
     }
   }
+
+  /**
+   * POST /api/gradebook/review-request
+   * Body: { studentCode, subjectName, semester, schoolYear, reason, currentScore }
+   * Học sinh nộp đơn phúc khảo điểm.
+   */
+  static async submitReviewRequest(req, res) {
+    try {
+      const { studentCode, subjectName, semester, schoolYear, reason, currentScore } = req.body;
+      if (!studentCode || !subjectName || !semester) {
+        return res.status(400).json({
+          success: false,
+          message: 'Thiếu tham số: studentCode, subjectName, semester',
+        });
+      }
+      // Use in-memory store (same pattern as other controllers that lack a dedicated table)
+      const id = `REVIEW-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+      const record = {
+        id,
+        studentCode,
+        subjectName,
+        semester: semester ?? 'HK1',
+        schoolYear: schoolYear ?? '2024-2025',
+        reason: reason ?? '',
+        currentScore: currentScore ?? null,
+        status: 'PENDING',
+        createdAt: new Date().toISOString(),
+        requestType: 'GRADE_REVIEW',
+      };
+
+      // Push into shared in-memory list (initialised once per process)
+      if (!global._gradeReviewRequests) global._gradeReviewRequests = [];
+      global._gradeReviewRequests.push(record);
+
+      // Try to persist via notifications table so GVBM gets notified
+      try {
+        const { NotificationService } = await import('../services/NotificationService.js');
+        await NotificationService.notify({
+          title:           `Phúc khảo điểm: ${subjectName}`,
+          content:         `Học sinh ${studentCode} yêu cầu phúc khảo môn ${subjectName} ${semester}. Lý do: ${reason ?? '(không có)'}`,
+          type:            'GRADE_REVIEW_REQUEST',
+          senderId:        studentCode,
+          senderRole:      'STUDENT',
+          recipients:      ['GV', 'GVBM'],
+          relatedClass:    null,
+          relatedSemester: semester,
+        });
+      } catch (_notifyErr) {
+        // Notification failure is non-blocking
+        console.warn('[GradeBookController] submitReviewRequest: notification không gửi được:', _notifyErr?.message);
+      }
+
+      return res.json({ success: true, data: { id, status: 'PENDING' } });
+    } catch (err) {
+      console.error('[GradeBookController] submitReviewRequest error:', err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  }
+
+  /**
+   * GET /api/gradebook/review-requests
+   * GV/GVCN xem danh sách đơn phúc khảo đang chờ.
+   * Filter theo subjectName (query) hoặc className từ JWT.
+   */
+  static async getReviewRequests(req, res) {
+    try {
+      const { subjectName, className } = req.query;
+      const role = req.user?.role;
+
+      let list = global._gradeReviewRequests ?? [];
+
+      // Filter: GVCN thấy lớp chủ nhiệm; GV/GVBM lọc thêm theo môn nếu có
+      if (subjectName) {
+        list = list.filter(r => r.subjectName === subjectName);
+      }
+      // Always return only pending by default (show active review queue)
+      const pending = list.filter(r => r.status === 'PENDING');
+
+      return res.json({ success: true, data: pending });
+    } catch (err) {
+      console.error('[GradeBookController] getReviewRequests error:', err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  }
 }

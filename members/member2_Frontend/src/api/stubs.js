@@ -628,3 +628,29 @@ export const updateStudentConduct = async (studentId, { conductRank, schoolYear,
   if (!data?.success) throw new Error(data?.message || 'Cập nhật hạnh kiểm thất bại');
   return data.data;
 };
+
+// ── Grade Review Request API (UC-GVBM-09) ────────────────────────────────────
+
+/**
+ * Học sinh nộp đơn yêu cầu phúc khảo điểm.
+ * @param {{ studentCode, subjectName, semester, schoolYear, reason, currentScore }} payload
+ * @returns {{ id, status }}
+ */
+export const submitGradeReviewRequest = async ({ studentCode, subjectName, semester, schoolYear, reason, currentScore }) => {
+  const data = await apiClient('/gradebook/review-request', {
+    method: 'POST',
+    body: { studentCode, subjectName, semester, schoolYear, reason, currentScore },
+  });
+  if (!data?.success) throw new Error(data?.message || 'Nộp đơn phúc khảo thất bại');
+  return data.data;
+};
+
+/**
+ * GV/GVCN xem danh sách đơn phúc khảo điểm đang chờ.
+ * @returns {Array}
+ */
+export const fetchGradeReviewRequests = async () => {
+  const data = await apiClient('/gradebook/review-requests');
+  if (!data?.success) throw new Error(data?.message || 'Lỗi khi tải danh sách phúc khảo');
+  return data.data ?? [];
+};

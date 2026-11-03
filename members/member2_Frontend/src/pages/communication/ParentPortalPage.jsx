@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchGradeBook, fetchTuitions } from '../../api/stubs.js';
 import { apiClient } from '../../api/client.js';
-import { exportToPDF } from '../../utils/exportEngine.js';
+import { exportTuitionReceiptPDF } from '../../utils/exportEngine.js';
 
 const DEFAULT_TUITION = [
   { id: 'T1', name: 'Học phí chính khóa (HK1)', amount: 1500000, status: 'paid' },
@@ -122,19 +122,13 @@ export default function ParentPortalPage() {
   };
 
   const handleExportTuitionReceipt = () => {
-    const headers = ['STT', 'Khoản Thu Học Phí', 'Số Tiền (VNĐ)', 'Trạng Thái Thanh Toán'];
-    const rows = tuitionItems.map((item, idx) => [
-      idx + 1,
-      item.name,
-      item.amount.toLocaleString('vi-VN') + ' đ',
-      item.status === 'paid' ? 'ĐÃ THANH TOÁN' : 'CHƯA THANH TOÁN'
-    ]);
-    exportToPDF(
-      `BIÊN LAI & THÔNG BÁO HỌC PHÍ — HỌC SINH ${studentName.toUpperCase()}`,
-      `Lớp ${studentClass} | Mã HS: ${studentCode} | Ngày in: ${new Date().toLocaleDateString('vi-VN')}`,
-      headers,
-      rows
-    );
+    const studentInfo = {
+      studentCode,
+      studentName,
+      className: studentClass,
+    };
+    const paidItems = tuitionItems.filter(i => i.status === 'paid');
+    exportTuitionReceiptPDF(studentInfo, paidItems);
   };
 
   return (

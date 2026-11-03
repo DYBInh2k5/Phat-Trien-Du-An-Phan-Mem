@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchGradeBook } from '../../api/stubs.js';
+import { fetchGradeBook, submitGradeReviewRequest } from '../../api/stubs.js';
 
 /** Map API semester string → number */
 function parseSemester(sem) {
@@ -29,6 +29,11 @@ export default function StudentGradebookPage() {
   const [selectedSemester, setSelectedSemester] = useState(1);
   const [allGrades, setAllGrades] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Grade review modal state
+  const [reviewModal, setReviewModal] = useState(null); // null | { subjectName, currentScore, semester }
+  const [reviewReason, setReviewReason] = useState('');
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
   // Student info from localStorage or fallback
   const userJson = (() => {
@@ -182,6 +187,30 @@ export default function StudentGradebookPage() {
     setTimeout(() => { try { popup.print(); } catch(e) {} }, 400);
   };
 
+  // Grade review request submit handler
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    if (!reviewReason.trim() || !reviewModal) return;
+    setReviewSubmitting(true);
+    try {
+      await submitGradeReviewRequest({
+        studentCode,
+        subjectName: reviewModal.subjectName,
+        semester: reviewModal.semesterLabel,
+        schoolYear: '2024-2025',
+        reason: reviewReason,
+        currentScore: reviewModal.currentScore,
+      });
+      setReviewModal(null);
+      setReviewReason('');
+      alert('Đã gửi yêu cầu phúc khảo thành công. Giáo viên sẽ xem xét và phản hồi trong thời gian sớm nhất.');
+    } catch (err) {
+      alert(err.message || 'Gửi yêu cầu phúc khảo thất bại. Vui lòng thử lại.');
+    } finally {
+      setReviewSubmitting(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Profile Banner */}
@@ -272,14 +301,16 @@ export default function StudentGradebookPage() {
                   <th className="px-4 py-2.5 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider">Cuối HK</th>
                   <th className="px-4 py-2.5 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider font-bold">Điểm TB</th>
                   <th className="px-4 py-2.5 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider">Xếp loại</th>
+                  <th className="px-4 py-2.5 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider">Phúc khảo</th>
                 </tr>
               </thead>
               <tbody>
                 {studentGrades.length === 0 ? (
-                  <tr><td colSpan={7} className="px-4 py-10 text-center text-[#94a3b8]">Chưa có dữ liệu điểm học kỳ này.</td></tr>
+                  <tr><td colSpan={8} className="px-4 py-10 text-center text-[#94a3b8]">Chưa có dữ liệu điểm học kỳ này.</td></tr>
                 ) : studentGrades.map(g => {
                   const avg = g.scores.average;
                   const xl2 = xepLoai(avg ?? 0);
+                  const semLabel = selectedSemester === 1 ? 'HK1' : 'HK2';
                   return (
                     <tr key={g.subjectId} className="border-b border-[#f1f5f9] hover:bg-[#f8fafc] transition-colors" style={{ height: '48px' }}>
                       <td className="px-4 py-2 font-medium text-[#0f172a] whitespace-nowrap">{g.subjectName}</td>
@@ -292,6 +323,20 @@ export default function StudentGradebookPage() {
                       </td>
                       <td className="px-4 py-2 text-center whitespace-nowrap">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-medium ${xl2.cls}`}>{xl2.label}</span>
+                      </td>
+                      <td className="px-4 py-2 text-center whitespace-nowrap">
+                        <button
+                          type="button"
+                          title="Yêu cầu phúc khảo điểm môn này"
+                          onClick={() => {
+                            setReviewModal({ subjectName: g.subjectName, currentScore: avg, semesterLabel: semLabel });
+                            setReviewReason('');
+                          }}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#fff7ed] hover:bg-[#ffedd5] text-[#c2410c] border border-[#fdba74] text-label-sm font-medium transition-colors"
+                        >
+                          <span className="material-symbols-outlined text-[14px]">rate_review</span>
+                          Phúc khảo
+                        </button>
                       </td>
                     </tr>
                   );
@@ -308,6 +353,92 @@ export default function StudentGradebookPage() {
           </div>
         )}
       </div>
+
+      {/* Grade Review Request Modal (UC-GVBM-09) */}
+      {reviewModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(15,23,42,0.45)' }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="review-modal-title"
+        >
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-5">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 id="review-modal-title" className="text-headline-sm font-bold text-[#0f172a]">Yêu Cầu Phúc Khảo Điểm</h3>
+                <p className="text-label-sm text-[#64748b] mt-0.5">Gửi đơn đến Giáo Viên Bộ Môn</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => { setReviewModal(null); setReviewReason(''); }}
+                className="p-1.5 rounded-lg hover:bg-[#f1f5f9] text-[#64748b] transition-colors"
+                aria-label="Đóng"
+              >
+                <span className="material-symbols-outlined text-[22px]">close</span>
+              </button>
+            </div>
+
+            {/* Info fields (readonly) */}
+            <div className="space-y-3 p-4 bg-[#f8fafc] rounded-xl border border-[#e2e8f0]">
+              <div className="flex justify-between text-body-sm">
+                <span className="text-[#64748b]">Môn học</span>
+                <span className="font-semibold text-[#0f172a]">{reviewModal.subjectName}</span>
+              </div>
+              <div className="flex justify-between text-body-sm">
+                <span className="text-[#64748b]">Điểm hiện tại (TB)</span>
+                <span className={`font-bold ${reviewModal.currentScore != null && reviewModal.currentScore < 5 ? 'text-[#dc2626]' : 'text-[#004ac6]'}`}>
+                  {reviewModal.currentScore != null ? reviewModal.currentScore.toFixed(1) : '—'}
+                </span>
+              </div>
+              <div className="flex justify-between text-body-sm">
+                <span className="text-[#64748b]">Học kỳ</span>
+                <span className="font-semibold text-[#0f172a]">{reviewModal.semesterLabel}</span>
+              </div>
+            </div>
+
+            {/* Review reason form */}
+            <form onSubmit={handleReviewSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label htmlFor="review-reason" className="block text-label-sm font-semibold text-[#334155]">
+                  Lý do yêu cầu phúc khảo <span className="text-[#dc2626]">*</span>
+                </label>
+                <textarea
+                  id="review-reason"
+                  required
+                  rows={4}
+                  value={reviewReason}
+                  onChange={(e) => setReviewReason(e.target.value)}
+                  placeholder="Mô tả lý do bạn cho rằng điểm cần được xem xét lại (Ví dụ: Tôi nghĩ bài thi cuối kỳ bị chấm sai câu 3, 5...)..."
+                  className="w-full border border-[#cbd5e1] rounded-lg p-3 text-body-sm text-[#0f172a] focus:border-[#004ac6] focus:outline-none focus:ring-2 focus:ring-[#004ac6]/20 resize-none"
+                />
+              </div>
+              <div className="flex gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => { setReviewModal(null); setReviewReason(''); }}
+                  className="flex-1 px-4 py-2.5 rounded-lg border border-[#e2e8f0] text-[#475569] text-body-sm font-medium hover:bg-[#f8fafc] transition-colors"
+                >
+                  Hủy
+                </button>
+                <button
+                  type="submit"
+                  disabled={reviewSubmitting || !reviewReason.trim()}
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#004ac6] hover:bg-[#003ea8] text-white text-body-sm font-semibold shadow-xs transition-colors disabled:opacity-60"
+                >
+                  {reviewSubmitting ? (
+                    <span className="material-symbols-outlined text-[16px] animate-spin">progress_activity</span>
+                  ) : (
+                    <span className="material-symbols-outlined text-[16px]">send</span>
+                  )}
+                  {reviewSubmitting ? 'Đang gửi...' : 'Gửi Yêu Cầu'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
