@@ -613,3 +613,18 @@ export const savePermissions = async (matrix) => {
   if (!data?.success) throw new Error(data?.message || 'Lưu phân quyền thất bại');
   return data.data;
 };
+
+/**
+ * Cập nhật hạnh kiểm học sinh (UC-GVCN-07).
+ * @param {string|number} studentId
+ * @param {{ conductRank: string, schoolYear: string, semester: string }} payload
+ * @returns student DTO sau khi cập nhật
+ */
+export const updateStudentConduct = async (studentId, { conductRank, schoolYear, semester }) => {
+  const data = await apiClient(`/students/${encodeURIComponent(studentId)}/conduct`, {
+    method: 'PUT',
+    body: { conductRank, schoolYear, semester },
+  });
+  if (!data?.success) throw new Error(data?.message || 'Cập nhật hạnh kiểm thất bại');
+  return data.data;
+};

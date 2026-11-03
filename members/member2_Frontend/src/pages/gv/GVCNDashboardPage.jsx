@@ -11,7 +11,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchGVCNDashboard, processLeaveRequest } from '../../api/stubs.js';
+import { fetchGVCNDashboard, processLeaveRequest, updateStudentConduct } from '../../api/stubs.js';
 import { ROUTES } from '../../constants/routes.js';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -60,6 +60,11 @@ export default function GVCNDashboardPage() {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [processingId,  setProcessingId]  = useState(null);
 
+  // Conduct edit state
+  const [conductSelects, setConductSelects] = useState({}); // { [studentId]: conductRank }
+  const [savingConduct,  setSavingConduct]  = useState(null); // studentId đang lưu
+  const [conductToast,   setConductToast]   = useState(null); // { type: 'success'|'error', msg }
+
   // ── Fetch on mount ────────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false;
@@ -72,6 +77,12 @@ export default function GVCNDashboardPage() {
         if (!cancelled) {
           setData(result);
           setLeaveRequests(result.pendingLeaves ?? []);
+          // Khởi tạo conductSelects từ dữ liệu học sinh
+          const initSelects = {};
+          for (const st of (result.students ?? [])) {
+            initSelects[st.id] = st.conductRank || '';
+          }
+          setConductSelects(initSelects);
         }
       } catch (err) {
         if (!cancelled) setError(err.message || 'Không thể tải dữ liệu Dashboard GVCN.');
@@ -103,6 +114,26 @@ export default function GVCNDashboardPage() {
       setProcessingId(null);
     }
   }, []);
+
+  // ── Conduct handlers ──────────────────────────────────────────────────────
+  const handleConductChange = useCallback((studentId, value) => {
+    setConductSelects((prev) => ({ ...prev, [studentId]: value }));
+  }, []);
+
+  const handleUpdateConduct = useCallback(async (studentId) => {
+    const conductRank = conductSelects[studentId];
+    if (!conductRank) return;
+    setSavingConduct(studentId);
+    setConductToast(null);
+    try {
+      await updateStudentConduct(studentId, { conductRank, schoolYear: '2024-2025', semester: 'HK1' });
+      setConductToast({ type: 'success', msg: 'Cập nhật hạnh kiểm thành công!' });
+    } catch (err) {
+      setConductToast({ type: 'error', msg: err.message || 'Cập nhật hạnh kiểm thất bại.' });
+    } finally {
+      setSavingConduct(null);
+    }
+  }, [conductSelects]);
 
   // ── Derived ───────────────────────────────────────────────────────────────
   const classInfo      = data?.classInfo ?? null;
@@ -296,10 +327,19 @@ export default function GVCNDashboardPage() {
           <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
             <h2 className="text-body-md font-bold text-[#0f172a] flex items-center gap-2">
               <span className="material-symbols-outlined text-[20px] text-[#7c3aed]">grade</span>
-              Xếp Loại Học Lực Học Kỳ (GVCN)
+              Xếp Loại & Cập Nhật Hạnh Kiểm (GVCN)
             </h2>
-            <span className="text-label-sm text-[#64748b]">Theo GPA hiện tại</span>
+            <span className="text-label-sm text-[#64748b]">HK1 2024-2025</span>
           </div>
+
+          {/* Conduct toast */}
+          {conductToast && (
+            <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-label-sm font-medium border ${conductToast.type === 'success' ? 'bg-[#f0fdf4] border-[#86efac] text-[#15803d]' : 'bg-[#fef2f2] border-[#fecaca] text-[#b91c1c]'}`} role="status">
+              <span className="material-symbols-outlined text-[16px]">{conductToast.type === 'success' ? 'check_circle' : 'error'}</span>
+              {conductToast.msg}
+              <button className="ml-auto text-current opacity-60 hover:opacity-100" onClick={() => setConductToast(null)} aria-label="Đóng">✕</button>
+            </div>
+          )}
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-body-sm border-collapse">
@@ -309,14 +349,16 @@ export default function GVCNDashboardPage() {
                   <th className="p-2.5 font-semibold text-[#475569]">Họ và Tên</th>
                   <th className="p-2.5 font-semibold text-[#475569] text-center">GPA</th>
                   <th className="p-2.5 font-semibold text-[#475569] text-center">Xếp Loại</th>
+                  <th className="p-2.5 font-semibold text-[#475569] text-center">Hạnh Kiểm</th>
+                  <th className="p-2.5 font-semibold text-[#475569] text-center">Cập Nhật</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
-                  <>{[1,2,3,4,5].map((i) => <SkeletonRow key={i} cols={4} />)}</>
+                  <>{[1,2,3,4,5].map((i) => <SkeletonRow key={i} cols={6} />)}</>
                 ) : students.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="p-4 text-center text-[#94a3b8] text-body-sm">
+                    <td colSpan={6} className="p-4 text-center text-[#94a3b8] text-body-sm">
                       Không có học sinh trong lớp
                     </td>
                   </tr>
@@ -327,6 +369,7 @@ export default function GVCNDashboardPage() {
                       st.academicRank === 'Khá'  ? 'text-[#2563eb] bg-[#eff4ff]' :
                       st.academicRank === 'Trung bình' ? 'text-[#c2410c] bg-[#fff7ed]' :
                       'text-[#b91c1c] bg-[#fef2f2]';
+                    const isSaving = savingConduct === st.id;
                     return (
                       <tr key={st.id} className="border-b border-[#f1f5f9] hover:bg-[#f8fafc]">
                         <td className="p-2.5 font-mono text-[#004ac6] font-semibold">{st.code}</td>
@@ -338,6 +381,35 @@ export default function GVCNDashboardPage() {
                           <span className={`inline-block px-2.5 py-0.5 rounded-full text-label-sm font-semibold ${rankColor}`}>
                             {st.academicRank || '—'}
                           </span>
+                        </td>
+                        <td className="p-2.5 text-center">
+                          <select
+                            value={conductSelects[st.id] ?? ''}
+                            onChange={(e) => handleConductChange(st.id, e.target.value)}
+                            disabled={isSaving}
+                            aria-label={`Hạnh kiểm ${st.name}`}
+                            className="border border-[#e2e8f0] rounded px-2 py-1 text-label-sm text-[#0b1c30] bg-white focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6]/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            <option value="">-- Chọn --</option>
+                            <option value="Tốt">Tốt</option>
+                            <option value="Khá">Khá</option>
+                            <option value="Trung bình">Trung bình</option>
+                            <option value="Yếu">Yếu</option>
+                          </select>
+                        </td>
+                        <td className="p-2.5 text-center">
+                          <button
+                            type="button"
+                            disabled={isSaving || !conductSelects[st.id]}
+                            onClick={() => handleUpdateConduct(st.id)}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-label-sm font-semibold bg-[#004ac6] hover:bg-[#003ea8] text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            aria-label={`Lưu hạnh kiểm ${st.name}`}
+                          >
+                            {isSaving
+                              ? <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                              : <span className="material-symbols-outlined text-[14px]">save</span>}
+                            Lưu
+                          </button>
                         </td>
                       </tr>
                     );

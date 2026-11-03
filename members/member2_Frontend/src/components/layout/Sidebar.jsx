@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { label: 'Giám sát chuyên cần',     icon: 'monitoring',           path: ROUTES.BGH_ATTENDANCE,       roles: [ROLES.BGH], moduleId: 'attendance' },
   { label: 'Xếp thời khóa biểu',     icon: 'edit_calendar',        path: ROUTES.BGH_SCHEDULE_ADMIN,   roles: [ROLES.BGH], moduleId: 'schedule'   },
   { label: 'Trung tâm Báo cáo',       icon: 'assessment',           path: ROUTES.BGH_REPORTS,          roles: [ROLES.BGH], moduleId: 'reports'    },
+  { label: 'Quản lý Học phí',         icon: 'payments',             path: ROUTES.BGH_TUITION,          roles: [ROLES.BGH] },
   { label: 'Cài đặt & Phân quyền',    icon: 'settings',             path: ROUTES.BGH_SETTINGS,         roles: [ROLES.BGH], moduleId: 'settings'   },
 
   // ── GVCN ───────────────────────────────────────────────────────────────────
@@ -31,7 +32,7 @@ const NAV_ITEMS = [
   { label: 'Điểm danh học sinh',     icon: 'how_to_reg',           path: ROUTES.ATTENDANCE,           roles: [ROLES.GV, ROLES.GVCN],            moduleId: 'attendance' },
   { label: 'Thời khóa biểu',         icon: 'calendar_month',       path: ROUTES.SCHEDULE,             roles: [ROLES.GV, ROLES.GVCN],            moduleId: 'schedule'   },
   { label: 'Sổ liên lạc & Duyệt phép', icon: 'chat',              path: ROUTES.PARENT_COMMUNICATION, roles: [ROLES.GVCN, ROLES.BGH] },
-  { label: 'Thông báo',               icon: 'notifications',       path: ROUTES.NOTIFICATIONS,        roles: [ROLES.BGH, ROLES.GVCN] },
+  { label: 'Thông báo',               icon: 'notifications',       path: ROUTES.NOTIFICATIONS,        roles: [ROLES.BGH, ROLES.GVCN, ROLES.HS] },
 
   // ── PH ─────────────────────────────────────────────────────────────────────
   { label: 'Cổng Phụ Huynh',          icon: 'family_restroom',      path: ROUTES.PARENT_DASHBOARD,     roles: [ROLES.PH] },
@@ -56,9 +57,9 @@ export default function Sidebar({ isCollapsed, onToggle }) {
     return true;
   });
 
-  // Polling unread count mỗi 30 giây cho GVCN và BGH
+  // Polling unread count mỗi 30 giây cho GVCN, BGH và HS
   useEffect(() => {
-    if (role !== ROLES.BGH && role !== ROLES.GVCN) return;
+    if (role !== ROLES.BGH && role !== ROLES.GVCN && role !== ROLES.HS) return;
 
     let cancelled = false;
 

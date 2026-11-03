@@ -75,6 +75,7 @@ app.get('/api/students',      authenticateToken, resolveGvcnClass, StudentContro
 app.get('/api/students/:id',  authenticateToken, resolveGvcnClass, StudentController.getStudentById);
 app.post('/api/students',     authenticateToken, resolveGvcnClass, StudentController.createStudent);
 app.put('/api/students/:id',  authenticateToken, resolveGvcnClass, StudentController.updateStudent);
+app.put('/api/students/:id/conduct', authenticateToken, resolveGvcnClass, StudentController.updateConduct);
 app.post('/api/students/:id/calculate-gpa', authenticateToken, StudentController.calculateGPA);
 
 // GradeBook Closure & Unlock Routes (MUST be before generic /api/gradebook routes)

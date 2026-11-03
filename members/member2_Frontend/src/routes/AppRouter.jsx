@@ -34,6 +34,7 @@ import BGHDashboardPage from '../pages/bgh/BGHDashboardPage.jsx';
 import BGHAttendanceMonitorPage from '../pages/bgh/BGHAttendanceMonitorPage.jsx';
 import ScheduleAdminPage from '../pages/bgh/ScheduleAdminPage.jsx';
 import BGHReportCenterPage from '../pages/bgh/BGHReportCenterPage.jsx';
+import BGHTuitionPage from '../pages/bgh/BGHTuitionPage.jsx';
 import SystemSettingsPage from '../pages/bgh/SystemSettingsPage.jsx';
 
 // Student portal pages
@@ -108,6 +109,7 @@ export default function AppRouter() {
           <Route path={ROUTES.BGH_ATTENDANCE} element={<BGHAttendanceMonitorPage />} />
           <Route path={ROUTES.BGH_SCHEDULE_ADMIN} element={<ScheduleAdminPage />} />
           <Route path={ROUTES.BGH_REPORTS} element={<BGHReportCenterPage />} />
+          <Route path={ROUTES.BGH_TUITION} element={<BGHTuitionPage />} />
           <Route path={ROUTES.BGH_SETTINGS} element={<SystemSettingsPage />} />
         </Route>
 
@@ -119,8 +121,8 @@ export default function AppRouter() {
           <Route path={ROUTES.STUDENT_EXAMS} element={<StudentExamsPage />} />
         </Route>
 
-        {/* Notifications — BGH & GVCN */}
-        <Route element={<ProtectedRoute roles={[ROLES.BGH, ROLES.GVCN]} />}>
+        {/* Notifications — BGH, GVCN & HS */}
+        <Route element={<ProtectedRoute roles={[ROLES.BGH, ROLES.GVCN, ROLES.HS]} />}>
           <Route path={ROUTES.NOTIFICATIONS} element={<NotificationsPage />} />
         </Route>
       </Route>

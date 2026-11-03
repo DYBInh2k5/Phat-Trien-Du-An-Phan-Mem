@@ -23,6 +23,7 @@ export const ROUTES = {
   STUDENT_SCHEDULE: '/student/schedule',
   STUDENT_EXAMS: '/student/exams',
   NOTIFICATIONS: '/notifications',
+  BGH_TUITION: '/bgh/tuition',
 };
 
 export const ROLE_DASHBOARD = {

@@ -85,4 +85,30 @@ export class StudentController {
       return res.status(400).json({ success: false, message: err.message });
     }
   }
+
+  static async updateConduct(req, res) {
+    try {
+      // GVCN chưa phân công → từ chối
+      if (req.gvcnClassName === '__NO_CLASS__') {
+        return res.status(403).json({ success: false, message: 'GVCN chưa được phân công lớp chủ nhiệm.', code: 'GVCN_NOT_ASSIGNED' });
+      }
+      // GVCN đã phân công → kiểm tra học sinh có thuộc lớp mình không
+      if (req.gvcnClassName !== null && req.gvcnClassName !== undefined) {
+        const student = await StudentService.getStudentById(req.params.id);
+        const studentClass = student.class_name || student.className;
+        if (studentClass !== req.gvcnClassName) {
+          return res.status(403).json({ success: false, message: 'Không có quyền cập nhật hạnh kiểm học sinh ngoài lớp chủ nhiệm.', code: 'GVCN_SCOPE_VIOLATION' });
+        }
+      }
+      const { conductRank, schoolYear, semester } = req.body;
+      const validRanks = ['Tốt', 'Khá', 'Trung bình', 'Yếu'];
+      if (!conductRank || !validRanks.includes(conductRank)) {
+        return res.status(400).json({ success: false, message: 'Hạnh kiểm không hợp lệ. Các giá trị cho phép: Tốt, Khá, Trung bình, Yếu' });
+      }
+      const result = await StudentService.updateStudent(req.params.id, { conductRank, schoolYear, semester });
+      return res.json({ success: true, data: result });
+    } catch (err) {
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  }
 }
