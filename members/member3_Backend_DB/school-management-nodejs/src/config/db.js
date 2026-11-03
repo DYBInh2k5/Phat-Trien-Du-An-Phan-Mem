@@ -51,9 +51,10 @@ export async function query(text, params = []) {
     const res = await pool.query(text, params);
     return res;
   } catch (err) {
-    // Khi CSDL chưa bật hoặc mất kết nối, ghi cảnh báo và trả về null để tầng Repository kích hoạt kho nhớ dự phòng
-    console.warn(`[DB WARN] PostgreSQL query failed ("${text}"): ${err.message}. Using fallback memory store.`);
-    return null;
+    // Khi CSDL chưa bật hoặc mất kết nối, trả về object rỗng thay vì null
+    // để tầng Repository không bị crash khi truy cập .rows
+    console.warn(`[DB WARN] PostgreSQL query failed ("${text.substring(0, 80).replace(/\n/g, ' ')}..."): ${err.message}. Using fallback memory store.`);
+    return { rows: [] };
   }
 }
 
