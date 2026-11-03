@@ -7,9 +7,9 @@
 DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC THPT HSU (HTQLLH / SCHOOL MANAGEMENT SYSTEM)
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 TỔNG QUAN TIẾN ĐỘ: 15 TUẦN HỌC KỲ 2631 (14/09/2026 - 27/12/2026)
-THỜI ĐIỂM ĐÁNH GIÁ: 27/10/2026 (TUẦN 7 / 15 TUẦN - GIAI ĐOẠN ĐÁNH GIÁ CHÍNH)
+THỜI ĐIỂM ĐÁNH GIÁ: 03/11/2026 (CẬP NHẬT PRODUCT BACKLOG V3.0)
 PROJECT KEY: KAN | BOARD ID: 2 (KAN board)
-TỔNG SỐ HẠNG MỤC QUẢN LÝ: 91 THẺ CÔNG VIỆC TRÊN JIRA KANBAN (100% ĐÃ RANKED)
+TỔNG SỐ HẠNG MỤC QUẢN LÝ: 98+ THẺ CÔNG VIỆC TRÊN JIRA KANBAN (CẦN THÊM 7 STORY MỚI: PBI-17a/17b/17c/20/21/22/23/24/25)
 BẢNG JIRA KANBAN: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
 DANH SÁCH RANKED: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC
 KHO LƯU TRỮ GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
@@ -255,3 +255,50 @@ MỌI HẠNG MỤC TỪ VAI TRÒ THÀNH VIÊN, 9 PHÂN HỆ COMPONENTS, 6 PHIÊN
 THIẾT LẬP CHUẨN MỰC, LIÊN KẾT WEB LINK VÀ XẾP THỨ TỰ THEO ĐÚNG TIẾN ĐỘ THỰC TẾ.
 ================================================================================
 ```
+
+
+---
+
+## 8. CẬP NHẬT PRODUCT BACKLOG V3.0 — CÁC THẺ JIRA CẦN TẠOM MỚI / SỬA
+
+> **Ngày cập nhật:** 03/11/2026 — Product Backlog nâng cấp từ v2.0 lên v3.0 (25 PBI, 112 Story Points).
+> File CSV import đã được cập nhật tại: `docs/jira_import_product_backlog.csv`
+
+### 8.1 Các thẻ Jira cần SỬA (Actor/Description cũ sai)
+
+| Mã Thẻ Jira | PBI | Nội dung cần sửa trên Jira |
+| :---: | :---: | :--- |
+| [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15) | PBI-02 | **Đổi Summary:** "Bảo vệ dữ liệu khỏi truy cập trái phép (RBAC)"<br>**Đổi Description:** Bỏ "Là Hệ thống" → "Là Ban Giám Hiệu, tôi muốn hệ thống tự động chặn mọi truy cập trái phép..." |
+| [KAN-23](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-23) | PBI-11 | **Đổi Description:** Bỏ "Là Kiến trúc sư Phần mềm" → "Là Giáo viên Bộ môn, tôi muốn hệ thống phản hồi nhanh khi tải sổ điểm..." + ghi chú kỹ thuật Repository Pattern |
+| [KAN-24](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-24) | PBI-12 | **Đổi Description:** Bỏ "Là Hệ thống" → "Là Giáo viên Bộ môn, tôi muốn điểm cả lớp được lưu tất-cả-hoặc-không-có-ai..." + ghi chú Unit of Work |
+| [KAN-16](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-16) | PBI-18 | **Đổi Summary:** "Hệ thống phản hồi nhanh khi nhiều GV nhập điểm đồng thời"<br>**Đổi Description:** Bỏ "Là Quản trị viên" → "Là Giáo viên / Người dùng, tôi muốn hệ thống phản hồi nhanh..." |
+| [KAN-32](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-32) | PBI-19 | **Đổi Description:** Đánh dấu rõ là Engineering Story — Actor là QA Lead nội bộ, không phải end-user nghiệp vụ |
+| [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) | PBI-09 | **Đổi Description:** Bỏ "Là Hệ thống" → "Là Giáo viên Bộ môn, tôi muốn hệ thống tự động tính ĐTBmhk..." |
+| [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29) | PBI-17 (cũ) | **Tách thành 3 Story riêng biệt** (xem mục 8.2 bên dưới); đóng thẻ KAN-29 cũ hoặc chuyển thành Epic |
+
+### 8.2 Các thẻ Jira cần TẠO MỚI (PBI bổ sung v3.0)
+
+| PBI | Summary (tên thẻ) | Epic Link | Story Points | Assignee | Sprint | Priority |
+| :---: | :--- | :---: | :---: | :--- | :---: | :---: |
+| **PBI-17a** | PBI-17a: Phụ huynh xem điểm số và hạnh kiểm của con | EPIC-08 | 3 | Võ Hoàng Sơn | Sprint 4 | High |
+| **PBI-17b** | PBI-17b: Phụ huynh gửi đơn xin nghỉ học trực tuyến | EPIC-08 | 3 | Võ Duy Bình | Sprint 4 | High |
+| **PBI-17c** | PBI-17c: GVCN duyệt đơn và tự động cập nhật điểm danh | EPIC-03 | 3 | Võ Hoàng Sơn | Sprint 4 | High |
+| **PBI-20** | PBI-20: Học sinh tra cứu bảng điểm chi tiết và GPA cá nhân | EPIC-04 | 3 | Võ Hoàng Sơn | Sprint 3 | High |
+| **PBI-21** | PBI-21: Xem thời khóa biểu học tập và lịch thi | EPIC-02 | 2 | Võ Duy Bình | Sprint 2 | Should Have |
+| **PBI-22** | PBI-22: GVCN nhập đánh giá hạnh kiểm học sinh cuối kỳ | EPIC-04 | 3 | Võ Hoàng Sơn | Sprint 5 | Should Have |
+| **PBI-23** | PBI-23: BGH thống kê phổ điểm và xét khen thưởng toàn trường | EPIC-04 | 5 | Võ Duy Bình | Sprint 5 | Should Have |
+| **PBI-24** | PBI-24: Phụ huynh xem và thanh toán học phí qua VietQR | EPIC-08 | 5 | Võ Duy Bình | Sprint 5 | High |
+| **PBI-25** | PBI-25: BGH quản lý tài khoản người dùng toàn hệ thống | EPIC-01 | 5 | Huỳnh Trung Tính | Sprint 1 | High |
+
+### 8.3 Hướng dẫn import CSV vào Jira
+
+Để import các thẻ mới vào Jira nhanh nhất:
+
+1. Vào Jira Cloud: [https://reputyze-team-vx3aseym.atlassian.net](https://reputyze-team-vx3aseym.atlassian.net)
+2. Chọn **Project KAN** → **Project Settings** → **Import**
+3. Chọn **Import from CSV** → Upload file `docs/jira_import_product_backlog.csv`
+4. Map các cột: `Issue Type`, `Summary`, `Description`, `Epic Name`, `Story Points`, `Priority`, `Sprint`, `Assignee`, `Status`
+5. Xem trước và xác nhận import
+
+> **Lưu ý:** File CSV đã được cập nhật đầy đủ 25 PBI (v3.0) tại `docs/jira_import_product_backlog.csv`. Tuy nhiên khi import, Jira sẽ **tạo mới** tất cả các thẻ — vì vậy chỉ import các PBI mới (PBI-17a/17b/17c, PBI-20 đến PBI-25) và sửa thủ công các thẻ cũ theo hướng dẫn mục 8.1.
+
