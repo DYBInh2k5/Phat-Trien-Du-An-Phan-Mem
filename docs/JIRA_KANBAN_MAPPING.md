@@ -259,46 +259,33 @@ THIẾT LẬP CHUẨN MỰC, LIÊN KẾT WEB LINK VÀ XẾP THỨ TỰ THEO ĐÚ
 
 ---
 
-## 8. CẬP NHẬT PRODUCT BACKLOG V3.0 — CÁC THẺ JIRA CẦN TẠOM MỚI / SỬA
+## 8. CẬP NHẬT PRODUCT BACKLOG V3.0 — ĐÃ ĐỒNG BỘ 100% LÊN JIRA CLOUD
 
-> **Ngày cập nhật:** 03/11/2026 — Product Backlog nâng cấp từ v2.0 lên v3.0 (25 PBI, 112 Story Points).
-> File CSV import đã được cập nhật tại: `docs/jira_import_product_backlog.csv`
+> **Thời điểm hoàn tất đồng bộ:** 03/11/2026 — Đã cập nhật 7 thẻ cũ và tạo mới 8 thẻ trên Jira Cloud (Tổng cộng 99 thẻ công việc).
+> Toàn bộ thẻ mới đã được liên kết đúng Epic cha, gán người phụ trách, nhãn phân bổ Sprint và Story Points chuẩn xác.
 
-### 8.1 Các thẻ Jira cần SỬA (Actor/Description cũ sai)
+### 8.1 Danh sách 7 thẻ Jira CŨ đã được CẬP NHẬT (Sửa Actor/Description chuẩn Scrum)
 
-| Mã Thẻ Jira | PBI | Nội dung cần sửa trên Jira |
-| :---: | :---: | :--- |
-| [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15) | PBI-02 | **Đổi Summary:** "Bảo vệ dữ liệu khỏi truy cập trái phép (RBAC)"<br>**Đổi Description:** Bỏ "Là Hệ thống" → "Là Ban Giám Hiệu, tôi muốn hệ thống tự động chặn mọi truy cập trái phép..." |
-| [KAN-23](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-23) | PBI-11 | **Đổi Description:** Bỏ "Là Kiến trúc sư Phần mềm" → "Là Giáo viên Bộ môn, tôi muốn hệ thống phản hồi nhanh khi tải sổ điểm..." + ghi chú kỹ thuật Repository Pattern |
-| [KAN-24](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-24) | PBI-12 | **Đổi Description:** Bỏ "Là Hệ thống" → "Là Giáo viên Bộ môn, tôi muốn điểm cả lớp được lưu tất-cả-hoặc-không-có-ai..." + ghi chú Unit of Work |
-| [KAN-16](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-16) | PBI-18 | **Đổi Summary:** "Hệ thống phản hồi nhanh khi nhiều GV nhập điểm đồng thời"<br>**Đổi Description:** Bỏ "Là Quản trị viên" → "Là Giáo viên / Người dùng, tôi muốn hệ thống phản hồi nhanh..." |
-| [KAN-32](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-32) | PBI-19 | **Đổi Description:** Đánh dấu rõ là Engineering Story — Actor là QA Lead nội bộ, không phải end-user nghiệp vụ |
-| [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) | PBI-09 | **Đổi Description:** Bỏ "Là Hệ thống" → "Là Giáo viên Bộ môn, tôi muốn hệ thống tự động tính ĐTBmhk..." |
-| [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29) | PBI-17 (cũ) | **Tách thành 3 Story riêng biệt** (xem mục 8.2 bên dưới); đóng thẻ KAN-29 cũ hoặc chuyển thành Epic |
+| Mã Thẻ Jira | PBI | Summary Mới Trên Jira | Nội Dung Cập Nhật | Trạng Thái |
+| :---: | :---: | :--- | :--- | :---: |
+| [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15) | PBI-02 | PBI-02: Bảo vệ dữ liệu khỏi truy cập trái phép (RBAC) | Actor đổi thành: **Là Ban Giám Hiệu**; bổ sung ghi chú kỹ thuật `jwtAuthMiddleware` + `rbacMiddleware`. | **Done** |
+| [KAN-23](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-23) | PBI-11 | PBI-11: Hệ thống tải sổ điểm phản hồi nhanh (Repository Pattern) | Actor đổi thành: **Là Giáo viên Bộ môn**; ghi chú kỹ thuật `Repository Pattern`. | **Done** |
+| [KAN-24](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-24) | PBI-12 | PBI-12: Điểm cả lớp được lưu tất-cả-hoặc-không-có-ai (Unit of Work) | Actor đổi thành: **Là Giáo viên Bộ môn**; ghi chú kỹ thuật `Unit of Work` ACID. | **Done** |
+| [KAN-16](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-16) | PBI-18 | PBI-18: Hệ thống phản hồi nhanh khi nhiều GV nhập điểm đồng thời | Actor đổi thành: **Là Giáo viên / Người dùng**; chuyển Epic cha sang `EPIC-05` (KAN-11). | **Done** |
+| [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) | PBI-09 | PBI-09: Tự động tính ĐTBmhk chia 9 và xếp loại Thông tư 22 | Actor đổi thành: **Là Giáo viên Bộ môn**; chuẩn hóa công thức tính chia 9. | **Done** |
+| [KAN-32](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-32) | PBI-19 | PBI-19: Bộ kiểm thử tự động QA Unit Testing Suite | Đánh dấu rõ **Engineering Story** của QA Lead Nguyễn Minh Quốc Bảo. | **Done** |
+| [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29) | PBI-17a | PBI-17a: Phụ huynh xem điểm số và hạnh kiểm của con | Đổi từ PBI-17 gộp thành PBI-17a chuyên biệt cho tính năng xem điểm/hạnh kiểm con. | **Done** |
 
-### 8.2 Các thẻ Jira cần TẠO MỚI (PBI bổ sung v3.0)
+### 8.2 Danh sách 8 thẻ Jira MỚI đã được TẠO THÀNH CÔNG
 
-| PBI | Summary (tên thẻ) | Epic Link | Story Points | Assignee | Sprint | Priority |
-| :---: | :--- | :---: | :---: | :--- | :---: | :---: |
-| **PBI-17a** | PBI-17a: Phụ huynh xem điểm số và hạnh kiểm của con | EPIC-08 | 3 | Võ Hoàng Sơn | Sprint 4 | High |
-| **PBI-17b** | PBI-17b: Phụ huynh gửi đơn xin nghỉ học trực tuyến | EPIC-08 | 3 | Võ Duy Bình | Sprint 4 | High |
-| **PBI-17c** | PBI-17c: GVCN duyệt đơn và tự động cập nhật điểm danh | EPIC-03 | 3 | Võ Hoàng Sơn | Sprint 4 | High |
-| **PBI-20** | PBI-20: Học sinh tra cứu bảng điểm chi tiết và GPA cá nhân | EPIC-04 | 3 | Võ Hoàng Sơn | Sprint 3 | High |
-| **PBI-21** | PBI-21: Xem thời khóa biểu học tập và lịch thi | EPIC-02 | 2 | Võ Duy Bình | Sprint 2 | Should Have |
-| **PBI-22** | PBI-22: GVCN nhập đánh giá hạnh kiểm học sinh cuối kỳ | EPIC-04 | 3 | Võ Hoàng Sơn | Sprint 5 | Should Have |
-| **PBI-23** | PBI-23: BGH thống kê phổ điểm và xét khen thưởng toàn trường | EPIC-04 | 5 | Võ Duy Bình | Sprint 5 | Should Have |
-| **PBI-24** | PBI-24: Phụ huynh xem và thanh toán học phí qua VietQR | EPIC-08 | 5 | Võ Duy Bình | Sprint 5 | High |
-| **PBI-25** | PBI-25: BGH quản lý tài khoản người dùng toàn hệ thống | EPIC-01 | 5 | Huỳnh Trung Tính | Sprint 1 | High |
-
-### 8.3 Hướng dẫn import CSV vào Jira
-
-Để import các thẻ mới vào Jira nhanh nhất:
-
-1. Vào Jira Cloud: [https://reputyze-team-vx3aseym.atlassian.net](https://reputyze-team-vx3aseym.atlassian.net)
-2. Chọn **Project KAN** → **Project Settings** → **Import**
-3. Chọn **Import from CSV** → Upload file `docs/jira_import_product_backlog.csv`
-4. Map các cột: `Issue Type`, `Summary`, `Description`, `Epic Name`, `Story Points`, `Priority`, `Sprint`, `Assignee`, `Status`
-5. Xem trước và xác nhận import
-
-> **Lưu ý:** File CSV đã được cập nhật đầy đủ 25 PBI (v3.0) tại `docs/jira_import_product_backlog.csv`. Tuy nhiên khi import, Jira sẽ **tạo mới** tất cả các thẻ — vì vậy chỉ import các PBI mới (PBI-17a/17b/17c, PBI-20 đến PBI-25) và sửa thủ công các thẻ cũ theo hướng dẫn mục 8.1.
+| Mã Thẻ Jira | PBI | Tên Thẻ (Summary) | Epic Cha | Story Points | Người Phụ Trách | Nhãn (Labels) |
+| :---: | :---: | :--- | :---: | :---: | :--- | :--- |
+| [KAN-101](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-101) | **PBI-17b** | PBI-17b: Phụ huynh gửi đơn xin nghỉ học trực tuyến | [KAN-14](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-14) (EPIC-08) | 3 SP | **Võ Duy Bình** | `Member1-VoDuyBinh`, `Sprint-4`, `StoryPoints-3` |
+| [KAN-102](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-102) | **PBI-17c** | PBI-17c: GVCN duyệt đơn và tự động cập nhật điểm danh | [KAN-9](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-9) (EPIC-03) | 3 SP | **Võ Hoàng Sơn** | `Member2-VoHoangSon`, `Sprint-4`, `StoryPoints-3` |
+| [KAN-103](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-103) | **PBI-20** | PBI-20: Học sinh tra cứu bảng điểm chi tiết và GPA cá nhân | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) (EPIC-04) | 3 SP | **Võ Hoàng Sơn** | `Member2-VoHoangSon`, `Sprint-3`, `StoryPoints-3` |
+| [KAN-104](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-104) | **PBI-21** | PBI-21: Xem thời khóa biểu học tập và lịch thi | [KAN-8](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-8) (EPIC-02) | 2 SP | **Võ Duy Bình** | `Member1-VoDuyBinh`, `Sprint-2`, `StoryPoints-2` |
+| [KAN-105](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-105) | **PBI-22** | PBI-22: GVCN nhập đánh giá hạnh kiểm học sinh cuối kỳ | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) (EPIC-04) | 3 SP | **Võ Hoàng Sơn** | `Member2-VoHoangSon`, `Sprint-5`, `StoryPoints-3` |
+| [KAN-106](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-106) | **PBI-23** | PBI-23: BGH thống kê phổ điểm và xét khen thưởng toàn trường | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) (EPIC-04) | 5 SP | **Võ Duy Bình** | `Member1-VoDuyBinh`, `Sprint-5`, `StoryPoints-5` |
+| [KAN-107](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-107) | **PBI-24** | PBI-24: Phụ huynh xem và thanh toán học phí qua VietQR | [KAN-14](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-14) (EPIC-08) | 5 SP | **Võ Duy Bình** | `Member1-VoDuyBinh`, `Sprint-5`, `StoryPoints-5` |
+| [KAN-108](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-108) | **PBI-25** | PBI-25: BGH quản lý tài khoản người dùng toàn hệ thống | [KAN-6](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-6) (EPIC-01) | 5 SP | **Huỳnh Trung Tính** | `Member3-HuynhTrungTinh`, `Sprint-1`, `StoryPoints-5` |
 
