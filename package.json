@@ -1,0 +1,15 @@
+{
+  "name": "htqllh-school-management",
+  "version": "1.0.0",
+  "description": "Hệ thống Quản lý Lớp học & Học vụ (HTQLLH) — Root workspace",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --names \"FRONTEND,BACKEND\" --prefix-colors \"cyan,yellow\" \"npm run dev --prefix members/member2_Frontend\" \"npm run dev --prefix members/member3_Backend_DB/school-management-nodejs\"",
+    "start": "concurrently --names \"FRONTEND,BACKEND\" --prefix-colors \"cyan,yellow\" \"npm run build --prefix members/member2_Frontend && npm run preview --prefix members/member2_Frontend\" \"npm run start --prefix members/member3_Backend_DB/school-management-nodejs\"",
+    "install:all": "npm install --prefix members/member2_Frontend && npm install --prefix members/member3_Backend_DB/school-management-nodejs",
+    "build": "npm run build --prefix members/member2_Frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
