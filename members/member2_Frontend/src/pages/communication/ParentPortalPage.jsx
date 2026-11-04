@@ -44,7 +44,7 @@ export default function ParentPortalPage() {
   const [leaveDate, setLeaveDate] = useState(new Date().toISOString().split('T')[0]);
   const [leaveSubmitted, setLeaveSubmitted] = useState(false);
 
-  const [tuitionItems, setTuitionItems] = useState(DEFAULT_TUITION);
+  const [tuitionItems, setTuitionItems] = useState([]);
   const [tuitionLoading, setTuitionLoading] = useState(true);
 
   // UC-PAR-04: Fetch grades
@@ -53,12 +53,36 @@ export default function ParentPortalPage() {
     fetchGradeBook()
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          // Only show semester 1 (HK1) in the contact tab, matching original UI
-          const filtered = data.filter(row => {
+          // Normalize snake_case (DB) → camelCase (UI)
+          const normalize = (row) => ({
+            subjectName:    row.subjectName    ?? row.subject_name    ?? '',
+            scoreOral:      row.scoreOral      ?? row.score_oral      ?? null,
+            score15m:       row.score15m       ?? row.score_15m       ?? null,
+            scoreMidTerm:   row.scoreMidTerm   ?? row.score_mid_term  ?? null,
+            scoreFinalTerm: row.scoreFinalTerm ?? row.score_final_term?? null,
+            averageScore:   row.averageScore   ?? row.average_score   ?? null,
+            gradeLetter:    row.gradeLetter    ?? row.grade_letter    ?? '',
+            semester:       row.semester       ?? 'HK1',
+          });
+          const normalized = data.map(normalize);
+
+          // Lọc chỉ HK1 và de-duplicate theo subjectName
+          // (giữ bản ghi mới nhất nếu có trùng)
+          const hk1 = normalized.filter(row => {
             const sem = row.semester ?? '';
             return sem === 'HK1' || sem === 1 || sem === '1';
           });
-          setStudentGrades(filtered.length > 0 ? filtered : data);
+          const target = hk1.length > 0 ? hk1 : normalized;
+
+          // De-duplicate: mỗi môn chỉ giữ 1 dòng
+          const seen = new Set();
+          const unique = target.filter(row => {
+            if (seen.has(row.subjectName)) return false;
+            seen.add(row.subjectName);
+            return true;
+          });
+
+          setStudentGrades(unique);
         } else {
           setStudentGrades([]);
         }
@@ -76,14 +100,16 @@ export default function ParentPortalPage() {
           const mapped = data.map((item, idx) => ({
             id: item.id ?? item.tuition_id ?? String(idx + 1),
             name: item.item_name ?? item.description ?? item.name ?? `Khoản thu ${idx + 1}`,
-            amount: item.amount_due ?? item.amount ?? 0,
+            amount: parseFloat(item.amount_due ?? item.amount ?? 0),
             status: (item.payment_status ?? item.status ?? 'unpaid').toLowerCase(),
           }));
           setTuitionItems(mapped);
+        } else {
+          // API trả rỗng = chưa có học phí trong DB, hiện trống (không dùng mockdata)
+          setTuitionItems([]);
         }
-        // fallback: keep DEFAULT_TUITION already set in useState
       })
-      .catch(() => { /* keep default */ })
+      .catch(() => setTuitionItems([]))
       .finally(() => setTuitionLoading(false));
   }, []);
 

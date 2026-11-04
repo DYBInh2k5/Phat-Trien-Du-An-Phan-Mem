@@ -29,6 +29,7 @@ export class GradeBookController {
   static async getGradeBook(req, res) {
     try {
       let query = { ...req.query };
+
       // GVCN scope: force className
       if (req.user?.role === 'GVCN') {
         if (req.gvcnClassName === '__NO_CLASS__') {
@@ -36,6 +37,59 @@ export class GradeBookController {
         }
         query.className = req.gvcnClassName;
       }
+
+      // HS scope: resolve studentCode thật từ JWT thay vì tin query string
+      // (vì HS đăng nhập bằng username, không phải student_code)
+      if (req.user?.role === 'HS') {
+        const { querySafe } = await import('../config/db.js');
+        // Lấy full_name từ bảng users theo id (JWT chỉ chứa id, username, role)
+        const userRes = await querySafe(
+          `SELECT full_name FROM users WHERE id = $1 LIMIT 1`,
+          [req.user.id]
+        );
+        const fullName = userRes?.rows?.[0]?.full_name ?? null;
+
+        let resolvedCode = null;
+        if (fullName) {
+          // Tìm student_code theo full_name
+          const studentRes = await querySafe(
+            `SELECT student_code FROM students WHERE LOWER(full_name) = LOWER($1) LIMIT 1`,
+            [fullName]
+          );
+          resolvedCode = studentRes?.rows?.[0]?.student_code ?? null;
+        }
+
+        // Fallback: thử dùng username trực tiếp nếu trùng với student_code
+        if (!resolvedCode) {
+          const byCodeRes = await querySafe(
+            `SELECT student_code FROM students WHERE student_code = $1 LIMIT 1`,
+            [req.user.username]
+          );
+          resolvedCode = byCodeRes?.rows?.[0]?.student_code ?? null;
+        }
+
+        if (resolvedCode) {
+          query.studentCode = resolvedCode;
+        }
+      }
+
+      // PH scope: resolve studentCode qua bảng parent_students
+      if (req.user?.role === 'PH') {
+        const { querySafe } = await import('../config/db.js');
+        const res = await querySafe(
+          `SELECT s.student_code
+           FROM students s
+           JOIN parent_students ps ON ps.student_code = s.student_code
+           WHERE ps.parent_user_id = $1
+           LIMIT 1`,
+          [req.user.id]
+        );
+        const resolvedCode = res?.rows?.[0]?.student_code ?? null;
+        if (resolvedCode) {
+          query.studentCode = resolvedCode;
+        }
+      }
+
       const grades = await GradeBookService.getGrades(query);
       return res.json(grades);
     } catch (err) {

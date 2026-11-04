@@ -8,20 +8,33 @@ function parseSemester(sem) {
   return 1;
 }
 
-/** Map one API grade row → shape expected by the UI */
+/** Map one API grade row → shape expected by the UI.
+ *  Handles both snake_case (DB rows) and camelCase (DTO rows).
+ */
 function mapApiRow(row) {
+  // Normalize: support both snake_case and camelCase field names
+  const subjectName   = row.subjectName   ?? row.subject_name_full ?? row.subject_name   ?? '';
+  const scoreOral     = row.scoreOral     ?? row.score_oral     ?? null;
+  const score15m      = row.score15m      ?? row.score_15m      ?? null;
+  const score1hour    = row.score1Hour    ?? row.score1hour     ?? row.score_1hour    ?? null;
+  const scoreMidTerm  = row.scoreMidTerm  ?? row.score_mid_term ?? null;
+  const scoreFinalTerm= row.scoreFinalTerm?? row.score_final_term?? null;
+  const averageScore  = row.averageScore  ?? row.average_score  ?? null;
+  const gradeLetter   = row.gradeLetter   ?? row.grade_letter   ?? '';
+
   return {
-    subjectId: row.subjectName,
-    subjectName: row.subjectName,
-    semester: parseSemester(row.semester),
+    subjectId:   subjectName,
+    subjectName: subjectName,
+    semester:    parseSemester(row.semester),
     scores: {
-      oral:       row.scoreOral    != null ? [row.scoreOral]    : [],
-      test15min:  row.score15m     != null ? [row.score15m]     : [],
-      test45min:  row.score1hour   != null ? [row.score1hour]   : [],
-      semester:   row.scoreMidTerm ?? null,
-      average:    row.averageScore != null ? parseFloat(row.averageScore) : null,
+      oral:      scoreOral      != null ? [parseFloat(scoreOral)]      : [],
+      test15min: score15m       != null ? [parseFloat(score15m)]       : [],
+      test45min: score1hour     != null ? [parseFloat(score1hour)]     : [],
+      semester:  scoreMidTerm   != null ? parseFloat(scoreMidTerm)     : null,
+      final:     scoreFinalTerm != null ? parseFloat(scoreFinalTerm)   : null,
+      average:   averageScore   != null ? parseFloat(averageScore)     : null,
     },
-    gradeLetter: row.gradeLetter ?? '',
+    gradeLetter: gradeLetter,
   };
 }
 
@@ -114,7 +127,7 @@ export default function StudentGradebookPage() {
         '<td style="' + tcn + '">' + (g.scores.oral.join(', ') || '—') + '</td>' +
         '<td style="' + tcn + '">' + (g.scores.test15min.join(', ') || '—') + '</td>' +
         '<td style="' + tcn + '">' + (g.scores.test45min.join(', ') || '—') + '</td>' +
-        '<td style="' + tcn + '">' + (g.scores.semester ?? '—') + '</td>' +
+        '<td style="' + tcn + '">' + (g.scores.final ?? '—') + '</td>' +
         '<td style="' + avgStyle + '">' + (avg?.toFixed(1) ?? '---') + '</td>' +
         '<td style="' + tcn + '">' + xl2 + '</td>' +
         '</tr>';
@@ -317,7 +330,7 @@ export default function StudentGradebookPage() {
                       <td className="px-4 py-2 text-center text-[#475569]">{g.scores.oral.join(', ') || '—'}</td>
                       <td className="px-4 py-2 text-center text-[#475569]">{g.scores.test15min.join(', ') || '—'}</td>
                       <td className="px-4 py-2 text-center text-[#475569]">{g.scores.test45min.join(', ') || '—'}</td>
-                      <td className="px-4 py-2 text-center text-[#475569]">{g.scores.semester ?? '—'}</td>
+                      <td className="px-4 py-2 text-center text-[#475569]">{g.scores.final ?? '—'}</td>
                       <td className={`px-4 py-2 text-center font-semibold text-body-md whitespace-nowrap ${gradeBg(avg)} ${gradeColor(avg)}`}>
                         {avg?.toFixed(1) ?? '—'}
                       </td>

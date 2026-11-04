@@ -141,41 +141,33 @@ export class GradeBookService {
   }
 
   static calculateTBM(gb) {
-    const oral  = gb.scoreOral   != null ? parseFloat(gb.scoreOral)   : null;
-    const oral2 = gb.scoreOral2  != null ? parseFloat(gb.scoreOral2)  : null;
-    const m15   = gb.score15m    != null ? parseFloat(gb.score15m)    : null;
-    const m15_2 = gb.score15m2   != null ? parseFloat(gb.score15m2)   : null;
-    const h1    = gb.score1Hour  != null ? parseFloat(gb.score1Hour)  : null;
-    const mid   = gb.scoreMidTerm   != null ? parseFloat(gb.scoreMidTerm)   : null;
-    const fin   = gb.scoreFinalTerm != null ? parseFloat(gb.scoreFinalTerm) : null;
+    // Hướng A: NULL = 0, mẫu số cố định = 9 (theo BR-01)
+    // TBM = (oral×1 + oral2×1 + 15'×1 + 15'_2×1 + 1tiết×2 + giữaHK×2 + cuốiHK×3) / 9
+    // Ô nào chưa nhập (null/undefined) được coi là 0.
+    const toNum = (v) => (v != null && !isNaN(parseFloat(v))) ? parseFloat(v) : 0;
 
-    // Trọng số: miệng=1, 15'=1, 1tiết=2, giữa HK=2, cuối HK=3
-    let sum = 0, weight = 0;
-    if (oral  != null && !isNaN(oral))  { sum += oral  * 1; weight += 1; }
-    if (oral2 != null && !isNaN(oral2)) { sum += oral2 * 1; weight += 1; }
-    if (m15   != null && !isNaN(m15))   { sum += m15   * 1; weight += 1; }
-    if (m15_2 != null && !isNaN(m15_2)) { sum += m15_2 * 1; weight += 1; }
-    if (h1    != null && !isNaN(h1))    { sum += h1    * 2; weight += 2; }
-    if (mid   != null && !isNaN(mid))   { sum += mid   * 2; weight += 2; }
-    if (fin   != null && !isNaN(fin))   { sum += fin   * 3; weight += 3; }
+    const oral  = toNum(gb.scoreOral);
+    const oral2 = toNum(gb.scoreOral2);
+    const m15   = toNum(gb.score15m);
+    const m15_2 = toNum(gb.score15m2);
+    const h1    = toNum(gb.score1Hour);
+    const mid   = toNum(gb.scoreMidTerm);
+    const fin   = toNum(gb.scoreFinalTerm);
 
-    if (weight > 0) {
-      const avg = Math.round((sum / weight) * 10) / 10;
-      gb.averageScore  = avg;
-      gb.average_score = avg;
+    const DENOMINATOR = 9;
+    const sum = oral * 1 + oral2 * 1 + m15 * 1 + m15_2 * 1 + h1 * 2 + mid * 2 + fin * 3;
+    const avg = Math.round((sum / DENOMINATOR) * 10) / 10;
 
-      if (avg >= 9.0)      gb.gradeLetter = 'Xuất sắc';
-      else if (avg >= 8.0) gb.gradeLetter = 'Giỏi';
-      else if (avg >= 6.5) gb.gradeLetter = 'Khá';
-      else if (avg >= 5.0) gb.gradeLetter = 'Trung bình';
-      else                 gb.gradeLetter = 'Yếu';
-      gb.grade_letter = gb.gradeLetter;
-    } else {
-      gb.averageScore  = null;
-      gb.average_score = null;
-      gb.gradeLetter   = 'Chưa xếp loại';
-      gb.grade_letter  = 'Chưa xếp loại';
-    }
+    gb.averageScore  = avg;
+    gb.average_score = avg;
+
+    if (avg >= 9.0)      gb.gradeLetter = 'Xuất sắc';
+    else if (avg >= 8.0) gb.gradeLetter = 'Giỏi';
+    else if (avg >= 6.5) gb.gradeLetter = 'Khá';
+    else if (avg >= 5.0) gb.gradeLetter = 'Trung bình';
+    else                 gb.gradeLetter = 'Yếu';
+    gb.grade_letter = gb.gradeLetter;
+
     return gb;
   }
 }

@@ -12,7 +12,15 @@ export class LeaveRequestController {
 
   static async submitLeaveRequest(req, res) {
     try {
-      const created = await LeaveRequestService.submitLeaveRequest(req.body);
+      const data = { ...req.body };
+
+      // Đính kèm userId từ JWT để service resolve học sinh đúng
+      // (phụ huynh đăng nhập bằng username, không có studentCode hợp lệ)
+      if (req.user?.id) {
+        data.parentUserId = req.user.id;
+      }
+
+      const created = await LeaveRequestService.submitLeaveRequest(data);
       return res.status(201).json({
         success: true,
         message: 'Đã nộp đơn xin nghỉ học thành công!',

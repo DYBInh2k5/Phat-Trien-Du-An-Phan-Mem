@@ -102,12 +102,12 @@ app.post('/api/attendance/save', authenticateToken, resolveGvcnClass, Attendance
 
 // Leave Requests Routes
 app.get('/api/leave-requests', LeaveRequestController.getLeaveRequests);
-app.post('/api/leave-requests', LeaveRequestController.submitLeaveRequest);
+app.post('/api/leave-requests', authenticateToken, LeaveRequestController.submitLeaveRequest);
 app.put('/api/leave-requests/:id/approve', LeaveRequestController.approveLeaveRequest);
 
 // Tuition Routes
-app.get('/api/tuition', TuitionController.getTuitions);
-app.post('/api/tuition/pay', TuitionController.payTuition);
+app.get('/api/tuition', authenticateToken, TuitionController.getTuitions);
+app.post('/api/tuition/pay', authenticateToken, TuitionController.payTuition);
 
 // Class & Subject Routes
 app.get('/api/classes', ClassController.getClasses);

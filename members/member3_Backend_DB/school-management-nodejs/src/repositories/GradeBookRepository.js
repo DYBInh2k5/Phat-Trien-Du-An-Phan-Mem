@@ -38,8 +38,22 @@ export class GradeBookRepository {
   }
 
   static async findByStudentCode(studentCode) {
-    const res = await query('SELECT * FROM grade_books WHERE student_code = $1', [studentCode]);
-    if (res && res.rows) return res.rows;
+    const res = await query(
+      `SELECT gb.*,
+              COALESCE(s.name, gb.subject_name) AS subject_name_full
+       FROM grade_books gb
+       LEFT JOIN subjects s ON s.code = gb.subject_name OR s.name = gb.subject_name
+       WHERE gb.student_code = $1
+       ORDER BY gb.semester ASC, gb.subject_name ASC`,
+      [studentCode]
+    );
+    if (res && res.rows) {
+      // Ghi đè subject_name bằng tên đầy đủ nếu có
+      return res.rows.map(r => ({
+        ...r,
+        subject_name: r.subject_name_full || r.subject_name,
+      }));
+    }
     return memGrades.filter(g => g.student_code === studentCode || g.studentCode === studentCode);
   }
 
