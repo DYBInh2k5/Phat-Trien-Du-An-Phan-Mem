@@ -1,6 +1,24 @@
+/**
+ * ==============================================================================
+ * DỰ ÁN HỆ THỐNG QUẢN LÝ LỚP HỌC (HTQLLH) - THPT HSU
+ * ==============================================================================
+ * Tệp: members/member2_Frontend/src/context/AuthContext.jsx
+ * Vai trò: Ngữ Cảnh Quản Lý Xác Thực Toàn Cục (Global Authentication Context)
+ * Kiến trúc: React Context API - Quản lý trạng thái phiên làm việc không qua Prop Drilling
+ * Mô tả:
+ *   - Lưu trữ đối tượng người dùng hiện tại (user), vai trò (role), và cờ xác thực (isAuthenticated).
+ *   - Tự động nạp lại thông tin người dùng từ localStorage khi tải lại trình duyệt.
+ *   - Cung cấp hàm login và logout cho toàn bộ cây Component.
+ *   - Expose hook tiện ích `useAuth()` để các Component dễ dàng sử dụng.
+ *   - Hỗ trợ phân quyền RBAC qua `permissions`, `hasPermission`.
+ *   - Polling permissions từ server mỗi 15 giây để nhận thay đổi từ BGH.
+ * ==============================================================================
+ */
+
 import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { apiClient } from '../api/client.js';
 
+// Khởi tạo đối tượng Context mặc định là null
 const AuthContext = createContext(null);
 
 const STORAGE_KEY = 'htqllh_auth'; // lưu { user, token }
@@ -48,6 +66,13 @@ function readStoredAuth() {
   return { user: null, token: null };
 }
 
+/**
+ * Component Nhà cung cấp ngữ cảnh xác thực (AuthProvider)
+ * @component
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - Cây Component con được bao bọc
+ * @returns {JSX.Element}
+ */
 export function AuthProvider({ children }) {
   const [authState, setAuthState]         = useState(readStoredAuth);
   const [isRestoringSession, setIsRestoringSession] = useState(false);
@@ -125,6 +150,13 @@ export function AuthProvider({ children }) {
   }
 
   // ── Login ───────────────────────────────────────────────────────────────────
+  /**
+   * Xử lý đăng nhập tài khoản:
+   * @param {Object} credentials - Thông tin đăng nhập
+   * @param {string} credentials.username - Tên đăng nhập
+   * @param {string} credentials.password - Mật khẩu
+   * @param {string} credentials.role - Vai trò đăng nhập (BGH, GVCN, GV, PH, HS)
+   */
   const login = useCallback(async ({ username, password, role }) => {
     const data = await apiClient('/auth/login', {
       method: 'POST',
@@ -159,6 +191,10 @@ export function AuthProvider({ children }) {
     return data;
   }, [fetchPermissionsFromServer, startPolling]);
 
+  /**
+   * Xử lý đăng xuất:
+   * Xóa sạch các khóa lưu trữ phiên và đưa state về null.
+   */
   const logout = useCallback(() => {
     clearAuth();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,6 +205,9 @@ export function AuthProvider({ children }) {
     setPermissions({ ...DEFAULT_PERMISSIONS, ...newMatrix });
   }, []);
 
+  /**
+   * Giá trị Context được cung cấp cho toàn bộ cây Component
+   */
   const value = {
     user: authState.user,
     token: authState.token,
@@ -185,6 +224,11 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+/**
+ * Custom Hook `useAuth` - Giúp các Component con dễ dàng truy cập thông tin phiên
+ * @returns {{ user: Object, role: string, isAuthenticated: boolean, login: Function, logout: Function }}
+ * @throws {Error} Nếu gọi bên ngoài thẻ <AuthProvider>
+ */
 export const useAuth = () => {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error('useAuth must be used within AuthProvider');

@@ -8,11 +8,11 @@ Tài liệu phân tích Chi tiết Yêu cầu Phần mềm (SRS - Software Requi
 
 | STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
 | :---: | :--- | :--- | :---: |
-| 1 | **Võ Duy Bình** | Trưởng nhóm (Project Lead): Khảo sát thực tế, chủ trì xây dựng tài liệu SRS, xác lập ma trận phân quyền RBAC và quản lý tiến độ chung | 20% |
-| 2 | **Nguyễn Minh Quốc Bảo** | Phân tích phân hệ Sổ điểm điện tử, Đánh giá học vụ và xây dựng các quy tắc tính điểm theo Thông tư 22/2021/TT-BGDĐT | 20% |
-| 3 | **Trần Quang Vinh** | Phân tích phân hệ Hồ sơ học sinh, Lớp học, Giảng dạy và Lập kế hoạch thời khóa biểu | 20% |
-| 4 | **Võ Hoàng Sơn** | Phân tích phân hệ Điểm danh & Chuyên cần, Đơn xin nghỉ học và Sổ liên lạc điện tử | 20% |
-| 5 | **Huỳnh Trung Tính** | Phân tích phân hệ Quản lý Học phí & Thu chi, Báo cáo thống kê, rà soát Use Cases và ma trận RTM | 20% |
+| 1 | **Võ Duy Bình** | Trưởng nhóm (Project Manager & Lead BA): Khảo sát thực tế, chủ trì xây dựng hồ sơ đặc tả SRS IEEE 830, ma trận RTM và quản lý tiến độ chung | 20% |
+| 2 | **Võ Hoàng Sơn** | Dev Frontend: Khảo sát yêu cầu giao diện người dùng cho 5 nhóm tác nhân, phân tích luồng điểm danh chuyên cần và sổ liên lạc | 20% |
+| 3 | **Huỳnh Trung Tính** | Dev Backend: Phân tích yêu cầu kỹ thuật tầng máy chủ, quản lý danh mục lớp học, hồ sơ học sinh và cấu trúc dữ liệu đào tạo | 20% |
+| 4 | **Trần Quang Vinh** | Logic Security: Phân tích nghiệp vụ sổ điểm Thông tư 22, cơ chế xác thực JWT, bảo mật dữ liệu và ma trận phân quyền RBAC 5 nhóm vai trò | 20% |
+| 5 | **Nguyễn Minh Quốc Bảo** | Tester: Phân tích tiêu chí nghiệm thu Acceptance Criteria, rà soát 43 Use Cases và thiết lập các kịch bản kiểm thử yêu cầu | 20% |
 
 ---
 

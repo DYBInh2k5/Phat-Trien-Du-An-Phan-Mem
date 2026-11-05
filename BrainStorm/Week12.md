@@ -62,7 +62,9 @@ jobs:
 
 ## CHƯƠNG III. KẾT QUẢ ĐẠT ĐƯỢC VÀ PHÂN CÔNG THỰC HIỆN
 
-- **Võ Duy Bình (PM)**: Phê duyệt quy trình đóng gói và thiết lập bảo vệ nhánh `main` trên GitHub.
-- **Huỳnh Trung Tính (Member 5)**: Xây dựng kịch bản CI workflow trên GitHub Actions và kiểm thử tự động.
-- **Trần Quang Vinh (Member 3)**: Hoàn thiện Dockerfile và Docker Compose với mạng cầu nối nội bộ (Bridge Network).
+- **Võ Duy Bình (Member 1 - PM & BA)**: Phê duyệt quy trình đóng gói và thiết lập bảo vệ nhánh `main` trên GitHub.
+- **Võ Hoàng Sơn (Member 2 - Dev Frontend)**: Tối ưu hóa Dockerfile cho Frontend React SPA và cấu hình biến môi trường build Vite.
+- **Huỳnh Trung Tính (Member 3 - Dev Backend)**: Hoàn thiện Dockerfile Backend, Docker Compose với mạng cầu nối nội bộ (Bridge Network) và quản trị container PostgreSQL.
+- **Trần Quang Vinh (Member 4 - Logic Security)**: Rà soát bảo mật Docker container, cấu hình non-root user và quản lý an toàn biến môi trường bí mật (.env).
+- **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**: Xây dựng kịch bản CI workflow trên GitHub Actions và thiết lập kiểm thử tự động trên runner.
 - **Trạng thái tuần 12**: Dự án có thể khởi chạy hoàn chỉnh trên bất kỳ máy tính nào chỉ với lệnh `docker compose up -d`.

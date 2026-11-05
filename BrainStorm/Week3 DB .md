@@ -8,11 +8,11 @@ Tài liệu nghiên cứu chuyên sâu về công nghệ Cơ sở dữ liệu (D
 
 | STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
 | :---: | :--- | :--- | :---: |
-| 1 | **Võ Duy Bình** | Khảo sát và phân tích Microsoft SQL Server, đánh giá ưu điểm, hạn chế và khả năng đáp ứng yêu cầu của hệ thống quản lý trường học | 20% |
-| 2 | **Nguyễn Minh Quốc Bảo** | Khảo sát và phân tích PostgreSQL, tập trung vào đặc điểm, ưu điểm, hạn chế và khả năng đáp ứng yêu cầu của hệ thống | 20% |
-| 3 | **Trần Quang Vinh** | Khảo sát và phân tích MySQL/MariaDB, Supabase và MongoDB, đồng thời tổng hợp đặc điểm và khả năng áp dụng của các giải pháp | 20% |
-| 4 | **Võ Hoàng Sơn** | Biên soạn Chương I, Chương V, tổng hợp kết quả khảo sát, rà soát và chuẩn hóa nội dung, hình thức báo cáo | 20% |
-| 5 | **Huỳnh Trung Tính** | Nghiên cứu chuyên sâu và hướng dẫn sử dụng PostgreSQL | 20% |
+| 1 | **Võ Duy Bình** | Quản lý yêu cầu lưu trữ hệ thống, khảo sát các giải pháp CSDL quan hệ và điều phối tiến độ | 20% |
+| 2 | **Võ Hoàng Sơn** | Phân tích yêu cầu truy xuất dữ liệu từ phía giao diện Web Client và tối ưu cấu trúc dữ liệu hiển thị | 20% |
+| 3 | **Huỳnh Trung Tính** | Chủ trì thiết kế CSDL PostgreSQL, chuẩn hóa ERD 3NF, lập trình DDL schema.sql và cẩm nang POSTGRESQL_GUIDE.md | 20% |
+| 4 | **Trần Quang Vinh** | Phân tích yêu cầu an ninh dữ liệu, kiểm toán Audit Log và bảo vệ giao dịch ACID cho bảng điểm | 20% |
+| 5 | **Nguyễn Minh Quốc Bảo** | Kiểm thử tính toàn vẹn dữ liệu, kiểm tra các ràng buộc CHECK, khóa chính PK và khóa ngoại FK | 20% |
 
 ---
 

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ví Dụ Đơn Giản: Repository Pattern (Mẫu Người Thủ Kho)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .demo-container {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 800px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .header-box {
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 16px;
+    }
+
+    .header-box h1 {
+      font-size: 20px;
+      color: #004ac6;
+      margin-bottom: 8px;
+    }
+
+    .header-box p {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    /* Mô hình 3 khối siêu đơn giản */
+    .steps-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .box {
+      flex: 1;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      background: #f8fafc;
+      transition: all 0.3s ease;
+    }
+
+    .box.active {
+      border-color: #004ac6;
+      background: #eff4ff;
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0, 74, 198, 0.15);
+    }
+
+    .box-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #0f172a;
+    }
+
+    .box-role {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .arrow {
+      font-size: 20px;
+      color: #94a3b8;
+      font-weight: bold;
+    }
+
+    /* Nút bấm hành động */
+    .action-center {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    button {
+      background-color: #004ac6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #003899;
+    }
+
+    /* Khung kết quả hiển thị */
+    .result-box {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .result-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .student-item {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tag-rank {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Khung ghi chú ngắn gọn để nói với cô */
+    .speech-bubble {
+      background: #fff7ed;
+      border-left: 4px solid #c2410c;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: #9a3412;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="demo-container">
+    <div class="header-box">
+      <h1>VÍ DỤ ĐƠN GIẢN VỀ DESIGN PATTERN: REPOSITORY PATTERN</h1>
+      <p>Hình ảnh so sánh: <strong>Repository giống như Người Thủ Kho</strong> của hệ thống</p>
+    </div>
+
+    <!-- 3 Khối mô phỏng luồng chạy -->
+    <div class="steps-container">
+      <div class="box" id="box-service">
+        <div class="box-title">1. Giáo Viên / Service</div>
+        <div class="box-role">Ra lệnh: "Lấy học sinh lớp 10A1"</div>
+      </div>
+
+      <div class="arrow">&rarr;</div>
+
+      <div class="box" id="box-repo">
+        <div class="box-title">2. Thủ Kho (Repository)</div>
+        <div class="box-role">Tự động tìm kiếm trong kho</div>
+      </div>
+
+      <div class="arrow">&rarr;</div>
+
+      <div class="box" id="box-db">
+        <div class="box-title">3. Cơ Sở Dữ Liệu (PostgreSQL)</div>
+        <div class="box-role">Nơi chứa 45 học sinh</div>
+      </div>
+    </div>
+
+    <!-- Nút bấm tương tác -->
+    <div class="action-center">
+      <button id="btn-demo">BẤM VÀO ĐÂY ĐỂ CHẠY THỬ VÍ DỤ</button>
+    </div>
+
+    <!-- Kết quả trả về sau khi bấm -->
+    <div class="result-box">
+      <div class="result-title" id="status-title">Trạng thái: Đang chờ bấm nút...</div>
+      <div id="student-list" style="display: none; flex-direction: column; gap: 8px;">
+        <div class="student-item">
+          <span><strong>HS001</strong> — Nguyễn Thị Ánh (Lớp 10A1)</span>
+          <span class="tag-rank">Học lực: Giỏi (8.7)</span>
+        </div>
+        <div class="student-item">
+          <span><strong>HS002</strong> — Trần Văn Bảo (Lớp 10A1)</span>
+          <span class="tag-rank" style="background: #e0f2fe; color: #0369a1;">Học lực: Khá (6.8)</span>
+        </div>
+        <div class="student-item">
+          <span><strong>HS003</strong> — Lê Thị Cẩm (Lớp 10A1)</span>
+          <span class="tag-rank" style="background: #fee2e2; color: #b91c1c;">Học lực: Cần cố gắng (4.5)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Đoạn văn mẫu 2 câu để nói với cô -->
+    <div class="speech-bubble">
+      <strong>Câu nói nhanh 10 giây với Cô:</strong><br>
+      "Thưa Cô, Repository Pattern giống như một <strong>Người Thủ Kho</strong>. Tầng nghiệp vụ chỉ cần nói <em>'Lấy cho tôi học sinh lớp 10A1'</em> mà không cần tự mình viết câu lệnh SQL phức tạp. Nếu sau này trường đổi CSDL từ PostgreSQL sang MySQL thì chỉ cần đổi cách lấy hàng của Thủ Kho, không cần sửa đổi bất kỳ logic tính điểm nào."
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById('btn-demo');
+    const boxService = document.getElementById('box-service');
+    const boxRepo = document.getElementById('box-repo');
+    const boxDb = document.getElementById('box-db');
+    const statusTitle = document.getElementById('status-title');
+    const studentList = document.getElementById('student-list');
+
+    btn.addEventListener('click', async () => {
+      // Đặt lại trạng thái
+      studentList.style.display = 'none';
+      [boxService, boxRepo, boxDb].forEach(b => b.classList.remove('active'));
+
+      // Bước 1: Service gọi
+      boxService.classList.add('active');
+      statusTitle.textContent = "Bước 1: Giáo viên gửi yêu cầu: 'Lấy danh sách học sinh lớp 10A1'...";
+      await new Promise(r => setTimeout(r, 700));
+
+      // Bước 2: Repository tiếp nhận
+      boxService.classList.remove('active');
+      boxRepo.classList.add('active');
+      statusTitle.textContent = "Bước 2: Thủ kho (StudentRepository) tiếp nhận và tự tạo câu truy vấn SQL an toàn...";
+      await new Promise(r => setTimeout(r, 700));
+
+      // Bước 3: Database trả hàng
+      boxRepo.classList.remove('active');
+      boxDb.classList.add('active');
+      statusTitle.textContent = "Bước 3: PostgreSQL trả về 3 học sinh...";
+      await new Promise(r => setTimeout(r, 600));
+
+      // Hoàn tất: Repository trao tận tay cho Service
+      boxDb.classList.remove('active');
+      boxService.classList.add('active');
+      statusTitle.textContent = "Thành công: Thủ kho đã giao danh sách học sinh cho Giáo viên!";
+      studentList.style.display = 'flex';
+    });
+  </script>
+</body>
+</html>

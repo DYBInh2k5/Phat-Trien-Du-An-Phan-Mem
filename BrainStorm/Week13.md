@@ -34,6 +34,9 @@ Thực hiện thẩm định chất lượng toàn diện (Final User Acceptance
 
 ## CHƯƠNG III. KẾT LUẬN VÀ PHÂN CÔNG THỰC HIỆN
 
-- **Võ Duy Bình (PM / Lead BA)**: Chủ trì điều phối các buổi nghiệm thu UAT chéo giữa các thành viên.
-- **Tất cả thành viên**: Đóng vai các nhóm người dùng thực tế và ghi nhận biên bản nghiệm thu kỹ thuật.
+- **Võ Duy Bình (Member 1 - PM & BA)**: Chủ trì điều phối các buổi nghiệm thu UAT chéo giữa các thành viên, rà soát ma trận RTM và 43 Use Cases.
+- **Võ Hoàng Sơn (Member 2 - Dev Frontend)**: Thẩm định nghiệm thu UAT cho 5 nhóm giao diện người dùng (BGH, GVCN, GVBM, Học sinh, Phụ huynh).
+- **Huỳnh Trung Tính (Member 3 - Dev Backend)**: Thẩm định tải API và độ trễ phản hồi CSDL PostgreSQL trong các kịch bản nghiệm thu thực tế.
+- **Trần Quang Vinh (Member 4 - Logic Security)**: Nghiệm thu an ninh xác thực JWT, cơ chế bảo vệ phân quyền RBAC và ghi nhật ký kiểm toán.
+- **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**: Trưởng nhóm QA kiểm thử nghiệm thu người dùng (UAT Lead), tổng hợp biên bản nghiệm thu 43/43 ca kiểm thử đạt PASS 100%.
 - **Trạng thái tuần 13**: Toàn bộ 43 Use Cases đã được nghiệm thu với kết quả PASS 100%, sẵn sàng đóng gói bản phát hành chính thức.

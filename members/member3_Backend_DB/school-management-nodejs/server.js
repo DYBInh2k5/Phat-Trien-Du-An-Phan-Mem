@@ -1,9 +1,27 @@
+/**
+ * ==============================================================================
+ * DỰ ÁN HỆ THỐNG QUẢN LÝ LỚP HỌC (HTQLLH) - THPT HSU
+ * ==============================================================================
+ * Tệp: members/member3_Backend_DB/school-management-nodejs/server.js
+ * Vai trò: Điểm Khởi Động & Gốc Cấu Thành Hệ Thống (Composition Root)
+ * Kiến trúc: Clean Architecture - Tầng Ngoại Vi (Frameworks & Drivers)
+ * Cổng lắng nghe mặc định: 8081
+ * Mô tả:
+ *   - Khởi tạo ứng dụng Express.js, thiết lập CORS và trình phân tích JSON.
+ *   - Đăng ký toàn bộ các tuyến đường RESTful API cho 8 phân hệ học vụ.
+ *   - Cung cấp bộ lọc ghi vết nhật ký yêu cầu HTTP thời gian thực.
+ *   - Bắt và xử lý lỗi tập trung (Global 404 & Global 500 Error Handler).
+ *   - Tự động kiểm tra, khởi tạo bảng CSDL và nạp 45 học sinh mẫu khi khởi động.
+ * ==============================================================================
+ */
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { initDatabaseSchema } from './src/config/db.js';
 import { seedDemoData } from './src/seeders/dataInitializer.js';
 
+// Nạp các Bộ điều khiển (Controllers) tương ứng với các phân hệ nghiệp vụ
 import { AuthController } from './src/controllers/AuthController.js';
 import { StudentController } from './src/controllers/StudentController.js';
 import { GradeBookController } from './src/controllers/GradeBookController.js';
@@ -51,16 +69,21 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json());
-
-// Logging Middleware
 app.use((req, res, next) => {
   console.log(`[HTTP API] ${req.method} ${req.url}`);
   next();
 });
 
-// Health check endpoint
+// ------------------------------------------------------------------------------
+// 2. ĐIỂM KIỂM TRA SỨC KHỎE DỊCH VỤ (HEALTH CHECK ENDPOINT)
+// Phục vụ Docker Compose healthcheck và công cụ giám sát tải
+// ------------------------------------------------------------------------------
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'UP', service: 'HTQLLH Node.js Express Backend', timestamp: new Date().toISOString() });
+  res.json({
+    status: 'UP',
+    service: 'HTQLLH Node.js Express Backend',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Auth Routes (public)
@@ -100,7 +123,7 @@ app.get('/api/attendance', authenticateToken, resolveGvcnClass, AttendanceContro
 app.get('/api/attendance/summary', authenticateToken, AttendanceController.getAttendanceSummary);
 app.post('/api/attendance/save', authenticateToken, resolveGvcnClass, AttendanceController.saveAttendance);
 
-// Leave Requests Routes
+// Phân hệ 5: Sổ liên lạc & Duyệt đơn xin nghỉ phép (Leave Requests & Portal)
 app.get('/api/leave-requests', LeaveRequestController.getLeaveRequests);
 app.post('/api/leave-requests', authenticateToken, LeaveRequestController.submitLeaveRequest);
 app.put('/api/leave-requests/:id/approve', LeaveRequestController.approveLeaveRequest);
@@ -109,7 +132,7 @@ app.put('/api/leave-requests/:id/approve', LeaveRequestController.approveLeaveRe
 app.get('/api/tuition', authenticateToken, TuitionController.getTuitions);
 app.post('/api/tuition/pay', authenticateToken, TuitionController.payTuition);
 
-// Class & Subject Routes
+// Phân hệ 7 & 8: Danh mục Lớp học & Môn học (Classes & Subjects)
 app.get('/api/classes', ClassController.getClasses);
 app.post('/api/classes', ClassController.createClass);
 app.put('/api/classes/:className/homeroom',    authenticateToken, requireBGH, ClassController.assignHomeroom);
@@ -162,16 +185,24 @@ app.post('/api/communication/messages',    authenticateToken, CommunicationContr
 
 // Global 404 Handler
 app.use((req, res) => {
-  res.status(404).json({ success: false, message: `Route ${req.method} ${req.url} not found.` });
+  res.status(404).json({
+    success: false,
+    message: `Đường dẫn ${req.method} ${req.url} không tồn tại trên hệ thống.`
+  });
 });
 
-// Global Error Handler
+// Bắt các lỗi ngoại lệ phát sinh không mong muốn (HTTP 500 Internal Server Error)
 app.use((err, req, res, next) => {
   console.error('[SERVER ERROR]', err);
-  res.status(500).json({ success: false, message: err.message || 'Internal Server Error' });
+  res.status(500).json({
+    success: false,
+    message: err.message || 'Lỗi xử lý nội bộ trên máy chủ'
+  });
 });
 
-// Start Server
+// ------------------------------------------------------------------------------
+// 5. KHỞI CHẠY MÁY CHỦ VÀ KHỞI TẠO CƠ SỞ DỮ LIỆU TỰ ĐỘNG
+// ------------------------------------------------------------------------------
 app.listen(PORT, async () => {
   console.log(`====================================================`);
   console.log(`  HTQLLH Node.js Express Backend Server Running!`);

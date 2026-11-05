@@ -1,3 +1,20 @@
+/**
+ * ==============================================================================
+ * DỰ ÁN HỆ THỐNG QUẢN LÝ LỚP HỌC (HTQLLH) - THPT HSU
+ * ==============================================================================
+ * Tệp: members/member2_Frontend/src/components/layout/Sidebar.jsx
+ * Vai trò: Thanh Điều Hướng Bên Trái (Left Navigation Sidebar)
+ * Phân quyền: Role-Based Access Control (RBAC) - Menu động theo 5 vai trò
+ * Mô tả:
+ *   - Hiển thị logo nhận diện thương hiệu trường THPT HSU.
+ *   - Lọc các mục menu phù hợp với vai trò đăng nhập hiện tại (BGH, GVCN, GVBM, PH, HS).
+ *   - Kiểm tra permissions RBAC qua hasPermission cho từng moduleId.
+ *   - Tô sáng (Active Highlight) đường dẫn đang được kích hoạt bằng NavLink.
+ *   - Ẩn hoàn toàn khi người dùng in ấn báo cáo thông qua lớp CSS 'print:hidden'.
+ *   - Hiển thị badge số lượng thông báo chưa đọc (polling mỗi 30 giây).
+ * ==============================================================================
+ */
+
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth, hasPermission } from '../../context/AuthContext.jsx';
@@ -6,6 +23,7 @@ import { ROUTES } from '../../constants/routes.js';
 import { fetchUnreadCount } from '../../api/stubs.js';
 
 /**
+ * Danh sách định nghĩa toàn bộ các mục điều hướng trong hệ thống.
  * moduleId phải khớp với key trong DEFAULT_PERMISSIONS của AuthContext.
  * Nếu item không có moduleId → không kiểm tra quyền, chỉ lọc theo role.
  *
@@ -45,6 +63,14 @@ const NAV_ITEMS = [
   { label: 'Chuyên cần học sinh',     icon: 'check_circle',         path: ROUTES.STUDENT_ATTENDANCE,   roles: [ROLES.HS, ROLES.PH], moduleId: 'attendance' },
 ];
 
+/**
+ * Component Sidebar - Thanh điều hướng danh mục hệ thống
+ * @component
+ * @param {Object} props - Các thuộc tính truyền vào
+ * @param {boolean} props.isCollapsed - Trạng thái thu gọn menu (true: hẹp 68px, false: rộng 260px)
+ * @param {Function} props.onToggle - Hàm kích hoạt đóng/mở thanh Sidebar
+ * @returns {JSX.Element}
+ */
 export default function Sidebar({ isCollapsed, onToggle }) {
   const { role, permissions } = useAuth();
   const [unreadCount, setUnreadCount] = useState(0);
@@ -113,7 +139,9 @@ export default function Sidebar({ isCollapsed, onToggle }) {
             }
             title={isCollapsed ? item.label : undefined}
           >
+            {/* Biểu tượng Material Symbol */}
             <span className="material-symbols-outlined text-[20px] shrink-0">{item.icon}</span>
+            {/* Nhãn chữ: Ẩn đi khi Sidebar ở trạng thái thu gọn */}
             {!isCollapsed && <span className="truncate flex-1">{item.label}</span>}
             {!isCollapsed && item.path === ROUTES.NOTIFICATIONS && unreadCount > 0 && (
               <span className="ml-auto shrink-0 min-w-[20px] h-5 px-1.5 rounded-full bg-[#dc2626] text-white text-[11px] font-bold flex items-center justify-center leading-none">

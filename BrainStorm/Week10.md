@@ -49,7 +49,9 @@ export const loginLimiter = rateLimit({
 
 ## CHƯƠNG III. KẾT QUẢ ĐẠT ĐƯỢC VÀ PHÂN CÔNG THỰC HIỆN
 
-- **Võ Duy Bình (PM)**: Giám sát kế hoạch rà soát lỗ hổng và phê duyệt tài liệu an ninh.
-- **Võ Hoàng Sơn (Member 4)**: Cấu hình Rate Limiting, Helmet và kiểm tra tấn công thử nghiệm (Penetration Testing).
-- **Trần Quang Vinh (Member 3)**: Kiểm tra toàn bộ câu truy vấn CSDL để đảm bảo 100% Prepared Statements.
+- **Võ Duy Bình (Member 1 - PM & BA)**: Giám sát kế hoạch rà soát lỗ hổng và phê duyệt tài liệu an ninh.
+- **Võ Hoàng Sơn (Member 2 - Dev Frontend)**: Rà soát an ninh giao diện người dùng, ngăn chặn tấn công XSS và kiểm tra form validation.
+- **Huỳnh Trung Tính (Member 3 - Dev Backend)**: Kiểm tra toàn bộ câu truy vấn CSDL để đảm bảo 100% Prepared Statements chống SQL Injection.
+- **Trần Quang Vinh (Member 4 - Logic Security)**: Cấu hình Rate Limiting, Helmet, JWT security và kiểm tra tấn công thử nghiệm (Penetration Testing).
+- **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**: Thực hiện kiểm thử an ninh tự động và rà soát lỗ hổng theo danh mục OWASP Top 10.
 - **Trạng thái tuần 10**: Đã nghiệm thu và sẵn sàng bước sang giai đoạn tối ưu hóa hiệu năng.

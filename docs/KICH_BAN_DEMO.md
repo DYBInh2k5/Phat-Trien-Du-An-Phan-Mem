@@ -5,7 +5,7 @@
 - **Tên đề tài**: Hệ thống Quản lý Lớp học & Học vụ (HTQLLH / School Management System - SMS)
 - **Môn học**: Phát triển Dự án Phần mềm (SW320DV01 - 3 Tín chỉ) - Đại học Hoa Sen (HSU)
 - **Chủ nhiệm Đề tài & Lead BA**: Võ Duy Bình
-- **Nhóm sinh viên thực hiện**: Võ Duy Bình, Nguyễn Minh Quốc Bảo, Trần Quang Vinh, Võ Hoàng Sơn, Huỳnh Trung Tính
+- **Nhóm sinh viên thực hiện**: Võ Duy Bình (Member 1 - PM & BA), Võ Hoàng Sơn (Member 2 - Dev Frontend), Huỳnh Trung Tính (Member 3 - Dev Backend), Trần Quang Vinh (Member 4 - Logic Security), Nguyễn Minh Quốc Bảo (Member 5 - Tester)
 - **Phạm vi học phần trên lớp**: Báo cáo các giai đoạn nền tảng theo tiến độ môn học (SRS -> UI/UX -> Database -> Kiến trúc phần mềm -> Design Patterns).
 - **Điểm đột phá của nhóm**: Chủ động hoàn thiện vượt trước tiến độ lý thuyết của lớp, hiện thực hóa toàn bộ hồ sơ phân tích thành một phiên bản chạy thực tế (**Working Prototype**) kết nối trực tiếp CSDL PostgreSQL thật, áp dụng đầy đủ Clean Architecture và Design Patterns.
 - **Thời lượng dự kiến**: 15 – 20 phút (Thuyết trình lý thuyết & hồ sơ kỹ thuật: 10 phút; Live Demo hệ thống thực tế: 7 phút; Hỏi đáp Q&A: 3 phút).

@@ -8,11 +8,11 @@ Tài liệu nghiên cứu chuyên sâu về các Mẫu thiết kế phần mềm
 
 | STT | Họ và tên | Nhiệm vụ phân công | Tỷ lệ hoàn thành |
 | :---: | :--- | :--- | :---: |
-| 1 | **Võ Duy Bình** | Tìm hiểu MVC và MVVM: khái niệm, cấu trúc, nguyên lý hoạt động, ưu/nhược điểm, trường hợp sử dụng và ví dụ minh họa | 20% |
-| 2 | **Nguyễn Minh Quốc Bảo** | Tìm hiểu Repository Pattern: khái niệm, cấu trúc, nguyên lý hoạt động, ưu/nhược điểm, trường hợp sử dụng và ví dụ minh họa | 20% |
-| 3 | **Trần Quang Vinh** | Tìm hiểu Unit of Work: khái niệm, quản lý giao dịch, ưu/nhược điểm, trường hợp sử dụng và ví dụ minh họa | 20% |
-| 4 | **Võ Hoàng Sơn** | Tìm hiểu Dependency Inversion Principle và Dependency Injection: khái niệm, phân biệt hai khái niệm, vòng đời đối tượng, ví dụ minh họa; rà soát nội dung báo cáo | 20% |
-| 5 | **Huỳnh Trung Tính** | Tổng hợp và so sánh 6 mẫu và nguyên lý; xây dựng các bảng so sánh, đánh giá khả năng áp dụng; biên soạn phần kết luận và sơ đồ | 20% |
+| 1 | **Võ Duy Bình** | Quản lý phạm vi áp dụng Design Patterns, nghiên cứu MVC/MVVM và điều phối tiến độ | 20% |
+| 2 | **Võ Hoàng Sơn** | Phân tích áp dụng Observer Pattern, State Management và Component Composition trên Frontend | 20% |
+| 3 | **Huỳnh Trung Tính** | Cài đặt Repository Pattern trừu tượng hóa câu lệnh SQL và Singleton Connection Pool | 20% |
+| 4 | **Trần Quang Vinh** | Cài đặt Unit of Work Pattern bảo vệ giao dịch ACID cho sổ điểm và Dependency Injection | 20% |
+| 5 | **Nguyễn Minh Quốc Bảo** | Xây dựng các ca kiểm thử giả lập Mock Repository và kiểm thử khả năng rollback giao dịch | 20% |
 
 ---
 

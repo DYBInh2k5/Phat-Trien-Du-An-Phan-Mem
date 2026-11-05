@@ -36,7 +36,9 @@ Chuẩn bị đầy đủ bộ hồ sơ bàn giao sản phẩm phần mềm phi�
 
 ## CHƯƠNG III. KẾT LUẬN VÀ PHÂN CÔNG THỰC HIỆN
 
-- **Võ Duy Bình (PM)**: Biên soạn cẩm nang hướng dẫn sử dụng và kiểm tra tính toàn vẹn của gói phát hành.
-- **Nguyễn Minh Quốc Bảo (Member 2)**: Tối ưu hóa giao diện người dùng, đảm bảo thông báo trợ giúp (Tooltips) rõ ràng.
-- **Huỳnh Trung Tính (Member 5)**: Đóng gói tài liệu và gắn thẻ Release v1.0.0 trên GitHub.
+- **Võ Duy Bình (Member 1 - PM & BA)**: Biên soạn cẩm nang hướng dẫn sử dụng và kiểm tra tính toàn vẹn của gói phát hành.
+- **Võ Hoàng Sơn (Member 2 - Dev Frontend)**: Tối ưu hóa giao diện người dùng, đảm bảo thông báo trợ giúp (Tooltips), phím tắt và khả năng thích ứng màn hình.
+- **Huỳnh Trung Tính (Member 3 - Dev Backend)**: Đóng gói tài liệu API, cấu hình Docker Compose sản xuất và chuẩn bị dữ liệu mẫu seeder.
+- **Trần Quang Vinh (Member 4 - Logic Security)**: Rà soát tổng thể an ninh hệ thống, chính sách CORS và kiểm tra bảo vệ khóa bí mật JWT.
+- **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**: Đóng gói bộ tài liệu nghiệm thu UAT, gắn thẻ Release v1.0.0 trên GitHub và tổng hợp báo cáo kiểm thử.
 - **Trạng thái tuần 14**: Bộ phát hành Release v1.0 đã hoàn tất và sẵn sàng cho buổi bảo vệ đồ án.
