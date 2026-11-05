@@ -25,11 +25,21 @@ export class StudentService {
    * Lấy danh sách học sinh (có thể lọc theo lớp học)
    * @async
    * @param {string} [className] - Tên lớp cần lọc (ví dụ: '10A1'). Nếu bỏ trống sẽ lấy toàn bộ trường.
+   * @param {string} [restrictClassName] - Lớp bắt buộc lọc theo (dùng cho GVCN). Nếu '__NO_CLASS__' thì từ chối.
    * @returns {Promise<Array<Object>>} Danh sách học sinh
    */
-  static async getAllStudents(className) {
-    if (className) {
-      return await StudentRepository.findByClassName(className);
+  static async getAllStudents(className, restrictClassName = null) {
+    // GVCN chưa được phân công lớp — từ chối truy cập
+    if (restrictClassName === '__NO_CLASS__') {
+      const err = new Error('GVCN chưa được phân công lớp chủ nhiệm.');
+      err.code = 'GVCN_NOT_ASSIGNED';
+      throw err;
+    }
+    // restrictClassName: lớp bắt buộc phải lọc theo (dùng cho GVCN)
+    // Nếu có restrict thì ưu tiên restrict, bỏ qua className từ query param
+    const effectiveClass = restrictClassName ?? className ?? null;
+    if (effectiveClass) {
+      return await StudentRepository.findByClassName(effectiveClass);
     }
     return await StudentRepository.findAll();
   }
@@ -121,6 +131,7 @@ export class StudentService {
     if (gpa >= 8.0) return 'Giỏi';         // GPA từ 8.0 đến dưới 9.0
     if (gpa >= 6.5) return 'Khá';          // GPA từ 6.5 đến dưới 8.0
     if (gpa >= 5.0) return 'Trung bình';   // GPA từ 5.0 đến dưới 6.5
-    return 'Yếu';                          // GPA dưới 5.0
+    if (gpa >= 3.5) return 'Yếu';
+    return 'Kém';
   }
 }

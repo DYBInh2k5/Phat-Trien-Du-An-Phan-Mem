@@ -15,11 +15,101 @@
  */
 
 import { GradeBookRepository } from '../repositories/GradeBookRepository.js';
+import { StudentRepository } from '../repositories/StudentRepository.js';
+import { SubjectRepository } from '../repositories/SubjectRepository.js';
+import { ClassRepository } from '../repositories/ClassRepository.js';
 
 /**
  * Lớp GradeBookService - Điều phối nghiệp vụ chấm điểm môn học
  */
 export class GradeBookService {
+  /**
+   * Lấy toàn bộ dữ liệu cần thiết cho trang GradebookPage:
+   *   - classes, subjects, students trong lớp, gradeRows
+   * @param {string} className
+   * @param {string} semester  - 'HK1' | 'HK2'
+   * @param {string} schoolYear
+   */
+  static async getGradebookPageData(className, semester, schoolYear) {
+    const [rawClasses, rawSubjects, rawStudents, rawGrades] = await Promise.all([
+      ClassRepository.findAll(),
+      SubjectRepository.findAll(),
+      StudentRepository.findByClassName(className),
+      GradeBookRepository.findByClassNameAndSemester(className, semester, schoolYear),
+    ]);
+
+    const classes = rawClasses.map((c) => ({
+      id:   c.class_name,
+      name: c.class_name,
+    }));
+
+    const subjects = rawSubjects.map((s) => ({
+      id:   s.code || s.name,
+      name: s.name,
+    }));
+
+    const students = rawStudents.map((s) => ({
+      id:        s.student_code || s.studentCode,
+      name:      s.full_name    || s.fullName,
+      classId:   s.class_name   || s.className,
+      code:      s.student_code || s.studentCode,
+    }));
+
+    // Build gradeRows: flat array dễ dùng ở frontend
+    const gradeRows = rawGrades.map((g) => ({
+      id:            g.id,
+      studentCode:   g.student_code || g.studentCode,
+      studentName:   g.student_name || g.studentName,
+      className:     g.class_name   || g.className,
+      subjectName:   g.subject_name || g.subjectName,
+      subjectId:     g.subject_name || g.subjectName, // dùng name làm id cho đồng nhất
+      semester:      g.semester,
+      schoolYear:    g.school_year  || g.schoolYear,
+      scoreOral:     g.score_oral   != null ? parseFloat(g.score_oral)   : null,
+      scoreOral2:    g.score_oral_2 != null ? parseFloat(g.score_oral_2) : null,
+      score15m:      g.score_15m    != null ? parseFloat(g.score_15m)    : null,
+      score15m2:     g.score_15m_2  != null ? parseFloat(g.score_15m_2)  : null,
+      score1Hour:    g.score_1hour  != null ? parseFloat(g.score_1hour)  : null,
+      scoreMidTerm:  g.score_mid_term  != null ? parseFloat(g.score_mid_term)  : null,
+      scoreFinalTerm:g.score_final_term!= null ? parseFloat(g.score_final_term): null,
+      averageScore:  g.average_score   != null ? parseFloat(g.average_score)   : null,
+      status:        g.status,
+    }));
+
+    return { classes, subjects, students, gradeRows };
+  }
+
+  /**
+   * Lưu hàng loạt grades từ spreadsheet.
+   * Mỗi item: { studentCode, studentName, className, subjectId (=subjectName),
+   *             semester, schoolYear, scoreOral, score15m, score1Hour,
+   *             scoreMidTerm, scoreFinalTerm }
+   */
+  static async saveGradesFromSpreadsheet(items) {
+    const results = [];
+    for (const item of items) {
+      const gb = {
+        studentCode:    item.studentCode,
+        studentName:    item.studentName,
+        className:      item.className,
+        subjectName:    item.subjectId,
+        semester:       item.semester,
+        schoolYear:     item.schoolYear,
+        scoreOral:      item.scoreOral,
+        scoreOral2:     item.scoreOral2  ?? null,
+        score15m:       item.score15m,
+        score15m2:      item.score15m2   ?? null,
+        score1Hour:     item.score1Hour,
+        scoreMidTerm:   item.scoreMidTerm,
+        scoreFinalTerm: item.scoreFinalTerm,
+        status:         'APPROVED',
+      };
+      const saved = await this.saveGrade(gb);
+      results.push(saved);
+    }
+    return results;
+  }
+
   /**
    * Lấy danh sách điểm theo các tiêu chí linh hoạt: Mã học sinh, Tên lớp, hoặc Tên lớp + Tên môn
    * @async
@@ -117,27 +207,33 @@ export class GradeBookService {
    * @returns {Object} Bản ghi đã bổ sung averageScore và gradeLetter
    */
   static calculateTBM(gb) {
-    const oral = parseFloat(gb.scoreOral || gb.score_oral || 0);
-    const m15 = parseFloat(gb.score15m || gb.score_15m || 0);
-    const h1 = parseFloat(gb.score1Hour || gb.score_1hour || 0);
-    const mid = parseFloat(gb.scoreMidTerm || gb.score_mid_term || 0);
-    const fin = parseFloat(gb.scoreFinalTerm || gb.score_final_term || 0);
+    // Hướng A: NULL = 0, mẫu số cố định = 9 (theo BR-01)
+    // TBM = (oral×1 + oral2×1 + 15'×1 + 15'_2×1 + 1tiết×2 + giữaHK×2 + cuốiHK×3) / 9
+    // Ô nào chưa nhập (null/undefined) được coi là 0.
+    const toNum = (v) => (v != null && !isNaN(parseFloat(v))) ? parseFloat(v) : 0;
 
-    // Chỉ tính khi học sinh đã có đầy đủ tất cả các cột điểm
-    if (oral > 0 && m15 > 0 && h1 > 0 && mid > 0 && fin > 0) {
-      const total = oral + m15 + (h1 * 2) + (mid * 2) + (fin * 3);
-      const avg = Math.round((total / 9.0) * 10) / 10;
-      gb.averageScore = avg;
-      gb.average_score = avg;
+    const oral  = toNum(gb.scoreOral);
+    const oral2 = toNum(gb.scoreOral2);
+    const m15   = toNum(gb.score15m);
+    const m15_2 = toNum(gb.score15m2);
+    const h1    = toNum(gb.score1Hour);
+    const mid   = toNum(gb.scoreMidTerm);
+    const fin   = toNum(gb.scoreFinalTerm);
 
-      // Xếp loại môn học dựa trên điểm trung bình môn
-      if (avg >= 9.0) gb.gradeLetter = 'Xuất sắc';
-      else if (avg >= 8.0) gb.gradeLetter = 'Giỏi';
-      else if (avg >= 6.5) gb.gradeLetter = 'Khá';
-      else if (avg >= 5.0) gb.gradeLetter = 'Trung bình';
-      else gb.gradeLetter = 'Yếu';
-      gb.grade_letter = gb.gradeLetter;
-    }
+    const DENOMINATOR = 9;
+    const sum = oral * 1 + oral2 * 1 + m15 * 1 + m15_2 * 1 + h1 * 2 + mid * 2 + fin * 3;
+    const avg = Math.round((sum / DENOMINATOR) * 10) / 10;
+
+    gb.averageScore  = avg;
+    gb.average_score = avg;
+
+    if (avg >= 9.0)      gb.gradeLetter = 'Xuất sắc';
+    else if (avg >= 8.0) gb.gradeLetter = 'Giỏi';
+    else if (avg >= 6.5) gb.gradeLetter = 'Khá';
+    else if (avg >= 5.0) gb.gradeLetter = 'Trung bình';
+    else                 gb.gradeLetter = 'Yếu';
+    gb.grade_letter = gb.gradeLetter;
+
     return gb;
   }
 }

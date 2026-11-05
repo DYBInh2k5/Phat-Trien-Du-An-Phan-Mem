@@ -15,7 +15,7 @@
  * ==============================================================================
  */
 
-import { query } from '../config/db.js';
+import { querySafe as query, query as queryStrict } from '../config/db.js';
 
 /**
  * Kho dữ liệu bộ nhớ dự phòng cho sổ điểm điện tử
@@ -42,6 +42,30 @@ export class GradeBookRepository {
   }
 
   /**
+   * Lấy toàn bộ grades theo lớp + học kỳ, kèm semester filter.
+   * @async
+   * @param {string} className
+   * @param {string} [semester]
+   * @param {string} [schoolYear]
+   * @returns {Promise<Array<Object>>}
+   */
+  static async findByClassNameAndSemester(className, semester, schoolYear) {
+    const params = [className];
+    const conditions = ['class_name = $1'];
+    if (semester) { params.push(semester); conditions.push(`semester = $${params.length}`); }
+    if (schoolYear) { params.push(schoolYear); conditions.push(`school_year = $${params.length}`); }
+    const res = await query(
+      `SELECT * FROM grade_books WHERE ${conditions.join(' AND ')} ORDER BY student_name ASC, subject_name ASC`,
+      params
+    );
+    if (res && res.rows) return res.rows;
+    return memGrades.filter(
+      (g) => (g.class_name === className || g.className === className) &&
+             (!semester || g.semester === semester)
+    );
+  }
+
+  /**
    * Tìm bản ghi điểm theo khóa chính ID
    * @async
    * @param {number|string} id
@@ -60,8 +84,22 @@ export class GradeBookRepository {
    * @returns {Promise<Array<Object>>}
    */
   static async findByStudentCode(studentCode) {
-    const res = await query('SELECT * FROM grade_books WHERE student_code = $1', [studentCode]);
-    if (res && res.rows) return res.rows;
+    const res = await query(
+      `SELECT gb.*,
+              COALESCE(s.name, gb.subject_name) AS subject_name_full
+       FROM grade_books gb
+       LEFT JOIN subjects s ON s.code = gb.subject_name OR s.name = gb.subject_name
+       WHERE gb.student_code = $1
+       ORDER BY gb.semester ASC, gb.subject_name ASC`,
+      [studentCode]
+    );
+    if (res && res.rows) {
+      // Ghi đè subject_name bằng tên đầy đủ nếu có
+      return res.rows.map(r => ({
+        ...r,
+        subject_name: r.subject_name_full || r.subject_name,
+      }));
+    }
     return memGrades.filter(g => g.student_code === studentCode || g.studentCode === studentCode);
   }
 
@@ -97,38 +135,52 @@ export class GradeBookRepository {
    * @returns {Promise<Object>} Bản ghi điểm sau khi lưu
    */
   static async save(gb) {
+    // Đảm bảo school_year luôn có giá trị — bắt buộc cho UNIQUE constraint
+    const schoolYear = gb.schoolYear || gb.school_year || '2024-2025';
+
     if (gb.id) {
-      // 1. Trường hợp ĐÃ TỒN TẠI ID -> Thực thi UPDATE
-      const res = await query(
-        `UPDATE grade_books SET score_oral = $1, score_15m = $2, score_1hour = $3, score_mid_term = $4, score_final_term = $5, average_score = $6, grade_letter = $7, status = $8
+      // UPDATE theo id — dùng queryStrict khi đã có id từ DB
+      const res = await queryStrict(
+        `UPDATE grade_books SET score_oral = $1, score_15m = $2, score_1hour = $3,
+            score_mid_term = $4, score_final_term = $5, average_score = $6,
+            grade_letter = $7, status = $8
          WHERE id = $9 RETURNING *`,
-        [gb.scoreOral, gb.score15m, gb.score1Hour, gb.scoreMidTerm, gb.scoreFinalTerm, gb.averageScore, gb.gradeLetter, gb.status || 'APPROVED', gb.id]
+        [gb.scoreOral, gb.score15m, gb.score1Hour, gb.scoreMidTerm, gb.scoreFinalTerm,
+         gb.averageScore, gb.gradeLetter, gb.status || 'APPROVED', gb.id]
       );
       if (res && res.rows && res.rows.length > 0) return res.rows[0];
-
-      // Cập nhật kho nhớ tạm
-      const idx = memGrades.findIndex(item => item.id === parseInt(gb.id, 10));
-      if (idx !== -1) {
-        memGrades[idx] = { ...memGrades[idx], ...gb };
-        return memGrades[idx];
-      }
       return gb;
-    } else {
-      // 2. Trường hợp CHƯA CÓ ID -> Thực thi INSERT mới
-      const res = await query(
-        `INSERT INTO grade_books (student_id, student_code, student_name, class_name, subject_name, semester, school_year, score_oral, score_15m, score_1hour, score_mid_term, score_final_term, average_score, grade_letter, status)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *`,
-        [gb.studentId, gb.studentCode, gb.studentName, gb.className, gb.subjectName, gb.semester, gb.schoolYear, gb.scoreOral, gb.score15m, gb.score1Hour, gb.scoreMidTerm, gb.scoreFinalTerm, gb.averageScore, gb.gradeLetter, gb.status || 'APPROVED']
-      );
-      if (res && res.rows && res.rows.length > 0) return res.rows[0];
-
-      const newObj = {
-        id: memGrades.length + 1,
-        ...gb
-      };
-      memGrades.push(newObj);
-      return newObj;
     }
+
+    // UPSERT — dùng queryStrict để lỗi được throw, không nuốt vào in-memory
+    const res = await queryStrict(
+      `INSERT INTO grade_books
+         (student_id, student_code, student_name, class_name, subject_name,
+          semester, school_year, score_oral, score_oral_2, score_15m, score_15m_2,
+          score_1hour, score_mid_term, score_final_term, average_score, grade_letter, status)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+       ON CONFLICT (student_code, subject_name, class_name, semester, school_year)
+       DO UPDATE SET
+         score_oral       = EXCLUDED.score_oral,
+         score_oral_2     = EXCLUDED.score_oral_2,
+         score_15m        = EXCLUDED.score_15m,
+         score_15m_2      = EXCLUDED.score_15m_2,
+         score_1hour      = EXCLUDED.score_1hour,
+         score_mid_term   = EXCLUDED.score_mid_term,
+         score_final_term = EXCLUDED.score_final_term,
+         average_score    = EXCLUDED.average_score,
+         grade_letter     = EXCLUDED.grade_letter,
+         status           = EXCLUDED.status
+       RETURNING *`,
+      [gb.studentId ?? null, gb.studentCode, gb.studentName, gb.className, gb.subjectName,
+       gb.semester, schoolYear,
+       gb.scoreOral, gb.scoreOral2 ?? null,
+       gb.score15m,  gb.score15m2  ?? null,
+       gb.score1Hour, gb.scoreMidTerm, gb.scoreFinalTerm,
+       gb.averageScore, gb.gradeLetter, gb.status || 'APPROVED']
+    );
+    if (res.rows.length > 0) return res.rows[0];
+    return gb;
   }
 
   /**

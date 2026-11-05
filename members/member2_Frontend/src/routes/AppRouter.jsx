@@ -8,6 +8,8 @@ import MainLayout from '../components/layout/MainLayout.jsx';
 
 // Auth pages
 import LoginPage from '../pages/auth/LoginPage.jsx';
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage.jsx';
+import ResetPasswordPage from '../pages/auth/ResetPasswordPage.jsx';
 import UnauthorizedPage from '../pages/auth/UnauthorizedPage.jsx';
 import NotFoundPage from '../pages/shared/NotFoundPage.jsx';
 
@@ -32,6 +34,7 @@ import BGHDashboardPage from '../pages/bgh/BGHDashboardPage.jsx';
 import BGHAttendanceMonitorPage from '../pages/bgh/BGHAttendanceMonitorPage.jsx';
 import ScheduleAdminPage from '../pages/bgh/ScheduleAdminPage.jsx';
 import BGHReportCenterPage from '../pages/bgh/BGHReportCenterPage.jsx';
+import BGHTuitionPage from '../pages/bgh/BGHTuitionPage.jsx';
 import SystemSettingsPage from '../pages/bgh/SystemSettingsPage.jsx';
 
 // Student portal pages
@@ -39,6 +42,9 @@ import StudentGradebookPage from '../pages/student/StudentGradebookPage.jsx';
 import StudentAttendancePage from '../pages/student/StudentAttendancePage.jsx';
 import StudentSchedulePage from '../pages/student/StudentSchedulePage.jsx';
 import StudentExamsPage from '../pages/student/StudentExamsPage.jsx';
+
+// Notifications
+import NotificationsPage from '../pages/notifications/NotificationsPage.jsx';
 
 export default function AppRouter() {
   const { isAuthenticated, role } = useAuth();
@@ -57,6 +63,8 @@ export default function AppRouter() {
 
       {/* Public routes */}
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+      <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
       <Route path={ROUTES.UNAUTHORIZED} element={<UnauthorizedPage />} />
 
       {/* Protected routes inside MainLayout */}
@@ -101,15 +109,21 @@ export default function AppRouter() {
           <Route path={ROUTES.BGH_ATTENDANCE} element={<BGHAttendanceMonitorPage />} />
           <Route path={ROUTES.BGH_SCHEDULE_ADMIN} element={<ScheduleAdminPage />} />
           <Route path={ROUTES.BGH_REPORTS} element={<BGHReportCenterPage />} />
+          <Route path={ROUTES.BGH_TUITION} element={<BGHTuitionPage />} />
           <Route path={ROUTES.BGH_SETTINGS} element={<SystemSettingsPage />} />
         </Route>
 
         {/* HS / PH routes */}
         <Route element={<ProtectedRoute roles={[ROLES.HS, ROLES.PH]} />}>
-          <Route path={ROUTES.STUDENT_GRADEBOOK}  element={<StudentGradebookPage />} />
+          <Route path={ROUTES.STUDENT_GRADEBOOK} element={<StudentGradebookPage />} />
           <Route path={ROUTES.STUDENT_ATTENDANCE} element={<StudentAttendancePage />} />
-          <Route path={ROUTES.STUDENT_SCHEDULE}   element={<StudentSchedulePage />} />
-          <Route path={ROUTES.STUDENT_EXAMS}      element={<StudentExamsPage />} />
+          <Route path={ROUTES.STUDENT_SCHEDULE} element={<StudentSchedulePage />} />
+          <Route path={ROUTES.STUDENT_EXAMS} element={<StudentExamsPage />} />
+        </Route>
+
+        {/* Notifications — BGH, GVCN & HS */}
+        <Route element={<ProtectedRoute roles={[ROLES.BGH, ROLES.GVCN, ROLES.HS]} />}>
+          <Route path={ROUTES.NOTIFICATIONS} element={<NotificationsPage />} />
         </Route>
       </Route>
 

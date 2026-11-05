@@ -1,0 +1,213 @@
+/*
+ * Giao diện dùng chung cho trang "Quên mật khẩu" và "Đặt mật khẩu mới".
+ * Màu sắc, độ bo góc và cỡ chữ đã chỉnh theo LoginPage (Tailwind: blue-600, slate, rounded-xl/2xl).
+ * Muốn đổi màu chủ đạo, sửa các biến --af-* ngay bên dưới.
+ */
+.af-page {
+    --af-accent: #2563eb;
+    /* blue-600 */
+    --af-accent-hover: #1d4ed8;
+    /* blue-700 */
+    --af-text: #1e293b;
+    /* slate-800 */
+    --af-muted: #64748b;
+    /* slate-500 */
+    --af-border: #cbd5e1;
+    /* slate-300 */
+
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background: #f8fafc;
+    /* slate-50 */
+    color: var(--af-text);
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.af-page *,
+.af-page *::before,
+.af-page *::after {
+    box-sizing: border-box;
+}
+
+.af-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 32px 28px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    /* slate-200 */
+    border-radius: 16px;
+    box-shadow:
+        0 20px 25px -5px rgb(226 232 240 / 0.6),
+        0 8px 10px -6px rgb(226 232 240 / 0.6);
+}
+
+.af-title {
+    margin: 0 0 8px;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #0f172a;
+    /* slate-900 */
+}
+
+.af-desc {
+    margin: 0 0 24px;
+    font-size: 0.875rem;
+    color: var(--af-muted);
+    line-height: 1.6;
+}
+
+.af-field {
+    margin-bottom: 16px;
+}
+
+.af-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #334155;
+    /* slate-700 */
+}
+
+.af-input {
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    font-size: 0.875rem;
+    color: #0f172a;
+    background: #ffffff;
+    border: 1px solid var(--af-border);
+    border-radius: 12px;
+}
+
+.af-input::placeholder {
+    color: #94a3b8;
+    /* slate-400 */
+}
+
+.af-input:focus-visible {
+    border-color: var(--af-accent);
+    outline: 2px solid rgb(37 99 235 / 0.35);
+    outline-offset: 0;
+}
+
+.af-btn:focus-visible,
+.af-link:focus-visible,
+.af-check input:focus-visible {
+    outline: 2px solid var(--af-accent);
+    outline-offset: 2px;
+}
+
+.af-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #475569;
+    /* slate-600 */
+    cursor: pointer;
+}
+
+.af-error {
+    margin: 0 0 16px;
+    padding: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #b91c1c;
+    /* red-700 */
+    background: #fef2f2;
+    /* red-50 */
+    border: 1px solid #fecaca;
+    /* red-200 */
+    border-radius: 12px;
+}
+
+.af-notice {
+    margin: 0 0 16px;
+    padding: 12px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #065f46;
+    /* emerald-800 */
+    background: #ecfdf5;
+    /* emerald-50 */
+    border: 1px solid #6ee7b7;
+    /* emerald-300 */
+    border-radius: 12px;
+}
+
+.af-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--af-accent);
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgb(37 99 235 / 0.2);
+    cursor: pointer;
+}
+
+.af-btn:hover:not(:disabled) {
+    background: var(--af-accent-hover);
+}
+
+.af-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.af-btn-link {
+    text-align: center;
+    text-decoration: none;
+}
+
+.af-btn-secondary {
+    color: var(--af-accent);
+    background: transparent;
+    border: 1px solid var(--af-border);
+    box-shadow: none;
+}
+
+.af-btn-secondary:hover:not(:disabled) {
+    background: #f8fafc;
+}
+
+.af-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 0.8rem;
+}
+
+.af-link {
+    font-weight: 600;
+    color: var(--af-accent);
+    text-decoration: none;
+}
+
+.af-link:hover {
+    color: var(--af-accent-hover);
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .af-card {
+        padding: 24px 18px;
+    }
+}

@@ -1,0 +1,25 @@
+# Agent tasks - báo cáo điều tra và kế hoạch nội bộ của Kiro agent
+.agents/tasks/
+.agents/rules/
+
+# Kiro IDE
+.kiro/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
