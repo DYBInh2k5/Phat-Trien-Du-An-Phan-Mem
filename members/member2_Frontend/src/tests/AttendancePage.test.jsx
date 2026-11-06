@@ -20,6 +20,7 @@ vi.mock('../api/stubs.js', () => ({
   fetchClasses: vi.fn(),
   handleSaveAttendance: vi.fn(),
   fetchSchedulePageData: vi.fn(),
+  fetchScheduleTemplates: vi.fn(),
   fetchStudents: vi.fn(),
 }));
 
@@ -28,6 +29,7 @@ import {
   fetchAttendance,
   fetchClasses,
   fetchSchedulePageData,
+  fetchScheduleTemplates,
   fetchStudents,
   handleSaveAttendance,
 } from '../api/stubs.js';
@@ -50,6 +52,12 @@ function makeScheduleWithToday() {
     slots: [{ dayOfWeek: validDow, period: 1, subjectName: 'Toán', teacherName: 'GV Test' }],
     allWeekSlots: [],
   };
+}
+
+function makeScheduleTemplatesWithToday() {
+  const dow = getTodayDayOfWeek();
+  const validDow = dow === 0 || dow === 6 ? 1 : dow;
+  return [{ dayOfWeek: validDow, period: 1, subjectName: 'Toán', teacherName: 'GV Test' }];
 }
 
 function makeScheduleEmpty() {
@@ -79,6 +87,7 @@ describe('AttendancePage', () => {
     vi.clearAllMocks();
     fetchAttendance.mockResolvedValue(null); // không có data điểm danh cũ
     handleSaveAttendance.mockResolvedValue({ success: true });
+    fetchScheduleTemplates.mockResolvedValue([]);
   });
 
   // A. GVCN class lock — chip cố định, không có dropdown lớp học
@@ -116,6 +125,7 @@ describe('AttendancePage', () => {
 
     useAuth.mockReturnValue(gvcnAuth);
     fetchSchedulePageData.mockResolvedValue(makeScheduleWithToday());
+    fetchScheduleTemplates.mockResolvedValue(makeScheduleTemplatesWithToday());
     fetchStudents.mockResolvedValue([
       { student_code: 'HS001', full_name: 'Nguyễn Thị Ánh', class_name: '10A1' },
     ]);
@@ -153,6 +163,7 @@ describe('AttendancePage', () => {
 
     useAuth.mockReturnValue(gvcnAuth);
     fetchSchedulePageData.mockResolvedValue(makeScheduleWithToday());
+    fetchScheduleTemplates.mockResolvedValue(makeScheduleTemplatesWithToday());
     fetchStudents.mockResolvedValue([
       { student_code: 'HS001', full_name: 'Nguyễn Thị Ánh', class_name: '10A1' },
     ]);

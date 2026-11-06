@@ -97,3 +97,4 @@ if (jsonData.token) {
 1. Đảm bảo **PostgreSQL Docker** đang chạy trên cổng `5434`.
 2. Đảm bảo **Backend Node.js** đang chạy trên cổng `8081` (`node server.js`).
 3. Kiểm tra bằng cách chạy request đầu tiên **`00. Health Check`** -> Nếu nhận `status: "UP"` là hệ thống đã sẵn sàng 100%!
+
