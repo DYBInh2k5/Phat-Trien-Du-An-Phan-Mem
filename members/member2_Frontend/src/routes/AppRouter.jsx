@@ -122,7 +122,7 @@ export default function AppRouter() {
         </Route>
 
         {/* Notifications — BGH, GVCN & HS */}
-        <Route element={<ProtectedRoute roles={[ROLES.BGH, ROLES.GVCN, ROLES.HS]} />}>
+        <Route element={<ProtectedRoute roles={[ROLES.BGH, ROLES.GVCN, ROLES.GV, ROLES.HS, ROLES.PH]} />}>
           <Route path={ROUTES.NOTIFICATIONS} element={<NotificationsPage />} />
         </Route>
       </Route>

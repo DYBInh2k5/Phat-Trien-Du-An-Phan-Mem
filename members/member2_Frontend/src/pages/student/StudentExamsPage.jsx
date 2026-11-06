@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 const EXAMS = [
-  { id: 1, subject: 'Toán',       type: 'KT 1 tiết',  date: '2024-11-20', time: '07:30', room: 'P.302', duration: 45,  status: 'upcoming',  coeff: 2, note: 'Chương 1–3: Hàm số, Đạo hàm' },
-  { id: 2, subject: 'Vật lý',     type: 'KT 15 phút', date: '2024-11-18', time: '08:45', room: 'P.302', duration: 15,  status: 'upcoming',  coeff: 1, note: 'Chương 2: Dao động cơ' },
-  { id: 3, subject: 'Tiếng Anh',  type: 'KT 1 tiết',  date: '2024-11-22', time: '09:35', room: 'P.204', duration: 45,  status: 'upcoming',  coeff: 2, note: 'Unit 4–5: Grammar & Reading' },
-  { id: 4, subject: 'Hóa học',    type: 'KT miệng',   date: '2024-11-15', time: '07:00', room: 'P.302', duration: 10,  status: 'completed', coeff: 1, score: 8.5, note: 'Bài 5: Phản ứng oxi hóa-khử' },
-  { id: 5, subject: 'Ngữ văn',    type: 'KT 1 tiết',  date: '2024-11-12', time: '10:25', room: 'P.302', duration: 45,  status: 'completed', coeff: 2, score: 7.5, note: '' },
-  { id: 6, subject: 'Toán',       type: 'Thi Giữa HK', date: '2024-12-02', time: '07:30', room: 'P.205', duration: 90, status: 'scheduled', coeff: 3, note: 'Toàn bộ nội dung HK1' },
+  { id: 1, subject: 'Toán',       type: 'KT 1 tiết',  date: '2026-11-20', time: '07:30', room: 'P.302', duration: 45,  status: 'upcoming',  coeff: 2, note: 'Chương 1–3: Hàm số, Đạo hàm' },
+  { id: 2, subject: 'Vật lý',     type: 'KT 15 phút', date: '2026-11-18', time: '08:45', room: 'P.302', duration: 15,  status: 'upcoming',  coeff: 1, note: 'Chương 2: Dao động cơ' },
+  { id: 3, subject: 'Tiếng Anh',  type: 'KT 1 tiết',  date: '2026-11-22', time: '09:35', room: 'P.204', duration: 45,  status: 'upcoming',  coeff: 2, note: 'Unit 4–5: Grammar & Reading' },
+  { id: 4, subject: 'Hóa học',    type: 'KT miệng',   date: '2026-11-15', time: '07:00', room: 'P.302', duration: 10,  status: 'completed', coeff: 1, score: 8.5, note: 'Bài 5: Phản ứng oxi hóa-khử' },
+  { id: 5, subject: 'Ngữ văn',    type: 'KT 1 tiết',  date: '2026-11-12', time: '10:25', room: 'P.302', duration: 45,  status: 'completed', coeff: 2, score: 7.5, note: '' },
+  { id: 6, subject: 'Toán',       type: 'Thi Giữa HK', date: '2026-12-02', time: '07:30', room: 'P.205', duration: 90, status: 'scheduled', coeff: 3, note: 'Toàn bộ nội dung HK1' },
 ];
 
 const STATUS_MAP = {

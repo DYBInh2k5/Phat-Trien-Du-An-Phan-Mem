@@ -16,7 +16,6 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^8.7.1",
-    "htqllh-school-management": "file:../../..",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^10.1.0",
     "pg": "^8.13.1"
