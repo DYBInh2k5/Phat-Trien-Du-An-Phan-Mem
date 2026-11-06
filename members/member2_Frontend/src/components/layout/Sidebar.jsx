@@ -227,7 +227,7 @@ export default function Sidebar({ isCollapsed, onToggle }) {
             <div className="flex items-center gap-1.5">
               <span className="font-bold text-base text-[#0f172a] truncate tracking-tight">THPT HSU</span>
               <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#e0e7ff] text-[#3730a3]">
-                {role || 'USER'}
+                {ROLE_LABELS[role] || role || 'USER'}
               </span>
             </div>
             <span className="text-[11px] text-[#64748b] truncate font-medium">Hệ Thống Quản Lý Học Vụ</span>
