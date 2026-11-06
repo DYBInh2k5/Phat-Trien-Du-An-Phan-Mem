@@ -250,6 +250,8 @@ export async function initDatabaseSchema() {
         ADD COLUMN IF NOT EXISTS score_oral_2 NUMERIC(3,1);
       ALTER TABLE grade_books
         ADD COLUMN IF NOT EXISTS score_15m_2  NUMERIC(3,1);
+      ALTER TABLE grade_books
+        ADD COLUMN IF NOT EXISTS teacher_name VARCHAR(100);
       DO $$ BEGIN
         IF NOT EXISTS (
           SELECT 1 FROM pg_constraint
