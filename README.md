@@ -12,7 +12,7 @@ CHỦ NHIỆM ĐỀ TÀI / TRƯỞNG NHÓM: VÕ DUY BÌNH (DYBInh2k5)
 KHO LƯU TRỮ GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
 BẢN SLIDE TRỰC TUYẾN CANVA: https://www.canva.com/d/YLrratHffoqRdvK
 BẢNG JIRA KANBAN BOARD: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
-THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 28/10/2026 (TUẦN 7 / 15 TUẦN HỌC PHẦN)
+THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN HỌC PHẦN - QA TESTING 100% PASS)
 ================================================================================
 ```
 
@@ -87,7 +87,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 28/10/2026 (TUẦN 7 / 15 TUẦN HỌC
 - [docs/project2_specs.md](docs/project2_specs.md): Đặc tả yêu cầu kỹ thuật đồ án môn học.
 
 ### 5.3 Hồ Sơ Phân Tích & Tiến Độ 15 Tuần (BrainStorm/)
-- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án 15 tuần (Bắt đầu từ 14/09/2026, thời điểm hiện tại: 28/10/2026 - Tuần 7).
+- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án 15 tuần (Bắt đầu từ 14/09/2026, thời điểm hiện tại: 06/11/2026 - Tuần 8-9 hoàn thành xuất sắc).
 - [USE_CASES.md](USE_CASES.md): Tài liệu tổng hợp đặc tả chi tiết 43 Use Cases cho 5 nhóm tác nhân.
 - [BrainStorm/Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md): Tuần 1 - Tài liệu Phân tích Yêu cầu Phần mềm (SRS IEEE 830), Ma trận RBAC, Rules & NFRs.
 - [BrainStorm/Week2 UXUI .md](BrainStorm/Week2%20UXUI%20.md): Tuần 2 - Chuyên đề Nghiên cứu UI/UX (Design System, Tailwind CSS, 8 Wireframes phân hệ).
@@ -95,7 +95,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 28/10/2026 (TUẦN 7 / 15 TUẦN HỌC
 - [BrainStorm/Week4 KT .md](BrainStorm/Week4%20KT%20.md): Tuần 4 - Chuyên đề Kiến trúc Phần mềm (Clean Architecture 4 tầng, RESTful API, DTOs & UML).
 - [BrainStorm/Week5 Pattern .md](BrainStorm/Week5%20Pattern%20.md): Tuần 5 - Chuyên đề Mẫu Thiết kế (Repository Pattern, Unit of Work ACID bảng điểm, Dependency Injection).
 - [BrainStorm/Week6 Export .md](BrainStorm/Week6%20Export%20.md): Tuần 6 - Chuyên đề Động cơ Xuất Báo cáo (Excel SheetJS, in ấn PDF jsPDF A4).
-- [BrainStorm/Week7.md](BrainStorm/Week7.md) & [BrainStorm/Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Tuần 7 - Chuyên đề Xác thực & Bảo mật (JWT, RBAC 5 Roles, 1-Click Demo Login). *(Thời điểm hiện tại: 28/10/2026)*
+- [BrainStorm/Week7.md](BrainStorm/Week7.md) & [BrainStorm/Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Tuần 7 - Chuyên đề Xác thực & Bảo mật (JWT, RBAC 5 Roles, 1-Click Demo Login). *(Đã hoàn thành xuất sắc)*
 - [BrainStorm/Week8 Logging .md](BrainStorm/Week8%20Logging%20.md): Tuần 8 - Chuyên đề Nhật ký Hệ thống (Centralized Audit Logging - Vết lịch sử sửa điểm).
 - [BrainStorm/Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Tuần 9 - Chuyên đề Kiểm thử Phần mềm (Automated QA Unit Test Suite & UAT).
 - [BrainStorm/Week10.md](BrainStorm/Week10.md): Tuần 10 - Tích hợp Hệ thống, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP Top 10.
