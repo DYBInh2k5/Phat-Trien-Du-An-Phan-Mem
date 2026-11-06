@@ -10,6 +10,8 @@ DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC THPT HSU (HTQLLH / SCHOOL MANAGEME
 MÃ MÔN HỌC: SW320DV01 (3 TÍN CHỈ) — HỌC KỲ 2631
 CHỦ NHIỆM ĐỀ TÀI / TRƯỞNG NHÓM: VÕ DUY BÌNH (DYBInh2k5)
 KHO LƯU TRỮ GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
+KHO LƯU TRỮ BITBUCKET: https://bitbucket.org/codyisme27205/pt_da_pm
+CƠ CHẾ ĐỒNG BỘ: DUAL-REMOTE PUSH (1 LỆNH PUSH CẬP NHẬT CẢ GITHUB & BITBUCKET)
 BẢN SLIDE TRỰC TUYẾN CANVA: https://www.canva.com/d/YLrratHffoqRdvK
 BẢNG JIRA KANBAN BOARD: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
 THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN HỌC PHẦN - QA TESTING 100% PASS)
@@ -24,7 +26,10 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - **Cơ sở đào tạo**: Khoa Công nghệ Thông tin — Trường Đại học Hoa Sen (HSU)
 - **Môn học**: Phát triển dự án phần mềm
 - **Mã học phần**: SW320DV01 (3 Tín chỉ)
-- **Chủ sở hữu Repository / Trưởng nhóm**: Võ Duy Bình (GitHub: [DYBInh2k5](https://github.com/DYBInh2k5))
+- **Chủ sở hữu Repository / Trưởng nhóm**: Võ Duy Bình (GitHub: [DYBInh2k5](https://github.com/DYBInh2k5) | Bitbucket: `codyisme27205`)
+- **Kho lưu trữ chính (Dual Remotes)**:
+  - **GitHub**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
+  - **Bitbucket**: [https://bitbucket.org/codyisme27205/pt_da_pm](https://bitbucket.org/codyisme27205/pt_da_pm)
 - **Mô hình quản trị dự án**: Agile / Scrum kết hợp Jira Kanban Board
 
 ---
@@ -96,8 +101,8 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - [BrainStorm/Week5 Pattern .md](BrainStorm/Week5%20Pattern%20.md): Tuần 5 - Chuyên đề Mẫu Thiết kế (Repository Pattern, Unit of Work ACID bảng điểm, Dependency Injection).
 - [BrainStorm/Week6 Export .md](BrainStorm/Week6%20Export%20.md): Tuần 6 - Chuyên đề Động cơ Xuất Báo cáo (Excel SheetJS, in ấn PDF jsPDF A4).
 - [BrainStorm/Week7.md](BrainStorm/Week7.md) & [BrainStorm/Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Tuần 7 - Chuyên đề Xác thực & Bảo mật (JWT, RBAC 5 Roles, 1-Click Demo Login). *(Đã hoàn thành xuất sắc)*
-- [BrainStorm/Week8 Logging .md](BrainStorm/Week8%20Logging%20.md): Tuần 8 - Chuyên đề Nhật ký Hệ thống (Centralized Audit Logging - Vết lịch sử sửa điểm).
-- [BrainStorm/Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Tuần 9 - Chuyên đề Kiểm thử Phần mềm (Automated QA Unit Test Suite & UAT).
+- [BrainStorm/Week8.md](BrainStorm/Week8.md) & [BrainStorm/Week8 Logging .md](BrainStorm/Week8%20Logging%20.md): Tuần 8 - Chuyên đề Nhật ký Hệ thống (Centralized Audit Logging), Đồng bộ Dual-Remote (GitHub & Bitbucket), Tái cấu trúc Menu Nhóm & Nạp dữ liệu mẫu 100%. *(Đã hoàn thành xuất sắc)*
+- [BrainStorm/Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Tuần 9 - Chuyên đề Kiểm thử Phần mềm (Automated QA Unit Test Suite 68/68 Backend & 13/13 Frontend Vitest đạt 100% PASS).
 - [BrainStorm/Week10.md](BrainStorm/Week10.md): Tuần 10 - Tích hợp Hệ thống, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP Top 10.
 - [BrainStorm/Week11.md](BrainStorm/Week11.md): Tuần 11 - Tối ưu hóa Hiệu năng, Indexing CSDL PostgreSQL & Caching Redis (Cache-Aside).
 - [BrainStorm/Week12.md](BrainStorm/Week12.md): Tuần 12 - Đóng gói Docker, Docker Compose & Tự động hóa CI/CD GitHub Actions.
@@ -150,10 +155,60 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 
 ## 6. Liên Kết Quản Lý Dự Án, Công Cụ & Repository
 
-- **GitHub Repository**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
+- **Kho lưu trữ GitHub chính thức**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
+- **Kho lưu trữ Bitbucket song song**: [https://bitbucket.org/codyisme27205/pt_da_pm](https://bitbucket.org/codyisme27205/pt_da_pm)
+- **Cơ chế Dual-Remote Push**:
+  ```bash
+  # Một lệnh duy nhất cập nhật đồng thời lên cả GitHub và Bitbucket:
+  git push origin main
+  ```
 - **Branch chính**: `main`
 - **Bảng Jira Cloud Kanban Board**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
 - **Danh mục 91 Thẻ Ranked Trên Jira**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC)
 - **Cẩm nang Ánh xạ Jira & GitHub**: [docs/JIRA_KANBAN_MAPPING.md](docs/JIRA_KANBAN_MAPPING.md)
 - **Bản Slide Trình Chiếu Trực Tuyến Trên Canva**: [https://www.canva.com/d/YLrratHffoqRdvK](https://www.canva.com/d/YLrratHffoqRdvK) (Liên kết xem trước: [https://www.canva.com/d/JGTJ4NEiF-bDcpc](https://www.canva.com/d/JGTJ4NEiF-bDcpc))
+
+---
+
+## 7. Hướng Dẫn Vận Hành Nhanh & Danh Sách Tài Khoản Kiểm Thử
+
+### 7.1 Cách Khởi Chạy Hệ Thống
+
+1. **Bước 1: Khởi động Cơ sở Dữ liệu PostgreSQL (Docker)**:
+   ```bash
+   docker start htqllh_postgres
+   # Hoặc nếu chưa tạo container:
+   # docker compose up -d postgres-db
+   ```
+   - Cổng kết nối CSDL: `localhost:5434`
+   - Tên cơ sở dữ liệu: `school_management`
+   - Tài khoản: `postgres` / Mật khẩu: `postgres`
+
+2. **Bước 2: Khởi động Backend Node.js Express (Port 8081)**:
+   ```bash
+   cd members/member3_Backend_DB/school-management-nodejs
+   node server.js
+   ```
+   - Server lắng nghe tại: `http://localhost:8081`
+   - Kiểm tra HealthCheck: `http://localhost:8081/api/health`
+
+3. **Bước 3: Khởi động Frontend React Vite (Port 5173)**:
+   ```bash
+   cd members/member2_Frontend
+   npm run dev
+   ```
+   - Truy cập giao diện tại: `http://localhost:5173`
+
+### 7.2 Danh Sách Tài Khoản Demo 5 Vai Trò (Đã Nạp Sẵn 100% Dữ Liệu)
+
+| STT | Vai Trò (Role) | Tên Đăng Nhập (Username) | Mật Khẩu (Password) | Người Đại Diện Mẫu | Ghi Chú Quyền Hạn |
+| :---: | :--- | :--- | :--- | :--- | :--- |
+| 1 | **Ban Giám Hiệu** (`ROLE_ADMIN`) | `admin` | `admin123` | Thầy Hiệu Trưởng | Quản trị học sinh, phân công lớp, duyệt khóa sổ, xem thống kê toàn trường |
+| 2 | **Giáo Viên Chủ Nhiệm** (`ROLE_HOMEROOM_TEACHER`) | `gvcn01` | `gvcn123` | Cô Trần Thị Mai | Chủ nhiệm lớp 10A1, điểm danh đầu giờ, duyệt đơn nghỉ phép, sổ liên lạc |
+| 3 | **Giáo Viên Bộ Môn** (`ROLE_SUBJECT_TEACHER`) | `gv01` | `gv123` | Thầy Nguyễn Văn An | Phụ trách môn Toán, nhập điểm thành phần TT22, điểm danh tiết dạy |
+| 4 | **Học Sinh** (`ROLE_STUDENT`) | `hs001` | `hs123` | Nguyễn Thị Ánh (10A1) | Tra cứu bảng điểm cá nhân, thời khóa biểu tuần, lịch thi học kỳ |
+| 5 | **Phụ Huynh** (`ROLE_PARENT`) | `ph001` | `ph123` | Phụ huynh em Ánh | Sổ liên lạc điện tử, theo dõi chuyên cần, nộp đơn nghỉ phép, tra cứu học phí |
+
+> *Gợi ý: Người dùng có thể nhấn nút **"1-Click Demo Login"** ngay trên giao diện đăng nhập để tự động điền thông tin và đăng nhập tức thời vào vai trò mong muốn.*
+
 

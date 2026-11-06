@@ -215,8 +215,13 @@
 - **Lời dẫn**:  
   > "Màn hình đầu tiên là Cổng Đăng Nhập thống nhất của hệ thống. Giao diện Pure Light Theme tinh gọn với thanh Role Switcher gồm 5 tab vai trò: BGH, GVCN, GV Bộ Môn, Học Sinh và Phụ Huynh. Nhấp vào mỗi tab sẽ tự động điền tài khoản mẫu và hỗ trợ đăng nhập 1-chạm để kiểm tra phân quyền RBAC."
 
-#### BƯỚC 2: PHÂN HỆ BAN GIÁM HIỆU (BGH - Thầy Hiệu Trưởng Trần Quốc Bảo)
-- **Thao tác**: Chọn tab **BGH** -> Nhấn **Đăng Nhập Nhanh 1-Chạm** (`bgh.admin / 123456`).
+#### BƯỚC 2: PHÂN HỆ BAN GIÁM HIỆU (BGH - Thầy Hiệu Trưởng)
+- **Thao tác**: Chọn tab **BGH** -> Nhấn **Đăng Nhập Nhanh 1-Chạm** (`admin / admin123`).
+- **Thanh Menu Nhóm (Grouped Navigation)**:
+  - `TỔNG QUAN`: Tổng quan (Dashboard)
+  - `HỌC VỤ & ĐÀO TẠO`: Quản lý Học sinh, Lớp học & Phân công, Sổ điểm & Khóa sổ, Thời khóa biểu
+  - `TÀI CHÍNH & KẾT NỐI`: Quản lý Học phí, Quản lý Tin tức
+  - `HỆ THỐNG`: Báo cáo & Thống kê, Phân quyền & Cài đặt
 - **Màn hình demo**:
   1. **Dashboard Quản trị BGH** ([02_BGH_Dashboard.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/02_BGH_Dashboard.png)): Số liệu thống kê toàn trường, biểu đồ tỷ lệ chuyên cần hôm nay, cảnh báo học vụ vĩ mô.
   2. **Quản lý Sổ Điểm Toàn Trường** ([03_BGH_So_Diem.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/03_BGH_So_Diem.png)): Giám sát sổ điểm các lớp; thực hiện quyền phê duyệt Khóa hoặc Mở khóa sổ điểm.
@@ -225,8 +230,12 @@
 - **Lời dẫn**:  
   > "Phân hệ BGH cung cấp bức tranh quản trị toàn diện, kết nối dữ liệu trực tiếp từ PostgreSQL và kiểm soát tính toàn vẹn của sổ điểm toàn trường."
 
-#### BƯỚC 3: PHÂN HỆ GIÁO VIÊN CHỦ NHIỆM (GVCN - Cô Lê Minh Châu, Lớp 10A1)
-- **Thao tác**: Chuyển vai trò sang **GVCN** (`gvcn.10a1 / 123456`).
+#### BƯỚC 3: PHÂN HỆ GIÁO VIÊN CHỦ NHIỆM (GVCN - Cô Trần Thị Mai, Lớp 10A1)
+- **Thao tác**: Chuyển vai trò sang **GVCN** (`gvcn01 / gvcn123`).
+- **Thanh Menu Nhóm (Grouped Navigation)**:
+  - `TỔNG QUAN`: Tổng quan lớp (Dashboard)
+  - `CÔNG TÁC CHỦ NHIỆM`: Điểm danh lớp, Bảng điểm tổng hợp, Duyệt đơn nghỉ học
+  - `KẾT NỐI PHỤ HUYNH`: Kênh trao đổi PH, Lịch báo giảng
 - **Màn hình demo**:
   1. **Dashboard Lớp Chủ Nhiệm** ([10_GVCN_Dashboard.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/10_GVCN_Dashboard.png)): Sĩ số lớp 10A1, tỷ lệ chuyên cần buổi sáng.
   2. **Điểm Danh Chuyên Cần Lớp** ([11_GVCN_Diem_Danh.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/11_GVCN_Diem_Danh.png)): Điểm danh hàng ngày: Có mặt, Vắng có phép, Vắng không phép.
@@ -236,7 +245,11 @@
   > "GVCN theo dõi sát nề nếp lớp: Điểm danh vào đầu giờ, tiếp nhận lý do nghỉ học từ phụ huynh và đối chiếu bảng điểm tổng hợp."
 
 #### BƯỚC 4: PHÂN HỆ GIÁO VIÊN BỘ MÔN (GV - Thầy Nguyễn Văn An, Môn Toán)
-- **Thao tác**: Chuyển vai trò sang **GV Bộ Môn** (`gv.an / 123456`).
+- **Thao tác**: Chuyển vai trò sang **GV Bộ Môn** (`gv01 / gv123`).
+- **Thanh Menu Nhóm (Grouped Navigation)**:
+  - `TỔNG QUAN`: Tổng quan (Dashboard)
+  - `HỌC VỤ & LỊCH DẠY`: Nhập điểm môn học, Điểm danh tiết dạy, Lịch dạy cá nhân
+  - `TIN TỨC`: Thông báo nhà trường
 - **Màn hình demo**:
   1. **Dashboard Giáo Viên Bộ Môn** ([16_GV_Dashboard.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/16_GV_Dashboard.png)): Danh sách các lớp được phân công dạy môn Toán.
   2. **Nhập Điểm Thành Phần Bộ Môn** ([17_GV_So_Diem.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/17_GV_So_Diem.png)): Nhập điểm miệng, 15 phút, 1 tiết, học kỳ; hệ thống tự động tính điểm TBM. Áp dụng Unit of Work khi lưu điểm cả lớp.
@@ -245,7 +258,10 @@
   > "Tuân thủ chặt chẽ RBAC, giáo viên bộ môn chỉ có quyền truy cập và nhập điểm cho đúng môn Toán tại các lớp mình phụ trách giảng dạy."
 
 #### BƯỚC 5: PHÂN HỆ HỌC SINH & PHỤ HUYNH (HS & PH)
-- **Thao tác**: Đăng nhập tài khoản Học Sinh `hs.anh` và Phụ Huynh `ph.hs0001`.
+- **Thao tác**: Đăng nhập tài khoản Học Sinh `hs001 / hs123` và Phụ Huynh `ph001 / ph123`.
+- **Thanh Menu Nhóm (Grouped Navigation)**:
+  - **Học Sinh**: `KẾT QUẢ HỌC TẬP` (Bảng điểm cá nhân), `LỊCH TRÌNH & THI` (Thời khóa biểu, Lịch thi), `TIN TỨC` (Thông báo)
+  - **Phụ Huynh**: `TỔNG QUAN`, `THEO DÕI CON EM` (Điểm số, Chuyên cần, Đơn xin nghỉ), `TƯƠNG TÁC & HỌC PHÍ` (Học phí, Sổ liên lạc GVCN, Thông báo)
 - **Màn hình demo**:
   1. **Bảng Điểm Cá Nhân Học Sinh** ([20_HS_Bang_Diem.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/20_HS_Bang_Diem.png)): Học sinh tự tra cứu điểm số, học lực, lịch thi ([23_HS_Lich_Thi.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/23_HS_Lich_Thi.png)).
   2. **Cổng Phụ Huynh & Sổ Liên Lạc** ([24_PH_Cong_Phu_Huynh.png](file:///d:/HSU/2631Semester%201%282026-2027%29/Images/24_PH_Cong_Phu_Huynh.png)): Theo dõi chuyên cần và học lực của con.

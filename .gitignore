@@ -20,6 +20,10 @@ yarn-error.log*
 dist/
 build/
 
+# Postman local config
+.postman/
+postman/
+
 # OS
 .DS_Store
 Thumbs.db
