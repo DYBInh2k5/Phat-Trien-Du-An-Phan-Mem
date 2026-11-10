@@ -14,27 +14,31 @@ NGÀY CẬP NHẬT: 27/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
 
 ---
 
-## 1. BẢNG TRA CỨU NHANH CÁC THẺ CÔNG VIỆC TRÊN JIRA CLOUD
+## 1. BẢNG PHÂN CÔNG MODULE VÀ NHIỆM VỤ CỤ THỂ TRÊN JIRA CLOUD
 
-| Mã Thẻ Jira | Tên Hạng Mục Công Việc | Phân Hệ Component | Phiên Bản | Trạng Thái | Liên Kết Mã Nguồn / Logic |
-| :---: | :--- | :--- | :---: | :---: | :--- |
-| [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36) | **MEMBER-04: Hồ sơ Trần Quang Vinh** | Security & Authentication | `v0.7-beta` | **Idea** | [members/member4_Logic_Security/](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/) |
-| [KAN-6](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-6) | **EPIC-01: Xác thực & Quản trị Phân quyền (Auth & RBAC)** | Security & Authentication | `v0.7-beta` | **Idea** | [rbacMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/rbacMiddleware.js) |
-| [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) | **EPIC-04: Sổ điểm Điện tử Thông tư 22** | Core Logic & Circular 22 | `v0.5-beta` | **Idea** | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js) |
-| [KAN-12](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-12) | **EPIC-06: Nhật ký Kiểm toán Học vụ (Audit Trail)** | Audit & Centralized Logging | `v0.8-rc` | **Idea** | [BrainStorm/Week8 Logging .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week8%20Logging%20.md) |
-| [KAN-45](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-45) | **UML-03: Sơ đồ Tuần tự SD-01: JWT & RBAC** | Security & Authentication | `v0.2-alpha` | **Done** | [docs/UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md) |
-| [KAN-46](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-46) | **UML-04: Sơ đồ Tuần tự SD-02: Nhập điểm & ACID** | Core Logic & Circular 22 | `v0.2-alpha` | **Done** | [docs/UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md) |
-| [KAN-49](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-49) | **UML-07: Sơ đồ Hoạt động tính điểm & Khóa sổ** | Core Logic & Circular 22 | `v0.2-alpha` | **Done** | [docs/UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md) |
-| [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) | **PBI-09: Tính ĐTBmhk chia 9 & Xếp loại TT22** | Core Logic & Circular 22 | `v0.5-beta` | **Done** | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js) |
-| [KAN-22](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-22) | **PBI-10: Cơ chế chốt khóa sổ điểm học kỳ LOCKED** | Core Logic & Circular 22 | `v0.5-beta` | **Done** | [GradeBookService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/GradeBookService.js) |
-| [KAN-91](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-91) | **CD-04: Chuyên đề 4 - Mẫu Thiết kế & ACID (Word)** | Core Logic & Circular 22 | `v0.5-beta` | **Done** | [CHUYENDE/Chuyên đề 4 Pattern.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%204%20Pattern.docx) |
-| [KAN-69](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-69) | **WEEK-05: Báo cáo Tuần 5 - Mẫu Thiết Kế & ACID** | Core Logic & Circular 22 | `v0.5-beta` | **Done** | [BrainStorm/Week5 Pattern .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week5%20Pattern%20.md) |
-| [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7) | **PBI-01: Đăng nhập Stateless JWT & 1-Click Login** | Security & Authentication | `v0.7-beta` | **In Progress** | [jwtAuthMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/jwtAuthMiddleware.js) |
-| [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15) | **PBI-02: Middleware phân quyền RBAC 5 cấp bậc** | Security & Authentication | `v0.7-beta` | **In Progress** | [rbacMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/rbacMiddleware.js) |
-| [KAN-93](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-93) | **CD-06: Chuyên đề 6 - Xác thực JWT & RBAC (Word)** | Security & Authentication | `v0.7-beta` | **In Progress** | [CHUYENDE/Chuyên đề 6 Authentication.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%206%20Authentication%20Authorization.docx) |
-| [KAN-71](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-71) | **WEEK-07: Báo cáo Tuần 7 - Xác thực & RBAC** | Security & Authentication | `v0.7-beta` | **In Progress** | [BrainStorm/Week7.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week7.md) |
-| [KAN-27](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-27) | **PBI-13: Ghi nhật ký kiểm toán Audit Trail bảo mật** | Audit & Centralized Logging | `v0.8-rc` | **To Do** | [BrainStorm/Week8 Logging .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week8%20Logging%20.md) |
-| [KAN-72](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-72) | **WEEK-08: Báo cáo Tuần 8 - Centralized Audit Logging** | Audit & Centralized Logging | `v0.8-rc` | **To Do** | [BrainStorm/Week8 Logging .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week8%20Logging%20.md) |
+> **Ghi chú chuẩn hóa theo góp ý của Giảng viên hướng dẫn**:  
+> Thẻ Jira chỉ quản lý các **Module lớn (Epics)** và **Module con (Tasks/Stories)** cấu thành phần mềm, không đưa các thẻ chuyên đề, báo cáo tuần hay hồ sơ cá nhân lên bảng Kanban.
+
+| Mã Module Lớn | Mã Thẻ Jira | Tên Module Nhỏ / Nhiệm Vụ Phụ Trách | Use Case | Story Points | Trạng Thái | Liên Kết Mã Nguồn / Logic |
+| :---: | :---: | :--- | :---: | :---: | :---: | :--- |
+| **EPIC-01** | **KAN-01** | **Xác Thực JWT Token & Thuật Toán Băm Mật Khẩu**: Cấp phát Bearer Token, bcrypt | Cả 5 Roles | 3 SP | **DONE** | [AuthController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/AuthController.js) |
+| **EPIC-01** | **KAN-03** | **Middleware Phân Quyền RBAC 5 Cấp Bậc**: Chặn 403 Forbidden nếu không đủ quyền | `UC-ADM-02` | 2 SP | **DONE** | [authMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/middleware/authMiddleware.js) |
+| **EPIC-01** | **KAN-04** | **Quản Lý Ma Trận Quyền `system_settings`**: Phân chia chi tiết quyền hạn 5 vai trò | `UC-ADM-02` | 2 SP | **DONE** | [rbacMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/rbacMiddleware.js) |
+| **EPIC-05** | **KAN-15** | **Xác Thực Miền Giá Trị Điểm Số**: Kiểm tra ràng buộc điểm số thuộc đoạn $[0.0, 10.0]$ | `UC-GVBM-04` | 2 SP | **DONE** | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js) |
+| **EPIC-05** | **KAN-16** | **Thuật Toán Điểm Trung Bình ĐTBmhk Thông Tư 22**: Chia mẫu số 9, làm tròn 1 số | `UC-GVBM-04` | 3 SP | **DONE** | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js) |
+| **EPIC-05** | **KAN-17** | **Logic Xếp Loại Học Lực & Điều Kiện Khống**: Tốt/Khá/Đạt/Chưa đạt, GPA 4.0 | `UC-GVCN-08` | 2 SP | **DONE** | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js) |
+| **EPIC-05** | **KAN-18** | **Quy Trình Khóa Sổ Điểm 2 Cấp (State Machine)**: `OPEN` -> `SUBMITTED` -> `LOCKED` | `UC-GVCN-09`<br>`UC-ADM-08` | 2 SP | **DONE** | [GradeBookService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/GradeBookService.js) |
+| **EPIC-05** | **KAN-19** | **Phân Quyền Bảo Mật Điểm Cá Nhân**: Chỉ học sinh/PH được xem bảng điểm của mình | `UC-STU-02` | 1 SP | **DONE** | [GradeBookController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/GradeBookController.js) |
+| **EPIC-06** | **KAN-20** | **Lập Trình Lớp UnitOfWork Bảo Toàn ACID**: Quản lý `BEGIN`, `COMMIT`, `ROLLBACK` | Toàn hệ thống | 2 SP | **DONE** | [UnitOfWork.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/utils/UnitOfWork.js) |
+| **EPIC-07** | **KAN-23** | **Dịch Vụ AuditLogger Lưu Vết Không Thể Phủ Nhận**: Ghi nhật ký IP, User, Điểm cũ/mới | `UC-ADM-02` | 2 SP | **DONE** | [AuditLogger.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js) |
+| **EPIC-07** | **KAN-24** | **Phòng Thủ Ứng Dụng OWASP (Rate Limiting & Helmet)**: Chống Brute-Force, XSS, Sniff | Toàn hệ thống | 1 SP | **DONE** | [server.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/server.js) |
+| **TỔNG** | — | **4 Module Lớn (Module 1, 5, 6, 7)** | **Thuật toán học vụ & An toàn bảo mật** | **22 SP** | **DONE** | **Tỷ lệ đóng góp: ~20% toàn hệ thống** |
+
+### Khung Nghiệp Vụ Cốt Lõi & An Toàn Ứng Dụng Đồng Thời Phụ Trách:
+- **Công thức ĐTBmhk Thông tư 22/2021/TT-BGDĐT**: $(ĐĐG_{tx\_m} + ĐĐG_{tx\_15p} + ĐĐG_{tx\_1t} \times 2 + ĐĐG_{gk} \times 2 + ĐĐG_{ck} \times 3) / 9$
+- **Hàng rào bảo mật Stateless JWT & RBAC 5 Roles**: [jwtAuthMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/jwtAuthMiddleware.js)
+- **Cơ chế chống gian lận & lưu vết Audit Trail**: [AuditLogger.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js)
+- **Sơ đồ tuần tự bảo mật SD-01, SD-02 và Activity Diagram khóa sổ**: [UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md)
 
 ---
 

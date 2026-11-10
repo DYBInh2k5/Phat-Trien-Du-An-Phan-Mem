@@ -14,27 +14,35 @@ NGÀY CẬP NHẬT: 27/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
 
 ---
 
-## 1. BẢNG TRA CỨU NHANH CÁC THẺ CÔNG VIỆC TRÊN JIRA CLOUD
+## 1. BẢNG PHÂN CÔNG MODULE VÀ NHIỆM VỤ CỤ THỂ TRÊN JIRA CLOUD
 
-| Mã Thẻ Jira | Tên Hạng Mục Công Việc | Phân Hệ Component | Phiên Bản | Trạng Thái | Liên Kết Mã Nguồn / Giao Diện |
-| :---: | :--- | :--- | :---: | :---: | :--- |
-| [KAN-34](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-34) | **MEMBER-02: Hồ sơ Võ Hoàng Sơn** | UI/UX & Frontend | `v0.1-alpha` | **Idea** | [members/member2_Frontend/](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/) |
-| [KAN-64](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-64) | **EPIC-10: Thiết Kế Giao Diện Trực Quan (Wireframes)** | UI/UX & Frontend | `v0.1-alpha` | **Idea** | [members/member2_Frontend/](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/) |
-| [KAN-55](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-55) | **UI-01: Nghiên cứu Web SPA Responsive vs Desktop WinForms** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [BrainStorm/Week2 UXUI .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week2%20UXUI%20.md) |
-| [KAN-56](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-56) | **UI-02: Xây dựng Design System & TailwindCSS** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [src/index.css](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/index.css) |
-| [KAN-80](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-80) | **WF-01: Wireframe Đăng nhập 5 Roles & 1-Click Login** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [Images/01_Dang_Nhap.png](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/01_Dang_Nhap.png) |
-| [KAN-81](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-81) | **WF-02: Wireframe Dashboard Ban Giám Hiệu** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [Images/02_BGH_Dashboard.png](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/02_BGH_Dashboard.png) |
-| [KAN-82](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-82) | **WF-03: Wireframe Giám sát Chuyên cần Toàn trường** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [Images/05_BGH_Diem_Danh.png](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/05_BGH_Diem_Danh.png) |
-| [KAN-83](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-83) | **WF-04: Wireframe Lưới Sổ Điểm Spreadsheet (GVBM)** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [Images/03_BGH_So_Diem.png](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/03_BGH_So_Diem.png) |
-| [KAN-84](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-84) | **WF-05: Wireframe Điểm Danh Chuyên Cần Theo Tiết** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [Images/11_GVCN_Diem_Danh.png](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/11_GVCN_Diem_Danh.png) |
-| [KAN-85](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-85) | **WF-06: Wireframe Cổng Giáo Viên Chủ Nhiệm** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [Images/10_GVCN_Dashboard.png](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/10_GVCN_Dashboard.png) |
-| [KAN-86](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-86) | **WF-07: Wireframe Sổ Liên Lạc Điện Tử & Phụ Huynh** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [Images/24_PH_Cong_Phu_Huynh.png](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/24_PH_Cong_Phu_Huynh.png) |
-| [KAN-87](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-87) | **WF-08: Wireframe Bảng Điểm Cá Nhân Học Sinh** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [Images/20_HS_Bang_Diem.png](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/20_HS_Bang_Diem.png) |
-| [KAN-88](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-88) | **CD-01: Chuyên đề 1 - Giao diện UI/UX & Web SPA (Word)** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [CHUYENDE/Chuyên Đề 1 UXUI.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%90%E1%BB%81%201%20UXUI.docx) |
-| [KAN-66](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-66) | **WEEK-02: Báo cáo Tuần 2 - UI/UX & Wireframes** | UI/UX & Frontend | `v0.1-alpha` | **Done** | [BrainStorm/Week2 UXUI .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week2%20UXUI%20.md) |
-| [KAN-20](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-20) | **PBI-08: Lưới sổ điểm Spreadsheet tương tác** | UI/UX & Frontend | `v0.5-beta` | **Done** | [src/pages/gv/GradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/GradebookPage.jsx) |
-| [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29) | **PBI-17: Cổng phụ huynh tra cứu điểm & nộp đơn nghỉ học** | UI/UX & Frontend | `v0.5-beta` | **Done** | [ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) |
-| [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7) | **PBI-01: Đăng nhập hệ thống & 1-Click Demo Login 5 Roles** | Security & Authentication | `v0.7-beta` | **In Progress** | [src/pages/auth/LoginPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/auth/LoginPage.jsx) |
+> **Ghi chú chuẩn hóa theo góp ý của Giảng viên hướng dẫn**:  
+> Thẻ Jira chỉ quản lý các **Module lớn (Epics)** và **Module con (Tasks/Stories)** cấu thành phần mềm, không đưa các thẻ chuyên đề, báo cáo tuần hay hồ sơ cá nhân lên bảng Kanban.
+
+| Mã Module Lớn | Mã Thẻ Jira | Tên Module Nhỏ / Nhiệm Vụ Phụ Trách | Use Case | Story Points | Trạng Thái | Liên Kết Mã Nguồn / Giao Diện |
+| :---: | :---: | :--- | :---: | :---: | :---: | :--- |
+| **EPIC-01** | **KAN-01** | **Giao Diện Đăng Nhập 5 Vai Trò & AuthContext**: Quản lý phiên, giải mã token | Cả 5 Roles | 3 SP | **DONE** | [LoginPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/auth/LoginPage.jsx) |
+| **EPIC-01** | **KAN-02** | **Tính Năng 1-Click Demo Login 5 Roles**: Chuyển đổi tài khoản nhanh chấm thi | Cả 5 Roles | 2 SP | **DONE** | [LoginPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/auth/LoginPage.jsx) |
+| **EPIC-01** | **KAN-03** | **Tuyến Đường Bảo Vệ ProtectedRoute**: Chặn truy cập trái quyền theo vai trò | Toàn hệ thống | 1 SP | **DONE** | [ProtectedRoute.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/common/ProtectedRoute.jsx) |
+| **EPIC-01** | **KAN-04** | **Trang Cấu Hình Quản Trị Hệ Thống**: Giao diện quản lý khóa tài khoản, reset pass | `UC-ADM-02` | 2 SP | **DONE** | [SystemSettingsPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/settings/SystemSettingsPage.jsx) |
+| **EPIC-02** | **KAN-06** | **Giao Diện Danh Sách Học Sinh & Hồ Sơ Phân Trang**: Lọc theo lớp, tìm kiếm | `UC-ADM-03`<br>`UC-GVCN-03` | 2 SP | **DONE** | [StudentListPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/students/StudentListPage.jsx) |
+| **EPIC-03** | **KAN-08** | **Giao Diện Ma Trận Thời Khóa Biểu Tuần**: Hiển thị lưới TKB Thứ 2 - Thứ 7 | `UC-GVCN-02`<br>`UC-GVBM-02` | 1 SP | **DONE** | [TimetablePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/timetable/TimetablePage.jsx) |
+| **EPIC-04** | **KAN-11** | **Giao Diện Điểm Danh Tương Tác GVCN**: Trạng thái Có mặt / Có phép / Không phép | `UC-GVCN-04` | 2 SP | **DONE** | [AttendancePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/attendance/AttendancePage.jsx) |
+| **EPIC-04** | **KAN-12** | **Chế Độ Điểm Danh Theo Tiết GVBM**: Giao diện chọn tiết, ghi nhận vắng | `UC-GVBM-03` | 1 SP | **DONE** | [AttendancePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/attendance/AttendancePage.jsx) |
+| **EPIC-04** | **KAN-13** | **Màn Hình Giám Sát Chuyên Cần BGH**: Tỷ lệ chuyên cần toàn trường, cảnh báo đỏ | `UC-ADM-04` | 1 SP | **DONE** | [BGHAttendanceMonitor.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/BGHAttendanceMonitor.jsx) |
+| **EPIC-04** | **KAN-14** | **Modal Phê Duyệt Đơn Nghỉ Học**: Xem lý do, duyệt `APPROVED`/từ chối `REJECTED` | `UC-GVCN-05` | 1 SP | **DONE** | [AttendancePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/attendance/AttendancePage.jsx) |
+| **EPIC-05** | **KAN-15** | **Lưới Nhập Điểm Spreadsheet Tương Tác**: Nhập điểm nhanh bàn phím Enter/Tab | `UC-GVBM-04` | 2 SP | **DONE** | [GradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/GradebookPage.jsx) |
+| **EPIC-05** | **KAN-17** | **Badge Hiển Thị Xếp Loại Học Lực TT22**: Huy hiệu Tốt, Khá, Đạt, Chưa đạt | `UC-GVCN-08` | 1 SP | **DONE** | [GradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/GradebookPage.jsx) |
+| **EPIC-05** | **KAN-19** | **Bảng Điểm Cá Nhân Học Sinh**: Xem điểm các môn, ĐTBmhk, GPA hệ 4 | `UC-STU-02` | 1 SP | **DONE** | [StudentGradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/student/StudentGradebookPage.jsx) |
+| **EPIC-08** | **KAN-25** | **Giao Diện Cổng Phụ Huynh Parent Portal**: Thẻ tổng quan điểm số, chuyên cần | `UC-PAR-01` | 1 SP | **DONE** | [ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) |
+| **EPIC-08** | **KAN-26** | **Form Nộp Đơn Xin Nghỉ Học Trực Tuyến**: Chọn ngày, nhập lý do, theo dõi duyệt | `UC-PAR-02` | 1 SP | **DONE** | [LeaveRequestModal.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) |
+| **EPIC-08** | **KAN-27** | **Hộp Thoại Nhắn Tin GVCN - Phụ Huynh**: Kênh trao đổi 2 chiều phản hồi học tập | `UC-PAR-03` | 1 SP | **DONE** | [ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) |
+| **TỔNG** | — | **5 Module Lớn (Module 1, 2, 3, 4, 5, 8)** | **Toàn bộ giao diện SPA** | **23 SP** | **DONE** | **Tỷ lệ đóng góp: ~21% toàn hệ thống** |
+
+### Hệ Thống Thiết Kế UI/UX & Wireframes Đồng Thời Phụ Trách:
+- **Design System & TailwindCSS Styling**: [index.css](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/index.css)
+- **Bộ 8 Wireframes chuẩn giao diện học đường**: [Thư mục Images/](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Images/)
+- **Kiến trúc SPA Component React 18**: Layout Sidebar, Navbar, Toast Notifications, Responsive Mobile-Desktop.
 
 ---
 

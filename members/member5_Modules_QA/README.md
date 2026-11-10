@@ -13,22 +13,29 @@ NGÀY CẬP NHẬT: 27/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
 
 ---
 
-## 1. BẢNG TRA CỨU NHANH CÁC THẺ CÔNG VIỆC TRÊN JIRA CLOUD
+## 1. BẢNG PHÂN CÔNG MODULE VÀ NHIỆM VỤ CỤ THỂ TRÊN JIRA CLOUD
 
-| Mã Thẻ Jira | Tên Hạng Mục Công Việc | Phân Hệ Component | Phiên Bản | Trạng Thái | Liên Kết Mã Nguồn / Kiểm Thử |
-| :---: | :--- | :--- | :---: | :---: | :--- |
-| [KAN-37](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-37) | **MEMBER-05: Hồ sơ Nguyễn Minh Quốc Bảo** | QA, Testing & Verification | `v0.8-rc` | **Idea** | [members/member5_Modules_QA/](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/) |
-| [KAN-14](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-14) | **EPIC-08: Xuất Báo cáo & Cổng Giao tiếp Phụ huynh** | Reporting & Export Engine | `v0.5-beta` | **Idea** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
-| [KAN-30](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-30) | **PBI-15: Xuất bảng điểm lớp ra file Excel .xlsx** | Reporting & Export Engine | `v0.5-beta` | **Done** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
-| [KAN-31](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-31) | **PBI-16: Xuất và in ấn phiếu báo điểm / học bạ PDF** | Reporting & Export Engine | `v0.5-beta` | **Done** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
-| [KAN-92](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-92) | **CD-05: Chuyên đề 5 - Động cơ Xuất Báo cáo (Word)** | Reporting & Export Engine | `v0.5-beta` | **Done** | [CHUYENDE/Chuyên đề 5 Export.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%205%20Export.docx) |
-| [KAN-70](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-70) | **WEEK-06: Báo cáo Tuần 6 - Export Engine** | Reporting & Export Engine | `v0.5-beta` | **Done** | [BrainStorm/Week6 Export .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week6%20Export%20.md) |
-| [KAN-61](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-61) | **QA-01: Kịch bản kiểm thử UAT Plan toàn diện** | QA, Testing & Verification | `v1.0.0` | **Done** | [docs/UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md) |
-| [KAN-62](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-62) | **QA-02: Cẩm nang triển khai hệ thống Deployment Guide** | Project Management & Research | `v1.0.0` | **Done** | [docs/DEPLOYMENT_GUIDE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/DEPLOYMENT_GUIDE.md) |
-| [KAN-32](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-32) | **PBI-19: Bộ kiểm thử tự động QA Unit Testing Suite** | QA, Testing & Verification | `v0.8-rc` | **To Do** | [tests/unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
-| [KAN-95](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-95) | **CD-08: Chuyên đề 8 - Kiểm thử Tự động QA (Word)** | QA, Testing & Verification | `v0.8-rc` | **To Do** | [CHUYENDE/Chuyên đề 8 Testing.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%208%20Testing.docx) |
-| [KAN-73](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-73) | **WEEK-09: Báo cáo Tuần 9 - Automated QA Testing** | QA, Testing & Verification | `v0.8-rc` | **To Do** | [BrainStorm/Week9 Testing .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week9%20Testing%20.md) |
-| [KAN-77](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-77) | **WEEK-13: Nghiệm thu kỹ thuật & UAT 43 Use Cases** | QA, Testing & Verification | `v1.0.0` | **To Do** | [BrainStorm/Week13.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week13.md) |
+> **Ghi chú chuẩn hóa theo góp ý của Giảng viên hướng dẫn**:  
+> Thẻ Jira chỉ quản lý các **Module lớn (Epics)** và **Module con (Tasks/Stories)** cấu thành phần mềm, không đưa các thẻ chuyên đề, báo cáo tuần hay hồ sơ cá nhân lên bảng Kanban.
+
+| Mã Module Lớn | Mã Thẻ Jira | Tên Module Nhỏ / Nhiệm Vụ Phụ Trách | Use Case | Story Points | Trạng Thái | Liên Kết Mã Nguồn / Kiểm Thử |
+| :---: | :---: | :--- | :---: | :---: | :---: | :--- |
+| **EPIC-04** | **KAN-12** | **Kiểm Thử Điểm Danh Trùng Tiết**: Test case chặn giáo viên điểm danh sai tiết | `UC-GVBM-03` | 2 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
+| **EPIC-04** | **KAN-13** | **Kiểm Thử Cảnh Báo Vắng $\ge 20\%$**: Test case kích hoạt cấm thi học kỳ | `UC-ADM-04` | 2 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
+| **EPIC-05** | **KAN-16** | **Kiểm Thử 5 Ca Biên Điểm Số Thông Tư 22**: Điểm 0.0, 10.0, điểm khống, làm tròn | `UC-GVBM-04` | 3 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
+| **EPIC-06** | **KAN-22** | **Kiểm Thử Chịu Tải 5 Request Đồng Thời**: Kiểm chứng Connection Pool không cạn kiệt | Tầng DB | 2 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
+| **EPIC-07** | **KAN-24** | **Kiểm Thử Phòng Thủ Brute-Force Mật Khẩu**: Kiểm chứng Rate Limiter chặn HTTP 429 | Bảo mật API | 2 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
+| **EPIC-09** | **KAN-29** | **Động Cơ Xuất Biên Lai Học Phí PDF (jsPDF)**: Sinh file PDF biên lai trường HSU | `UC-PAR-04` | 2 SP | **DONE** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
+| **EPIC-10** | **KAN-30** | **Động Cơ Xuất Bảng Điểm Lớp Excel (SheetJS)**: Định dạng `.xlsx` chuẩn cột điểm | `UC-GVCN-10` | 3 SP | **DONE** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
+| **EPIC-10** | **KAN-31** | **Động Cơ In Ấn Phiếu Điểm Học Bạ PDF (jsPDF)**: Quốc hiệu, tiêu ngữ, bảng điểm | `UC-GVCN-10`<br>`UC-STU-05` | 2 SP | **DONE** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
+| **EPIC-10** | **KAN-33** | **Bộ Kiểm Thử Tự Động QA Toàn Diện (68 Ca Tests PASS)**: Unit tests, Vitest, UAT | Cả 43 UCs | 5 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
+| **TỔNG** | — | **6 Module Lớn (Module 4, 5, 6, 7, 9, 10)** | **Kiểm thử tự động QA & Động cơ xuất báo cáo** | **23 SP** | **DONE** | **Tỷ lệ đóng góp: ~21% toàn hệ thống** |
+
+### Hệ Thống Động Cơ Báo Cáo & Kế Hoạch QA Đồng Thời Phụ Trách:
+- **Động cơ xuất báo cáo đa định dạng (Excel SheetJS, PDF jsPDF)**: [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js)
+- **Bộ 68 ca kiểm thử tự động toàn diện (Node.js Test Runner)**: [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js)
+- **Kịch bản kiểm thử chấp nhận người dùng UAT (15 kịch bản / 43 Use Cases)**: [UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md)
+- **Cẩm nang triển khai & cài đặt hệ thống**: [DEPLOYMENT_GUIDE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/DEPLOYMENT_GUIDE.md)
 
 ---
 

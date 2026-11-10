@@ -14,32 +14,29 @@ NGÀY CẬP NHẬT: 27/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
 
 ---
 
-## 1. BẢNG TRA CỨU NHANH CÁC THẺ CÔNG VIỆC TRÊN JIRA CLOUD
+## 1. BẢNG PHÂN CÔNG MODULE VÀ NHIỆM VỤ CỤ THỂ TRÊN JIRA CLOUD
 
-| Mã Thẻ Jira | Tên Hạng Mục Công Việc | Phân Hệ Component | Phiên Bản | Trạng Thái | Liên Kết Mã Nguồn / Tài Liệu |
-| :---: | :--- | :--- | :---: | :---: | :--- |
-| [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33) | **MEMBER-01: Hồ sơ Võ Duy Bình** | Project Management & Research | `v0.1-alpha` | **Idea** | [members/member1_PM_BA/](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member1_PM_BA/) |
-| [KAN-38](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-38) | **EPIC-00: Khảo Sát, Phân Tích & Thiết Kế Kiến Trúc** | Project Management & Research | `v0.1-alpha` | **Idea** | [USE_CASES.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/USE_CASES.md) |
-| [KAN-63](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-63) | **EPIC-09: Tiến Độ 15 Tuần Nghiên Cứu Môn Học** | Project Management & Research | `v1.0.0` | **Idea** | [timeline.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/timeline.md) |
-| [KAN-39](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-39) | **SRS-01: Khảo sát & Biên soạn SRS theo IEEE 830** | Project Management & Research | `v0.1-alpha` | **Done** | [USE_CASES.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/USE_CASES.md) |
-| [KAN-40](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-40) | **SRS-02: Đặc tả chi tiết 43 Use Cases cho 5 Roles** | Project Management & Research | `v0.1-alpha` | **Done** | [USE_CASES.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/USE_CASES.md) |
-| [KAN-41](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-41) | **SRS-03: Ma trận Truy xuất Yêu cầu RTM Matrix** | Project Management & Research | `v0.1-alpha` | **Done** | [Requirements_Traceability_Matrix.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/Requirements_Traceability_Matrix.md) |
-| [KAN-42](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-42) | **SRS-04: Chuẩn hóa khung pháp lý Thông tư 22** | Project Management & Research | `v0.1-alpha` | **Done** | [CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) |
-| [KAN-43](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-43) | **UML-01: Sơ đồ Use Case Tổng thể & 5 Sơ đồ phân rã** | Project Management & Research | `v0.2-alpha` | **Done** | [docs/UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md) |
-| [KAN-65](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-65) | **WEEK-01: Báo cáo Tuần 1 - SRS & Thông tư 22** | Project Management & Research | `v0.1-alpha` | **Done** | [BrainStorm/Week1 TL SRS .md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week1%20TL%20SRS%20.md) |
-| [KAN-97](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-97) | **DOC-02: Toàn diện Kiến trúc, API, Layout & Docker (91KB)** | Project Management & Research | `v0.2-alpha` | **Done** | [docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md) |
-| [KAN-98](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-98) | **DOC-03: Phân tích Chi tiết Công nghệ Hệ thống (61KB)** | Project Management & Research | `v0.1-alpha` | **Done** | [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_CONG_NGHE_HE_THONG.md) |
-| [KAN-99](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-99) | **DOC-04: Đặc tả Nghiệp vụ Chi tiết Khung THPT (16KB)** | Project Management & Research | `v0.1-alpha` | **Done** | [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) |
-| [KAN-61](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-61) | **QA-01: Kịch bản kiểm thử chấp nhận người dùng UAT** | QA, Testing & Verification | `v1.0.0` | **Done** | [docs/UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md) |
-| [KAN-62](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-62) | **QA-02: Cẩm nang triển khai hệ thống Deployment Guide** | Project Management & Research | `v1.0.0` | **Done** | [docs/DEPLOYMENT_GUIDE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/DEPLOYMENT_GUIDE.md) |
-| [KAN-71](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-71) | **WEEK-07: Xác thực JWT & Phân quyền RBAC (Hiện tại)** | Security & Authentication | `v0.7-beta` | **In Progress** | [BrainStorm/Week7.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week7.md) |
-| [KAN-74](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-74) | **WEEK-10: Tích hợp hệ thống & Phòng thủ OWASP** | Security & Authentication | `v1.0.0` | **To Do** | [BrainStorm/Week10.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week10.md) |
-| [KAN-75](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-75) | **WEEK-11: Tối ưu hóa hiệu năng, Indexes & Redis** | Database & PostgreSQL | `v1.0.0` | **To Do** | [BrainStorm/Week11.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week11.md) |
-| [KAN-76](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-76) | **WEEK-12: Đóng gói Docker Compose & CI/CD** | Backend & Clean Architecture | `v1.0.0` | **To Do** | [BrainStorm/Week12.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week12.md) |
-| [KAN-77](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-77) | **WEEK-13: Nghiệm thu kỹ thuật & UAT 43 Use Cases** | QA, Testing & Verification | `v1.0.0` | **To Do** | [BrainStorm/Week13.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week13.md) |
-| [KAN-78](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-78) | **WEEK-14: Đóng gói Release v1.0 & Hướng dẫn Sử dụng** | Project Management & Research | `v1.0.0` | **To Do** | [BrainStorm/Week14.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week14.md) |
-| [KAN-100](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-100) | **DOC-05: Kịch bản Trình diễn Phần mềm 5 Roles (32KB)** | Project Management & Research | `v1.0.0` | **To Do** | [docs/KICH_BAN_DEMO.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/KICH_BAN_DEMO.md) |
-| [KAN-79](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-79) | **WEEK-15: Tổng kết đồ án, Thuyết trình & KPI** | Project Management & Research | `v1.0.0` | **To Do** | [BrainStorm/Week15.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week15.md) |
+> **Ghi chú chuẩn hóa theo góp ý của Giảng viên hướng dẫn**:  
+> Thẻ Jira chỉ quản lý các **Module lớn (Epics)** và **Module con (Tasks/Stories)** cấu thành phần mềm, không đưa các thẻ chuyên đề, báo cáo tuần hay hồ sơ cá nhân lên bảng Kanban.
+
+| Mã Module Lớn | Mã Thẻ Jira | Tên Module Nhỏ / Nhiệm Vụ Phụ Trách | Use Case | Story Points | Trạng Thái | Liên Kết Mã Nguồn / Tài Liệu |
+| :---: | :---: | :--- | :---: | :---: | :---: | :--- |
+| **EPIC-02** | **KAN-05** | **Quản Lý Danh Mục Khối & Lớp Học**: Ràng buộc sĩ số $\le 45$ HS, niên khóa | `UC-ADM-03` | 3 SP | **DONE** | [ClassController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ClassController.js) |
+| **EPIC-02** | **KAN-07** | **Phân Công Giảng Dạy & Đào Tạo**: Phân công GVCN, GVBM theo môn học và lớp | `UC-ADM-05` | 3 SP | **DONE** | [CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) |
+| **EPIC-03** | **KAN-08** | **Ma Trận Thời Khóa Biểu Tuần**: Phân bổ tiết học Thứ 2 - Thứ 7 (Tiết 1-5 sáng/chiều) | `UC-GVCN-02`<br>`UC-GVBM-02` | 3 SP | **DONE** | [TimetablePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/timetable/TimetablePage.jsx) |
+| **EPIC-03** | **KAN-09** | **Thuật Toán Chống Xung Đột Lịch Dạy**: Kiểm tra trùng tiết giáo viên và phòng học | Nghiệp vụ TKB | 2 SP | **DONE** | [ScheduleController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ScheduleController.js) |
+| **EPIC-03** | **KAN-10** | **Quản Lý Lịch Thi Học Kỳ**: Lập kế hoạch phòng thi, giám thị và môn thi HK1/HK2 | `UC-ADM-04` | 2 SP | **DONE** | [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) |
+| **EPIC-08** | **KAN-25** | **Sổ Liên Lạc Điện Tử & Kênh Phụ Huynh**: Quy trình tra cứu điểm, chuyên cần cho PH | `UC-PAR-01` | 3 SP | **DONE** | [ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) |
+| **EPIC-09** | **KAN-28** | **Quản Lý Danh Mục Học Phí & VietQR**: Phân loại khoản thu, sinh mã QR VietQR NAPAS 247 | `UC-ADM-07`<br>`UC-PAR-04` | 3 SP | **DONE** | [TuitionController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/TuitionController.js) |
+| **EPIC-09** | **KAN-29** | **Chuẩn Hóa Biên Lai Thu Tiền Điện Tử**: Sinh mã giao dịch, biên lai PDF trường HSU | `UC-PAR-04` | 2 SP | **DONE** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
+| **EPIC-10** | **KAN-32** | **Thống Kê Phổ Điểm & Xét Khen Thưởng**: Tiêu chí danh hiệu HS Xuất sắc, Giỏi Thông tư 22 | `UC-ADM-06` | 4 SP | **DONE** | [ReportController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ReportController.js) |
+| **TỔNG** | — | **5 Module Lớn (Module 2, 3, 8, 9, 10)** | **Bao phủ nghiệp vụ** | **22 SP** | **DONE** | **Tỷ lệ đóng góp: ~20% toàn hệ thống** |
+
+### Tài Liệu Phân Tích & Quản Trị Hệ Thống Đồng Thời Phụ Trách:
+- **Đặc tả yêu cầu phần mềm IEEE 830 & 43 Use Cases**: [USE_CASES.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/USE_CASES.md)
+- **Ma trận truy xuất yêu cầu RTM Matrix (10 chiều, RACI)**: [Requirements_Traceability_Matrix.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/Requirements_Traceability_Matrix.md)
+- **Chuẩn hóa khung pháp lý Thông tư 22/2021/TT-BGDĐT**: [CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)
+- **Sơ đồ Use Case tổng thể & 5 sơ đồ phân rã vai trò**: [UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md)
 
 ---
 
