@@ -17,15 +17,15 @@ Tổng cộng: **115 files** thay đổi, +14,841 / −4,158 dòng, **50 files m
 - **Form nhập hạnh kiểm inline** trong `GVCNDashboardPage`: select Tốt/Khá/Trung bình/Yếu, gọi `PUT /api/students/:id/conduct` (UC-GVCN-07).
 
 #### Kết nối API thật (thay thế mockdata)
-- `StudentSchedulePage` → `fetchScheduleTemplates()` thay vì `timetableSlots` từ mockData (UC-STU-03).
-- `StudentGradebookPage` → `fetchGradeBook()` với resolve đúng `studentCode` từ JWT (UC-STU-05).
-- `StudentAttendancePage` → `fetchAttendance()` + `submitLeaveRequest()` gọi API thật (UC-STU-06, UC-STU-07).
-- `ParentPortalPage` → `fetchGradeBook()`, `fetchTuitions()`, `POST /api/leave-requests`, `POST /api/tuition/pay` tất cả gọi API thật; loại bỏ hoàn toàn `DEFAULT_TUITION` mockdata (UC-PAR-04, 05, 06, 07, 08).
+- `StudentSchedulePage` → `fetchScheduleTemplates()` gọi API thật qua `stubs.js` (có fallback in-memory khi DB không kết nối) thay vì `timetableSlots` hardcoded (UC-STU-03).
+- `StudentGradebookPage` → `fetchGradeBook()` gọi API thật qua `stubs.js` với resolve đúng `studentCode` từ JWT (UC-STU-05).
+- `StudentAttendancePage` → `fetchAttendance()` + `submitLeaveRequest()` gọi API thật qua `stubs.js` với fallback in-memory (UC-STU-06, UC-STU-07).
+- `ParentPortalPage` → `fetchGradeBook()`, `fetchTuitions()`, `POST /api/leave-requests`, `POST /api/tuition/pay` tất cả gọi API thật qua `stubs.js`; `DEFAULT_TUITION` chỉ còn đóng vai trò fallback in-memory khi backend chưa kết nối được (UC-PAR-04, 05, 06, 07, 08).
 
 #### Sửa lỗi hiển thị
 - `mapApiRow()` trong `StudentGradebookPage` và `normalize()` trong `ParentPortalPage`: đọc đúng cả `snake_case` (từ PostgreSQL) và `camelCase` (từ DTO).
 - `GradeBookRepository.findByStudentCode`: JOIN bảng `subjects` để lấy tên môn đầy đủ (Tiếng Anh, Hóa học...) thay vì code viết tắt (ANH, HOA).
-- `ParentPortalPage`: de-duplicate dòng theo `subjectName`, chỉ hiển thị HK1, bỏ fallback mockdata.
+- `ParentPortalPage`: de-duplicate dòng theo `subjectName`, chỉ hiển thị HK1, giảm phụ thuộc fallback in-memory.
 - Cột "Cuối HK" trong bảng điểm học sinh sử dụng đúng `scores.final` thay vì `scores.semester`.
 
 #### Kiểm thử Frontend
@@ -77,7 +77,7 @@ Tổng cộng: **115 files** thay đổi, +14,841 / −4,158 dòng, **50 files m
 
 ### Export Engine (`members/member5_Modules_QA`)
 - `exportEngine.js`: thay thế 3 hàm stub (`exportGradeBookToExcel`, `exportReportCardToPDF`, `exportTuitionReceiptToPDF`) bằng implementation thực dùng SheetJS cho Excel và HTML string cho PDF.
-- `unitTestingSuite.test.js`: thêm 17 unit test mới bao phủ 15 use case. Kết quả: **44/44 assertions PASS**.
+- `tests/unitTestingSuite.test.js`: thêm 17 unit test mới bao phủ 15 use case. Kết quả: **45/45 assertions PASS**.
 
 ---
 
@@ -100,7 +100,7 @@ Tổng cộng: **115 files** thay đổi, +14,841 / −4,158 dòng, **50 files m
 | `src/controllers/TuitionController.js` | Modified | Resolve học sinh từ JWT, bảo vệ bằng `authenticateToken` |
 | `src/repositories/GradeBookRepository.js` | Modified | JOIN `subjects` để lấy tên môn đầy đủ |
 | `StudentGradebookPage.jsx` | Modified | Normalize snake_case/camelCase, sửa field mapping |
-| `ParentPortalPage.jsx` | Modified | Bỏ mockdata, kết nối toàn bộ tab với API thật |
+| `ParentPortalPage.jsx` | Modified | Kết nối toàn bộ tab với API thật qua `stubs.js`; `DEFAULT_TUITION` còn lại chỉ là fallback in-memory |
 
 ### Dependencies mới
 - **Root**: `concurrently ^9.1.2` (dev)
@@ -122,7 +122,7 @@ Tổng cộng: **115 files** thay đổi, +14,841 / −4,158 dòng, **50 files m
 ### Đã thực hiện
 - Unit test backend: 6 file test (attendance, auth-permissions, communication-rbac, gradebook, gvcn-scope, settings) chạy bằng `node:test`.
 - Unit test frontend: 3 file Vitest test (AttendancePage, GradebookPage, SystemSettingsPage).
-- Unit test export engine: 44/44 assertions PASS trên `unitTestingSuite.test.js`.
+- Unit test export engine: 45/45 assertions PASS trên `members/member5_Modules_QA/tests/unitTestingSuite.test.js`.
 - Kiểm thử thủ công: luồng đăng nhập, nhập điểm GVCN, xem điểm học sinh, nộp đơn nghỉ học phụ huynh, duyệt đơn GVCN, xem học phí.
 
 ### Chưa được kiểm thử tự động
