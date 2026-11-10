@@ -1,291 +1,245 @@
-# CẨM NANG ÁNH XẠ TOÀN DIỆN HỆ THỐNG JIRA CLOUD & GITHUB REPOSITORY
-
-## (ENTERPRISE JIRA KANBAN, COMPONENTS, RELEASES & TRACEABILITY MAPPING)
+# CẨM NANG ÁNH XẠ JIRA CLOUD THEO CẤU TRÚC PHÂN TÁCH MODULE HỆ THỐNG
+## (WORK BREAKDOWN STRUCTURE - WBS & JIRA SOFTWARE KANBAN MAPPING)
+### DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC & HỌC VỤ THPT (HTQLLH / EDUMANAGE PRO)
+### MÔN HỌC: PHÁT TRIỂN DỰ ÁN PHẦN MỀM (SW320DV01) — ĐẠI HỌC HOA SEN (HSU)
 
 ```
 ================================================================================
-DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC THPT HSU (HTQLLH / SCHOOL MANAGEMENT SYSTEM)
-MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
-TỔNG QUAN TIẾN ĐỘ: 15 TUẦN HỌC KỲ 2631 (14/09/2026 - 27/12/2026)
-THỜI ĐIỂM ĐÁNH GIÁ: 03/11/2026 (CẬP NHẬT PRODUCT BACKLOG V3.0)
+TÀI LIỆU: ÁNH XẠ CẤU TRÚC PHÂN RÃ MODULE HỆ THỐNG TRÊN JIRA CLOUD (WBS & JIRA MAPPING)
+VỊ TRÍ TẬP TIN: docs/JIRA_KANBAN_MAPPING.md
+TIÊU CHUẨN QUẢN TRỊ: Chuẩn Agile/Scrum, IEEE 12207 Software Life Cycle & CMMI Level 3
+NGUYÊN TẮC QUẢN LÝ (THEO GÓP Ý CỦA GIẢNG VIÊN HƯỚNG DẪN):
+  - KHÔNG đưa các thẻ mang tính lý thuyết/học thuật (Chuyên đề, Báo cáo tuần, Hồ sơ thành viên) lên Jira.
+  - 100% Thẻ trên Jira phản ánh trực tiếp CÁC MODULE LỚN (Epics) của phần mềm và PHÂN TÁCH THÀNH
+    CÁC MODULE NHỎ (User Stories / Tasks / PBIs) phân công rõ ràng cho 5 thành viên.
 PROJECT KEY: KAN | BOARD ID: 2 (KAN board)
-TỔNG SỐ HẠNG MỤC QUẢN LÝ: 98+ THẺ CÔNG VIỆC TRÊN JIRA KANBAN (CẦN THÊM 7 STORY MỚI: PBI-17a/17b/17c/20/21/22/23/24/25)
 BẢNG JIRA KANBAN: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
-DANH SÁCH RANKED: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC
 KHO LƯU TRỮ GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
+KHO LƯU TRỮ BITBUCKET: https://bitbucket.org/codyisme27205/pt_da_pm
+NGÀY PHÊ DUYỆT CẬP NHẬT: 10/11/2026 (TUẦN 8-9 HỌC PHẦN)
 ================================================================================
 ```
 
 ---
 
-## 1. ĐỊNH BIÊN VAI TRÒ & TÀI KHOẢN JIRA 5 THÀNH VIÊN DỰ ÁN
+## MỤC LỤC TÀI LIỆU
 
-|                            Mã Thẻ Jira                            | Họ và Tên                      | Vai Trò Đảm Nhiệm                            | Tài Khoản Jira Cloud                 | Phân Hệ Phụ Trách & Trách Nhiệm                                                                                                                                                        | Liên Kết Thư Mục GitHub                                                                                                              |
-| :-----------------------------------------------------------------: | :-------------------------------- | :----------------------------------------------- | :------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
-| [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33) | **Võ Duy Bình**           | **Project Manager & Lead BA**              | `Duy Bình` (`bron@reputyze.asia`) | Điều phối Jira Kanban, biên soạn đặc tả SRS IEEE 830, chuẩn hóa quy chế Thông tư 22/2021/TT-BGDĐT và RTM Matrix.                                                              | [GitHub: members/member1_PM_BA](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member1_PM_BA)                   |
-| [KAN-34](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-34) | **Võ Hoàng Sơn**         | **Dev Frontend (Frontend Developer)**      | `Sonvohoang`                         | Thiết kế 8 Wireframes UI/UX, lập trình Web SPA Responsive trên React 18, Vite, TailwindCSS (Dashboard BGH, Cổng GVCN, Lưới sổ điểm, Cổng Phụ huynh & Học sinh).                | [GitHub: members/member2_Frontend](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend)             |
-| [KAN-35](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-35) | **Huỳnh Trung Tính**      | **Dev Backend (Backend Developer)**        | `Huỳnh Trung Tính`                 | Thiết kế kiến trúc Clean Architecture 4 tầng trên Node.js/Express, chuẩn hóa CSDL PostgreSQL 3NF, lập trình DDL schema.sql và cẩm nang POSTGRESQL_GUIDE.md.                      | [GitHub: members/member3_Backend_DB](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member3_Backend_DB)         |
-| [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36) | **Trần Quang Vinh**        | **Logic Security (Core Logic & Security)** | `tqvcontacts`                        | Xây dựng thuật toán tính ĐTBmhk chia 9 và xếp loại Thông tư 22, thiết lập xác thực JWT, Middleware RBAC 5 Roles, Unit of Work bảo toàn ACID và Audit Trail.                | [GitHub: members/member4_Logic_Security](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member4_Logic_Security) |
-| [KAN-37](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-37) | **Nguyễn Minh Quốc Bảo** | **Tester (QA/QC Testing Lead)**            | `Quốc Bảo (QA Lead)`               | Xây dựng kịch bản kiểm thử UAT Plan cho 5 nhóm tác nhân, phát triển bộ kiểm thử tự động QA Unit Testing Suite kiểm chứng logic điểm số, kiểm thử tải và bảo mật. | [GitHub: members/member5_Modules_QA](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member5_Modules_QA)         |
-
----
-
-## 2. HỆ THỐNG 9 PHÂN HỆ (COMPONENTS) TRÊN JIRA CLOUD
-
-Toàn bộ 91 thẻ công việc trên Jira đã được phân loại chính xác vào 9 phân hệ kỹ thuật:
-
-| STT | Tên Phân Hệ (Jira Component)         |  ID Jira  | Mô Tả Kỹ Thuật                                                                   | Thành Viên Phụ Trách              |
-| :-: | :-------------------------------------- | :-------: | :----------------------------------------------------------------------------------- | :------------------------------------ |
-|  1  | **UI/UX & Frontend**              | `10000` | Giao diện Web SPA React 18, Vite, TailwindCSS, Wireframes & Dashboards              | Võ Hoàng Sơn                       |
-|  2  | **Backend & Clean Architecture**  | `10001` | Kiến trúc 4 tầng Controller, Service & Repositories Node.js/Express               | Huỳnh Trung Tính                    |
-|  3  | **Database & PostgreSQL**         | `10002` | Lược đồ CSDL PostgreSQL 3NF, ERD, Schema DDL & Connection Pool                   | Huỳnh Trung Tính                    |
-|  4  | **Core Logic & Circular 22**      | `10003` | Thuật toán tính ĐTBmhk chia 9, xếp loại Thông tư 22 & Khóa sổ điểm       | Trần Quang Vinh                      |
-|  5  | **Security & Authentication**     | `10004` | Xác thực JWT, 1-Click Demo Login, Session Token & Middleware RBAC 5 Roles          | Trần Quang Vinh                      |
-|  6  | **Reporting & Export Engine**     | `10005` | Động cơ xuất báo cáo Excel .xlsx (SheetJS) và in ấn PDF (jsPDF)              | Nguyễn Minh Quốc Bảo               |
-|  7  | **Audit & Centralized Logging**   | `10006` | Ghi nhật ký kiểm toán Audit Trail, lưu vết sửa điểm & truy vết hệ thống  | Huỳnh Trung Tính & Trần Quang Vinh |
-|  8  | **QA, Testing & Verification**    | `10007` | Kịch bản UAT Plan, bộ kiểm thử tự động QA Unit Testing Suite                 | Nguyễn Minh Quốc Bảo               |
-|  9  | **Project Management & Research** | `10008` | Quản lý tiến độ 15 tuần, SRS IEEE 830, RTM Matrix & 8 Chuyên đề học thuật | Võ Duy Bình                         |
+1. [Phần 1: Cấu Trúc Phân Rã Các Module Lớn (Work Breakdown Structure - Epics)](#phần-1-cấu-trúc-phân-rã-các-module-lớn-work-breakdown-structure---epics)
+2. [Phần 2: Bảng Chi Tiết Phân Tách Module Nhỏ & Phân Công Thành Viên (Detailed Module Breakdown)](#phần-2-bảng-chi-tiết-phân-tách-module-nhỏ--phân-công-thành-viên-detailed-module-breakdown)
+   - [Module 1: Phân Hệ Xác Thực, Quản Trị Người Dùng & Phân Quyền (Auth & RBAC)](#module-1-phân-hệ-xác-thực-quản-trị-người-dùng--phân-quyền-auth--rbac)
+   - [Module 2: Phân Hệ Quản Lý Hồ Sơ Học Sinh, Lớp Học & Đào Tạo](#module-2-phân-hệ-quản-lý-hồ-sơ-học-sinh-lớp-học--đào-tạo)
+   - [Module 3: Phân Hệ Quản Lý Thời Khóa Biểu & Chống Xung Đột Lịch Dạy](#module-3-phân-hệ-quản-lý-thời-khóa-biểu--chống-xung-đột-lịch-dạy)
+   - [Module 4: Phân Hệ Điểm Danh 2 Cấp & Quản Lý Đơn Xin Nghỉ Học](#module-4-phân-hệ-điểm-danh-2-cấp--quản-lý-đơn-xin-nghỉ-học)
+   - [Module 5: Phân Hệ Sổ Điểm Điện Tử & Đánh Giá Thông Tư 22](#module-5-phân-hệ-sổ-điểm-điện-tử--đánh-giá-thông-tư-22)
+   - [Module 6: Phân Hệ Giao Dịch Dữ Liệu ACID & Mẫu Thiết Kế Patterns](#module-6-phân-hệ-giao-dịch-dữ-liệu-acid--mẫu-thiết-kế-patterns)
+   - [Module 7: Phân Hệ Nhật Ký Kiểm Toán (Audit Trail) & An Toàn Ứng Dụng](#module-7-phân-hệ-nhật-ký-kiểm-toán-audit-trail--an-toàn-ứng-dụng)
+   - [Module 8: Phân Hệ Sổ Liên Lạc Điện Tử & Kênh Giao Tiếp Phụ Huynh](#module-8-phân-hệ-sổ-liên-lạc-điện-tử--kênh-giao-tiếp-phụ-huynh)
+   - [Module 9: Phân Hệ Quản Lý Học Phí & Thanh Toán Trực Tuyến VietQR](#module-9-phân-hệ-quản-lý-học-phí--thanh-toán-trực-tuyến-vietqr)
+   - [Module 10: Phân Hệ Báo Cáo Học Vụ & Động Cơ Xuất Báo Cáo Excel/PDF](#module-10-phân-hệ-báo-cáo-học-vụ--động-cơ-xuất-báo-cáo-excelpdf)
+3. [Phần 3: Ma Trận Phân Bổ Nhiệm Vụ 5 Thành Viên Theo Module (Member Allocation Matrix)](#phần-3-ma-trận-phân-bổ-nhiệm-vụ-5-thành-viên-theo-module-member-allocation-matrix)
+4. [Phần 4: Lộ Trình Phát Hành Theo Sprint & Quản Trị Phiên Bản (Release Planning)](#phần-4-lộ-trình-phát-hành-theo-sprint--quản-trị-phiên-bản-release-planning)
 
 ---
 
-## 3. LỘ TRÌNH 6 PHIÊN BẢN PHÁT HÀNH (FIX VERSIONS / RELEASES)
+## PHẦN 1: CẤU TRÚC PHÂN RÃ CÁC MODULE LỚN (WORK BREAKDOWN STRUCTURE - EPICS)
 
-Hệ thống quản lý phiên bản trên Jira Cloud phản ánh chu kỳ phát triển phần mềm (SDLC) theo 15 tuần học kỳ:
+Theo đúng định hướng quản trị sản phẩm phần mềm chuẩn nghiệp vụ, toàn bộ hệ thống HTQLLH / EduManage Pro được phân rã thành **10 Module lớn (Epics)** đại diện cho toàn bộ các chức năng của một trường THPT:
 
-| Phiên Bản (Fix Version) |  ID Jira  | Giai Đoạn Áp Dụng |   Trạng Thái Phát Hành   | Ngày Hoàn Thành | Trọng Tâm Phát Hành                                                                                   |
-| :-----------------------: | :-------: | :-------------------: | :---------------------------: | :----------------: | :-------------------------------------------------------------------------------------------------------- |
-|   **v0.1-alpha**   | `10000` |      Tuần 1 - 2      |      **Released**      |     27/09/2026     | Khởi động dự án: Khảo sát SRS IEEE 830, RTM Matrix & Thiết kế 8 Wireframes UI/UX                 |
-|   **v0.2-alpha**   | `10001` |      Tuần 3 - 4      |      **Released**      |     11/10/2026     | Nền tảng kiến trúc: CSDL PostgreSQL 3NF, ERD 14 bảng quan hệ & Clean Architecture 4 tầng           |
-|    **v0.5-beta**    | `10002` |      Tuần 5 - 6      |      **Released**      |     25/10/2026     | Nghiệp vụ cốt lõi: Sổ Điểm Thông tư 22, ACID Unit of Work & Động cơ Xuất báo cáo Excel/PDF |
-|    **v0.7-beta**    | `10003` |        Tuần 7        | **Unreleased (Active)** |     01/11/2026     | **Thời điểm hiện tại (27/10)**: Xác thực JWT, 1-Click Demo Login & Middleware RBAC 5 Roles   |
-|     **v0.8-rc**     | `10004` |      Tuần 8 - 9      |     **Unreleased**     |     15/11/2026     | Kiểm toán & Kiểm thử: Centralized Audit Trail Logging & Automated QA Testing Suite                    |
-|     **v1.0.0**     | `10005` |     Tuần 10 - 15     |     **Unreleased**     |     27/12/2026     | Hoàn thiện & Bàn giao: Tối ưu hiệu năng, Docker Compose, Nghiệm thu UAT & Thuyết trình          |
-
----
-
-## 4. DANH MỤC 11 EPICS ÁNH XẠ GITHUB REPOSITORY
-
-| STT |                            Mã Epic Jira                            | Tên Epic Nghiệp Vụ                                                 |      Tuần Áp Dụng      | Mô Tả Trọng Tâm                                                                      | Tài Liệu & Mã Nguồn Trên GitHub                                                                                                                                                                                                                                                                                                              |
-| :-: | :-----------------------------------------------------------------: | :-------------------------------------------------------------------- | :------------------------: | :--------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-|  1  | [KAN-38](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-38) | **EPIC-00: Khảo Sát, Phân Tích & Thiết Kế Kiến Trúc**   |        Tuần 1 - 4        | Đặc tả SRS IEEE 830, Thông tư 22, Sơ đồ UML và CSDL PostgreSQL 3NF              | [USE_CASES.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/USE_CASES.md)[UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)                                                                                                                                               |
-|  2  | [KAN-64](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-64) | **EPIC-10: Thiết Kế Giao Diện Trực Quan (Wireframes)**      |          Tuần 2          | Bộ 8 Wireframes phân hệ cho 5 nhóm tác nhân và Design System                      | [member2_Frontend/](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend)[Week2 UXUI .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week2%20UXUI%20.md>)                                                                                                                    |
-|  3  |  [KAN-8](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-8)  | **EPIC-02: Quản lý Hồ sơ, Lớp học & Đào tạo**          |        Tuần 1 & 3        | Danh mục Khối/Lớp, Hồ sơ Học sinh, CSDL PostgreSQL 3NF                             | [database/ERD.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/ERD.md)[database/schema.sql](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/schema.sql)                                                                                                                                      |
-|  4  |  [KAN-9](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-9)  | **EPIC-03: Điểm danh & Chuyên cần Học đường**           |          Tuần 4          | Điểm danh đầu giờ (GVCN), điểm danh theo tiết (GVBM), cảnh báo vắng 20%       | [CHI_TIET_NGHIEP_VU.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)                                                                                                                                                                                                                      |
-|  5  | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) | **EPIC-04: Sổ điểm Điện tử Thông tư 22**                |          Tuần 5          | Lưới nhập điểm Spreadsheet, tự động tính ĐTBmhk chia 9, khóa sổ LOCKED       | [GradebookPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/GradebookPage.jsx)[gpaCalculationLogic.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member4_Logic_Security/gpaCalculationLogic.js)                                                       |
-|  6  | [KAN-11](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-11) | **EPIC-05: Giao dịch Điểm ACID & Mẫu Thiết kế**           |          Tuần 5          | Repository Pattern, Unit of Work bảo toàn giao dịch cho 45 học sinh                  | [UnitOfWork.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/utils/UnitOfWork.js)[GradeBookRepository.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/repositories/GradeBookRepository.js) |
-|  7  | [KAN-13](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-13) | **EPIC-07: Thời khóa biểu & Chống Xung đột Lịch**        |          Tuần 5          | Thời khóa biểu tự động kiểm tra chống trùng giáo viên và phòng học         | [CHI_TIET_NGHIEP_VU.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)                                                                                                                                                                                                                      |
-|  8  | [KAN-14](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-14) | **EPIC-08: Xuất Báo cáo & Cổng Giao tiếp Phụ huynh**      |          Tuần 6          | Export Engine Excel .xlsx, In ấn PDF học bạ và cổng phụ huynh                      | [exportEngine.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member5_Modules_QA/exportEngine.js)[ParentPortalPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx)                                                        |
-|  9  |  [KAN-6](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-6)  | **EPIC-01: Xác thực & Quản trị Phân quyền (Auth & RBAC)** | Tuần 7 (Hiện tại 27/10) | Đăng nhập JWT, 1-Click Demo Login, Middleware RBAC 5 Roles                            | [LoginPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/auth/LoginPage.jsx)[rbacMiddleware.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member4_Logic_Security/rbacMiddleware.js)                                                                       |
-| 10 | [KAN-12](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-12) | **EPIC-06: Nhật ký Kiểm toán Học vụ (Audit Trail)**       |          Tuần 8          | Ghi vết sửa điểm, lịch sử truy cập và nhật ký kiểm toán trung tâm           | [AuditLogger.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js)[Week8 Logging .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week8%20Logging%20.md>)                                                             |
-| 11 | [KAN-63](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-63) | **EPIC-09: Tiến Độ 15 Tuần Nghiên Cứu Môn Học**         |        Tuần 1 - 15        | Tập hợp 15 mốc báo cáo nghiên cứu học thuật hàng tuần (WEEK-01 đến WEEK-15) | [timeline.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/timeline.md)[BrainStorm/](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/BrainStorm)                                                                                                                                                               |
-
----
-
-## 5. BÁO CÁO 8 CHUYÊN ĐỀ NGHIÊN CỨU HỌC THUẬT (CHUYÊN ĐỀ .DOCX)
-
-|                            Mã Thẻ Jira                            | Tên Báo Cáo Chuyên Đề                                                  |  Tuần  | Phân Hệ Component          |  Phiên Bản  |     Trạng Thái     | Người Phụ Trách     | Liên Kết Tệp Word Trên GitHub                                                                                                                                                        |
-| :-----------------------------------------------------------------: | :--------------------------------------------------------------------------- | :-----: | :--------------------------- | :------------: | :-------------------: | :---------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [KAN-88](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-88) | **CD-01: Chuyên đề 1 - Giao diện UI/UX & Web SPA**                 | Tuần 2 | UI/UX & Frontend             | `v0.1-alpha` |    **Done**    | Võ Hoàng Sơn         | [Chuyên Đề 1 UXUI.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%90%E1%BB%81%201%20UXUI.docx>)                                     |
-| [KAN-89](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-89) | **CD-02: Chuyên đề 2 - CSDL PostgreSQL 3NF & Storages**             | Tuần 3 | Database & PostgreSQL        | `v0.2-alpha` |    **Done**    | Huỳnh Trung Tính      | [Chuyên đề 2 Storages.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%202%20Storages.docx>)                             |
-| [KAN-90](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-90) | **CD-03: Chuyên đề 3 - Kiến trúc Phần mềm Clean Architecture**  | Tuần 4 | Backend & Clean Architecture | `v0.2-alpha` |    **Done**    | Huỳnh Trung Tính      | [Chuyên đề 3 Kiến trúc.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%203%20Ki%E1%BA%BFn%20tr%C3%BAc.docx>)          |
-| [KAN-91](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-91) | **CD-04: Chuyên đề 4 - Mẫu Thiết kế Patterns & Giao dịch ACID** | Tuần 5 | Core Logic & Circular 22     | `v0.5-beta` |    **Done**    | Trần Quang Vinh        | [Chuyên đề 4 Pattern.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%204%20Pattern.docx>)                               |
-| [KAN-92](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-92) | **CD-05: Chuyên đề 5 - Động cơ Xuất Báo cáo Excel & PDF**     | Tuần 6 | Reporting & Export Engine    | `v0.5-beta` |    **Done**    | Nguyễn Minh Quốc Bảo | [Chuyên đề 5 Export.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%205%20Export.docx>)                                 |
-| [KAN-93](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-93) | **CD-06: Chuyên đề 6 - Xác thực JWT & Phân quyền RBAC 5 Roles** | Tuần 7 | Security & Authentication    | `v0.7-beta` | **In Progress** | Trần Quang Vinh        | [Chuyên đề 6 Authentication.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%206%20Authentication%20Authorization.docx>) |
-| [KAN-94](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-94) | **CD-07: Chuyên đề 7 - Ghi Nhật ký Kiểm toán (Audit Trail)**    | Tuần 8 | Audit & Centralized Logging  |  `v0.8-rc`  |    **To Do**    | Huỳnh Trung Tính      | [Chuyên đề 7 Logging.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%207%20Logging.docx>)                               |
-| [KAN-95](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-95) | **CD-08: Chuyên đề 8 - Kiểm thử Tự động QA Unit Suite & UAT**  | Tuần 9 | QA, Testing & Verification   |  `v0.8-rc`  |    **To Do**    | Nguyễn Minh Quốc Bảo | [Chuyên đề 8 Testing.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%208%20Testing.docx>)                               |
-
----
-
-## 6. HỒ SƠ ĐẶC TẢ KIẾN TRÚC & HỢP ĐỒNG KỸ THUẬT (DOCS/ .MD)
-
-|                             Mã Thẻ Jira                             | Tên Hồ Sơ Kỹ Thuật                                                                         | Phân Hệ Component           |  Phiên Bản  |  Trạng Thái  | Người Phụ Trách | Liên Kết Tài Liệu Trên GitHub                                                                                                                               |
-| :-------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------- | :---------------------------- | :------------: | :-------------: | :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  [KAN-96](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-96)  | **DOC-01: Đặc tả Hợp đồng RESTful API Specification**                               | Backend & Clean Architecture  | `v0.2-alpha` | **Done** | Huỳnh Trung Tính  | [docs/API_SPECIFICATION.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/API_SPECIFICATION.md)                                           |
-|  [KAN-97](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-97)  | **DOC-02: Báo cáo Toàn diện Kiến trúc, API, Layout & Docker (91KB)**                | Project Management & Research | `v0.2-alpha` | **Done** | Võ Duy Bình       | [docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md) |
-|  [KAN-98](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-98)  | **DOC-03: Phân tích Chi tiết Công nghệ & Ngăn xếp Kỹ thuật (61KB)**              | Project Management & Research | `v0.1-alpha` | **Done** | Võ Duy Bình       | [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_CONG_NGHE_HE_THONG.md)                       |
-|  [KAN-99](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-99)  | **DOC-04: Hồ sơ Đặc tả Nghiệp vụ Chi tiết & Khung Quy chế Học đường (16KB)** | Project Management & Research | `v0.1-alpha` | **Done** | Võ Duy Bình       | [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)                       |
-| [KAN-100](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-100) | **DOC-05: Kịch bản Trình diễn Phần mềm & Kiểm chứng 5 Roles (Demo Script 32KB)**  | Project Management & Research |   `v1.0.0`   | **To Do** | Võ Duy Bình       | [docs/KICH_BAN_DEMO.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/KICH_BAN_DEMO.md)                                                   |
-
----
-
-## 7. DANH SÁCH CHI TIẾT 91 THẺ THEO 15 TUẦN HỌC KỲ
-
-### Nhóm Thành Viên Dự Án (Idea Column)
-
-- [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33): MEMBER-01 - Võ Duy Bình (PM & Lead BA) | [GitHub: members/member1_PM_BA](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member1_PM_BA)
-- [KAN-34](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-34): MEMBER-02 - Võ Hoàng Sơn (Dev Frontend) | [GitHub: members/member2_Frontend](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend)
-- [KAN-35](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-35): MEMBER-03 - Huỳnh Trung Tính (Dev Backend) | [GitHub: members/member3_Backend_DB](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member3_Backend_DB)
-- [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36): MEMBER-04 - Trần Quang Vinh (Logic Security) | [GitHub: members/member4_Logic_Security](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member4_Logic_Security)
-- [KAN-37](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-37): MEMBER-05 - Nguyễn Minh Quốc Bảo (Tester QA Lead) | [GitHub: members/member5_Modules_QA](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member5_Modules_QA)
-
-### Tuần 1 (14/09/2026 - 20/09/2026): Khảo Sát & Đặc Tả SRS IEEE 830 (Version v0.1-alpha - Done)
-
-- [KAN-39](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-39): SRS-01 - Khảo sát & Biên soạn SRS theo chuẩn IEEE 830 (Done) | [GitHub: USE_CASES.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/USE_CASES.md)
-- [KAN-40](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-40): SRS-02 - Đặc tả chi tiết 43 Use Cases cho 5 nhóm tác nhân (Done) | [GitHub: USE_CASES.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/USE_CASES.md)
-- [KAN-41](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-41): SRS-03 - Xây dựng Ma trận Truy xuất Yêu cầu RTM Matrix (Done) | [GitHub: Requirements_Traceability_Matrix.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/Requirements_Traceability_Matrix.md)
-- [KAN-42](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-42): SRS-04 - Chuẩn hóa khung pháp lý Thông tư 22/2021/TT-BGDĐT (Done) | [GitHub: CHI_TIET_NGHIEP_VU_HE_THONG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)
-- [KAN-98](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-98): DOC-03 - Phân tích Chi tiết Công nghệ & Ngăn xếp Kỹ thuật Hệ thống (Done) | [GitHub: docs/CHI_TIET_CONG_NGHE_HE_THONG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_CONG_NGHE_HE_THONG.md)
-- [KAN-99](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-99): DOC-04 - Hồ sơ Đặc tả Nghiệp vụ Chi tiết & Khung Quy chế Học đường THPT (Done) | [GitHub: docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)
-- [KAN-17](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-17): PBI-03 - Quản lý danh mục Lớp học & Hồ sơ Học sinh (Done) | [GitHub: PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
-- [KAN-18](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-18): PBI-04 - Phân công giảng dạy môn học theo từng lớp (Done) | [GitHub: PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
-- [KAN-65](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-65): WEEK-01 - Báo cáo Tuần 1: Yêu cầu SRS & Pháp lý Thông tư 22 (Done) | [GitHub: Week1 TL SRS .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week1%20TL%20SRS%20.md>)
-
-### Tuần 2 (21/09/2026 - 27/09/2026): Chuyên Đề 1 - UI/UX & Wireframes (Version v0.1-alpha - Done)
-
-- [KAN-55](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-55): UI-01 - Nghiên cứu Web SPA Responsive vs Desktop WinForms (Done) | [GitHub: Week2 UXUI .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week2%20UXUI%20.md>)
-- [KAN-56](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-56): UI-02 - Xây dựng Design System & TailwindCSS (Done) | [GitHub: member2_Frontend/](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend)
-- [KAN-80](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-80): WF-01 - Wireframe Đăng nhập 5 Roles & 1-Click Demo Login (Done) | [GitHub: LoginPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/auth/LoginPage.jsx)
-- [KAN-81](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-81): WF-02 - Wireframe Dashboard Ban Giám Hiệu (Done) | [GitHub: BGHDashboardPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/bgh/BGHDashboardPage.jsx)
-- [KAN-82](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-82): WF-03 - Wireframe Giám sát Chuyên cần Toàn trường (Done) | [GitHub: BGHAttendanceMonitorPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/bgh/BGHAttendanceMonitorPage.jsx)
-- [KAN-83](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-83): WF-04 - Wireframe Lưới Sổ Điểm Spreadsheet (GVBM) (Done) | [GitHub: GradebookPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/GradebookPage.jsx)
-- [KAN-84](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-84): WF-05 - Wireframe Điểm Danh Chuyên Cần Theo Tiết (Done) | [GitHub: AttendancePage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/AttendancePage.jsx)
-- [KAN-85](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-85): WF-06 - Wireframe Cổng Giáo Viên Chủ Nhiệm (Done) | [GitHub: GVCNDashboardPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/GVCNDashboardPage.jsx)
-- [KAN-86](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-86): WF-07 - Wireframe Sổ Liên Lạc Điện Tử & Cổng Phụ Huynh (Done) | [GitHub: ParentPortalPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx)
-- [KAN-87](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-87): WF-08 - Wireframe Bảng Điểm Cá Nhân Học Sinh (Done) | [GitHub: member2_Frontend/src/pages/](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/tree/main/members/member2_Frontend/src/pages)
-- [KAN-88](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-88): CD-01 - Chuyên đề 1: Nghiên cứu Giao diện UI/UX & Responsive Web SPA (Done) | [GitHub: Chuyên Đề 1 UXUI.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%90%E1%BB%81%201%20UXUI.docx>)
-- [KAN-66](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-66): WEEK-02 - Báo cáo Tuần 2: Nghiên cứu UI/UX & Wireframes (Done) | [GitHub: Week2 UXUI .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week2%20UXUI%20.md>)
-
-### Tuần 3 (28/09/2026 - 04/10/2026): Chuyên Đề 2 - CSDL PostgreSQL & ERD 3NF (Version v0.2-alpha - Done)
-
-- [KAN-51](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-51): ERD-01 - Thiết kế Sơ đồ Thực thể Quan hệ CSDL Chuẩn Hóa 3NF (Done) | [GitHub: database/ERD.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/ERD.md)
-- [KAN-52](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-52): ERD-02 - Xây dựng Từ điển Dữ liệu (Data Dictionary) 14 bảng quan hệ (Done) | [GitHub: database/ERD.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/ERD.md)
-- [KAN-53](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-53): ERD-03 - Lập trình tập lệnh DDL PostgreSQL schema.sql (Done) | [GitHub: database/schema.sql](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/database/schema.sql)
-- [KAN-54](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-54): ERD-04 - Cẩm nang Quản trị CSDL POSTGRESQL_GUIDE.md (Done) | [GitHub: POSTGRESQL_GUIDE.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/POSTGRESQL_GUIDE.md)
-- [KAN-16](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-16): PBI-18 - Cấu hình Singleton PostgreSQL Connection Pool (Done) | [GitHub: db.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/config/db.js)
-- [KAN-89](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-89): CD-02 - Chuyên đề 2: Giải pháp Lưu trữ CSDL Quan hệ PostgreSQL Chuẩn Hóa 3NF (Done) | [GitHub: Chuyên đề 2 Storages.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%202%20Storages.docx>)
-- [KAN-67](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-67): WEEK-03 - Báo cáo Tuần 3: CSDL PostgreSQL, ERD 3NF & Schema (Done) | [GitHub: Week3 DB .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week3%20DB%20.md>)
-
-### Tuần 4 (05/10/2026 - 11/10/2026): Chuyên Đề 3 - Clean Architecture & UML Diagrams (Version v0.2-alpha - Done)
-
-- [KAN-43](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-43): UML-01 - Sơ đồ Use Case Tổng thể & 5 Sơ đồ Phân rã chức năng (Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
-- [KAN-44](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-44): UML-02 - Sơ đồ Lớp thực thể Clean Architecture (Class Diagram) (Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
-- [KAN-45](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-45): UML-03 - Sơ đồ Tuần tự SD-01: Xác thực JWT & Phân quyền RBAC (Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
-- [KAN-46](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-46): UML-04 - Sơ đồ Tuần tự SD-02: Nhập bảng điểm hàng loạt & ACID (Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
-- [KAN-47](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-47): UML-05 - Sơ đồ Tuần tự SD-03: Điểm danh & Duyệt đơn nghỉ học (Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
-- [KAN-48](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-48): UML-06 - Sơ đồ Tuần tự SD-04: Thu học phí & Xuất biên lai PDF (Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
-- [KAN-49](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-49): UML-07 - Sơ đồ Hoạt động (Activity Diagram) tính điểm và khóa sổ (Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
-- [KAN-50](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-50): UML-08 - Sơ đồ Triển khai Hạ tầng Docker (Deployment Diagram) (Done) | [GitHub: docs/UML_DIAGRAMS.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UML_DIAGRAMS.md)
-- [KAN-19](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-19): PBI-05 - Điểm danh chuyên cần đầu giờ (GVCN) (Done) | [GitHub: docs/PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
-- [KAN-25](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-25): PBI-06 - Điểm danh chi tiết theo từng tiết học (GVBM) (Done) | [GitHub: docs/PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
-- [KAN-26](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-26): PBI-07 - Tự động cảnh báo học sinh vắng quá 20% số tiết (Done) | [GitHub: docs/PRODUCT_BACKLOG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/PRODUCT_BACKLOG.md)
-- [KAN-96](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-96): DOC-01 - Đặc tả Giao diện Lập trình Ứng dụng & Hợp đồng API RESTful (Done) | [GitHub: docs/API_SPECIFICATION.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/API_SPECIFICATION.md)
-- [KAN-97](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-97): DOC-02 - Báo cáo Giải thích Toàn diện Kiến trúc, API, Layout & Triển khai Docker (Done) | [GitHub: docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md)
-- [KAN-90](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-90): CD-03 - Chuyên đề 3: Kiến trúc Phần mềm Clean Architecture & Thiết kế Hệ thống 4 Tầng (Done) | [GitHub: Chuyên đề 3 Kiến trúc.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%203%20Ki%E1%BA%BFn%20tr%C3%BAc.docx>)
-- [KAN-68](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-68): WEEK-04 - Báo cáo Tuần 4: Clean Architecture & UML Diagrams (Done) | [GitHub: Week4 KT .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week4%20KT%20.md>)
-
-### Tuần 5 (12/10/2026 - 18/10/2026): Chuyên Đề 4 - Patterns, ACID & Sổ Điểm TT22 (Version v0.5-beta - Done)
-
-- [KAN-23](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-23): PBI-11 - Repository Pattern trừu tượng hóa câu lệnh SQL (Done) | [GitHub: GradeBookRepository.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/repositories/GradeBookRepository.js)
-- [KAN-24](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-24): PBI-12 - Unit of Work bảo vệ giao dịch ACID 45 học sinh (Done) | [GitHub: UnitOfWork.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/utils/UnitOfWork.js)
-- [KAN-20](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-20): PBI-08 - Nhập điểm thành phần trên giao diện Spreadsheet (Done) | [GitHub: GradebookPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/gv/GradebookPage.jsx)
-- [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21): PBI-09 - Tự động tính ĐTBmhk chia 9 và xếp loại Thông tư 22 (Done) | [GitHub: gpaCalculationLogic.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member4_Logic_Security/gpaCalculationLogic.js)
-- [KAN-22](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-22): PBI-10 - Cơ chế chốt khóa sổ điểm học kỳ LOCKED (Done) | [GitHub: GradeBookService.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/services/GradeBookService.js)
-- [KAN-28](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-28): PBI-14 - Thời khóa biểu tự động kiểm tra chống xung đột lịch dạy (Done) | [GitHub: CHI_TIET_NGHIEP_VU_HE_THONG.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)
-- [KAN-91](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-91): CD-04 - Chuyên đề 4: Mẫu Thiết kế Phần mềm (Design Patterns) & Giao dịch ACID (Done) | [GitHub: Chuyên đề 4 Pattern.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%204%20Pattern.docx>)
-- [KAN-69](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-69): WEEK-05 - Báo cáo Tuần 5: Mẫu Thiết Kế Patterns & ACID (Done) | [GitHub: Week5 Pattern .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week5%20Pattern%20.md>)
-
-### Tuần 6 (19/10/2026 - 25/10/2026): Chuyên Đề 5 - Export Engine & Cổng Phụ Huynh (Version v0.5-beta - Done)
-
-- [KAN-30](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-30): PBI-15 - Xuất bảng điểm lớp ra file Excel .xlsx (SheetJS) (Done) | [GitHub: exportEngine.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member5_Modules_QA/exportEngine.js)
-- [KAN-31](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-31): PBI-16 - Xuất và in ấn phiếu báo điểm / học bạ PDF (jsPDF) (Done) | [GitHub: exportEngine.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member5_Modules_QA/exportEngine.js)
-- [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29): PBI-17 - Cổng phụ huynh tra cứu điểm tức thời & nộp đơn nghỉ học (Done) | [GitHub: ParentPortalPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx)
-- [KAN-92](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-92): CD-05 - Chuyên đề 5: Động cơ Xuất Báo cáo Đa định dạng (Excel & PDF) (Done) | [GitHub: Chuyên đề 5 Export.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%205%20Export.docx>)
-- [KAN-70](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-70): WEEK-06 - Báo cáo Tuần 6: Export Engine (Excel & PDF) (Done) | [GitHub: Week6 Export .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week6%20Export%20.md>)
-
-### Tuần 7 (26/10/2026 - 01/11/2026): Chuyên Đề 6 - Xác Thực JWT & RBAC (Version v0.7-beta - THỜI ĐIỂM HIỆN TẠI: 27/10/2026)
-
-- [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7): PBI-01 - Đăng nhập hệ thống & tính năng 1-Click Demo Login 5 Roles (Done) | [GitHub: LoginPage.jsx](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member2_Frontend/src/pages/auth/LoginPage.jsx)
-- [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15): PBI-02 - Middleware phân quyền RBAC 5 cấp bậc bảo vệ Endpoints (Done) | [GitHub: rbacMiddleware.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member4_Logic_Security/rbacMiddleware.js)
-- [KAN-93](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-93): CD-06 - Chuyên đề 6: Xác thực Bảo mật JWT, Session Token & Phân quyền RBAC (**In Progress**) | [GitHub: Chuyên đề 6 Authentication.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%206%20Authentication%20Authorization.docx>)
-- [KAN-71](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-71): WEEK-07 - Báo cáo Tuần 7: Xác thực JWT & Phân quyền RBAC (**In Progress**) | [GitHub: BrainStorm/Week7.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week7.md)
-
-### Các Tuần Tiếp Theo (Từ Tuần 8 Đến Tuần 15 - Sau Ngày 27/10/2026)
-
-- **Tuần 8 (02/11 - 08/11/2026 - Version v0.8-rc)**:
-  - [KAN-27](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-27): PBI-13 - Ghi nhật ký kiểm toán Audit Trail lưu vết sửa điểm (To Do) | [GitHub: AuditLogger.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js)
-  - [KAN-94](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-94): CD-07 - Chuyên đề 7: Ghi Nhật ký Kiểm toán Trung tâm (Audit Trail) (To Do) | [GitHub: Chuyên đề 7 Logging.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%207%20Logging.docx>)
-  - [KAN-72](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-72): WEEK-08 - Báo cáo Tuần 8: Centralized Audit Logging (To Do) | [GitHub: Week8 Logging .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week8%20Logging%20.md>)
-- **Tuần 9 (09/11 - 15/11/2026 - Version v0.8-rc)**:
-  - [KAN-32](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-32): PBI-19 - Bộ kiểm thử tự động QA Unit Testing Suite (To Do) | [GitHub: unitTestingSuite.test.js](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/members/member5_Modules_QA/tests/unitTestingSuite.test.js)
-  - [KAN-95](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-95): CD-08 - Chuyên đề 8: Kiểm thử Tự động & Đảm bảo Chất lượng Phần mềm (To Do) | [GitHub: Chuyên đề 8 Testing.docx](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%208%20Testing.docx>)
-  - [KAN-73](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-73): WEEK-09 - Báo cáo Tuần 9: Automated QA Testing (To Do) | [GitHub: Week9 Testing .md](<https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week9%20Testing%20.md>)
-- **Tuần 10 (16/11 - 22/11/2026 - Version v1.0.0)**:
-  - [KAN-74](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-74): WEEK-10 - Tích hợp hệ thống & phòng thủ OWASP Top 10 (To Do) | [GitHub: Week10.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week10.md)
-- **Tuần 11 (23/11 - 29/11/2026 - Version v1.0.0)**:
-  - [KAN-75](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-75): WEEK-11 - Tối ưu hóa hiệu năng, Indexes & Redis Caching (To Do) | [GitHub: Week11.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week11.md)
-- **Tuần 12 (30/11 - 06/12/2026 - Version v1.0.0)**:
-  - [KAN-76](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-76): WEEK-12 - Đóng gói Docker Compose & CI/CD GitHub Actions (To Do) | [GitHub: Week12.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week12.md)
-- **Tuần 13 (07/12 - 13/12/2026 - Version v1.0.0)**:
-  - [KAN-61](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-61): QA-01 - Kịch bản kiểm thử chấp nhận người dùng UAT Plan (Done) | [GitHub: UAT_Testing_Plan.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/UAT_Testing_Plan.md)
-  - [KAN-77](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-77): WEEK-13 - Nghiệm thu kỹ thuật & UAT 43 Use Cases (To Do) | [GitHub: Week13.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week13.md)
-- **Tuần 14 (14/12 - 20/12/2026 - Version v1.0.0)**:
-  - [KAN-62](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-62): QA-02 - Cẩm nang triển khai hệ thống Deployment Guide (Done) | [GitHub: DEPLOYMENT_GUIDE.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/DEPLOYMENT_GUIDE.md)
-  - [KAN-78](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-78): WEEK-14 - Đóng gói Release v1.0 & Cẩm nang Hướng dẫn Sử dụng (To Do) | [GitHub: Week14.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week14.md)
-- **Tuần 15 (21/12 - 27/12/2026 - Version v1.0.0)**:
-  - [KAN-100](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-100): DOC-05 - Kịch bản Trình diễn Phần mềm & Kiểm chứng 5 Nhóm Vai trò (To Do) | [GitHub: docs/KICH_BAN_DEMO.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/docs/KICH_BAN_DEMO.md)
-  - [KAN-79](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-79): WEEK-15 - Tổng kết dự án, Thuyết trình bảo vệ & Đánh giá KPI (To Do) | [GitHub: Week15.md](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob/main/BrainStorm/Week15.md)
-
----
-
-## 8. MA TRẬN LIÊN KẾT PHỤ THUỘC & TRUY XUẤT (ISSUE LINKS: BLOCKS & RELATES)
-
-Hệ thống Jira đã được thiết lập các liên kết Issue Links trực tiếp nhằm đảm bảo tính truy xuất và quản lý rủi ro kỹ thuật:
-
-| Loại Liên Kết (Link Type) |                     Thẻ Nguồn (Inward Issue)                     | Quan Hệ Phụ Thuộc |                     Thẻ Đích (Outward Issue)                     | Ý Nghĩa Kỹ Thuật                                                                      |
-| :--------------------------: | :-----------------------------------------------------------------: | :------------------: | :-----------------------------------------------------------------: | :---------------------------------------------------------------------------------------- |
-|       **Blocks**       |  [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7)  |   **Blocks**   | [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15) | Cơ chế xác thực JWT phải hoàn thiện trước khi phân quyền RBAC có hiệu lực   |
-|       **Blocks**       | [KAN-20](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-20) |   **Blocks**   | [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) | Nhập đủ các cột điểm thành phần là điều kiện tiên quyết để tính ĐTBmhk |
-|       **Blocks**       | [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) |   **Blocks**   | [KAN-22](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-22) | Phải tính xong điểm trung bình và xếp loại mới được phép khóa sổ LOCKED    |
-|       **Blocks**       | [KAN-51](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-51) |   **Blocks**   | [KAN-53](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-53) | Thiết kế sơ đồ quan hệ ERD 3NF chuẩn hóa trước khi sinh mã DDL SQL             |
-|      **Relates**      | [KAN-23](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-23) | **Relates to** | [KAN-24](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-24) | Repository Pattern phối hợp chặt chẽ cùng Unit of Work bảo toàn ACID               |
-|      **Relates**      | [KAN-53](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-53) | **Relates to** | [KAN-16](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-16) | Lược đồ schema SQL kết nối trực tiếp qua Singleton PostgreSQL Pool                |
-|      **Relates**      | [KAN-80](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-80) | **Relates to** |  [KAN-7](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-7)  | Wireframe WF-01 ánh xạ trực tiếp đến tính năng Đăng nhập & 1-Click Login       |
-|      **Relates**      | [KAN-83](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-83) | **Relates to** | [KAN-20](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-20) | Wireframe WF-04 định hình giao diện bảng nhập điểm Spreadsheet PBI-08             |
-|      **Relates**      | [KAN-86](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-86) | **Relates to** | [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29) | Wireframe WF-07 định hình cấu trúc cổng thông tin phụ huynh PBI-17                |
-|      **Relates**      | [KAN-30](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-30) | **Relates to** | [KAN-20](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-20) | Xuất báo cáo Excel trích xuất dữ liệu trực tiếp từ sổ điểm lớp học         |
-|      **Relates**      | [KAN-31](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-31) | **Relates to** | [KAN-20](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-20) | In ấn phiếu báo điểm PDF trích xuất từ bảng điểm cá nhân học sinh           |
-|      **Relates**      | [KAN-39](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-39) | **Relates to** | [KAN-41](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-41) | Đặc tả SRS IEEE 830 được đối chiếu qua Ma trận Truy xuất RTM                   |
-|      **Relates**      | [KAN-42](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-42) | **Relates to** | [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) | Quy chế Thông tư 22 định hướng công thức tính ĐTBmhk chia 9                    |
-
-```
-================================================================================
-KẾT LUẬN: HỆ THỐNG QUẢN LÝ JIRA KANBAN VÀ KHO GITHUB ĐÃ ĐỒNG BỘ 100% TUYỆT ĐỐI.
-MỌI HẠNG MỤC TỪ VAI TRÒ THÀNH VIÊN, 9 PHÂN HỆ COMPONENTS, 6 PHIÊN BẢN RELEASES,
-11 EPICS, 8 CHUYÊN ĐỀ WORD, 5 TÀI LIỆU KIẾN TRÚC VÀ 91 THẺ CÔNG VIỆC ĐÃ ĐƯỢC
-THIẾT LẬP CHUẨN MỰC, LIÊN KẾT WEB LINK VÀ XẾP THỨ TỰ THEO ĐÚNG TIẾN ĐỘ THỰC TẾ.
-================================================================================
+```mermaid
+graph TD
+    System["HỆ THỐNG QUẢN LÝ LỚP HỌC & HỌC VỤ THPT (HTQLLH / EDUMANAGE PRO)"]
+    
+    System --> M1["Module 1: Xác Thực & Quản Trị Phân Quyền (EPIC-01)"]
+    System --> M2["Module 2: Hồ Sơ Học Sinh & Lớp Học (EPIC-02)"]
+    System --> M3["Module 3: Thời Khóa Biểu & Chống Trùng Lịch (EPIC-03)"]
+    System --> M4["Module 4: Điểm Danh & Chuyên Cần 2 Cấp (EPIC-04)"]
+    System --> M5["Module 5: Sổ Điểm Điện Tử Thông Tư 22 (EPIC-05)"]
+    System --> M6["Module 6: Kiến Trúc ACID & Mẫu Thiết Kế (EPIC-06)"]
+    System --> M7["Module 7: Nhật Ký Kiểm Toán Audit Trail (EPIC-07)"]
+    System --> M8["Module 8: Sổ Liên Lạc & Cổng Phụ Huynh (EPIC-08)"]
+    System --> M9["Module 9: Học Phí & Thanh Toán VietQR (EPIC-09)"]
+    System --> M10["Module 10: Báo Cáo & Động Cơ Xuất Excel/PDF (EPIC-10)"]
 ```
 
+### Bảng Tổng Quan 10 Module Lớn (Epics)
+
+| STT | Mã Epic Jira | Tên Module Lớn | Mô Tả Phạm Vi Chức Năng Cốt Lõi | Khối Lượng (Story Points) | Thành Viên Điều Phối Chính |
+| :---: | :---: | :--- | :--- | :---: | :--- |
+| 1 | **EPIC-01** | **Xác thực, Quản trị Người dùng & Phân quyền (Auth & RBAC)** | Đăng nhập JWT Stateless, 1-Click Demo Login, Middleware RBAC 5 Roles, Quản lý tài khoản và phân quyền người dùng. | **13 SP** | **Trần Quang Vinh** |
+| 2 | **EPIC-02** | **Quản lý Hồ sơ Học sinh, Lớp học & Đào tạo** | Danh mục khối/lớp, hồ sơ học sinh chuẩn mã HS, phân công giáo viên bộ môn và chủ nhiệm. | **10 SP** | **Huỳnh Trung Tính** |
+| 3 | **EPIC-03** | **Quản lý Thời khóa biểu & Chống xung đột Lịch dạy** | Ma trận TKB tuần Thứ 2 - 7, thuật toán chống trùng tiết dạy giáo viên và phòng học, lịch thi học kỳ. | **7 SP** | **Võ Duy Bình** |
+| 4 | **EPIC-04** | **Điểm danh 2 Cấp & Quản lý Chuyên cần Học đường** | Điểm danh lớp đầu giờ (GVCN), điểm danh theo tiết (GVBM), cảnh báo vắng $\ge 20\%$ cấm thi, duyệt đơn nghỉ học. | **14 SP** | **Võ Hoàng Sơn** |
+| 5 | **EPIC-05** | **Sổ điểm Điện tử & Đánh giá Học vụ Thông tư 22** | Lưới nhập điểm Spreadsheet, công thức ĐTBmhk chia 9, xếp loại học lực TT22, quy đổi GPA hệ 10/4, chốt khóa sổ điểm 2 cấp. | **24 SP** | **Trần Quang Vinh** |
+| 6 | **EPIC-06** | **Giao dịch Dữ liệu ACID, Mẫu Thiết kế & CSDL** | Unit of Work Pattern (ACID), Repository Pattern trừu tượng hóa SQL, Singleton Connection Pool (`pg.Pool` 20 clients). | **19 SP** | **Huỳnh Trung Tính** |
+| 7 | **EPIC-07** | **Nhật ký Kiểm toán (Audit Trail) & An toàn Ứng dụng** | Dịch vụ `AuditLogger.js` lưu vết lịch sử sửa điểm không thể phủ nhận, Rate Limiting chống DoS, Header Helmet. | **10 SP** | **Trần Quang Vinh** |
+| 8 | **EPIC-08** | **Sổ liên lạc Điện tử & Kênh Giao tiếp Phụ huynh** | Cổng phụ huynh tra cứu điểm, xem chuyên cần, nộp đơn xin nghỉ học trực tuyến, kênh trao đổi tin nhắn với GVCN. | **9 SP** | **Võ Hoàng Sơn** |
+| 9 | **EPIC-09** | **Quản lý Học phí & Thanh toán Trực tuyến VietQR** | Danh mục khoản thu, tạo mã thanh toán VietQR tự động, gạch nợ `PAID`, sinh mã biên lai và tải biên lai PDF. | **8 SP** | **Võ Duy Bình** |
+| 10 | **EPIC-10** | **Báo cáo Học vụ & Động cơ Xuất Báo cáo Excel/PDF** | Động cơ xuất Excel (SheetJS), in ấn học bạ PDF (jsPDF), thống kê phổ điểm toàn trường, bộ kiểm thử tự động QA (68 tests). | **16 SP** | **Nguyễn Minh Quốc Bảo** |
+| — | **TỔNG CỘNG** | **10 MODULE LỚN HỆ THỐNG HTQLLH** | **Bao phủ 100% nghiệp vụ quy chuẩn trường THPT** | **112 SP** | **Cả 5 thành viên (20%/người)** |
 
 ---
 
-## 8. CẬP NHẬT PRODUCT BACKLOG V3.0 — ĐÃ ĐỒNG BỘ 100% LÊN JIRA CLOUD
+## PHẦN 2: BẢNG CHI TIẾT PHÂN TÁCH MODULE NHỎ & PHÂN CÔNG THÀNH VIÊN (DETAILED MODULE BREAKDOWN)
 
-> **Thời điểm hoàn tất đồng bộ:** 03/11/2026 — Đã cập nhật 7 thẻ cũ và tạo mới 8 thẻ trên Jira Cloud (Tổng cộng 99 thẻ công việc).
-> Toàn bộ thẻ mới đã được liên kết đúng Epic cha, gán người phụ trách, nhãn phân bổ Sprint và Story Points chuẩn xác.
+Mỗi Module lớn (Epic) được phân tách thành các **Module nhỏ (Features / User Stories / Tasks)** cụ thể, chỉ rõ thành viên nào chịu trách nhiệm từng mảng (Frontend, Backend, Database, Security, QA).
 
-### 8.1 Danh sách 7 thẻ Jira CŨ đã được CẬP NHẬT (Sửa Actor/Description chuẩn Scrum)
+---
 
-| Mã Thẻ Jira | PBI | Summary Mới Trên Jira | Nội Dung Cập Nhật | Trạng Thái |
-| :---: | :---: | :--- | :--- | :---: |
-| [KAN-15](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-15) | PBI-02 | PBI-02: Bảo vệ dữ liệu khỏi truy cập trái phép (RBAC) | Actor đổi thành: **Là Ban Giám Hiệu**; bổ sung ghi chú kỹ thuật `jwtAuthMiddleware` + `rbacMiddleware`. | **Done** |
-| [KAN-23](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-23) | PBI-11 | PBI-11: Hệ thống tải sổ điểm phản hồi nhanh (Repository Pattern) | Actor đổi thành: **Là Giáo viên Bộ môn**; ghi chú kỹ thuật `Repository Pattern`. | **Done** |
-| [KAN-24](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-24) | PBI-12 | PBI-12: Điểm cả lớp được lưu tất-cả-hoặc-không-có-ai (Unit of Work) | Actor đổi thành: **Là Giáo viên Bộ môn**; ghi chú kỹ thuật `Unit of Work` ACID. | **Done** |
-| [KAN-16](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-16) | PBI-18 | PBI-18: Hệ thống phản hồi nhanh khi nhiều GV nhập điểm đồng thời | Actor đổi thành: **Là Giáo viên / Người dùng**; chuyển Epic cha sang `EPIC-05` (KAN-11). | **Done** |
-| [KAN-21](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-21) | PBI-09 | PBI-09: Tự động tính ĐTBmhk chia 9 và xếp loại Thông tư 22 | Actor đổi thành: **Là Giáo viên Bộ môn**; chuẩn hóa công thức tính chia 9. | **Done** |
-| [KAN-32](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-32) | PBI-19 | PBI-19: Bộ kiểm thử tự động QA Unit Testing Suite | Đánh dấu rõ **Engineering Story** của QA Lead Nguyễn Minh Quốc Bảo. | **Done** |
-| [KAN-29](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-29) | PBI-17a | PBI-17a: Phụ huynh xem điểm số và hạnh kiểm của con | Đổi từ PBI-17 gộp thành PBI-17a chuyên biệt cho tính năng xem điểm/hạnh kiểm con. | **Done** |
+### MODULE 1: PHÂN HỆ XÁC THỰC, QUẢN TRỊ NGƯỜI DÙNG & PHÂN QUYỀN (AUTH & RBAC)
+*Mã Epic: **EPIC-01** | Trọng số: **13 Story Points** | Phụ trách chính: **Trần Quang Vinh** & **Võ Hoàng Sơn***
 
-### 8.2 Danh sách 8 thẻ Jira MỚI đã được TẠO THÀNH CÔNG
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-01** | **Xác thực Đăng nhập & Cấp phát JWT**<br>- Xác thực ID/Pass trên bảng `users`<br>- Cấp phát JWT Stateless thời hạn 24h<br>- Lưu trữ `localStorage` an toàn | `UC-STU-01`<br>`UC-GVCN-01`<br>`UC-GVBM-01`<br>`UC-ADM-01`<br>`UC-PAR-01` | 3 SP | • **Trần Quang Vinh**: Backend Auth API & JWT Token Logic<br>• **Võ Hoàng Sơn**: Giao diện đăng nhập 5 tabs & AuthContext | [AuthController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/AuthController.js)<br>[LoginPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/auth/LoginPage.jsx) | **DONE** |
+| **KAN-02** | **Tính năng Đăng Nhập Nhanh 1-Click Demo Login**<br>- Nút chuyển đổi vai trò nhanh trên giao diện<br>- Tự động điền tài khoản mẫu cho 5 vai trò<br>- Đăng nhập tức thời phục vụ hội đồng chấm thi | Cả 5 Vai Trò | 2 SP | • **Võ Hoàng Sơn**: Xây dựng nút 1-Click Login & Role Config<br>• **Trần Quang Vinh**: Tối ưu hóa xác thực demo | [LoginPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/auth/LoginPage.jsx) | **DONE** |
+| **KAN-03** | **Middleware Phân Quyền RBAC 5 Roles**<br>- Kiểm tra Token JWT trước mỗi request<br>- So khớp vai trò người dùng (RoleCode)<br>- Chặn truy cập trái phép với HTTP 403 Forbidden | `UC-ADM-02` | 3 SP | • **Trần Quang Vinh**: Lập trình `authMiddleware.js` & `rbacMiddleware.js`<br>• **Võ Hoàng Sơn**: Lập trình `ProtectedRoute.jsx` trên Frontend | [authMiddleware.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/middleware/authMiddleware.js)<br>[ProtectedRoute.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/components/common/ProtectedRoute.jsx) | **DONE** |
+| **KAN-04** | **Quản Trị Người Dùng & Phân Quyền Hệ Thống**<br>- Tạo mới, khóa tài khoản vi phạm<br>- Đặt lại mật khẩu mặc định `123456`<br>- Quản lý ma trận quyền trong `system_settings` | `UC-ADM-02` | 5 SP | • **Huỳnh Trung Tính**: Tầng Service & Controller quản trị User<br>• **Võ Hoàng Sơn**: Giao diện quản trị hệ thống SystemSettingsPage | [UserController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/UserController.js)<br>[SystemSettingsPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/settings/SystemSettingsPage.jsx) | **DONE** |
 
-| Mã Thẻ Jira | PBI | Tên Thẻ (Summary) | Epic Cha | Story Points | Người Phụ Trách | Nhãn (Labels) |
-| :---: | :---: | :--- | :---: | :---: | :--- | :--- |
-| [KAN-101](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-101) | **PBI-17b** | PBI-17b: Phụ huynh gửi đơn xin nghỉ học trực tuyến | [KAN-14](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-14) (EPIC-08) | 3 SP | **Võ Duy Bình** | `Member1-VoDuyBinh`, `Sprint-4`, `StoryPoints-3` |
-| [KAN-102](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-102) | **PBI-17c** | PBI-17c: GVCN duyệt đơn và tự động cập nhật điểm danh | [KAN-9](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-9) (EPIC-03) | 3 SP | **Võ Hoàng Sơn** | `Member2-VoHoangSon`, `Sprint-4`, `StoryPoints-3` |
-| [KAN-103](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-103) | **PBI-20** | PBI-20: Học sinh tra cứu bảng điểm chi tiết và GPA cá nhân | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) (EPIC-04) | 3 SP | **Võ Hoàng Sơn** | `Member2-VoHoangSon`, `Sprint-3`, `StoryPoints-3` |
-| [KAN-104](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-104) | **PBI-21** | PBI-21: Xem thời khóa biểu học tập và lịch thi | [KAN-8](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-8) (EPIC-02) | 2 SP | **Võ Duy Bình** | `Member1-VoDuyBinh`, `Sprint-2`, `StoryPoints-2` |
-| [KAN-105](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-105) | **PBI-22** | PBI-22: GVCN nhập đánh giá hạnh kiểm học sinh cuối kỳ | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) (EPIC-04) | 3 SP | **Võ Hoàng Sơn** | `Member2-VoHoangSon`, `Sprint-5`, `StoryPoints-3` |
-| [KAN-106](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-106) | **PBI-23** | PBI-23: BGH thống kê phổ điểm và xét khen thưởng toàn trường | [KAN-10](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-10) (EPIC-04) | 5 SP | **Võ Duy Bình** | `Member1-VoDuyBinh`, `Sprint-5`, `StoryPoints-5` |
-| [KAN-107](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-107) | **PBI-24** | PBI-24: Phụ huynh xem và thanh toán học phí qua VietQR | [KAN-14](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-14) (EPIC-08) | 5 SP | **Võ Duy Bình** | `Member1-VoDuyBinh`, `Sprint-5`, `StoryPoints-5` |
-| [KAN-108](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-108) | **PBI-25** | PBI-25: BGH quản lý tài khoản người dùng toàn hệ thống | [KAN-6](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-6) (EPIC-01) | 5 SP | **Huỳnh Trung Tính** | `Member3-HuynhTrungTinh`, `Sprint-1`, `StoryPoints-5` |
+---
 
+### MODULE 2: PHÂN HỆ QUẢN LÝ HỒ SƠ HỌC SINH, LỚP HỌC & ĐÀO TẠO
+*Mã Epic: **EPIC-02** | Trọng số: **10 Story Points** | Phụ trách chính: **Huỳnh Trung Tính** & **Võ Duy Bình***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-05** | **Quản Lý Danh Mục Lớp Học & Khối Lớp**<br>- Quản lý khối 10, 11, 12 và danh mục môn học<br>- Cấu hình sĩ số lớp chuẩn (35 - 45 học sinh)<br>- Ràng buộc toàn vẹn khóa ngoại không xóa lớp có HS | `UC-ADM-03` | 3 SP | • **Huỳnh Trung Tính**: Lập trình API `ClassController.js` & DDL bảng `school_classes`<br>• **Võ Duy Bình**: Phân tích quy chuẩn tổ chức lớp học | [ClassController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ClassController.js)<br>[schema.sql](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/database/schema.sql) | **DONE** |
+| **KAN-06** | **Quản Lý Hồ Sơ Học Sinh Toàn Trường**<br>- Quản lý mã học sinh duy nhất `HSxxxxx`<br>- Thông tin cá nhân, ngày sinh, giới tính, phụ huynh<br>- Bộ lọc thông minh theo lớp và trạng thái học sinh | `UC-ADM-03`<br>`UC-GVCN-03` | 4 SP | • **Huỳnh Trung Tính**: Tầng StudentService, StudentRepository<br>• **Võ Hoàng Sơn**: Giao diện danh sách học sinh StudentListPage | [StudentService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/StudentService.js)<br>[StudentListPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/students/StudentListPage.jsx) | **DONE** |
+| **KAN-07** | **Phân Công Giảng Dạy & Chủ Nhiệm**<br>- Phân công giáo viên bộ môn theo từng lớp<br>- Phân công giáo viên chủ nhiệm lớp học<br>- Kiểm tra chống trùng 1 môn cho 2 GV cùng kỳ | `UC-ADM-03` | 3 SP | • **Huỳnh Trung Tính**: Thuật toán phân công trong CSDL<br>• **Võ Duy Bình**: Đặc tả logic ràng buộc phân công học vụ | [ClassRepository.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/repositories/ClassRepository.js)<br>[schema.sql](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/database/schema.sql) | **DONE** |
+
+---
+
+### MODULE 3: PHÂN HỆ QUẢN LÝ THỜI KHÓA BIỂU & CHỐNG XUNG ĐỘT LỊCH DẠY
+*Mã Epic: **EPIC-03** | Trọng số: **7 Story Points** | Phụ trách chính: **Võ Duy Bình** & **Huỳnh Trung Tính***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-08** | **Lập & Hiển Thị Thời Khóa Biểu Tuần**<br>- Ma trận thời khóa biểu Thứ 2 - Thứ 7, Tiết 1 - 5<br>- Nạp 25 tiết học tuần mẫu cho lớp 10A1<br>- Phân chia ca sáng/chiều, phòng học chuyên dụng | `UC-ADM-03`<br>`UC-STU-03`<br>`UC-GVCN-04` | 3 SP | • **Huỳnh Trung Tính**: Lập trình API `ScheduleController.js`<br>• **Võ Hoàng Sơn**: Giao diện ma trận thời khóa biểu TimetablePage | [ScheduleController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ScheduleController.js)<br>[TimetablePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/schedule/TimetablePage.jsx) | **DONE** |
+| **KAN-09** | **Thuật Toán Kiểm Tra Chống Xung Đột Lịch Dạy**<br>- Tự động kiểm tra: 1 GV không dạy 2 lớp cùng tiết<br>- Tự động kiểm tra: 1 phòng không chứa 2 lớp cùng lúc<br>- Thông báo lỗi chi tiết khi phát hiện trùng lịch | `UC-ADM-03` | 2 SP | • **Võ Duy Bình**: Thiết kế thuật toán chống xung đột TKB<br>• **Huỳnh Trung Tính**: Lập trình câu lệnh truy vấn kiểm tra trùng lịch | [CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)<br>[ScheduleController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ScheduleController.js) | **DONE** |
+| **KAN-10** | **Quản Lý Lịch Thi & Tra Cứu Kỳ Thi THPT**<br>- Lập lịch thi giữa kỳ, cuối kỳ theo khối lớp<br>- Học sinh tra cứu ngày thi, giờ thi, số báo danh | `UC-STU-03` | 2 SP | • **Võ Duy Bình**: Biên soạn đặc tả dữ liệu lịch thi năm học 2026<br>• **Võ Hoàng Sơn**: Giao diện tra cứu lịch thi StudentExamsPage | [StudentExamsPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/student/StudentExamsPage.jsx) | **DONE** |
+
+---
+
+### MODULE 4: PHÂN HỆ ĐIỂM DANH 2 CẤP & QUẢN LÝ ĐƠN XIN NGHỈ HỌC
+*Mã Epic: **EPIC-04** | Trọng số: **14 Story Points** | Phụ trách chính: **Võ Hoàng Sơn** & **Nguyễn Minh Quốc Bảo***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-11** | **Điểm Danh Lớp Đầu Giờ Hàng Ngày (GVCN)**<br>- Đánh dấu: Có mặt, Vắng có phép, Vắng không phép, Trễ<br>- Mặc định toàn bộ lớp "Có mặt" để điểm danh nhanh<br>- Lưu vết lịch sử điểm danh theo ngày vào CSDL | `UC-GVCN-05` | 3 SP | • **Võ Hoàng Sơn**: Giao diện điểm danh tương tác AttendancePage<br>• **Huỳnh Trung Tính**: Lập trình API `AttendanceController.js` | [AttendancePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/AttendancePage.jsx)<br>[AttendanceController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/AttendanceController.js) | **DONE** |
+| **KAN-12** | **Điểm Danh Chuyên Cần Theo Tiết Học (GVBM)**<br>- Điểm danh học sinh từng tiết dạy (Tiết 1 - 5)<br>- Ghi nhận giáo viên điểm danh qua `recorded_by`<br>- Ngăn chặn tình trạng học sinh trốn tiết giữa buổi | `UC-GVBM-05` | 3 SP | • **Võ Hoàng Sơn**: Tích hợp chế độ chọn tiết dạy trên giao diện<br>• **Nguyễn Minh Quốc Bảo**: Kiểm thử ca điểm danh trùng tiết | [AttendancePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/AttendancePage.jsx) | **DONE** |
+| **KAN-13** | **Tự Động Cảnh Báo Học Sinh Vắng Quá 20% Số Tiết**<br>- Công thức: `(số buổi vắng / tổng buổi) * 100%`<br>- Cảnh báo đỏ học sinh nguy cơ bị cấm thi cuối kỳ<br>- BGH giám sát chuyên cần toàn trường theo khối | `UC-ADM-05`<br>`UC-GVCN-05` | 5 SP | • **Võ Hoàng Sơn**: Giao diện màn hình giám sát BGHAttendanceMonitor<br>• **Nguyễn Minh Quốc Bảo**: Viết kiểm thử tự động ngưỡng 20% vắng | [BGHAttendanceMonitorPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/BGHAttendanceMonitorPage.jsx)<br>[unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) | **DONE** |
+| **KAN-14** | **Quy Trình Duyệt Đơn Nghỉ Học Tự Động Hóa**<br>- GVCN xem danh sách đơn nghỉ học `PENDING`<br>- Bấm "Duyệt" $\rightarrow$ tự động đổi điểm danh thành `EXCUSED`<br>- Bấm "Từ chối" $\rightarrow$ giữ nguyên trạng thái vắng | `UC-GVCN-06` | 3 SP | • **Võ Hoàng Sơn**: Modal duyệt đơn trực tiếp trên trang điểm danh<br>• **Huỳnh Trung Tính**: Xử lý logic liên kết bảng `leave_requests` và `attendances` | [AttendancePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/AttendancePage.jsx)<br>[LeaveRequestController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/LeaveRequestController.js) | **DONE** |
+
+---
+
+### MODULE 5: PHÂN HỆ SỔ ĐIỂM ĐIỆN TỬ & ĐÁNH GIÁ THÔNG TƯ 22
+*Mã Epic: **EPIC-05** | Trọng số: **24 Story Points** | Phụ trách chính: **Trần Quang Vinh** & **Võ Hoàng Sơn***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-15** | **Lưới Nhập Điểm Spreadsheet Tương Tác Trực Tiếp**<br>- Giao diện bảng tính cố định cột Mã và Tên HS<br>- Kiểm tra hợp lệ điểm nhập trong khoảng $[0.0, 10.0]$<br>- Chỉ cho phép nhập khi sổ ở trạng thái mở `OPEN` | `UC-GVBM-06`<br>`UC-GVBM-07` | 8 SP | • **Võ Hoàng Sơn**: Lập trình giao diện lưới GradebookPage<br>• **Trần Quang Vinh**: Xác thực miền dữ liệu điểm hợp lệ | [GradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/GradebookPage.jsx) | **DONE** |
+| **KAN-16** | **Thuật Toán Tính ĐTBmhk Thông Tư 22 & GPA 10/4**<br>- Trọng số: $(TX1+TX2+TX3\times2+GK\times2+CK\times3)\div9$<br>- Quy đổi GPA hệ 10 sang thang điểm 4.0 chuẩn đại học<br>- Làm tròn chính xác 1 chữ số thập phân | `UC-GVBM-06`<br>`UC-STU-05` | 5 SP | • **Trần Quang Vinh**: Xây dựng mô đun `gpaCalculationLogic.js`<br>• **Nguyễn Minh Quốc Bảo**: Bộ test 5 ca kiểm thử biên điểm số | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js)<br>[GradeBook.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/entities/GradeBook.js) | **DONE** |
+| **KAN-17** | **Quy Chuẩn Xếp Loại Học Lực & Đánh Giá Hạnh Kiểm**<br>- 4 Mức học lực: Tốt ($\ge 8.0$), Khá ($\ge 6.5$), Đạt ($\ge 5.0$), Chưa đạt<br>- Khống điểm các môn Toán, Ngữ văn, Ngoại ngữ<br>- Đánh giá 4 mức hạnh kiểm: Tốt, Khá, Trung bình, Yếu | `UC-STU-05`<br>`UC-GVCN-07` | 3 SP | • **Trần Quang Vinh**: Logic xếp loại học lực theo Thông tư 22<br>• **Võ Hoàng Sơn**: Giao diện hiển thị Badge xếp loại sinh động | [gpaCalculationLogic.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member4_Logic_Security/gpaCalculationLogic.js)<br>[StudentGradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/student/StudentGradebookPage.jsx) | **DONE** |
+| **KAN-18** | **Quy Trình Khóa / Mở Sổ Điểm Học Kỳ 2 Cấp**<br>- Giáo viên bộ môn gửi yêu cầu chốt sổ điểm môn<br>- Ban Giám Hiệu duyệt khóa sổ điểm toàn trường `LOCKED`<br>- Khi khóa: vô hiệu hóa toàn bộ ô nhập, chống sửa điểm | `UC-GVBM-08`<br>`UC-ADM-04` | 5 SP | • **Trần Quang Vinh**: Cơ chế khóa chặn tầng Service & Controller<br>• **Huỳnh Trung Tính**: Bảng CSDL `grade_book_closures` | [ClosureController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ClosureController.js)<br>[BGHReportCenterPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/BGHReportCenterPage.jsx) | **DONE** |
+| **KAN-19** | **Cổng Tra Cứu Điểm & Đơn Phúc Khảo (Học Sinh)**<br>- Học sinh tự tra cứu bảng điểm chi tiết các môn của mình<br>- Nộp đơn phúc khảo điểm trực tuyến nếu phát hiện sai sót | `UC-STU-05`<br>`UC-STU-07` | 3 SP | • **Võ Hoàng Sơn**: Giao diện học sinh StudentGradebookPage<br>• **Trần Quang Vinh**: Bảo mật phân quyền chỉ xem điểm cá nhân | [StudentGradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/student/StudentGradebookPage.jsx) | **DONE** |
+
+---
+
+### MODULE 6: PHÂN HỆ GIAO DỊCH DỮ LIỆU ACID & MẪU THIẾT KẾ PATTERNS
+*Mã Epic: **EPIC-06** | Trọng số: **19 Story Points** | Phụ trách chính: **Huỳnh Trung Tính** & **Trần Quang Vinh***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-20** | **Áp Dụng Unit of Work Pattern Bảo Toàn ACID**<br>- Gom 45 thao tác lưu điểm cả lớp vào 1 Transaction<br>- Nguyên tắc: `BEGIN` $\rightarrow$ Lưu toàn bộ $\rightarrow$ `COMMIT`<br>- Tự động `ROLLBACK` nếu có bất kỳ 1 dòng dữ liệu bị lỗi | `UC-GVBM-06` | 8 SP | • **Trần Quang Vinh**: Xây dựng lớp `UnitOfWork.js`<br>• **Huỳnh Trung Tính**: Tích hợp transaction vào PostgreSQL client | [UnitOfWork.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/utils/UnitOfWork.js)<br>[GradeBookService.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/services/GradeBookService.js) | **DONE** |
+| **KAN-21** | **Áp Dụng Repository Pattern Trừu Tượng Hóa SQL**<br>- Tách biệt hoàn toàn câu truy vấn SQL khỏi Service<br>- Cho phép thay thế hệ CSDL mà không phải sửa logic<br>- Hỗ trợ Dependency Injection phục vụ Unit Testing | Cả 43 UCs | 8 SP | • **Huỳnh Trung Tính**: Xây dựng 8 lớp `*Repository.js`<br>• **Trần Quang Vinh**: Chuẩn hóa tham số hóa ($1, $2) chống SQL Injection | [GradeBookRepository.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/repositories/GradeBookRepository.js)<br>[StudentRepository.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/repositories/StudentRepository.js) | **DONE** |
+| **KAN-22** | **Cấu Hình Singleton Connection Pool Tối Ưu Tải**<br>- Khởi tạo duy nhất 1 đối tượng `pg.Pool` tại `db.js`<br>- Tối đa 20 kết nối đồng thời, tự động thu hồi idle clients<br>- Graceful In-memory Fallback khi mất kết nối CSDL | Toàn hệ thống | 3 SP | • **Huỳnh Trung Tính**: Cấu hình `src/config/db.js` & Connection Pool<br>• **Nguyễn Minh Quốc Bảo**: Kiểm thử gửi 5 request đồng thời | [db.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/config/db.js)<br>[POSTGRESQL_GUIDE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/POSTGRESQL_GUIDE.md) | **DONE** |
+
+---
+
+### MODULE 7: PHÂN HỆ NHẬT KÝ KIỂM TOÁN (AUDIT TRAIL) & AN TOÀN ỨNG DỤNG
+*Mã Epic: **EPIC-07** | Trọng số: **10 Story Points** | Phụ trách chính: **Trần Quang Vinh** & **Huỳnh Trung Tính***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-23** | **Dịch Vụ Ghi Nhật Ký Kiểm Toán (Centralized Audit Trail)**<br>- Ghi nhận: Người sửa, điểm cũ, điểm mới, lý do, IP, giờ<br>- Cơ chế bảo mật lưu vết không thể chối bỏ (Non-repudiation)<br>- Bảng `audit_logs` chống chỉnh sửa hoặc xóa vết | `UC-ADM-04` | 5 SP | • **Trần Quang Vinh**: Xây dựng dịch vụ `AuditLogger.js`<br>• **Huỳnh Trung Tính**: Thiết kế cấu trúc bảng `audit_logs` | [AuditLogger.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js)<br>[schema.sql](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/database/schema.sql) | **DONE** |
+| **KAN-24** | **Bảo Mật Ứng Dụng: Rate Limiting & Phòng Thủ Tấn Công**<br>- Giới hạn tần suất request (Rate Limiter) chống DoS/Brute-force<br>- Thiết lập HTTP Security Headers bằng thư viện Helmet<br>- Ngăn chặn 100% các lỗ hổng SQL Injection & XSS | Toàn hệ thống | 5 SP | • **Trần Quang Vinh**: Cấu hình `rateLimiters.js` và middleware bảo mật<br>• **Nguyễn Minh Quốc Bảo**: Kiểm thử ca tấn công vét cạn mật khẩu | [rateLimiters.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/middleware/rateLimiters.js)<br>[server.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/server.js) | **DONE** |
+
+---
+
+### MODULE 8: PHÂN HỆ SỔ LIÊN LẠC ĐIỆN TỬ & KÊNH GIAO TIẾP PHỤ HUYNH
+*Mã Epic: **EPIC-08** | Trọng số: **9 Story Points** | Phụ trách chính: **Võ Hoàng Sơn** & **Võ Duy Bình***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-25** | **Cổng Tra Cứu Điểm Số & Chuyên Cần Con Em (Phụ Huynh)**<br>- Tra cứu điểm từng môn, xếp loại học lực, hạnh kiểm<br>- Theo dõi nhật ký điểm danh theo ngày (vắng/có mặt)<br>- Phân quyền chặt chẽ chỉ xem đúng dữ liệu con mình | `UC-PAR-04`<br>`UC-PAR-05` | 3 SP | • **Võ Hoàng Sơn**: Giao diện cổng phụ huynh ParentPortalPage<br>• **Võ Duy Bình**: Phân tích quy trình sổ liên lạc điện tử | [ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) | **DONE** |
+| **KAN-26** | **Nộp Đơn Xin Nghỉ Học Trực Tuyến**<br>- Form nộp đơn: Từ ngày, Đến ngày, Lý do (Ốm, Gia đình...)<br>- Đơn lưu vào bảng `leave_requests` trạng thái `PENDING`<br>- Theo dõi kết quả duyệt đơn tức thời trên điện thoại | `UC-PAR-06` | 3 SP | • **Võ Hoàng Sơn**: Form gửi đơn nghỉ học trên React SPA<br>• **Huỳnh Trung Tính**: Lập trình API `LeaveRequestController.js` | [ParentCommunicationPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentCommunicationPage.jsx)<br>[LeaveRequestController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/LeaveRequestController.js) | **DONE** |
+| **KAN-27** | **Kênh Trao Đổi Tin Nhắn Trực Tiếp GVCN & Phụ Huynh**<br>- Hộp thư trao đổi 2 chiều giữa giáo viên chủ nhiệm và phụ huynh<br>- Thông báo tình hình học tập và sức khỏe của học sinh | `UC-PAR-03`<br>`UC-GVCN-09` | 3 SP | • **Võ Hoàng Sơn**: Giao diện hội thoại tin nhắn ParentMessage<br>• **Huỳnh Trung Tính**: Bảng CSDL `parent_messages` và API | [ParentCommunicationPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentCommunicationPage.jsx)<br>[CommunicationController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/CommunicationController.js) | **DONE** |
+
+---
+
+### MODULE 9: PHÂN HỆ QUẢN LÝ HỌC PHÍ & THANH TOÁN TRỰC TUYẾN VIETQR
+*Mã Epic: **EPIC-09** | Trọng số: **8 Story Points** | Phụ trách chính: **Võ Duy Bình** & **Nguyễn Minh Quốc Bảo***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-28** | **Tra Cứu Học Phí & Tạo Mã Thanh Toán VietQR**<br>- Danh mục khoản thu: Học phí chính khóa, bán trú, BHYT<br>- Tự động hiển thị mã chuẩn VietQR với số tiền và nội dung CK<br>- Cập nhật trạng thái `PAID` ngay sau khi thanh toán thành công | `UC-PAR-07`<br>`UC-PAR-08` | 5 SP | • **Võ Duy Bình**: Phân tích nghiệp vụ đối soát học phí & tích hợp QR<br>• **Huỳnh Trung Tính**: Lập trình API `TuitionController.js` | [TuitionController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/TuitionController.js)<br>[ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) | **DONE** |
+| **KAN-29** | **Sinh Biên Lai Điện Tử & Xuất In Biên Lai PDF**<br>- Tự động sinh mã biên lai duy nhất định dạng `REC-xxxx`<br>- Xuất file PDF biên lai thu tiền định dạng A4 chuẩn kế toán<br>- Lưu lịch sử thanh toán phục vụ đối soát tài chính của BGH | `UC-PAR-09`<br>`UC-ADM-07` | 3 SP | • **Nguyễn Minh Quốc Bảo**: Hàm `exportTuitionReceiptToPDF` (jsPDF)<br>• **Võ Duy Bình**: Xác nhận mẫu biên lai học phí chuẩn HSU | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js)<br>[ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) | **DONE** |
+
+---
+
+### MODULE 10: PHÂN HỆ BÁO CÁO HỌC VỤ & ĐỘNG CƠ XUẤT BÁO CÁO EXCEL/PDF
+*Mã Epic: **EPIC-10** | Trọng số: **16 Story Points** | Phụ trách chính: **Nguyễn Minh Quốc Bảo** & **Võ Duy Bình***
+
+| Mã Thẻ | Tên Module Nhỏ / Tính Năng Chi Tiết | Use Case Liên Kết | Story Points | Thành Viên Phụ Trách & Phân Công Nhiệm Vụ | Mã Nguồn / Giao Diện Thực Thi | Trạng Thái |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: |
+| **KAN-30** | **Động Cơ Xuất Sổ Điểm Excel (.xlsx) Bằng SheetJS**<br>- Xuất sổ điểm cả lớp ra file `.xlsx` chuẩn bảng tính<br>- Tự động căn chỉnh độ rộng cột, hàng tiêu đề in đậm<br>- Tên file chuẩn: `SoDiem_[TenLop]_[MonHoc]_[HocKy].xlsx` | `UC-GVBM-10`<br>`UC-GVCN-10` | 3 SP | • **Nguyễn Minh Quốc Bảo**: Lập trình hàm `exportGradeBookToExcel`<br>• **Huỳnh Trung Tính**: Trích xuất dữ liệu mảng từ PostgreSQL | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js)<br>[GradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/gv/GradebookPage.jsx) | **DONE** |
+| **KAN-31** | **Động Cơ Xuất & In Ấn Phiếu Điểm Học Bạ PDF (jsPDF)**<br>- Xuất phiếu báo điểm có quốc hiệu, tiêu ngữ bộ giáo dục<br>- Định dạng khổ giấy A4, bảng điểm chi tiết các môn<br>- In ấn trực tiếp qua hộp thoại in của trình duyệt | `UC-GVCN-10`<br>`UC-STU-05` | 3 SP | • **Nguyễn Minh Quốc Bảo**: Lập trình hàm `exportReportCardToPDF`<br>• **Võ Hoàng Sơn**: Tích hợp nút in ấn trên giao diện học sinh | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js)<br>[StudentGradebookPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/student/StudentGradebookPage.jsx) | **DONE** |
+| **KAN-32** | **Trung Tâm Thống Kê Phổ Điểm & Xét Khen Thưởng**<br>- Biểu đồ thống kê tỷ lệ học lực (Tốt/Khá/Đạt/Chưa đạt)<br>- Tự động lọc danh sách Học sinh Giỏi / Học sinh Xuất sắc<br>- Lập danh sách học sinh cần phụ đạo rèn luyện hè | `UC-ADM-06` | 5 SP | • **Võ Duy Bình**: Phân tích điều kiện xét khen thưởng Thông tư 22<br>• **Huỳnh Trung Tính**: Viết API tổng hợp báo cáo `ReportController.js` | [ReportController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ReportController.js)<br>[BGHReportCenterPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/BGHReportCenterPage.jsx) | **DONE** |
+| **KAN-33** | **Bộ Kiểm Thử Tự Động Toàn Diện QA Unit Testing Suite**<br>- Bộ kiểm thử tự động Node.js Test Runner (68 ca test PASS)<br>- Kiểm thử giao diện Frontend Vitest Components (13 ca test PASS)<br>- Kiểm thử chấp nhận người dùng UAT (15 kịch bản PASS 100%) | Cả 43 UCs | 5 SP | • **Nguyễn Minh Quốc Bảo**: Xây dựng toàn bộ kịch bản và mã kiểm thử tự động<br>• **Cả 5 thành viên**: Phối hợp rà soát tính năng thuộc module của mình | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js)<br>[UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md) | **DONE** |
+
+---
+
+## PHẦN 3: MA TRẬN PHÂN BỔ NHIỆM VỤ 5 THÀNH VIÊN THEO MODULE (MEMBER ALLOCATION MATRIX)
+
+Bảng tổng hợp đối chiếu trực tiếp giữa **5 Thành Viên** với **Các Module Lớn & Module Con** đảm nhiệm, chứng minh tỷ lệ đóng góp đồng đều $20\%$ mỗi người:
+
+| STT | Thành Viên | Vai Trò Chính | Các Module Lớn Tham Gia | Các Module Con (Thẻ Jira) Phụ Trách Cụ Thể | Tổng Story Points | Tỷ Lệ Đóng Góp |
+| :---: | :--- | :--- | :--- | :--- | :---: | :---: |
+| 1 | **Võ Duy Bình** | **Project Manager & Lead BA** (Trưởng nhóm) | Module 2, Module 3, Module 8, Module 9, Module 10 | • **KAN-05**: Ràng buộc danh mục lớp học<br>• **KAN-07**: Đặc tả phân công học vụ<br>• **KAN-08**: Ma trận thời khóa biểu tuần<br>• **KAN-09**: Thuật toán chống xung đột TKB<br>• **KAN-10**: Lịch thi học kỳ năm học 2026<br>• **KAN-25**: Quy trình sổ liên lạc điện tử<br>• **KAN-28**: Phân tích học phí & VietQR<br>• **KAN-29**: Chuẩn hóa biên lai thu tiền HSU<br>• **KAN-32**: Tiêu chuẩn xét khen thưởng TT22 | **22 SP** | **~20%** |
+| 2 | **Võ Hoàng Sơn** | **Dev Frontend (Frontend Lead)** | Module 1, Module 4, Module 5, Module 8, Module 10 | • **KAN-01**: Giao diện đăng nhập 5 tabs & AuthContext<br>• **KAN-02**: Nút 1-Click Demo Login 5 vai trò<br>• **KAN-03**: ProtectedRoute bảo vệ tuyến đường<br>• **KAN-04**: Trang quản trị SystemSettingsPage<br>• **KAN-06**: Danh sách học sinh StudentListPage<br>• **KAN-08**: Ma trận TKB TimetablePage<br>• **KAN-11**: Điểm danh tương tác AttendancePage<br>• **KAN-12**: Chế độ điểm danh theo tiết<br>• **KAN-13**: Giám sát chuyên cần BGHAttendanceMonitor<br>• **KAN-14**: Modal duyệt đơn nghỉ học<br>• **KAN-15**: Lưới nhập điểm GradebookPage<br>• **KAN-17**: Badge xếp loại học lực TT22<br>• **KAN-19**: Bảng điểm học sinh StudentGradebook<br>• **KAN-25**: Cổng phụ huynh ParentPortalPage<br>• **KAN-26**: Form nộp đơn nghỉ học online<br>• **KAN-27**: Hộp thoại tin nhắn GVCN - PH | **23 SP** | **~21%** |
+| 3 | **Huỳnh Trung Tính** | **Dev Backend & DBA (Database Architect)** | Module 1, Module 2, Module 3, Module 6, Module 7, Module 9, Module 10 | • **KAN-04**: UserController & Service quản trị user<br>• **KAN-05**: ClassController & bảng `school_classes`<br>• **KAN-06**: StudentService & StudentRepository<br>• **KAN-07**: Phân công giảng dạy CSDL<br>• **KAN-08**: ScheduleController & truy vấn TKB<br>• **KAN-09**: Câu lệnh kiểm tra chống trùng lịch<br>• **KAN-11**: API lưu nhật ký điểm danh<br>• **KAN-14**: API cập nhật đơn nghỉ học và điểm danh<br>• **KAN-18**: Bảng `grade_book_closures`<br>• **KAN-20**: Transaction ACID cho 45 học sinh<br>• **KAN-21**: Xây dựng 8 lớp `*Repository.js`<br>• **KAN-22**: Cấu hình Singleton `pg.Pool` 20 kết nối<br>• **KAN-23**: Thiết kế cấu trúc bảng `audit_logs`<br>• **KAN-26**: API lưu đơn xin nghỉ học<br>• **KAN-27**: API tin nhắn `parent_messages`<br>• **KAN-28**: API quản lý thu học phí<br>• **KAN-30**: Trích xuất dữ liệu bảng điểm Excel<br>• **KAN-32**: API báo cáo học vụ ReportController | **22 SP** | **~20%** |
+| 4 | **Trần Quang Vinh** | **Logic Security (Core Logic & Security Specialist)** | Module 1, Module 5, Module 6, Module 7 | • **KAN-01**: Xác thực JWT Token & thuật toán băm mật khẩu<br>• **KAN-03**: Middleware phân quyền `rbacMiddleware.js`<br>• **KAN-04**: Quản lý ma trận quyền `system_settings`<br>• **KAN-15**: Xác thực miền giá trị điểm số $[0.0, 10.0]$<br>• **KAN-16**: Thuật toán tính ĐTBmhk chia 9 Thông tư 22<br>• **KAN-17**: Logic xếp loại học lực & điều kiện khống<br>• **KAN-18**: Quy trình khóa sổ điểm 2 cấp LOCKED<br>• **KAN-19**: Phân quyền truy cập điểm số cá nhân HS<br>• **KAN-20**: Lập trình lớp `UnitOfWork.js` bảo toàn ACID<br>• **KAN-21**: Chống SQL Injection bằng câu lệnh tham số hóa<br>• **KAN-23**: Dịch vụ `AuditLogger.js` lưu vết sửa điểm<br>• **KAN-24**: Rate Limiting chống DoS & Helmet Security | **22 SP** | **~20%** |
+| 5 | **Nguyễn Minh Quốc Bảo** | **Tester (QA/QC Testing Lead)** | Module 4, Module 5, Module 6, Module 7, Module 9, Module 10 | • **KAN-12**: Kiểm thử ca điểm danh trùng tiết<br>• **KAN-13**: Kiểm thử ca cảnh báo vắng $\ge 20\%$<br>• **KAN-16**: Kiểm thử 5 ca biên điểm số Thông tư 22<br>• **KAN-22**: Kiểm thử chịu tải 5 request đồng thời<br>• **KAN-24**: Kiểm thử phòng thủ tấn công vét cạn mật khẩu<br>• **KAN-29**: Lập trình xuất biên lai PDF (jsPDF)<br>• **KAN-30**: Lập trình xuất bảng điểm Excel (SheetJS)<br>• **KAN-31**: Lập trình xuất in học bạ PDF (jsPDF)<br>• **KAN-33**: Xây dựng bộ kiểm thử tự động 68 ca test PASS 100% | **23 SP** | **~21%** |
+| — | **TỔNG CỘNG** | **Toàn thể 5 thành viên** | **10 Module lớn** | **33 Thẻ công việc cụ thể (Bao phủ 100% 43 Use Cases)** | **112 SP** | **100%** |
+
+---
+
+## PHẦN 4: LỘ TRÌNH PHÁT HÀNH THEO SPRINT & QUẢN TRỊ PHIÊN BẢN (RELEASE PLANNING)
+
+Thay vì chia theo các bài tập tuần lý thuyết, lộ trình Jira được tổ chức chuẩn theo **5 Sprints phát triển phần mềm**:
+
+```mermaid
+gantt
+    title LỘ TRÌNH PHÁT HÀNH 5 SPRINTS PHẦN MỀM — DỰ ÁN HTQLLH HSU
+    dateFormat  YYYY-MM-DD
+    section Sprint 1
+    Module 1 (Auth & RBAC) & Module 2 (Hồ sơ học sinh & Lớp học) :done, s1, 2026-09-14, 2026-10-04
+    section Sprint 2
+    Module 3 (Thời khóa biểu) & Module 4 (Điểm danh chuyên cần)   :done, s2, 2026-10-05, 2026-10-18
+    section Sprint 3
+    Module 5 (Sổ điểm Thông tư 22) & Module 6 (Giao dịch ACID)     :done, s3, 2026-10-19, 2026-11-01
+    section Sprint 4
+    Module 7 (Audit Trail) & Module 8 (Sổ liên lạc Cổng Phụ huynh):done, s4, 2026-11-02, 2026-11-15
+    section Sprint 5
+    Module 9 (Học phí VietQR) & Module 10 (Xuất Excel/PDF & QA)   :active, s5, 2026-11-16, 2026-12-06
+```
+
+### Chi Tiết Phân Bổ Module Vào Từng Sprint:
+- **Sprint 1 (Release v0.1 - Nền tảng Xác thực & Hồ sơ Học vụ)**: Hoàn thành **Module 1** (Auth, JWT, 1-Click Demo Login, RBAC) và **Module 2** (Danh mục Lớp học, Khối lớp, Hồ sơ Học sinh chuẩn mã HS).
+- **Sprint 2 (Release v0.2 - Quản lý Giảng dạy & Chuyên cần)**: Hoàn thành **Module 3** (Thời khóa biểu, Chống xung đột lịch dạy, Lịch thi) và **Module 4** (Điểm danh lớp đầu giờ, điểm danh theo tiết, cảnh báo vắng 20%).
+- **Sprint 3 (Release v0.5 - Sổ điểm Điện tử & Toàn vẹn Dữ liệu)**: Hoàn thành **Module 5** (Lưới nhập điểm Spreadsheet, ĐTBmhk chia 9 Thông tư 22, Xếp loại học lực, Khóa sổ) và **Module 6** (Unit of Work ACID cho 45 HS, Repository Pattern, Connection Pool).
+- **Sprint 4 (Release v0.8 - Kiểm toán Học vụ & Cổng Phụ huynh)**: Hoàn thành **Module 7** (Audit Trail lưu vết sửa điểm, Rate Limiting) và **Module 8** (Cổng phụ huynh xem điểm con, nộp đơn nghỉ học online, tin nhắn GVCN).
+- **Sprint 5 (Release v1.0 - Tài chính, Báo cáo Đa định dạng & QA Toàn diện)**: Hoàn thành **Module 9** (Học phí VietQR, Biên lai điện tử) và **Module 10** (Xuất Excel SheetJS, Xuất PDF jsPDF, Thống kê phổ điểm, Bộ kiểm thử tự động 68 tests PASS 100%).
+
+---
+*Tài liệu được hoàn thiện và phê duyệt bởi: **Võ Duy Bình (Project Manager & Lead BA)***  
+*Hệ thống Quản lý Trường học THPT (HTQLLH / EduManage Pro) — Đại học Hoa Sen (HSU) 2026.*
