@@ -52,3 +52,24 @@ PASS: [Test 5: PDF Report Card Success Status] -> Result: true
 - **Trưởng nhóm / PM**: Võ Duy Bình (Member 1 - PM & BA)
 - **Thành viên phụ trách chuyên đề**: Nguyễn Minh Quốc Bảo (Member 5 - QA/QC Testing Lead)
 - **Hệ thống**: HTQLLH (School Management System - SMS)
+
+---
+
+## CẬP NHẬT: Automation Test Hoàn Thành (15/10/2026)
+
+### Kết quả chạy Automation Test — Role BGH & GVCN
+
+| Bộ test | Số test | Kết quả |
+|---------|---------|---------|
+| Backend (node:test) — 4 file | 59 | ✅ 59 PASS / 0 FAIL |
+| Frontend (Vitest) — 3 file | 13 | ✅ 13 PASS / 0 FAIL |
+| **Tổng cộng** | **72** | **✅ 100% PASS** |
+
+**Phạm vi test đã bao phủ:**
+- Sổ điểm điện tử (GradebookPage): phân quyền GVCN chỉ xem/sửa lớp mình, BGH xem toàn trường
+- Điểm danh học sinh (AttendancePage): điều kiện lịch học, phân quyền lớp, toggle trạng thái
+- Cài đặt phân quyền hệ thống (SystemSettingsPage): RBAC matrix, lock BGH
+- Auth/Middleware: JWT decode, requireBGH, resolveGvcnClass, sentinel `__NO_CLASS__`
+- Tính điểm TBM: xếp loại học lực theo thang điểm chuẩn Bộ GD&ĐT
+
+Báo cáo chi tiết: `.agents/tasks/test-report.md`

@@ -73,7 +73,8 @@ CREATE TABLE IF NOT EXISTS attendances (
   class_name VARCHAR(30),
   att_date VARCHAR(20) NOT NULL,
   status VARCHAR(30) NOT NULL,
-  note TEXT
+  note TEXT,
+  CONSTRAINT uq_attendance_student_date UNIQUE (student_code, class_name, att_date)
 );
 
 -- 7. Bảng Đơn xin Nghỉ học (leave_requests)
@@ -145,3 +146,10 @@ INSERT INTO students (student_code, full_name, gender, dob, class_name, parent_n
 ('HS004', 'Phạm Hữu Dũng', 'Nam', '2008-01-15', '10A1', 'Phạm Thị Lan', '0922334455', 8.5, 'Giỏi', 'ACTIVE'),
 ('HS005', 'Đặng Thị Giang', 'Nữ', '2008-07-08', '10A2', 'Đặng Văn Nam', '0933445566', 7.2, 'Khá', 'ACTIVE')
 ON CONFLICT (student_code) DO NOTHING;
+
+-- 9. Bảng Cài đặt Hệ thống (system_settings)
+CREATE TABLE IF NOT EXISTS system_settings (
+  key VARCHAR(100) PRIMARY KEY,
+  value JSONB NOT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

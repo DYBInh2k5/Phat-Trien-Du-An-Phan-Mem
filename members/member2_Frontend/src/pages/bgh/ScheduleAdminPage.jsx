@@ -4,107 +4,170 @@
  * Chức năng:
  *   - Timetable grid có thể click vào từng cell
  *   - Click ô trống → Modal form trống để thêm slot
- *   - Click ô có slot → Modal pre-populated để sửa
+ *   - Click ô có slot → Modal pre-populated để sửa, có nút xóa
  *   - Conflict detection: cùng teacherName hoặc room + dayOfWeek + period → highlight đỏ
- *   - Submit → handleSaveScheduleSlot stub → optimistic update state
+ *   - Submit → POST /api/schedules (upsert), Delete → DELETE /api/schedules
  *
+ * Dữ liệu: GET /api/schedules — không dùng mockData.
  * Requirements: 7.1, 7.2, 7.3, 7.4, 7.5
  */
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Modal from '../../components/shared/Modal.jsx';
 import {
-  timetableSlots,
-  subjects,
-  teachers,
-  classes,
-} from '../../data/mockData.js';
-import { handleSaveScheduleSlot } from '../../api/stubs.js';
+  fetchSchedulePageData,
+  handleSaveScheduleSlot,
+  handleDeleteScheduleSlot,
+} from '../../api/stubs.js';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const DAY_LABELS = {
-  1: 'Thứ Hai',
-  2: 'Thứ Ba',
-  3: 'Thứ Tư',
-  4: 'Thứ Năm',
-  5: 'Thứ Sáu',
-};
-
-const DAYS = [1, 2, 3, 4, 5];
+const DAY_LABELS = { 1: 'Thứ Hai', 2: 'Thứ Ba', 3: 'Thứ Tư', 4: 'Thứ Năm', 5: 'Thứ Sáu' };
+const DAYS    = [1, 2, 3, 4, 5];
 const PERIODS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const PERIOD_LABELS = {
-  1:  'Tiết 1',
-  2:  'Tiết 2',
-  3:  'Tiết 3',
-  4:  'Tiết 4',
-  5:  'Tiết 5',
-  6:  'Tiết 6',
-  7:  'Tiết 7',
-  8:  'Tiết 8',
-  9:  'Tiết 9',
-  10: 'Tiết 10',
-};
-const WEEK_START = '2024-11-11';
+
+/** Ngày thứ Hai của tuần hiện tại, format YYYY-MM-DD */
+function currentWeekStart() {
+  const d = new Date();
+  const day = d.getDay(); // 0=Sun
+  const diff = day === 0 ? -6 : 1 - day; // adjust to Monday
+  d.setDate(d.getDate() + diff);
+  return d.toISOString().slice(0, 10);
+}
+
+/** Format YYYY-MM-DD → DD/MM/YYYY */
+function fmtDate(iso) {
+  const [y, m, d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+/** Tính ngày cuối tuần (Sunday) từ weekStart */
+function weekEnd(weekStart) {
+  const d = new Date(weekStart);
+  d.setDate(d.getDate() + 6);
+  return d.toISOString().slice(0, 10);
+}
+
 const EMPTY_FORM = { subjectName: '', teacherName: '', room: '' };
+
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+
+function SkeletonCell() {
+  return (
+    <div className="animate-pulse h-[76px] rounded-lg bg-[#e2e8f0]" />
+  );
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ScheduleAdminPage() {
-  const [timetableData, setTimetableData] = useState(() => [...timetableSlots]);
-  const [selectedClass, setSelectedClass] = useState('10A1');
-  const [isModalOpen,   setIsModalOpen]   = useState(false);
-  const [editingSlot,   setEditingSlot]   = useState(null); // null | slot object
-  const [clickedCell,   setClickedCell]   = useState(null); // null | {classId, dayOfWeek, period}
-  const [modalForm,     setModalForm]     = useState(EMPTY_FORM);
-  const [isSaving,      setIsSaving]      = useState(false);
+  const [weekStart, setWeekStart] = useState(currentWeekStart);
 
-  // Slots for selected class
-  const classSlots = useMemo(
-    () => timetableData.filter(
-      (s) => s.classId === selectedClass && s.weekStart === WEEK_START,
-    ),
-    [timetableData, selectedClass],
-  );
+  // Master state từ API
+  const [slots,        setSlots]        = useState([]);   // slots của class đang chọn
+  const [allWeekSlots, setAllWeekSlots] = useState([]);   // tất cả slots trong tuần (conflict detection)
+  const [classes,      setClasses]      = useState([]);
+  const [subjects,     setSubjects]     = useState([]);
+  const [teacherNames, setTeacherNames] = useState([]);
+  const [loading,      setLoading]      = useState(true);
+  const [error,        setError]        = useState(null);
 
-  // Build a lookup map: `${dayOfWeek}-${period}` → slot
+  // Chờ classes load xong mới set selectedClass
+  const [selectedClass, setSelectedClass] = useState('');
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingSlot, setEditingSlot] = useState(null);
+  const [clickedCell, setClickedCell] = useState(null);
+  const [modalForm,   setModalForm]   = useState(EMPTY_FORM);
+  const [isSaving,    setIsSaving]    = useState(false);
+  const [isDeleting,  setIsDeleting]  = useState(false);
+  const [modalError,  setModalError]  = useState(null);
+
+  // ── Fetch khi class hoặc tuần thay đổi ────────────────────────────────────
+  useEffect(() => {
+    if (!selectedClass) return;
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await fetchSchedulePageData(selectedClass, weekStart);
+        if (!cancelled) {
+          setSlots(data.slots ?? []);
+          setAllWeekSlots(data.allWeekSlots ?? []);
+        }
+      } catch (err) {
+        if (!cancelled) setError(err.message || 'Không thể tải thời khóa biểu.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => { cancelled = true; };
+  }, [selectedClass, weekStart]);
+
+  // ── Fetch danh mục (1 lần) ────────────────────────────────────────────────
+  useEffect(() => {
+    async function loadMeta() {
+      try {
+        // Dùng class đầu tiên nếu chưa có; chỉ cần lấy meta, slot sẽ load sau
+        const tmpClass = selectedClass || '__meta__';
+        const data = await fetchSchedulePageData(tmpClass, weekStart);
+        setClasses(data.classes ?? []);
+        setSubjects(data.subjects ?? []);
+        setTeacherNames(data.teacherNames ?? []);
+        // Set class mặc định là class đầu tiên
+        if (!selectedClass && data.classes?.length > 0) {
+          setSelectedClass(data.classes[0].id);
+        }
+      } catch {
+        // ignore — main fetch sẽ báo lỗi
+      }
+    }
+    loadMeta();
+    // chỉ chạy 1 lần khi mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Lookup map: `${dayOfWeek}-${period}` → slot ───────────────────────────
   const slotMap = useMemo(() => {
     const map = {};
-    for (const s of classSlots) {
+    for (const s of slots) {
       map[`${s.dayOfWeek}-${s.period}`] = s;
     }
     return map;
-  }, [classSlots]);
+  }, [slots]);
 
-  // Conflict detection: same teacher or same room, same day+period (across ALL classes)
+  // ── Conflict detection (cross-class) ──────────────────────────────────────
   const conflictKeys = useMemo(() => {
     const keys = new Set();
-    for (const slot of timetableData.filter((s) => s.weekStart === WEEK_START && s.classId === selectedClass)) {
-      const sameDay = timetableData.filter(
+    const mySlots = allWeekSlots.filter((s) => s.classId === selectedClass);
+    for (const slot of mySlots) {
+      const sameCell = allWeekSlots.filter(
         (s) =>
-          s.weekStart === WEEK_START &&
           s.dayOfWeek === slot.dayOfWeek &&
           s.period    === slot.period &&
           s.classId   !== slot.classId,
       );
-      const hasConflict = sameDay.some(
+      const hasConflict = sameCell.some(
         (s) =>
           (s.teacherName && s.teacherName === slot.teacherName) ||
           (s.room && s.room === slot.room),
       );
-      if (hasConflict) {
-        keys.add(`${slot.dayOfWeek}-${slot.period}`);
-      }
+      if (hasConflict) keys.add(`${slot.dayOfWeek}-${slot.period}`);
     }
     return keys;
-  }, [timetableData, selectedClass]);
+  }, [allWeekSlots, selectedClass]);
 
-  // ── Handlers ────────────────────────────────────────────────────────────────
+  // ── Modal handlers ────────────────────────────────────────────────────────
 
   const openModal = useCallback((day, period) => {
-    const key = `${day}-${period}`;
-    const existing = slotMap[key];
+    const existing = slotMap[`${day}-${period}`];
     setClickedCell({ classId: selectedClass, dayOfWeek: day, period });
+    setModalError(null);
     if (existing) {
       setEditingSlot(existing);
       setModalForm({
@@ -124,20 +187,21 @@ export default function ScheduleAdminPage() {
     setEditingSlot(null);
     setClickedCell(null);
     setModalForm(EMPTY_FORM);
+    setModalError(null);
   }, []);
 
-  const handleFormChange = (field, value) => {
+  const handleFormChange = (field, value) =>
     setModalForm((prev) => ({ ...prev, [field]: value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!clickedCell || !modalForm.subjectName || !modalForm.teacherName || !modalForm.room) return;
-
+    if (!clickedCell) return;
     setIsSaving(true);
-    const newSlot = {
+    setModalError(null);
+
+    const slotPayload = {
       classId:     clickedCell.classId,
-      weekStart:   WEEK_START,
+      weekStart,
       dayOfWeek:   clickedCell.dayOfWeek,
       period:      clickedCell.period,
       subjectName: modalForm.subjectName,
@@ -147,33 +211,60 @@ export default function ScheduleAdminPage() {
     };
 
     try {
-      await handleSaveScheduleSlot(newSlot);
-      // Optimistic update
-      setTimetableData((prev) => {
-        const filtered = prev.filter(
-          (s) =>
-            !(
-              s.classId   === clickedCell.classId &&
-              s.weekStart === WEEK_START &&
-              s.dayOfWeek === clickedCell.dayOfWeek &&
-              s.period    === clickedCell.period
-            ),
-        );
-        return [...filtered, newSlot];
-      });
+      const saved = await handleSaveScheduleSlot(slotPayload);
+
+      // Cập nhật slots và allWeekSlots
+      const upsertInList = (list, newSlot) => [
+        ...list.filter(
+          (s) => !(s.classId === newSlot.classId && s.weekStart === newSlot.weekStart &&
+                   s.dayOfWeek === newSlot.dayOfWeek && s.period === newSlot.period)
+        ),
+        newSlot,
+      ];
+      setSlots((prev) => upsertInList(prev, saved));
+      setAllWeekSlots((prev) => upsertInList(prev, saved));
       closeModal();
-    } catch {
-      // keep modal open on error
+    } catch (err) {
+      setModalError(err.message || 'Lưu thất bại. Vui lòng thử lại.');
     } finally {
       setIsSaving(false);
     }
   };
 
-  // ── Render ───────────────────────────────────────────────────────────────────
+  const handleDelete = async () => {
+    if (!clickedCell || !editingSlot) return;
+    setIsDeleting(true);
+    setModalError(null);
+    try {
+      await handleDeleteScheduleSlot({
+        classId:   clickedCell.classId,
+        weekStart,
+        dayOfWeek: clickedCell.dayOfWeek,
+        period:    clickedCell.period,
+      });
+      const removeFromList = (list) =>
+        list.filter(
+          (s) => !(s.classId === clickedCell.classId && s.weekStart === weekStart &&
+                   s.dayOfWeek === clickedCell.dayOfWeek && s.period === clickedCell.period)
+        );
+      setSlots(removeFromList);
+      setAllWeekSlots(removeFromList);
+      closeModal();
+    } catch (err) {
+      setModalError(err.message || 'Xóa thất bại. Vui lòng thử lại.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
-  // Only show periods that have at least one slot in the selected class (+ adjacent)
-  // Show all 10 for admin view so empty cells are visible for adding
-  const visiblePeriods = PERIODS;
+  // ── Navigation tuần ───────────────────────────────────────────────────────
+  const shiftWeek = (delta) => {
+    const d = new Date(weekStart);
+    d.setDate(d.getDate() + delta * 7);
+    setWeekStart(d.toISOString().slice(0, 10));
+  };
+
+  // ── Render ────────────────────────────────────────────────────────────────
 
   return (
     <div className="space-y-6">
@@ -186,11 +277,45 @@ export default function ScheduleAdminPage() {
             Quản lý và chỉnh sửa thời khóa biểu — click vào ô để thêm hoặc sửa tiết học
           </p>
         </div>
-        <span className="flex items-center gap-1.5 text-label-sm text-[#64748b] bg-[#f8fafc] border border-[#e2e8f0] px-3 py-1.5 rounded-lg">
-          <span className="material-symbols-outlined text-[16px]" aria-hidden="true">calendar_today</span>
-          Tuần 11–15/11/2024
-        </span>
+
+        {/* Week navigation */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => shiftWeek(-1)}
+            className="p-1.5 rounded-lg border border-[#e2e8f0] hover:bg-[#f8fafc] transition-colors"
+            aria-label="Tuần trước"
+          >
+            <span className="material-symbols-outlined text-[18px] text-[#64748b]">chevron_left</span>
+          </button>
+          <span className="flex items-center gap-1.5 text-label-sm text-[#64748b] bg-[#f8fafc] border border-[#e2e8f0] px-3 py-1.5 rounded-lg">
+            <span className="material-symbols-outlined text-[16px]" aria-hidden="true">calendar_today</span>
+            Tuần {fmtDate(weekStart)} – {fmtDate(weekEnd(weekStart))}
+          </span>
+          <button
+            type="button"
+            onClick={() => shiftWeek(1)}
+            className="p-1.5 rounded-lg border border-[#e2e8f0] hover:bg-[#f8fafc] transition-colors"
+            aria-label="Tuần sau"
+          >
+            <span className="material-symbols-outlined text-[18px] text-[#64748b]">chevron_right</span>
+          </button>
+        </div>
       </div>
+
+      {/* ── Error Banner ── */}
+      {error && (
+        <div className="flex items-center gap-3 p-4 rounded-lg bg-[#fef2f2] border border-[#fecaca] text-[#b91c1c]" role="alert">
+          <span className="material-symbols-outlined text-[20px]">error</span>
+          <p className="text-body-sm font-medium flex-1">{error}</p>
+          <button
+            className="text-label-sm underline hover:no-underline"
+            onClick={() => { setError(null); setLoading(true); fetchSchedulePageData(selectedClass, weekStart).then((d) => { setSlots(d.slots); setAllWeekSlots(d.allWeekSlots); }).catch((e) => setError(e.message)).finally(() => setLoading(false)); }}
+          >
+            Thử lại
+          </button>
+        </div>
+      )}
 
       {/* ── Toolbar ── */}
       <div className="bg-white rounded-xl border border-[#e2e8f0] shadow-elevation-1 p-4 flex flex-wrap gap-4 items-end">
@@ -205,6 +330,7 @@ export default function ScheduleAdminPage() {
             onChange={(e) => setSelectedClass(e.target.value)}
             className="border border-[#e2e8f0] rounded-lg px-3 py-2 text-body-md text-[#0b1c30] bg-white focus:outline-none focus:border-[#004ac6] focus:ring-2 focus:ring-[#004ac6]/15 transition-all"
           >
+            {classes.length === 0 && <option value="">Đang tải...</option>}
             {classes.map((cls) => (
               <option key={cls.id} value={cls.id}>{cls.name}</option>
             ))}
@@ -237,38 +363,40 @@ export default function ScheduleAdminPage() {
                 Tiết
               </th>
               {DAYS.map((day) => (
-                <th
-                  key={day}
-                  className="px-3 py-3 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider min-w-[140px]"
-                >
+                <th key={day} className="px-3 py-3 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider min-w-[140px]">
                   {DAY_LABELS[day]}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {visiblePeriods.map((period) => (
+            {PERIODS.map((period) => (
               <tr key={period} className="border-b border-[#f1f5f9]">
                 {/* Period label */}
                 <td className="sticky left-0 z-10 bg-white px-4 py-2.5 border-r border-[#e2e8f0]">
-                  <div className="flex flex-col">
-                    <span className="text-label-sm font-semibold text-[#475569]">{PERIOD_LABELS[period]}</span>
-                  </div>
+                  <span className="text-label-sm font-semibold text-[#475569]">Tiết {period}</span>
                 </td>
-                {/* Day cells */}
+
                 {DAYS.map((day) => {
-                  const key = `${day}-${period}`;
+                  const key  = `${day}-${period}`;
                   const slot = slotMap[key];
                   const hasConflict = conflictKeys.has(key);
 
+                  if (loading) {
+                    return (
+                      <td key={day} className="px-2 py-2">
+                        <SkeletonCell />
+                      </td>
+                    );
+                  }
+
                   if (slot) {
-                    // Occupied cell
                     return (
                       <td key={day} className="px-2 py-2">
                         <button
                           type="button"
                           onClick={() => openModal(day, period)}
-                          className={`w-full text-left rounded-lg p-2.5 border transition-all group ${
+                          className={`w-full text-left rounded-lg p-2.5 border transition-all ${
                             hasConflict
                               ? 'bg-[#fef2f2] border-[#fca5a5] hover:border-[#ef4444]'
                               : 'bg-[#eff4ff] border-[#c3c6d7] hover:border-[#004ac6]'
@@ -280,10 +408,7 @@ export default function ScheduleAdminPage() {
                               {slot.subjectName}
                             </span>
                             {hasConflict && (
-                              <span
-                                className="material-symbols-outlined text-[14px] text-[#ef4444] flex-none"
-                                aria-label="Xung đột"
-                              >
+                              <span className="material-symbols-outlined text-[14px] text-[#ef4444] flex-none" aria-label="Xung đột">
                                 warning
                               </span>
                             )}
@@ -298,7 +423,6 @@ export default function ScheduleAdminPage() {
                     );
                   }
 
-                  // Empty cell
                   return (
                     <td key={day} className="px-2 py-2">
                       <button
@@ -341,6 +465,14 @@ export default function ScheduleAdminPage() {
             </div>
           )}
 
+          {/* Modal error */}
+          {modalError && (
+            <div className="flex items-center gap-2 px-3 py-2 bg-[#fef2f2] rounded-lg border border-[#fecaca] text-body-sm text-[#b91c1c]">
+              <span className="material-symbols-outlined text-[16px]">error</span>
+              {modalError}
+            </div>
+          )}
+
           {/* Subject */}
           <div className="flex flex-col gap-1.5">
             <label className="text-label-sm font-medium text-[#434655]">
@@ -371,8 +503,8 @@ export default function ScheduleAdminPage() {
               className="border border-[#e2e8f0] rounded-lg px-3 py-2 text-body-md text-[#0b1c30] bg-white focus:outline-none focus:border-[#004ac6] focus:ring-2 focus:ring-[#004ac6]/15 transition-all"
             >
               <option value="">Chọn giáo viên...</option>
-              {teachers.map((t) => (
-                <option key={t.id} value={t.name}>{t.name}</option>
+              {teacherNames.map((name) => (
+                <option key={name} value={name}>{name}</option>
               ))}
             </select>
           </div>
@@ -393,31 +525,52 @@ export default function ScheduleAdminPage() {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-2 border-t border-[#f1f5f9]">
-            <button
-              type="button"
-              onClick={closeModal}
-              className="px-4 py-2 rounded-lg border border-[#e2e8f0] text-[#475569] text-body-sm font-medium hover:bg-[#f8fafc] transition-colors"
-            >
-              Hủy
-            </button>
-            <button
-              type="submit"
-              disabled={isSaving}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#004ac6] hover:bg-[#003ea8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-body-sm shadow-elevation-1 transition-all"
-            >
-              {isSaving ? (
-                <>
-                  <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
-                  Đang lưu...
-                </>
-              ) : (
-                <>
-                  <span className="material-symbols-outlined text-[18px]">save</span>
-                  {editingSlot ? 'Cập nhật' : 'Thêm tiết học'}
-                </>
+          <div className="flex items-center justify-between gap-3 pt-2 border-t border-[#f1f5f9]">
+            {/* Delete button — chỉ hiện khi đang sửa */}
+            <div>
+              {editingSlot && (
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  disabled={isDeleting || isSaving}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#fca5a5] text-[#b91c1c] text-body-sm font-medium hover:bg-[#fef2f2] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                >
+                  {isDeleting ? (
+                    <span className="material-symbols-outlined text-[16px] animate-spin">progress_activity</span>
+                  ) : (
+                    <span className="material-symbols-outlined text-[16px]">delete</span>
+                  )}
+                  Xóa tiết
+                </button>
               )}
-            </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={closeModal}
+                className="px-4 py-2 rounded-lg border border-[#e2e8f0] text-[#475569] text-body-sm font-medium hover:bg-[#f8fafc] transition-colors"
+              >
+                Hủy
+              </button>
+              <button
+                type="submit"
+                disabled={isSaving || isDeleting}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#004ac6] hover:bg-[#003ea8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-body-sm shadow-elevation-1 transition-all"
+              >
+                {isSaving ? (
+                  <>
+                    <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+                    Đang lưu...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined text-[18px]">save</span>
+                    {editingSlot ? 'Cập nhật' : 'Thêm tiết học'}
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </form>
       </Modal>

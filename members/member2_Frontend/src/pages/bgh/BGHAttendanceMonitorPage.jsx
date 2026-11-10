@@ -6,123 +6,97 @@
  *   - DataTable các lớp với tỉ lệ chuyên cần
  *   - Row highlight vàng khi tileChuyenCan < 80%
  *
+ * Dữ liệu: GET /api/attendance/summary — không dùng mockData.
  * Requirements: 6.1, 6.2, 6.3
  */
 
-import { useState, useMemo } from 'react';
-import DataTable from '../../components/shared/DataTable.jsx';
-import { bghAttendanceSummary } from '../../data/mockData.js';
+import { useState, useEffect, useMemo } from 'react';
+import { fetchAttendanceSummary } from '../../api/stubs.js';
 
-// ─── Column definitions ───────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Returns inline style for a row, warning background if below threshold */
-function rowStyle(row) {
-  return row.tileChuyenCan < 80 ? { backgroundColor: '#fff7ed' } : {};
+/** Ngày hôm nay và 7 ngày trước định dạng YYYY-MM-DD */
+function defaultDateRange() {
+  const to   = new Date();
+  const from = new Date(to);
+  from.setDate(from.getDate() - 6);
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  return { from: fmt(from), to: fmt(to) };
 }
 
-const columns = [
-  {
-    key: 'className',
-    header: 'Lớp',
-    render: (v) => (
-      <span className="font-semibold text-[#0f172a]">{v}</span>
-    ),
-  },
-  {
-    key: 'gvcnName',
-    header: 'GVCN',
-    render: (v) => (
-      <span className="text-[#334155]">{v}</span>
-    ),
-  },
-  {
-    key: 'totalStudents',
-    header: 'Tổng HS',
-    className: 'text-center',
-    cellClassName: 'text-center tabular-nums',
-    render: (v) => (
-      <span style={{ fontVariantNumeric: 'tabular-nums' }}>{v}</span>
-    ),
-  },
-  {
-    key: 'tileChuyenCan',
-    header: 'Tỉ lệ CC (%)',
-    className: 'text-center',
-    cellClassName: 'text-center',
-    render: (v) => {
-      const isLow = v < 80;
-      return (
-        <div className="flex items-center justify-center gap-2">
-          {/* Mini progress bar */}
-          <div className="w-20 h-2 bg-[#f1f5f9] rounded-full overflow-hidden flex-none">
-            <div
-              className={`h-full rounded-full ${isLow ? 'bg-[#f97316]' : 'bg-[#22c55e]'}`}
-              style={{ width: `${v}%` }}
-              role="presentation"
-            />
-          </div>
-          <span
-            className={`text-label-sm font-semibold tabular-nums ${
-              isLow ? 'text-[#c2410c]' : 'text-[#15803d]'
-            }`}
-            style={{ fontVariantNumeric: 'tabular-nums' }}
-          >
-            {v}%
-          </span>
-          {isLow && (
-            <span
-              className="material-symbols-outlined text-[16px] text-[#f97316]"
-              aria-label="Dưới ngưỡng 80%"
-            >
-              warning
-            </span>
-          )}
-        </div>
-      );
-    },
-  },
-  {
-    key: 'soHSduoiNguong',
-    header: 'HS dưới ngưỡng',
-    className: 'text-center',
-    cellClassName: 'text-center',
-    render: (v) => {
-      if (v === 0)
-        return (
-          <span className="inline-flex items-center gap-1 text-label-sm text-[#15803d]">
-            <span className="material-symbols-outlined text-[14px]">check_circle</span>0
-          </span>
-        );
-      return (
-        <span
-          className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#fef2f2] text-[#b91c1c] text-label-sm font-bold"
-          style={{ fontVariantNumeric: 'tabular-nums' }}
-        >
-          {v}
-        </span>
-      );
-    },
-  },
-];
+/** Skeleton placeholder khi loading */
+function SkeletonRow() {
+  return (
+    <tr>
+      {[...Array(5)].map((_, i) => (
+        <td key={i} className="px-4 py-3">
+          <div className="animate-pulse h-4 bg-[#e2e8f0] rounded" />
+        </td>
+      ))}
+    </tr>
+  );
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function BGHAttendanceMonitorPage() {
-  const [dateFrom, setDateFrom] = useState('2024-11-11');
-  const [dateTo,   setDateTo]   = useState('2024-11-14');
+  const defaults = useMemo(defaultDateRange, []);
+
+  const [dateFrom,      setDateFrom]      = useState(defaults.from);
+  const [dateTo,        setDateTo]        = useState(defaults.to);
   const [selectedClass, setSelectedClass] = useState('all');
 
-  const filteredData = useMemo(() => {
-    if (selectedClass === 'all') return bghAttendanceSummary;
-    return bghAttendanceSummary.filter((r) => r.classId === selectedClass);
-  }, [selectedClass]);
+  // Data from API
+  const [summaries,   setSummaries]   = useState([]);
+  const [classNames,  setClassNames]  = useState([]);
+  const [loading,     setLoading]     = useState(true);
+  const [error,       setError]       = useState(null);
 
+  // ── Fetch khi filter thay đổi ─────────────────────────────────────────────
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const result = await fetchAttendanceSummary({
+          dateFrom,
+          dateTo,
+          className: selectedClass,
+        });
+        if (!cancelled) {
+          setSummaries(result.summaries);
+          setClassNames(result.classNames);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || 'Không thể tải dữ liệu chuyên cần. Vui lòng thử lại.');
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => { cancelled = true; };
+  }, [dateFrom, dateTo, selectedClass]);
+
+  // ── Derived ───────────────────────────────────────────────────────────────
   const totalBelow = useMemo(
-    () => filteredData.filter((r) => r.tileChuyenCan < 80).length,
-    [filteredData],
+    () => summaries.filter((r) => r.tileChuyenCan < 80).length,
+    [summaries],
   );
 
-  // Custom DataTable with per-row style for warning highlight
+  function retry() {
+    setError(null);
+    setLoading(true);
+    fetchAttendanceSummary({ dateFrom, dateTo, className: selectedClass })
+      .then((r) => { setSummaries(r.summaries); setClassNames(r.classNames); })
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }
+
   return (
     <div className="space-y-6">
 
@@ -134,6 +108,20 @@ export default function BGHAttendanceMonitorPage() {
         </p>
       </div>
 
+      {/* ── Error Banner ── */}
+      {error && (
+        <div className="flex items-center gap-3 p-4 rounded-lg bg-[#fef2f2] border border-[#fecaca] text-[#b91c1c]" role="alert">
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">error</span>
+          <p className="text-body-sm font-medium flex-1">{error}</p>
+          <button
+            className="text-label-sm underline hover:no-underline"
+            onClick={retry}
+          >
+            Thử lại
+          </button>
+        </div>
+      )}
+
       {/* ── Filter bar ── */}
       <div className="bg-white rounded-xl border border-[#e2e8f0] shadow-elevation-1 p-4">
         <div className="flex flex-wrap gap-4 items-end">
@@ -141,9 +129,7 @@ export default function BGHAttendanceMonitorPage() {
           {/* Date from */}
           <div className="flex flex-col gap-1.5 min-w-[160px]">
             <label className="text-label-sm font-medium text-[#434655]">
-              <span className="material-symbols-outlined text-[14px] align-middle mr-1">
-                calendar_today
-              </span>
+              <span className="material-symbols-outlined text-[14px] align-middle mr-1">calendar_today</span>
               Từ ngày
             </label>
             <input
@@ -157,9 +143,7 @@ export default function BGHAttendanceMonitorPage() {
           {/* Date to */}
           <div className="flex flex-col gap-1.5 min-w-[160px]">
             <label className="text-label-sm font-medium text-[#434655]">
-              <span className="material-symbols-outlined text-[14px] align-middle mr-1">
-                event
-              </span>
+              <span className="material-symbols-outlined text-[14px] align-middle mr-1">event</span>
               Đến ngày
             </label>
             <input
@@ -173,9 +157,7 @@ export default function BGHAttendanceMonitorPage() {
           {/* Class filter */}
           <div className="flex flex-col gap-1.5 min-w-[160px]">
             <label className="text-label-sm font-medium text-[#434655]">
-              <span className="material-symbols-outlined text-[14px] align-middle mr-1">
-                groups
-              </span>
+              <span className="material-symbols-outlined text-[14px] align-middle mr-1">groups</span>
               Lớp học
             </label>
             <select
@@ -184,16 +166,14 @@ export default function BGHAttendanceMonitorPage() {
               className="border border-[#e2e8f0] rounded-lg px-3 py-2 text-body-md text-[#0b1c30] bg-white focus:outline-none focus:border-[#004ac6] focus:ring-2 focus:ring-[#004ac6]/15 transition-all"
             >
               <option value="all">Tất cả lớp</option>
-              {bghAttendanceSummary.map((r) => (
-                <option key={r.classId} value={r.classId}>
-                  {r.className}
-                </option>
+              {classNames.map((cn) => (
+                <option key={cn} value={cn}>{cn}</option>
               ))}
             </select>
           </div>
 
           {/* Summary badge */}
-          {totalBelow > 0 && (
+          {!loading && !error && totalBelow > 0 && (
             <div className="flex items-end pb-0.5">
               <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#fff7ed] text-[#c2410c] border border-[#fdba74] text-body-sm font-medium">
                 <span className="material-symbols-outlined text-[16px]">warning</span>
@@ -201,7 +181,7 @@ export default function BGHAttendanceMonitorPage() {
               </span>
             </div>
           )}
-          {totalBelow === 0 && filteredData.length > 0 && (
+          {!loading && !error && totalBelow === 0 && summaries.length > 0 && (
             <div className="flex items-end pb-0.5">
               <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#f0fdf4] text-[#15803d] border border-[#86efac] text-body-sm font-medium">
                 <span className="material-symbols-outlined text-[16px]">check_circle</span>
@@ -212,21 +192,18 @@ export default function BGHAttendanceMonitorPage() {
         </div>
       </div>
 
-      {/* ── Table with row-level warning highlight ── */}
+      {/* ── Table ── */}
       <div className="bg-white rounded-xl border border-[#e2e8f0] shadow-elevation-1 overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#f1f5f9]">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[20px] text-[#2563eb]" aria-hidden="true">
-              bar_chart
-            </span>
+            <span className="material-symbols-outlined text-[20px] text-[#2563eb]" aria-hidden="true">bar_chart</span>
             <h2 className="text-headline-sm font-semibold text-[#0f172a]">Tỉ lệ chuyên cần theo lớp</h2>
           </div>
           <span className="text-label-sm text-[#64748b] bg-[#f8fafc] border border-[#e2e8f0] px-2.5 py-1 rounded">
-            {filteredData.length} lớp
+            {loading ? '—' : `${summaries.length} lớp`}
           </span>
         </div>
 
-        {/* Custom table — can't use DataTable for per-row bg override */}
         <div className="overflow-x-auto">
           <table
             className="w-full border-collapse text-data-table"
@@ -242,14 +219,23 @@ export default function BGHAttendanceMonitorPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredData.length === 0 ? (
+              {loading ? (
+                <>
+                  <SkeletonRow />
+                  <SkeletonRow />
+                  <SkeletonRow />
+                </>
+              ) : summaries.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-[#94a3b8] text-body-sm">
-                    Không có dữ liệu
+                  <td colSpan={5} className="px-4 py-12 text-center text-[#94a3b8] text-body-sm">
+                    <span className="material-symbols-outlined text-[36px] block mb-2" aria-hidden="true">
+                      search_off
+                    </span>
+                    Không có dữ liệu điểm danh trong khoảng thời gian này
                   </td>
                 </tr>
               ) : (
-                filteredData.map((row) => {
+                summaries.map((row) => {
                   const isLow = row.tileChuyenCan < 80;
                   return (
                     <tr
@@ -258,7 +244,7 @@ export default function BGHAttendanceMonitorPage() {
                       style={{ height: '44px', ...(isLow ? { backgroundColor: '#fff7ed' } : {}) }}
                     >
                       {/* Lớp */}
-                      <td className="px-4 py-2 text-[#1e293b] whitespace-nowrap">
+                      <td className="px-4 py-2 whitespace-nowrap">
                         <span className="font-semibold text-[#0f172a]">{row.className}</span>
                       </td>
                       {/* GVCN */}
@@ -280,9 +266,7 @@ export default function BGHAttendanceMonitorPage() {
                             />
                           </div>
                           <span
-                            className={`text-label-sm font-semibold w-10 tabular-nums ${
-                              isLow ? 'text-[#c2410c]' : 'text-[#15803d]'
-                            }`}
+                            className={`text-label-sm font-semibold w-10 tabular-nums ${isLow ? 'text-[#c2410c]' : 'text-[#15803d]'}`}
                             style={{ fontVariantNumeric: 'tabular-nums' }}
                           >
                             {row.tileChuyenCan}%

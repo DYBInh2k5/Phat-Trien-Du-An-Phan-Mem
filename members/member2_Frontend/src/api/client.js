@@ -17,6 +17,24 @@
 // Địa chỉ gốc của máy chủ API Backend (lấy từ biến môi trường Vite hoặc mặc định cổng 8081)
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081/api';
 
+const STORAGE_KEY = 'htqllh_auth';
+
+/**
+ * Lấy JWT token đang lưu trong localStorage.
+ */
+function getStoredToken() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return parsed?.token ?? null;
+    }
+  } catch {
+    // ignore
+  }
+  return null;
+}
+
 /**
  * Hàm gọi API tổng quát (Wrapper xung quanh Fetch API chuẩn)
  * @async
@@ -30,11 +48,15 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081
  * @throws {Error} Ngoại lệ kèm theo mã trạng thái status và dữ liệu chi tiết data
  */
 export async function apiClient(endpoint, { body, method = 'GET', headers = {}, ...customConfig } = {}) {
+  const token = getStoredToken();
+
   // Cấu hình các thiết lập chuẩn cho yêu cầu mạng
   const config = {
     method,
     headers: {
       'Content-Type': 'application/json',
+      // Tự động đính kèm token nếu có (trừ khi caller tự truyền Authorization)
+      ...(token && !headers['Authorization'] ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
     ...customConfig,
@@ -46,8 +68,8 @@ export async function apiClient(endpoint, { body, method = 'GET', headers = {}, 
   }
 
   // Chuẩn hóa địa chỉ URL đầy đủ (hỗ trợ cả URL tương đối và tuyệt đối)
-  const url = endpoint.startsWith('http') 
-    ? endpoint 
+  const url = endpoint.startsWith('http')
+    ? endpoint
     : `${API_BASE_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
 
   try {
@@ -63,6 +85,7 @@ export async function apiClient(endpoint, { body, method = 'GET', headers = {}, 
       const errorMsg = data?.message || `Lỗi HTTP ${response.status}: ${response.statusText}`;
       const error = new Error(errorMsg);
       error.status = response.status;
+      error.code = data?.code;
       error.data = data;
       throw error;
     }

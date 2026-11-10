@@ -13,7 +13,7 @@
  * ==============================================================================
  */
 
-import { query } from '../config/db.js';
+import { querySafe as query } from '../config/db.js';
 
 /**
  * Kho dữ liệu bộ nhớ dự phòng (In-Memory Store).

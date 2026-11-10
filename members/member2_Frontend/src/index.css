@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -9,6 +9,27 @@
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
   ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+}
+
+/* Thanh cuộn chuyên dụng cho khung chat & danh bạ */
+.chat-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #f1f5f9;
+}
+.chat-scrollbar::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 9999px;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 9999px;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }
 
 /* Print / PDF styles */

@@ -1,37 +1,84 @@
-import { useState, useMemo } from 'react';
-
-const MOCK_RECORDS = [
-  { date: '2024-11-13', status: 'present', period: 'Buổi sáng', note: '' },
-  { date: '2024-11-14', status: 'absent',  period: 'Buổi sáng', note: 'Vắng không phép' },
-  { date: '2024-11-12', status: 'present', period: 'Buổi sáng', note: '' },
-  { date: '2024-11-11', status: 'late',    period: 'Buổi sáng', note: 'Đến trễ 10 phút' },
-  { date: '2024-11-08', status: 'present', period: 'Buổi sáng', note: '' },
-  { date: '2024-11-07', status: 'present', period: 'Buổi sáng', note: '' },
-];
+import { useState, useMemo, useEffect } from 'react';
+import { fetchAttendance, submitLeaveRequest } from '../../api/stubs.js';
 
 const STATUS_MAP = {
-  present: { label: 'Có mặt',  cls: 'bg-[#f0fdf4] text-[#15803d] border-[#86efac]',  icon: 'check_circle' },
-  late:    { label: 'Đi trễ',  cls: 'bg-[#fff7ed] text-[#c2410c] border-[#fdba74]',  icon: 'schedule' },
+  present: { label: 'Có mặt',   cls: 'bg-[#f0fdf4] text-[#15803d] border-[#86efac]',  icon: 'check_circle' },
+  late:    { label: 'Đi trễ',   cls: 'bg-[#fff7ed] text-[#c2410c] border-[#fdba74]',  icon: 'schedule' },
   absent:  { label: 'Vắng mặt', cls: 'bg-[#fef2f2] text-[#b91c1c] border-[#fca5a5]', icon: 'cancel' },
 };
 
+function getStudentCode() {
+  try {
+    const raw = localStorage.getItem('user') || localStorage.getItem('htqllh_auth');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const u = parsed?.user ?? parsed;
+      return u?.studentCode ?? u?.username ?? 'HS001';
+    }
+  } catch { /* ignore */ }
+  return 'HS001';
+}
+
 export default function StudentAttendancePage() {
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
   const [leaveForm, setLeaveForm] = useState({ fromDate: '', toDate: '', reason: 'Lý do sức khỏe / Ốm đau', detail: '' });
   const [leaveSubmitted, setLeaveSubmitted] = useState(false);
+  const [leaveError, setLeaveError] = useState('');
+  const [leaveSubmitting, setLeaveSubmitting] = useState(false);
 
-  const stats = useMemo(() => {
-    const total   = MOCK_RECORDS.length;
-    const present = MOCK_RECORDS.filter(r => r.status === 'present').length;
-    const absent  = MOCK_RECORDS.filter(r => r.status === 'absent').length;
-    const late    = MOCK_RECORDS.filter(r => r.status === 'late').length;
-    return { total, present, absent, late, rate: total > 0 ? ((present + late) / total * 100).toFixed(1) : 100 };
+  useEffect(() => {
+    setLoading(true);
+    fetchAttendance()
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped = data.map(row => ({
+            date:   row.att_date  ?? row.date   ?? '',
+            period: row.session   ?? row.period  ?? 'Buổi sáng',
+            status: (row.status ?? 'present').toLowerCase(),
+            note:   row.note ?? '',
+          }));
+          setAttendanceRecords(mapped);
+        } else {
+          setAttendanceRecords([]);
+        }
+      })
+      .catch(() => setAttendanceRecords([]))
+      .finally(() => setLoading(false));
   }, []);
 
-  const handleLeaveSubmit = (e) => {
+  const stats = useMemo(() => {
+    const total   = attendanceRecords.length;
+    const present = attendanceRecords.filter(r => r.status === 'present').length;
+    const absent  = attendanceRecords.filter(r => r.status === 'absent').length;
+    const late    = attendanceRecords.filter(r => r.status === 'late').length;
+    return { total, present, absent, late, rate: total > 0 ? ((present + late) / total * 100).toFixed(1) : '—' };
+  }, [attendanceRecords]);
+
+  const handleLeaveSubmit = async (e) => {
     e.preventDefault();
-    setLeaveSubmitted(true);
-    setTimeout(() => { setLeaveSubmitted(false); setIsLeaveModalOpen(false); }, 2000);
+    setLeaveError('');
+    setLeaveSubmitting(true);
+    const studentCode = getStudentCode();
+    try {
+      await submitLeaveRequest({
+        studentCode,
+        fromDate: leaveForm.fromDate,
+        toDate: leaveForm.toDate,
+        reason: leaveForm.reason + (leaveForm.detail ? ' — ' + leaveForm.detail : ''),
+      });
+      setLeaveSubmitted(true);
+      setTimeout(() => {
+        setLeaveSubmitted(false);
+        setIsLeaveModalOpen(false);
+        setLeaveForm({ fromDate: '', toDate: '', reason: 'Lý do sức khỏe / Ốm đau', detail: '' });
+      }, 2000);
+    } catch (err) {
+      setLeaveError(err?.message || 'Gửi đơn thất bại. Vui lòng thử lại.');
+    } finally {
+      setLeaveSubmitting(false);
+    }
   };
 
   return (
@@ -42,7 +89,7 @@ export default function StudentAttendancePage() {
           <h1 className="text-headline-md font-semibold text-[#0f172a]">Chuyên cần & Nề nếp</h1>
           <p className="text-body-sm text-[#64748b] mt-0.5">Nhật ký điểm danh và lịch sử xin phép nghỉ học</p>
         </div>
-        <button type="button" onClick={() => setIsLeaveModalOpen(true)}
+        <button type="button" onClick={() => { setIsLeaveModalOpen(true); setLeaveError(''); setLeaveSubmitted(false); }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#004ac6] text-white text-label-md font-semibold hover:bg-[#003ea8] shadow-elevation-1 transition-all">
           <span className="material-symbols-outlined text-[18px]">add_task</span>
           Nộp đơn nghỉ học trực tuyến
@@ -52,10 +99,10 @@ export default function StudentAttendancePage() {
       {/* Stats KPI */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: 'Tỷ lệ chuyên cần', value: stats.rate + '%', icon: 'percent', cls: 'text-[#15803d]' },
-          { label: 'Buổi có mặt', value: stats.present, icon: 'check_circle', cls: 'text-[#15803d]' },
-          { label: 'Buổi vắng', value: stats.absent, icon: 'cancel', cls: stats.absent > 0 ? 'text-[#dc2626]' : 'text-[#15803d]' },
-          { label: 'Buổi đi trễ', value: stats.late, icon: 'schedule', cls: stats.late > 0 ? 'text-[#c2410c]' : 'text-[#15803d]' },
+          { label: 'Tỷ lệ chuyên cần', value: loading ? '…' : stats.rate + '%', icon: 'percent', cls: 'text-[#15803d]' },
+          { label: 'Buổi có mặt',  value: loading ? '…' : stats.present, icon: 'check_circle', cls: 'text-[#15803d]' },
+          { label: 'Buổi vắng',    value: loading ? '…' : stats.absent,  icon: 'cancel',       cls: stats.absent > 0 ? 'text-[#dc2626]' : 'text-[#15803d]' },
+          { label: 'Buổi đi trễ', value: loading ? '…' : stats.late,    icon: 'schedule',     cls: stats.late > 0 ? 'text-[#c2410c]' : 'text-[#15803d]' },
         ].map(k => (
           <div key={k.label} className="bg-white rounded-xl border border-[#e2e8f0] shadow-elevation-1 p-4">
             <div className="flex items-center justify-between mb-2">
@@ -73,39 +120,50 @@ export default function StudentAttendancePage() {
           <span className="material-symbols-outlined text-[20px] text-[#004ac6]">fact_check</span>
           <h2 className="text-headline-sm font-semibold text-[#0f172a]">Nhật ký điểm danh</h2>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-data-table" style={{ fontVariantNumeric: 'tabular-nums' }}>
-            <thead>
-              <tr className="bg-[#f8fafc] border-b border-[#cbd5e1]" style={{ height: '40px' }}>
-                <th className="px-4 py-2.5 text-left text-label-sm text-[#475569] font-medium uppercase tracking-wider">Ngày</th>
-                <th className="px-4 py-2.5 text-left text-label-sm text-[#475569] font-medium uppercase tracking-wider">Buổi học</th>
-                <th className="px-4 py-2.5 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider">Trạng thái</th>
-                <th className="px-4 py-2.5 text-left text-label-sm text-[#475569] font-medium uppercase tracking-wider">Ghi chú</th>
-              </tr>
-            </thead>
-            <tbody>
-              {MOCK_RECORDS.map((r, i) => {
-                const st = STATUS_MAP[r.status];
-                const d = new Date(r.date);
-                return (
-                  <tr key={i} className={`border-b border-[#f1f5f9] hover:bg-[#f8fafc] transition-colors ${r.status === 'absent' ? 'bg-[#fef2f2]/30' : ''}`} style={{ height: '48px' }}>
-                    <td className="px-4 py-2 text-[#0f172a] font-medium whitespace-nowrap">
-                      {d.toLocaleDateString('vi-VN', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' })}
-                    </td>
-                    <td className="px-4 py-2 text-[#475569] whitespace-nowrap">{r.period}</td>
-                    <td className="px-4 py-2 text-center whitespace-nowrap">
-                      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-label-sm font-medium ${st.cls}`}>
-                        <span className="material-symbols-outlined text-[13px]">{st.icon}</span>
-                        {st.label}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2 text-[#64748b] text-body-sm">{r.note || '—'}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+
+        {loading ? (
+          <div className="p-6 space-y-3">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="h-10 bg-[#f1f5f9] rounded animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-data-table" style={{ fontVariantNumeric: 'tabular-nums' }}>
+              <thead>
+                <tr className="bg-[#f8fafc] border-b border-[#cbd5e1]" style={{ height: '40px' }}>
+                  <th className="px-4 py-2.5 text-left text-label-sm text-[#475569] font-medium uppercase tracking-wider">Ngày</th>
+                  <th className="px-4 py-2.5 text-left text-label-sm text-[#475569] font-medium uppercase tracking-wider">Buổi học</th>
+                  <th className="px-4 py-2.5 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider">Trạng thái</th>
+                  <th className="px-4 py-2.5 text-left text-label-sm text-[#475569] font-medium uppercase tracking-wider">Ghi chú</th>
+                </tr>
+              </thead>
+              <tbody>
+                {attendanceRecords.length === 0 ? (
+                  <tr><td colSpan={4} className="px-4 py-10 text-center text-[#94a3b8]">Chưa có dữ liệu điểm danh.</td></tr>
+                ) : attendanceRecords.map((r, i) => {
+                  const st = STATUS_MAP[r.status] ?? STATUS_MAP.present;
+                  const d = new Date(r.date);
+                  return (
+                    <tr key={i} className={`border-b border-[#f1f5f9] hover:bg-[#f8fafc] transition-colors ${r.status === 'absent' ? 'bg-[#fef2f2]/30' : ''}`} style={{ height: '48px' }}>
+                      <td className="px-4 py-2 text-[#0f172a] font-medium whitespace-nowrap">
+                        {r.date ? d.toLocaleDateString('vi-VN', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'}
+                      </td>
+                      <td className="px-4 py-2 text-[#475569] whitespace-nowrap">{r.period}</td>
+                      <td className="px-4 py-2 text-center whitespace-nowrap">
+                        <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-label-sm font-medium ${st.cls}`}>
+                          <span className="material-symbols-outlined text-[13px]">{st.icon}</span>
+                          {st.label}
+                        </span>
+                      </td>
+                      <td className="px-4 py-2 text-[#64748b] text-body-sm">{r.note || '—'}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Leave Modal */}
@@ -161,13 +219,21 @@ export default function StudentAttendancePage() {
                   <span className="text-body-sm text-[#15803d] font-medium">Đơn đã gửi thành công đến GVCN!</span>
                 </div>
               )}
+              {leaveError && (
+                <div className="flex items-center gap-2 p-3 bg-[#fef2f2] border border-[#fca5a5] rounded-lg">
+                  <span className="material-symbols-outlined text-[18px] text-[#b91c1c]">error</span>
+                  <span className="text-body-sm text-[#b91c1c] font-medium">{leaveError}</span>
+                </div>
+              )}
               <div className="flex gap-3 pt-2 border-t border-[#f1f5f9]">
                 <button type="button" onClick={() => setIsLeaveModalOpen(false)}
                   className="flex-1 py-2 rounded-lg border border-[#e2e8f0] text-[#475569] text-body-sm font-medium hover:bg-[#f8fafc] transition-colors">Hủy</button>
-                <button type="submit" disabled={leaveSubmitted}
+                <button type="submit" disabled={leaveSubmitted || leaveSubmitting}
                   className="flex-1 py-2 rounded-lg bg-[#004ac6] text-white text-body-sm font-semibold hover:bg-[#003ea8] disabled:opacity-60 transition-all flex items-center justify-center gap-1.5">
-                  <span className="material-symbols-outlined text-[18px]">send</span>
-                  Gửi đơn cho GVCN
+                  {leaveSubmitting
+                    ? <><span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> Đang gửi…</>
+                    : <><span className="material-symbols-outlined text-[18px]">send</span> Gửi đơn cho GVCN</>
+                  }
                 </button>
               </div>
             </form>

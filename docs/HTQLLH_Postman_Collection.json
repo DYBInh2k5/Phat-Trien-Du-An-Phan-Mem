@@ -1,0 +1,1078 @@
+{
+  "info": {
+    "_postman_id": "htqllh-school-management-api-2026",
+    "name": "HTQLLH — School Management System (THPT HSU)",
+    "description": "Bộ sưu tập Postman API kiểm thử toàn diện cho Hệ thống Quản lý Lớp học THPT HSU.\nBao gồm đầy đủ 12 phân hệ: Auth, Students, Gradebook TT22, Attendance, Leave Requests, Tuition, Schedules, Reports BGH, Notifications, Communication, Users, Settings.\n\nCổng chạy mặc định: http://localhost:8081",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081",
+      "type": "string"
+    },
+    {
+      "key": "jwtToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "00. Health Check (Kiểm tra Server)",
+      "item": [
+        {
+          "name": "Kiểm tra trạng thái máy chủ (Health Check)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            },
+            "description": "Kiểm tra xem backend Node.js có đang chạy bình thường không."
+          }
+        }
+      ]
+    },
+    {
+      "name": "01. Xác Thực & Đăng Nhập (Authentication)",
+      "item": [
+        {
+          "name": "1.1 Đăng nhập BGH / Admin (Lấy Token tự động)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set('jwtToken', jsonData.token);",
+                  "    console.log('Đã tự động lưu JWT Token BGH vào biến collection jwtToken');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"bgh.admin\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_ADMIN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Đăng nhập tài khoản Ban Giám Hiệu. Test script tự động lưu JWT token vào collection variable `jwtToken`."
+          }
+        },
+        {
+          "name": "1.2 Đăng nhập Giáo Viên Chủ Nhiệm (GVCN 10A1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set('jwtToken', jsonData.token);",
+                  "    console.log('Đã lưu JWT Token GVCN');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"gvcn.10a1\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_HOMEROOM_TEACHER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.3 Đăng nhập Giáo Viên Bộ Môn (GV An)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set('jwtToken', jsonData.token);",
+                  "    console.log('Đã lưu JWT Token GV Bộ môn');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"gv.an\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_SUBJECT_TEACHER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.4 Đăng nhập Học Sinh (hs.anh)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"hs.anh\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_STUDENT\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.5 Đăng nhập Phụ Huynh (ph.anh)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"ph.anh\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_PARENT\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.6 Lấy thông tin phiên hiện tại (Auth Me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.7 Yêu cầu quên mật khẩu (Forgot Password)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"teacher@school.edu.vn\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/forgot-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "forgot-password"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. Quản Lý Hồ Sơ Học Sinh (Students)",
+      "item": [
+        {
+          "name": "2.1 Lấy danh sách học sinh theo lớp",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/students?className=10A1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "students"
+              ],
+              "query": [
+                {
+                  "key": "className",
+                  "value": "10A1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.2 Lấy chi tiết 1 học sinh theo ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/students/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "students",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.3 Thêm mới học sinh",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_code\": \"HS10099\",\n  \"full_name\": \"Nguyễn Văn Test\",\n  \"gender\": \"Nam\",\n  \"dob\": \"2010-05-15\",\n  \"class_name\": \"10A1\",\n  \"parent_name\": \"Nguyễn Văn Phụ Huynh\",\n  \"parent_phone\": \"0901234567\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/students",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "students"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.4 Cập nhật đánh giá hạnh kiểm học sinh",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conduct\": \"Tốt\",\n  \"academicRank\": \"Khá\",\n  \"conductRemarks\": \"Ngoan ngoãn, tích cực phát biểu trong giờ học\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/students/1/conduct",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "students",
+                "1",
+                "conduct"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.5 Tính toán lại GPA hệ 10 và hệ 4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/students/1/calculate-gpa",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "students",
+                "1",
+                "calculate-gpa"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. Sổ Điểm Điện Tử TT22 (GradeBook)",
+      "item": [
+        {
+          "name": "3.1 Lấy dữ liệu sổ điểm (GradeBook)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/gradebook?className=10A1&subject=Toán&semester=HK1&schoolYear=2026-2027",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gradebook"
+              ],
+              "query": [
+                {
+                  "key": "className",
+                  "value": "10A1"
+                },
+                {
+                  "key": "subject",
+                  "value": "Toán"
+                },
+                {
+                  "key": "semester",
+                  "value": "HK1"
+                },
+                {
+                  "key": "schoolYear",
+                  "value": "2026-2027"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.2 Lưu điểm hàng loạt (Unit of Work ACID)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\",\n  \"grades\": [\n    {\n      \"student_code\": \"HS00001\",\n      \"score_oral\": 8.5,\n      \"score_15m\": 8,\n      \"score_1hour\": 7.5,\n      \"score_mid_term\": 8,\n      \"score_final_term\": 9\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gradebook/save",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gradebook",
+                "save"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.3 Kiểm tra trạng thái chốt sổ điểm (Closure Status)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/gradebook/closure?className=10A1&subject=Toán&semester=HK1&schoolYear=2026-2027",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gradebook",
+                "closure"
+              ],
+              "query": [
+                {
+                  "key": "className",
+                  "value": "10A1"
+                },
+                {
+                  "key": "subject",
+                  "value": "Toán"
+                },
+                {
+                  "key": "semester",
+                  "value": "HK1"
+                },
+                {
+                  "key": "schoolYear",
+                  "value": "2026-2027"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.4 Chốt nộp sổ điểm lên BGH (Submit Closure)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\",\n  \"notes\": \"Giáo viên đã hoàn thành chấm điểm học kỳ 1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gradebook/closure/submit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gradebook",
+                "closure",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.5 Khóa sổ điểm (Lock Gradebook - BGH)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gradebook/lock",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gradebook",
+                "lock"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. Điểm Danh Chuyên Cần (Attendance)",
+      "item": [
+        {
+          "name": "4.1 Lấy dữ liệu điểm danh theo ngày",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/attendance?className=10A1&date=2026-11-06",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attendance"
+              ],
+              "query": [
+                {
+                  "key": "className",
+                  "value": "10A1"
+                },
+                {
+                  "key": "date",
+                  "value": "2026-11-06"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.2 Lưu điểm danh học sinh",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"className\": \"10A1\",\n  \"attDate\": \"2026-11-06\",\n  \"records\": [\n    {\n      \"student_code\": \"HS00001\",\n      \"status\": \"PRESENT\",\n      \"note\": \"\"\n    },\n    {\n      \"student_code\": \"HS00002\",\n      \"status\": \"LATE\",\n      \"note\": \"Kẹt xe 10 phút\"\n    },\n    {\n      \"student_code\": \"HS00003\",\n      \"status\": \"ABSENT\",\n      \"note\": \"Ốm có phép\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/attendance/save",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attendance",
+                "save"
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.3 Thống kê chuyên cần lớp",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/attendance/summary?className=10A1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attendance",
+                "summary"
+              ],
+              "query": [
+                {
+                  "key": "className",
+                  "value": "10A1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05. Đơn Xin Nghỉ Phép (Leave Requests)",
+      "item": [
+        {
+          "name": "5.1 Lấy danh sách đơn xin nghỉ phép",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/leave-requests?className=10A1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "leave-requests"
+              ],
+              "query": [
+                {
+                  "key": "className",
+                  "value": "10A1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "5.2 Phụ huynh nộp đơn xin nghỉ học trực tuyến",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_code\": \"HS00001\",\n  \"class_name\": \"10A1\",\n  \"from_date\": \"2026-11-10\",\n  \"to_date\": \"2026-11-11\",\n  \"reason\": \"Em bị sốt xuất huyết cần nghỉ theo chỉ định bác sĩ\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/leave-requests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "leave-requests"
+              ]
+            }
+          }
+        },
+        {
+          "name": "5.3 GVCN duyệt đơn xin nghỉ phép",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"APPROVED\",\n  \"note\": \"Đã duyệt đơn, chúc em mau khỏe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/leave-requests/1/approve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "leave-requests",
+                "1",
+                "approve"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06. Quản Lý Học Phí & VietQR (Tuition)",
+      "item": [
+        {
+          "name": "6.1 Lấy danh sách học phí theo lớp",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tuition?className=10A1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tuition"
+              ],
+              "query": [
+                {
+                  "key": "className",
+                  "value": "10A1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "6.2 Đóng học phí trực tuyến (Sinh biên lai)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_code\": \"HS00001\",\n  \"amountPaid\": 2500000,\n  \"receiptNo\": \"BL20261106-001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tuition/pay",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tuition",
+                "pay"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07. Thời Khóa Biểu (Schedules)",
+      "item": [
+        {
+          "name": "7.1 Lấy dữ liệu thời khóa biểu",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules?className=10A1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "schedules"
+              ],
+              "query": [
+                {
+                  "key": "className",
+                  "value": "10A1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "7.2 Lấy danh mục mẫu thời khóa biểu",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules/templates",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "schedules",
+                "templates"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08. Dashboard Thống Kê (BGH & GVCN)",
+      "item": [
+        {
+          "name": "8.1 Dashboard Ban Giám Hiệu",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/bgh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "dashboard",
+                "bgh"
+              ]
+            }
+          }
+        },
+        {
+          "name": "8.2 Dashboard Giáo Viên Chủ Nhiệm",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/gvcn",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "dashboard",
+                "gvcn"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09. Thông Báo & Sổ Liên Lạc (Notifications & Communication)",
+      "item": [
+        {
+          "name": "9.1 Đếm số thông báo chưa đọc",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/notifications/unread-count",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "notifications",
+                "unread-count"
+              ]
+            }
+          }
+        },
+        {
+          "name": "9.2 Lấy danh sách thông báo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "notifications"
+              ]
+            }
+          }
+        },
+        {
+          "name": "9.3 Lấy danh bạ sổ liên lạc",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/communication/contacts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "communication",
+                "contacts"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Danh Mục Lớp Học & Môn Học (Classes & Subjects)",
+      "item": [
+        {
+          "name": "10.1 Danh sách lớp học",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "classes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "10.2 Danh sách môn học",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/subjects",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "subjects"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
