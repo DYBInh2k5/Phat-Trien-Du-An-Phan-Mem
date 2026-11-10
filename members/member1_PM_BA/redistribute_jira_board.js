@@ -132,19 +132,29 @@ async function run() {
 
   console.log('\n=== HOÀN TẤT ĐIỀU PHỐI KANBAN BOARD! KIỂM TRA LẠI TRẠNG THÁI... ===');
 
-  // Kiểm tra lại toàn bộ phân bố trên Jira
-  const checkRes = await fetch(`${JIRA_DOMAIN}/rest/api/3/search/jql`, {
-    method: 'POST',
+  // Đảm bảo toàn bộ 37 issues được đẩy trực tiếp lên Board (không bị kẹt ở Backlog)
+  const allKeys = Object.values(STATUS_PLAN).flat();
+  try {
+    const moveRes = await fetch(`${JIRA_DOMAIN}/rest/agile/1.0/board/2/issue`, {
+      method: 'POST',
+      headers: {
+        'Authorization': authHeader,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ issues: allKeys })
+    });
+    console.log(`[BOARD MAPPING] Đã chuyển ${allKeys.length} issues lên Board: HTTP ${moveRes.status}`);
+  } catch (err) {
+    console.warn('[BOARD MAPPING LỖI]:', err.message);
+  }
+
+  // Kiểm tra lại toàn bộ phân bố trên Jira Board
+  const checkRes = await fetch(`${JIRA_DOMAIN}/rest/agile/1.0/board/2/issue?maxResults=100`, {
     headers: {
       'Authorization': authHeader,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      jql: 'project = KAN ORDER BY key ASC',
-      maxResults: 100,
-      fields: ['summary', 'issuetype', 'status']
-    })
+      'Accept': 'application/json'
+    }
   });
 
   const checkData = await checkRes.json();
@@ -154,8 +164,9 @@ async function run() {
     summaryCount[s] = (summaryCount[s] || 0) + 1;
   });
 
-  console.log('\n=== TỔNG HỢP CÁC CỘT KANBAN SAU KHI PHÂN BỔ ===');
+  console.log('\n=== TỔNG HỢP CÁC CỘT KANBAN SAU KHI PHÂN BỔ TRÊN BOARD 2 ===');
   console.table(summaryCount);
 }
 
 run();
+
