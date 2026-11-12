@@ -129,6 +129,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 12/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - [database/schema.sql](database/schema.sql): Tập lệnh DDL khởi tạo toàn bộ 8 bảng CSDL PostgreSQL 3NF, ràng buộc toàn vẹn và chỉ mục.
 - [database/ERD.md](database/ERD.md): Sơ đồ thực thể quan hệ ERD Mermaid & Từ điển dữ liệu Data Dictionary chi tiết 8 bảng.
 - [members/member3_Backend_DB/POSTGRESQL_GUIDE.md](members/member3_Backend_DB/POSTGRESQL_GUIDE.md): Cẩm nang toàn diện quản trị, tối ưu hóa và vận hành CSDL PostgreSQL.
+- [docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md](docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md): Cẩm nang hướng dẫn kết nối và sử dụng PostgreSQL Extension trên IDE, thao tác xem bảng và truy vấn dữ liệu.
 
 ### 5.6 Thư Mục Hồ Sơ Công Việc 5 Thành Viên (members/)
 - [members/member1_PM_BA/README.md](members/member1_PM_BA/README.md): Hồ sơ thành viên 1 - Võ Duy Bình (Project Manager & Lead BA).
