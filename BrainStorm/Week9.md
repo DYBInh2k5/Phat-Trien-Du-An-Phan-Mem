@@ -67,3 +67,4 @@ Trong Tuần 9 (09/11/2026 - 15/11/2026), nhóm 2 đã hoàn thành toàn diện
    - Đường dẫn: [BrainStorm/Week9 Testing .md](file:///d:/HSU/2631Semester%201(2026-2027)/PT_DA_PM/BrainStorm/Week9%20Testing%20.md) và [CHUYENDE/Chuyên đề 8 Testing.docx](file:///d:/HSU/2631Semester%201(2026-2027)/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%208%20Testing.docx).
 5. **Lộ trình Dự án Tổng thể**:
    - Đường dẫn: [timeline.md](file:///d:/HSU/2631Semester%201(2026-2027)/PT_DA_PM/timeline.md).
+
