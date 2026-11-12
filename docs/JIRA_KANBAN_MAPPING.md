@@ -14,9 +14,11 @@ NGUYÊN TẮC QUẢN LÝ (THEO GÓP Ý CỦA GIẢNG VIÊN HƯỚNG DẪN):
     CÁC MODULE NHỎ (User Stories / Tasks / PBIs) phân công rõ ràng cho 5 thành viên.
 PROJECT KEY: KAN | BOARD ID: 2 (KAN board)
 BẢNG JIRA KANBAN: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
+KHÔNG GIAN DỰ ÁN CLICKUP: https://app.clickup.com/1100320000025585/v/s/1100320000109903
+BẢN SLIDE TRÌNH CHIẾU CANVA: https://www.canva.com/d/75iOEEpReWqgOuN
 KHO LƯU TRỮ GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
 KHO LƯU TRỮ BITBUCKET: https://bitbucket.org/codyisme27205/pt_da_pm
-NGÀY PHÊ DUYỆT CẬP NHẬT: 10/11/2026 (TUẦN 8-9 HỌC PHẦN)
+NGÀY PHÊ DUYỆT CẬP NHẬT: 12/11/2026 (TUẦN 8-9 HỌC PHẦN)
 ================================================================================
 ```
 

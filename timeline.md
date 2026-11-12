@@ -4,6 +4,13 @@ Dự án: **Hệ thống Quản lý Lớp học & Học vụ (HTQLLH / School Ma
 Môn học: **Phát triển dự án phần mềm (SW320DV01)** - Đại học Hoa Sen (HSU)  
 Trưởng nhóm & Quản lý: **Võ Duy Bình (PM / Lead BA)**
 
+### Liên Kết Quản Trị Hệ Thống & Trình Chiếu Trực Tuyến:
+- **Jira Kanban Board (5 cột tiến độ)**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
+- **ClickUp Workspace (10 Modules & 27 Tasks)**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
+- **Bản Slide Trình Chiếu Đồ Án (Canva)**: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)
+- **Kho lưu trữ GitHub**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
+- **Kho lưu trữ Bitbucket**: [https://bitbucket.org/codyisme27205/pt_da_pm](https://bitbucket.org/codyisme27205/pt_da_pm)
+
 ---
 
 ## Bảng Theo Dõi Tiến Độ Hàng Tuần (Weekly Milestones & Status)
