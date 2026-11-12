@@ -182,6 +182,43 @@ SELECT 'audit_logs', COUNT(*) FROM audit_logs;
 
 ---
 
+## 5. CÁC TÍNH NĂNG NÂNG CAO CỦA EXTENSION TRÊN IDE (NGOÀI THAO TÁC XEM BẢNG)
+
+PostgreSQL Extension trên IDE (VS Code / Antigravity IDE / Cursor) hỗ trợ rất nhiều tính năng đắc lực phục vụ việc phát triển và kiểm thử đồ án:
+
+### 5.1 Chỉnh Sửa Dữ Liệu Trực Tiếp Trên Bảng (Inline Grid Edit / GUI Table Editor)
+- Nhấp đúp chuột trực tiếp vào ô dữ liệu (ví dụ: đổi điểm số, sửa họ tên học sinh, kích hoạt tài khoản `status = 'ACTIVE'`) mà **không cần viết câu lệnh `UPDATE`**.
+- Nhấn nút **"Save Changes"** (hoặc biểu tượng ổ đĩa) trên thanh công cụ bảng để lưu thay đổi xuống CSDL ngay lập tức.
+- Thêm dòng mới (`+ Insert Row`) hoặc xoá dòng thừa với 1 cú click.
+
+### 5.2 Tự Động Gợi Ý Mã SQL Thông Minh (IntelliSense & Autocomplete)
+- Khi soạn thảo SQL trong Query Console, extension tự động nhận diện schema và gợi ý chính xác:
+  + Tên bảng: `users`, `students`, `grade_books`, `tuitions`,...
+  + Tên cột: `student_id`, `score_15m`, `score_1period`, `term`, `status`,...
+  + Cú pháp chuẩn: `JOIN / INNER JOIN`, `WHERE`, `GROUP BY`, `ORDER BY`.
+
+### 5.3 Xuất Dữ Liệu Nhanh (Data Export Engine)
+- Nhấp chuột phải vào bảng dữ liệu hoặc bảng kết quả truy vấn, chọn **Export**:
+  + **CSV / Excel (`.xlsx`)**: Phục vụ việc làm báo cáo minh chứng, đính kèm vào phụ lục đồ án môn học.
+  + **JSON**: Dùng làm mock data phục vụ việc dựng giao diện Frontend hoặc test API.
+  + **SQL Insert Statements**: Tự động sinh danh sách các lệnh `INSERT INTO ...` để sao lưu dữ liệu nhanh.
+
+### 5.4 Trích Xuất Mã Cấu Trúc Bảng (Reverse Engineering / Generate DDL)
+- Nhấp chuột phải vào bất kỳ bảng nào chọn **"Copy DDL"** hoặc **"Generate CREATE Script"**.
+- Extension tự động sinh mã SQL DDL gốc của bảng (bao gồm các kiểu dữ liệu `VARCHAR`, `TIMESTAMP`, các ràng buộc `PRIMARY KEY`, `FOREIGN KEY`, `CHECK constraint`).
+
+### 5.5 Phân Tích Hiệu Năng & Tối Ưu Hóa Truy Vấn (Explain Analyze Visualizer)
+- Hỗ trợ chạy lệnh `EXPLAIN (ANALYZE, BUFFERS) SELECT ...` để trực quan hoá cây thực thi (Execution Tree).
+- Cho biết câu truy vấn đang quét toàn bảng (Seq Scan) hay quét theo chỉ mục (Index Scan), giúp nhóm tối ưu hóa câu truy vấn trước khi giảng viên chấm bài.
+
+### 5.6 Quản Lý Chỉ Mục (Indexes) & Ràng Buộc Khóa Ngoại (Foreign Keys)
+- Mở rộng nhánh cây thư mục của từng bảng để kiểm tra trực quan các chỉ mục đã tạo (như `idx_users_username`, `idx_grade_student_term`), các ràng buộc khóa ngoại đang trỏ đến bảng cha nào mà không phải tra cứu lại mã nguồn.
+
+### 5.7 Trực Quan Hóa Sơ Đồ Quan Hệ CSDL (ERD Diagram Viewer)
+- Một số extension (như Database Client) tích hợp nút **"Show ERD"**, tự động vẽ sơ đồ quan hệ giữa các bảng trong cơ sở dữ liệu `school_management` giúp nhóm có thể chụp hình đưa ngay vào báo cáo Chuyên đề 2.
+
+---
+
 ## 6. XỬ LÝ SỰ CỐ THƯỜNG GẶP (TROUBLESHOOTING)
 
 - **Lỗi 1: `Connection refused` (Không kết nối được vào cổng 5434):**
@@ -194,3 +231,4 @@ SELECT 'audit_logs', COUNT(*) FROM audit_logs;
   - *Khắc phục:* Kiểm tra lại mật khẩu phải gõ đúng chữ thường: `postgres`.
 - **Lỗi 3: `Database "school_management" does not exist`:**
   - *Khắc phục:* Đảm bảo tên CSDL gõ đúng chữ thường `school_management` (có dấu gạch dưới `_`).
+
