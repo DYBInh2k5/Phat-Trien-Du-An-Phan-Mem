@@ -40,6 +40,47 @@ const clickupHeaders = {
 };
 
 /**
+ * ================================================================================
+ * BẢNG ÁNH XẠ ASSIGNEE CHUẨN XÁC ĐÚNG NGƯỜI ĐÚNG VỊ TRÍ (RACI 5 THÀNH VIÊN HSU)
+ * ================================================================================
+ * 1. Võ Duy Bình (PM / Lead BA)        : Jira: 712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b | ClickUp: 312893818
+ * 2. Võ Hoàng Sơn (Dev Frontend)      : Jira: 712020:ddaac429-5198-401c-b698-ac5eb109a266 | ClickUp: 312897343
+ * 3. Huỳnh Trung Tính (Dev Backend)    : Jira: 712020:98a8fcf2-38b4-4f58-9c9c-3adf22bb7bfb | ClickUp: 119437050
+ * 4. Trần Quang Vinh (Logic & Security): Jira: 712020:99cb73b9-1555-4eab-aa57-bd0153ed56b2 | ClickUp: 119437051
+ * 5. Nguyễn Minh Quốc Bảo (Tester/QA)  : Jira: 712020:7fdce8da-74bf-4f73-9c1c-3531aed9d3a1 | ClickUp: 119437050/312893818
+ * ================================================================================
+ */
+const PBI_ASSIGNEES = {
+  'PBI-01': { jira: '712020:99cb73b9-1555-4eab-aa57-bd0153ed56b2', clickup: 119437051, name: 'Trần Quang Vinh (Core Logic & Security)' },
+  'PBI-02': { jira: '712020:99cb73b9-1555-4eab-aa57-bd0153ed56b2', clickup: 119437051, name: 'Trần Quang Vinh (Core Logic & Security)' },
+  'PBI-25': { jira: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b', clickup: 312893818, name: 'Võ Duy Bình (Project Manager & Lead BA)' },
+  'PBI-03': { jira: '712020:98a8fcf2-38b4-4f58-9c9c-3adf22bb7bfb', clickup: 119437050, name: 'Huỳnh Trung Tính (Dev Backend & DBA)' },
+  'PBI-04': { jira: '712020:98a8fcf2-38b4-4f58-9c9c-3adf22bb7bfb', clickup: 119437050, name: 'Huỳnh Trung Tính (Dev Backend & DBA)' },
+  'PBI-14': { jira: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b', clickup: 312893818, name: 'Võ Duy Bình (Project Manager & Lead BA)' },
+  'PBI-21': { jira: '712020:7fdce8da-74bf-4f73-9c1c-3531aed9d3a1', clickup: 119437050, name: 'Nguyễn Minh Quốc Bảo (QA/QC Testing Lead)' },
+  'PBI-05': { jira: '712020:ddaac429-5198-401c-b698-ac5eb109a266', clickup: 312897343, name: 'Võ Hoàng Sơn (Dev Frontend Lead)' },
+  'PBI-06': { jira: '712020:98a8fcf2-38b4-4f58-9c9c-3adf22bb7bfb', clickup: 119437050, name: 'Huỳnh Trung Tính (Dev Backend & DBA)' },
+  'PBI-07': { jira: '712020:99cb73b9-1555-4eab-aa57-bd0153ed56b2', clickup: 119437051, name: 'Trần Quang Vinh (Core Logic & Security)' },
+  'PBI-17c': { jira: '712020:7fdce8da-74bf-4f73-9c1c-3531aed9d3a1', clickup: 119437050, name: 'Nguyễn Minh Quốc Bảo (QA/QC Testing Lead)' },
+  'PBI-08': { jira: '712020:ddaac429-5198-401c-b698-ac5eb109a266', clickup: 312897343, name: 'Võ Hoàng Sơn (Dev Frontend Lead)' },
+  'PBI-09': { jira: '712020:99cb73b9-1555-4eab-aa57-bd0153ed56b2', clickup: 119437051, name: 'Trần Quang Vinh (Core Logic & Security)' },
+  'PBI-10': { jira: '712020:ddaac429-5198-401c-b698-ac5eb109a266', clickup: 312897343, name: 'Võ Hoàng Sơn (Dev Frontend Lead)' },
+  'PBI-20': { jira: '712020:99cb73b9-1555-4eab-aa57-bd0153ed56b2', clickup: 119437051, name: 'Trần Quang Vinh (Core Logic & Security)' },
+  'PBI-22': { jira: '712020:7fdce8da-74bf-4f73-9c1c-3531aed9d3a1', clickup: 312893818, name: 'Nguyễn Minh Quốc Bảo (QA/QC Testing Lead)' },
+  'PBI-11': { jira: '712020:ddaac429-5198-401c-b698-ac5eb109a266', clickup: 312897343, name: 'Võ Hoàng Sơn (Dev Frontend Lead)' },
+  'PBI-12': { jira: '712020:99cb73b9-1555-4eab-aa57-bd0153ed56b2', clickup: 119437051, name: 'Trần Quang Vinh (Core Logic & Security)' },
+  'PBI-18': { jira: '712020:ddaac429-5198-401c-b698-ac5eb109a266', clickup: 312897343, name: 'Võ Hoàng Sơn (Dev Frontend Lead)' },
+  'PBI-13': { jira: '712020:98a8fcf2-38b4-4f58-9c9c-3adf22bb7bfb', clickup: 119437050, name: 'Huỳnh Trung Tính (Dev Backend & DBA)' },
+  'PBI-17a': { jira: '712020:98a8fcf2-38b4-4f58-9c9c-3adf22bb7bfb', clickup: 119437050, name: 'Huỳnh Trung Tính (Dev Backend & DBA)' },
+  'PBI-17b': { jira: '712020:7fdce8da-74bf-4f73-9c1c-3531aed9d3a1', clickup: 312893818, name: 'Nguyễn Minh Quốc Bảo (QA/QC Testing Lead)' },
+  'PBI-24': { jira: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b', clickup: 312893818, name: 'Võ Duy Bình (Project Manager & Lead BA)' },
+  'PBI-15': { jira: '712020:ddaac429-5198-401c-b698-ac5eb109a266', clickup: 312897343, name: 'Võ Hoàng Sơn (Dev Frontend Lead)' },
+  'PBI-16': { jira: '712020:7fdce8da-74bf-4f73-9c1c-3531aed9d3a1', clickup: 119437050, name: 'Nguyễn Minh Quốc Bảo (QA/QC Testing Lead)' },
+  'PBI-23': { jira: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b', clickup: 312893818, name: 'Võ Duy Bình (Project Manager & Lead BA)' },
+  'PBI-19': { jira: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b', clickup: 312893818, name: 'Võ Duy Bình (Project Manager & Lead BA)' }
+};
+
+/**
  * 27 PBIs với ĐẦY ĐỦ THỜI GIAN START_DATE & DEADLINE (DUE_DATE)
  */
 const DETAILED_PBIS = [
@@ -1942,16 +1983,17 @@ ${item.smartCommit}
 }
 
 /**
- * Cập nhật trên JIRA CLOUD (Kèm duedate, labels, timetracking, assignee)
+ * Cập nhật trên JIRA CLOUD (Kèm duedate, labels, timetracking, assignee đúng người đúng việc)
  */
 async function updateJiraIssues() {
   console.log('================================================================');
-  console.log(' BẮT ĐẦU CẬP NHẬT DEADLINE & CHI TIẾT TOÀN DIỆN LÊN JIRA CLOUD');
+  console.log(' BẮT ĐẦU CẬP NHẬT DEADLINE & ASSIGNEE CHUẨN XÁC LÊN JIRA CLOUD');
   console.log('================================================================\n');
 
   let successCount = 0;
   for (const item of DETAILED_PBIS) {
     const enrichedDesc = buildEnrichedDescription(item);
+    const assigneeInfo = PBI_ASSIGNEES[item.pbiCode] || { jira: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b', name: 'Võ Duy Bình' };
     try {
       const res = await fetch(`${JIRA_DOMAIN}/rest/api/2/issue/${item.jiraKey}`, {
         method: 'PUT',
@@ -1966,14 +2008,14 @@ async function updateJiraIssues() {
             duedate: item.dueDate, // Cập nhật hạn chót Deadline native trên Jira
             labels: item.labels,
             timetracking: { originalEstimate: item.estimateHours, remainingEstimate: '0h' },
-            assignee: { accountId: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b' } // Võ Duy Bình
+            assignee: { accountId: assigneeInfo.jira } // Gán đúng thành viên phụ trách
           }
         })
       });
 
       if (res.status === 204 || res.ok) {
         successCount++;
-        console.log(`[JIRA OK] Cập nhật ${item.jiraKey} (${item.pbiCode}) [Deadline: ${item.dueDate}, Labels, Time: ${item.estimateHours}] thành công.`);
+        console.log(`[JIRA OK] Cập nhật ${item.jiraKey} (${item.pbiCode}) [Assignee: ${assigneeInfo.name}] [Deadline: ${item.dueDate}] thành công.`);
       } else {
         const errText = await res.text();
         console.warn(`[JIRA FAIL] ${item.jiraKey}: Status ${res.status} - ${errText}`);
@@ -1983,15 +2025,15 @@ async function updateJiraIssues() {
     }
   }
 
-  console.log(`\n=> HOÀN TẤT JIRA: ${successCount} / ${DETAILED_PBIS.length} issues cập nhật Deadline thành công!\n`);
+  console.log(`\n=> HOÀN TẤT JIRA: ${successCount} / ${DETAILED_PBIS.length} issues cập nhật Assignee & Deadline thành công!\n`);
 }
 
 /**
- * Cập nhật trên CLICKUP (Kèm due_date, start_date, priority)
+ * Cập nhật trên CLICKUP (Kèm due_date, start_date, priority, assignee đúng người)
  */
 async function updateClickUpTasks() {
   console.log('================================================================');
-  console.log(' BẮT ĐẦU CẬP NHẬT DEADLINE & CHI TIẾT TOÀN DIỆN LÊN CLICKUP');
+  console.log(' BẮT ĐẦU CẬP NHẬT DEADLINE & ASSIGNEE CHUẨN XÁC LÊN CLICKUP');
   console.log('================================================================\n');
 
   try {
@@ -2012,23 +2054,39 @@ async function updateClickUpTasks() {
           const enrichedDesc = buildEnrichedDescription(matchedPBI);
           const startMs = new Date(`${matchedPBI.startDate}T00:00:00+07:00`).getTime();
           const dueMs = new Date(`${matchedPBI.dueDate}T23:59:59+07:00`).getTime();
+          const assigneeInfo = PBI_ASSIGNEES[matchedPBI.pbiCode];
+          const targetClickUpId = assigneeInfo ? assigneeInfo.clickup : null;
+
+          const currentAssigneeIds = (t.assignees || []).map(a => a.id);
+          const updateBody = {
+            description: enrichedDesc,
+            priority: matchedPBI.priority,
+            start_date: startMs,
+            start_date_time: false,
+            due_date: dueMs,
+            due_date_time: false
+          };
+
+          if (targetClickUpId) {
+            const toRem = currentAssigneeIds.filter(id => id !== targetClickUpId);
+            const toAdd = currentAssigneeIds.includes(targetClickUpId) ? [] : [targetClickUpId];
+            if (toRem.length > 0 || toAdd.length > 0) {
+              updateBody.assignees = {
+                add: toAdd,
+                rem: toRem
+              };
+            }
+          }
 
           const updateRes = await fetch(`${CLICKUP_API_BASE}/task/${t.id}`, {
             method: 'PUT',
             headers: clickupHeaders,
-            body: JSON.stringify({
-              description: enrichedDesc,
-              priority: matchedPBI.priority,
-              start_date: startMs,
-              start_date_time: false,
-              due_date: dueMs,
-              due_date_time: false
-            })
+            body: JSON.stringify(updateBody)
           });
 
           if (updateRes.ok) {
             successCount++;
-            console.log(`[CLICKUP OK] Cập nhật task ${matchedPBI.pbiCode} (ID: ${t.id}) [Start: ${matchedPBI.startDate}, Deadline: ${matchedPBI.dueDate}] thành công.`);
+            console.log(`[CLICKUP OK] Cập nhật task ${matchedPBI.pbiCode} (ID: ${t.id}) [Assignee: ${assigneeInfo ? assigneeInfo.name : 'N/A'}] [Deadline: ${matchedPBI.dueDate}] thành công.`);
           } else {
             console.warn(`[CLICKUP FAIL] ${t.name}:`, await updateRes.text());
           }
@@ -2036,7 +2094,7 @@ async function updateClickUpTasks() {
       }
     }
 
-    console.log(`\n=> HOÀN TẤT CLICKUP: ${successCount} / ${DETAILED_PBIS.length} tasks cập nhật Deadline thành công!`);
+    console.log(`\n=> HOÀN TẤT CLICKUP: ${successCount} / ${DETAILED_PBIS.length} tasks cập nhật Assignee & Deadline thành công!`);
 
   } catch (err) {
     console.error('[CLICKUP ERROR]:', err.message);
