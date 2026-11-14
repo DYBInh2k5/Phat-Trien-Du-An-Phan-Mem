@@ -78,6 +78,7 @@ NGÀY CẬP NHẬT: 27/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
 | :--- | :--- |
 | `database/schema.sql` | Toàn bộ câu lệnh SQL DDL tạo 8 bảng, khóa chính, khóa ngoại và chỉ mục |
 | `database/ERD.md` | Sơ đồ Mermaid ERD và từ điển dữ liệu Data Dictionary |
+| `docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md` | Cẩm nang hướng dẫn kết nối và thao tác PostgreSQL Extension trên IDE |
 | `src/config/db.js` | Singleton PostgreSQL Connection Pool và hàm query() an toàn |
 | `src/utils/UnitOfWork.js` | Bộ điều phối giao dịch nguyên tử ACID (BEGIN, COMMIT, ROLLBACK) |
 | `src/repositories/GradeBookRepository.js` | Repository Pattern đóng gói toàn bộ truy vấn bảng điểm |

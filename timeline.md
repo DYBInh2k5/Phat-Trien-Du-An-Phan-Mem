@@ -4,6 +4,14 @@ Dự án: **Hệ thống Quản lý Lớp học & Học vụ (HTQLLH / School Ma
 Môn học: **Phát triển dự án phần mềm (SW320DV01)** - Đại học Hoa Sen (HSU)  
 Trưởng nhóm & Quản lý: **Võ Duy Bình (PM / Lead BA)**
 
+### Liên Kết Quản Trị Hệ Thống & Trình Chiếu Trực Tuyến:
+- **Cẩm nang Lập trình & Sửa mã nguồn (Developer Handbook)**: [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md)
+- **Jira Kanban Board (5 cột tiến độ)**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
+- **ClickUp Workspace (10 Modules & 27 Tasks)**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
+- **Bản Slide Trình Chiếu Đồ Án (Canva)**: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)
+- **Kho lưu trữ GitHub**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
+- **Kho lưu trữ Bitbucket**: [https://bitbucket.org/codyisme27205/pt_da_pm](https://bitbucket.org/codyisme27205/pt_da_pm)
+
 ---
 
 ## Bảng Theo Dõi Tiến Độ Hàng Tuần (Weekly Milestones & Status)
@@ -17,9 +25,9 @@ Trưởng nhóm & Quản lý: **Võ Duy Bình (PM / Lead BA)**
 | **Tuần 5**<br>(12/10 - 18/10/2026) | Mẫu Thiết Kế (Repository Pattern, Unit of Work, ACID Sổ Điểm TT22 & Chống xung đột TKB) (Chuyên đề 4) | [Week5 Pattern .md](BrainStorm/Week5%20Pattern%20.md)<br>[Chuyên đề 4 Pattern.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%204%20Pattern.docx) | **HOÀN THÀNH** | Trần Quang Vinh (Logic Security) & Cả nhóm |
 | **Tuần 6**<br>(19/10 - 25/10/2026) | Export Engine Báo Cáo (Xuất Excel `.xlsx`, In ấn Học bạ / Biên lai PDF & Cổng Phụ huynh) (Chuyên đề 5) | [Week6 Export .md](BrainStorm/Week6%20Export%20.md)<br>[Chuyên đề 5 Export.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%205%20Export.docx) | **HOÀN THÀNH** | Huỳnh Trung Tính & Võ Hoàng Sơn |
 | **Tuần 7**<br>(26/10 - 01/11/2026) | Xác thực & Bảo mật (JWT, 1-Click Demo Login, RBAC 5 Roles) (Chuyên đề 6) | [Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md)<br>[Chuyên đề 6 Authentication Authorization.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%206%20Authentication%20Authorization.docx) | **HOÀN THÀNH** | Trần Quang Vinh & Võ Hoàng Sơn |
-| **Tuần 8**<br>(02/11 - 08/11/2026) | **THỜI ĐIỂM HIỆN TẠI (06/11/2026)**: Ghi nhật ký hệ thống (Centralized Audit Logging, Chuyên đề 7), Đồng bộ Dual-Remote (GitHub & Bitbucket), Tái cấu trúc Menu Nhóm (Grouped Sidebar Navigation) & Nạp đầy đủ dữ liệu mẫu (Full Seed Data 11 bảng) | [Week8.md](BrainStorm/Week8.md)<br>[Week8 Logging .md](BrainStorm/Week8%20Logging%20.md)<br>[Chuyên đề 7 Logging.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%207%20Logging.docx) | **HOÀN THÀNH (100%)** | Trần Quang Vinh (Logic Security) & Cả nhóm |
-| **Tuần 9**<br>(09/11 - 15/11/2026) | Kiểm thử Phần mềm (Unit Testing Backend 68/68 tests PASS, Frontend Vitest 13/13 tests PASS, Vite Build 100% OK) | [Week9 Testing .md](BrainStorm/Week9%20Testing%20.md)<br>[Chuyên đề 8 Testing.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%208%20Testing.docx) | **HOÀN THÀNH VƯỢT TIẾN ĐỘ (100% PASS)** | Nguyễn Minh Quốc Bảo (Tester) & Cả nhóm |
-| **Tuần 10**<br>(16/11 - 22/11/2026) | Tích hợp Hệ thống, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP (Security Hardening) | [Week10.md](BrainStorm/Week10.md) | **KẾ HOẠCH** | Trần Quang Vinh & Cả nhóm |
+| **Tuần 8**<br>(02/11 - 08/11/2026) | Ghi nhật ký hệ thống (Centralized Audit Logging, Chuyên đề 7), Đồng bộ Dual-Remote (GitHub & Bitbucket), Tái cấu trúc Menu Nhóm (Grouped Sidebar Navigation) & Nạp đầy đủ dữ liệu mẫu (Full Seed Data 11 bảng) | [Week8.md](BrainStorm/Week8.md)<br>[Week8 Logging .md](BrainStorm/Week8%20Logging%20.md)<br>[Chuyên đề 7 Logging.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%207%20Logging.docx) | **HOÀN THÀNH (100%)** | Trần Quang Vinh (Logic Security) & Cả nhóm |
+| **Tuần 9**<br>(09/11 - 15/11/2026) | Kiểm thử Phần mềm (Unit Testing Backend 68/68 tests PASS, Frontend Vitest 13/13 tests PASS), Đồng bộ Jira Kanban & ClickUp Workspace, Cập nhật Canva Presentation, Cẩm nang CSDL PostgreSQL Extension trên IDE, Chuẩn hóa USE_CASES & UML_DIAGRAMS | [Week9.md](BrainStorm/Week9.md)<br>[Week9 Testing .md](BrainStorm/Week9%20Testing%20.md)<br>[Chuyên đề 8 Testing.docx](CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%208%20Testing.docx) | **HOÀN THÀNH (100% PASS)** | Nguyễn Minh Quốc Bảo (Tester) & Cả nhóm |
+| **Tuần 10**<br>(16/11 - 22/11/2026) | **GIAI ĐOẠN HIỆN TẠI (14/11/2026 - BƯỚC VÀO TUẦN 10)**: Tích hợp Hệ thống Toàn diện, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP (Security Hardening), Rate Limiting, Helmet Headers & Chuẩn bị Caching Redis | [Week10.md](BrainStorm/Week10.md) | **ĐANG TRIỂN KHAI (IN PROGRESS)** | Trần Quang Vinh & Cả nhóm |
 | **Tuần 11**<br>(23/11 - 29/11/2026) | Tối ưu hóa Hiệu năng, Indexing CSDL PostgreSQL & Caching Redis (Cache-Aside) | [Week11.md](BrainStorm/Week11.md) | **KẾ HOẠCH** | Huỳnh Trung Tính & Trần Quang Vinh |
 | **Tuần 12**<br>(30/11 - 06/12/2026) | Đóng gói Docker, Docker Compose & Tự động hóa CI/CD GitHub Actions | [Week12.md](BrainStorm/Week12.md) | **KẾ HOẠCH** | Huỳnh Trung Tính |
 | **Tuần 13**<br>(07/12 - 13/12/2026) | Báo cáo Thẩm định Kỹ thuật & Nghiệm thu Người dùng UAT Toàn diện (43 Use Cases) | [Week13.md](BrainStorm/Week13.md) | **KẾ HOẠCH** | Nguyễn Minh Quốc Bảo (Tester) & Võ Duy Bình |

@@ -5,10 +5,14 @@
 DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC THPT HSU (HTQLLH / SCHOOL MANAGEMENT SYSTEM)
 THÀNH VIÊN: VÕ DUY BÌNH (TRƯỞNG NHÓM / PM & LEAD BA)
 TÀI KHOẢN JIRA CLOUD: Duy Bình (bron@reputyze.asia)
+TÀI KHOẢN CLICKUP: Bình Võ Duy (binh.vd01500@sinhvien.hoasen.edu.vn)
 MÃ SỐ SINH VIÊN / GITHUB: DYBInh2k5
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 VỊ TRÍ TÀI LIỆU: members/member1_PM_BA/README.md
-NGÀY CẬP NHẬT: 27/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
+BẢNG JIRA KANBAN BOARD: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
+KHÔNG GIAN DỰ ÁN CLICKUP: https://app.clickup.com/1100320000025585/v/s/1100320000109903
+BẢN SLIDE TRÌNH CHIẾU CANVA: https://www.canva.com/d/75iOEEpReWqgOuN
+NGÀY CẬP NHẬT: 12/11/2026 (TUẦN 8-9 / 15 TUẦN HỌC KỲ 2631)
 ================================================================================
 ```
 

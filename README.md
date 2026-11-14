@@ -12,9 +12,10 @@ CHỦ NHIỆM ĐỀ TÀI / TRƯỞNG NHÓM: VÕ DUY BÌNH (DYBInh2k5)
 KHO LƯU TRỮ GITHUB: https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem
 KHO LƯU TRỮ BITBUCKET: https://bitbucket.org/codyisme27205/pt_da_pm
 CƠ CHẾ ĐỒNG BỘ: DUAL-REMOTE PUSH (1 LỆNH PUSH CẬP NHẬT CẢ GITHUB & BITBUCKET)
-BẢN SLIDE TRỰC TUYẾN CANVA: https://www.canva.com/d/YLrratHffoqRdvK
 BẢNG JIRA KANBAN BOARD: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
-THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN HỌC PHẦN - QA TESTING 100% PASS)
+KHÔNG GIAN DỰ ÁN CLICKUP: https://app.clickup.com/1100320000025585/v/s/1100320000109903
+BẢN SLIDE TRỰC TUYẾN CANVA: https://www.canva.com/d/75iOEEpReWqgOuN
+THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 12/11/2026 (TUẦN 8-9 / 15 TUẦN HỌC PHẦN - QA TESTING 100% PASS)
 ================================================================================
 ```
 
@@ -30,7 +31,12 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - **Kho lưu trữ chính (Dual Remotes)**:
   - **GitHub**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
   - **Bitbucket**: [https://bitbucket.org/codyisme27205/pt_da_pm](https://bitbucket.org/codyisme27205/pt_da_pm)
-- **Mô hình quản trị dự án**: Agile / Scrum kết hợp Jira Kanban Board
+- **Mô hình quản trị dự án**: Agile / Scrum kết hợp Jira Kanban Board & ClickUp Workspace
+- **Nền tảng Quản trị & Trình chiếu Trực tuyến**:
+  - **Cẩm nang Lập trình & Sửa mã nguồn (Developer Handbook)**: [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md)
+  - **Jira Cloud (Kanban Board 2)**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
+  - **ClickUp Workspace (Group 2_PTDAPM)**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
+  - **Slide Báo Cáo Đồ Án (Canva)**: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)
 
 ---
 
@@ -74,7 +80,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 ### 5.1 Báo Cáo Đồ Án Cuối Kỳ & Bộ Trình Chiếu Slide
 - [Report_Slide/report.md](Report_Slide/report.md): Báo cáo hệ thống đồ án môn học cuối kỳ toàn diện (11 chương chi tiết, đầy đủ cơ sở lý thuyết, kiến trúc, CSDL, thuật toán Thông tư 22, hiện trạng Tuần 7 và kế hoạch hoàn thiện).
 - [Report_Slide/slide.md](Report_Slide/slide.md): Bộ trình chiếu 16 Slide thuyết trình đồ án trước Hội đồng chấm thi HSU (có kèm Speaker Notes và sơ đồ Mermaid).
-- [Slide Trực Tuyến Trên Canva](https://www.canva.com/d/YLrratHffoqRdvK): Bản trình chiếu slide đồ án được thiết kế chuyên nghiệp trên Canva (16 trang slide, liên kết rút gọn: [https://canva.link/gephtdene513j71](https://canva.link/gephtdene513j71)).
+- [Slide Trực Tuyến Trên Canva](https://www.canva.com/d/75iOEEpReWqgOuN): Bản trình chiếu slide đồ án được thiết kế chuyên nghiệp trên Canva (16 trang slide chuẩn hóa 10 Modules, phân công 5 thành viên nhóm và hiện trạng Tuần 8-9: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)).
 
 ### 5.2 Tài Liệu Yêu Cầu, Kiến Trúc & Kỹ Thuật (docs/)
 - [docs/PRODUCT_BACKLOG.md](docs/PRODUCT_BACKLOG.md): Danh mục yêu cầu sản phẩm chuẩn Scrum (19 PBIs, 8 Epics, 90 Story Points chia đều 5 thành viên, tiêu chuẩn INVEST, DoR/DoD & Lộ trình 5 Sprints).
@@ -92,7 +98,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - [docs/project2_specs.md](docs/project2_specs.md): Đặc tả yêu cầu kỹ thuật đồ án môn học.
 
 ### 5.3 Hồ Sơ Phân Tích & Tiến Độ 15 Tuần (BrainStorm/)
-- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án 15 tuần (Bắt đầu từ 14/09/2026, thời điểm hiện tại: 06/11/2026 - Tuần 8-9 hoàn thành xuất sắc).
+- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án 15 tuần (Bắt đầu từ 14/09/2026, thời điểm hiện tại: 14/11/2026 - Chính thức bước vào Tuần 10: Tích hợp hệ thống & An ninh OWASP).
 - [USE_CASES.md](USE_CASES.md): Tài liệu tổng hợp đặc tả chi tiết 43 Use Cases cho 5 nhóm tác nhân.
 - [BrainStorm/Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md): Tuần 1 - Tài liệu Phân tích Yêu cầu Phần mềm (SRS IEEE 830), Ma trận RBAC, Rules & NFRs.
 - [BrainStorm/Week2 UXUI .md](BrainStorm/Week2%20UXUI%20.md): Tuần 2 - Chuyên đề Nghiên cứu UI/UX (Design System, Tailwind CSS, 8 Wireframes phân hệ).
@@ -102,8 +108,8 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - [BrainStorm/Week6 Export .md](BrainStorm/Week6%20Export%20.md): Tuần 6 - Chuyên đề Động cơ Xuất Báo cáo (Excel SheetJS, in ấn PDF jsPDF A4).
 - [BrainStorm/Week7.md](BrainStorm/Week7.md) & [BrainStorm/Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Tuần 7 - Chuyên đề Xác thực & Bảo mật (JWT, RBAC 5 Roles, 1-Click Demo Login). *(Đã hoàn thành xuất sắc)*
 - [BrainStorm/Week8.md](BrainStorm/Week8.md) & [BrainStorm/Week8 Logging .md](BrainStorm/Week8%20Logging%20.md): Tuần 8 - Chuyên đề Nhật ký Hệ thống (Centralized Audit Logging), Đồng bộ Dual-Remote (GitHub & Bitbucket), Tái cấu trúc Menu Nhóm & Nạp dữ liệu mẫu 100%. *(Đã hoàn thành xuất sắc)*
-- [BrainStorm/Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Tuần 9 - Chuyên đề Kiểm thử Phần mềm (Automated QA Unit Test Suite 68/68 Backend & 13/13 Frontend Vitest đạt 100% PASS).
-- [BrainStorm/Week10.md](BrainStorm/Week10.md): Tuần 10 - Tích hợp Hệ thống, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP Top 10.
+- [BrainStorm/Week9.md](BrainStorm/Week9.md) & [BrainStorm/Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Tuần 9 - Chuyên đề Kiểm thử Phần mềm (Automated QA Unit Test Suite 68/68 Backend & 13/13 Frontend Vitest đạt 100% PASS), Đồng bộ Jira & ClickUp, Canva Slide & Cẩm nang PostgreSQL Extension. *(Đã hoàn thành xuất sắc)*
+- [BrainStorm/Week10.md](BrainStorm/Week10.md): Tuần 10 - Tích hợp Toàn Hệ Thống, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP Top 10 (Security Hardening, Rate Limiting, Helmet Headers, Chống SQLi & BOLA). *(Đang triển khai - In Progress)*
 - [BrainStorm/Week11.md](BrainStorm/Week11.md): Tuần 11 - Tối ưu hóa Hiệu năng, Indexing CSDL PostgreSQL & Caching Redis (Cache-Aside).
 - [BrainStorm/Week12.md](BrainStorm/Week12.md): Tuần 12 - Đóng gói Docker, Docker Compose & Tự động hóa CI/CD GitHub Actions.
 - [BrainStorm/Week13.md](BrainStorm/Week13.md): Tuần 13 - Báo cáo Thẩm định Kỹ thuật & Nghiệm thu Người dùng UAT Toàn diện (43 Use Cases).
@@ -124,6 +130,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - [database/schema.sql](database/schema.sql): Tập lệnh DDL khởi tạo toàn bộ 8 bảng CSDL PostgreSQL 3NF, ràng buộc toàn vẹn và chỉ mục.
 - [database/ERD.md](database/ERD.md): Sơ đồ thực thể quan hệ ERD Mermaid & Từ điển dữ liệu Data Dictionary chi tiết 8 bảng.
 - [members/member3_Backend_DB/POSTGRESQL_GUIDE.md](members/member3_Backend_DB/POSTGRESQL_GUIDE.md): Cẩm nang toàn diện quản trị, tối ưu hóa và vận hành CSDL PostgreSQL.
+- [docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md](docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md): Cẩm nang hướng dẫn kết nối và sử dụng PostgreSQL Extension trên IDE, thao tác xem bảng và truy vấn dữ liệu.
 
 ### 5.6 Thư Mục Hồ Sơ Công Việc 5 Thành Viên (members/)
 - [members/member1_PM_BA/README.md](members/member1_PM_BA/README.md): Hồ sơ thành viên 1 - Võ Duy Bình (Project Manager & Lead BA).
@@ -164,9 +171,11 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 06/11/2026 (TUẦN 8-9 / 15 TUẦN H�
   ```
 - **Branch chính**: `main`
 - **Bảng Jira Cloud Kanban Board**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
-- **Danh mục 91 Thẻ Ranked Trên Jira**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC)
-- **Cẩm nang Ánh xạ Jira & GitHub**: [docs/JIRA_KANBAN_MAPPING.md](docs/JIRA_KANBAN_MAPPING.md)
-- **Bản Slide Trình Chiếu Trực Tuyến Trên Canva**: [https://www.canva.com/d/YLrratHffoqRdvK](https://www.canva.com/d/YLrratHffoqRdvK) (Liên kết xem trước: [https://www.canva.com/d/JGTJ4NEiF-bDcpc](https://www.canva.com/d/JGTJ4NEiF-bDcpc))
+- **Dự Án Jira Cloud Project**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN)
+- **Không Gian Dự Án ClickUp (Space Group 2_PTDAPM)**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
+- **Thư Mục Dự Án ClickUp (Folder HTQLLH)**: [https://app.clickup.com/1100320000025585/v/f/1100320000138169](https://app.clickup.com/1100320000025585/v/f/1100320000138169)
+- **Cẩm nang Ánh xạ Jira, ClickUp & GitHub**: [docs/JIRA_KANBAN_MAPPING.md](docs/JIRA_KANBAN_MAPPING.md)
+- **Bản Slide Trình Chiếu Trực Tuyến Trên Canva**: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)
 
 ---
 
