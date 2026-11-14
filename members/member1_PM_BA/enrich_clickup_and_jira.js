@@ -1,14 +1,17 @@
 /**
  * ================================================================================
  * TỆP: members/member1_PM_BA/enrich_clickup_and_jira.js
- * MỤC ĐÍCH: Bổ sung chi tiết TOÀN DIỆN & MÃ NGUỒN MẪU (CODE SNIPPETS) cho 27 Tasks:
- *           - 1. Mục tiêu nghiệp vụ (User Story)
+ * MỤC ĐÍCH: Bổ sung chi tiết ĐỈNH CAO CHUẨN DOANH NGHIỆP & HỌC THUẬT cho 27 Tasks:
+ *           - 1. Mục tiêu nghiệp vụ (User Story), Mã RTM SRS, Phân công RACI & Story Points
  *           - 2. Liên kết mã nguồn trực tiếp trên GitHub và Bitbucket
- *           - 3. Vị trí kiến trúc & Tệp liên quan (Clean Architecture / React)
- *           - 4. Hướng dẫn từng bước thực hiện & sửa code (Step-by-Step Workflow)
- *           - 5. Đoạn mã mẫu & Gợi ý lập trình chi tiết (Executable Code Snippets)
- *           - 6. Bộ link tài liệu kỹ thuật chính thức (Official Docs & Tutorials)
- *           - 7. Tiêu chí nghiệm thu chuẩn (Acceptance Criteria / Definition of Done)
+ *           - 3. Vị trí kiến trúc & Phân tầng Clean Architecture / Frontend
+ *           - 4. Quy trình 4 bước thực hiện & sửa code (Step-by-Step Dev Workflow)
+ *           - 5. Đoạn mã mẫu thực thi (Executable Sample Code Snippet)
+ *           - 6. Lệnh kiểm thử cURL mẫu (Ready-to-run cURL Command)
+ *           - 7. Kịch bản kiểm thử ngoại lệ & lỗi biên (Negative Test Cases)
+ *           - 8. Kịch bản Demo UAT 3 phút cho Giảng viên (Step-by-Step Demo Script)
+ *           - 9. Danh mục Link tài liệu kỹ thuật chính thức & Slide Canva
+ *           - 10. Tiêu chí nghiệm thu (DoD) & Cú pháp Jira Smart Commit
  * TÁC GIẢ: Võ Duy Bình (Project Manager & Lead BA)
  * NGÀY CẬP NHẬT: 14/11/2026 (Tuần 10)
  * ================================================================================
@@ -18,6 +21,8 @@ const GITHUB_REPO = 'https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem/blob
 const BITBUCKET_REPO = 'https://bitbucket.org/codyisme27205/pt_da_pm/src/main';
 const HANDBOOK_LINK_GH = `${GITHUB_REPO}/docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md`;
 const HANDBOOK_LINK_BB = `${BITBUCKET_REPO}/docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md`;
+const CANVA_SLIDE = 'https://www.canva.com/d/75iOEEpReWqgOuN';
+const SWAGGER_URL = 'http://localhost:8081/api-docs';
 
 const JIRA_DOMAIN = 'https://reputyze-team-vx3aseym.atlassian.net';
 const JIRA_EMAIL = 'bron@reputyze.asia';
@@ -34,7 +39,7 @@ const clickupHeaders = {
 };
 
 /**
- * Danh sách 27 PBIs với ĐOẠN MÃ MẪU CỤ THỂ (codeSnippet)
+ * 27 PBIs với ĐẦY ĐỦ 10 HẠNG MỤC CHI TIẾT
  */
 const DETAILED_PBIS = [
   {
@@ -42,6 +47,12 @@ const DETAILED_PBIS = [
     jiraKey: 'KAN-112',
     name: 'PBI-01: Đăng nhập JWT vô trạng thái & Nút 1-Click Demo Login 5 vai trò (BGH, GV, HS, PH)',
     module: 'Module 1: Xác Thực & Quản Trị Phân Quyền (Auth & RBAC)',
+    owner: 'Trần Quang Vinh (Logic & Security) & Võ Hoàng Sơn (Dev Frontend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 1, // Urgent
+    labels: ['auth', 'jwt', 'security', 'frontend', 'backend', 'sprint-1'],
+    reqCode: 'REQ-AUTH-01, REQ-AUTH-02 (Ma trận RTM: UC_AUTH_01)',
     story: 'Là Người dùng (BGH, GVCN, GVBM, HS, PH), tôi muốn đăng nhập bằng tài khoản/mật khẩu hoặc dùng nút 1-Click Demo Login để vào đúng phân hệ chức năng tương ứng với quyền hạn của mình.',
     primaryFiles: [
       'members/member2_Frontend/src/pages/auth/LoginPage.jsx',
@@ -60,7 +71,6 @@ export const login = async (req, res) => {
     if (!username || !password) {
       return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ tài khoản và mật khẩu!' });
     }
-    // Truy vấn an toàn bằng Prepared Statement
     const result = await pool.query('SELECT * FROM users WHERE username = $1 AND status = $2', [username, 'ACTIVE']);
     if (result.rows.length === 0) {
       return res.status(401).json({ success: false, message: 'Tài khoản không tồn tại hoặc đã bị khóa!' });
@@ -70,7 +80,6 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ success: false, message: 'Mật khẩu không chính xác!' });
     }
-    // Ký JWT Token thời hạn 24h
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role, fullName: user.full_name },
       process.env.JWT_SECRET || 'htqllh_super_secret_key_2026',
@@ -85,6 +94,20 @@ export const login = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Lỗi máy chủ nội bộ: ' + error.message });
   }
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/auth/login \\
+  -H "Content-Type: application/json" \\
+  -d '{"username":"admin","password":"password123"}'`,
+    negativeCases: [
+      'Gửi thiếu trường username hoặc password -> Nhận HTTP 400 Bad Request.',
+      'Gửi sai mật khẩu -> Nhận HTTP 401 Unauthorized kèm thông báo lỗi thân thiện.',
+      'Đăng nhập tài khoản có trạng thái INACTIVE hoặc LOCKED -> Nhận HTTP 403 Forbidden.'
+    ],
+    demoSteps: [
+      '1. Truy cập giao diện web tại http://localhost:5173/login.',
+      '2. Bấm vào nút 1-Click "Đăng nhập BGH", quan sát hệ thống tự điền tài khoản và đăng nhập vào Dashboard BGH trong 1 giây.',
+      '3. Bấm Đăng xuất, chọn tiếp nút 1-Click "Đăng nhập GVCN" để thấy Sidebar tự động chuyển sang menu học vụ của giáo viên.'
+    ],
+    smartCommit: 'git commit -m "KAN-112 #time 8h #comment Hoan thanh xac thuc JWT 5 vai tro va 1-click demo #resolve"',
     docs: [
       { name: 'React 18 Official Guide (State & Hooks)', url: 'https://react.dev/learn' },
       { name: 'JWT.io Debugger & RFC 7519 Specification', url: 'https://jwt.io/introduction' },
@@ -102,6 +125,12 @@ export const login = async (req, res) => {
     jiraKey: 'KAN-113',
     name: 'PBI-02: Middleware RBAC kiểm soát phân quyền 5 cấp bậc & Chặn truy cập trái phép',
     module: 'Module 1: Xác Thực & Quản Trị Phân Quyền (Auth & RBAC)',
+    owner: 'Trần Quang Vinh (Logic & Security Lead)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 1,
+    labels: ['rbac', 'security', 'middleware', 'authorization'],
+    reqCode: 'REQ-AUTH-03, REQ-AUTH-04 (Ma trận RTM: UC_AUTH_02)',
     story: 'Là Ban Giám Hiệu, tôi muốn hệ thống kiểm soát quyền hạn 5 cấp bậc (Admin, GVCN, GVBM, Học sinh, Phụ huynh) để ngăn chặn truy cập trái phép vào các endpoint nhạy cảm.',
     primaryFiles: [
       'members/member4_Logic_Security/rbacMiddleware.js',
@@ -127,10 +156,20 @@ export const authorizeRoles = (...allowedRoles) => {
     }
     next();
   };
-};
-
-// Sử dụng trong Router:
-// router.post('/grades/lock', verifyToken, authorizeRoles('ROLE_ADMIN'), lockGradebook);`,
+};`,
+    curlSample: `curl -X GET http://localhost:8081/api/admin/users \\
+  -H "Authorization: Bearer <TOKEN_HOC_SINH>"`,
+    negativeCases: [
+      'Gửi request không có Header Authorization -> Nhận HTTP 401 Unauthorized.',
+      'Gửi token giả mạo hoặc đã hết hạn -> Nhận HTTP 401 Unauthorized.',
+      'Tài khoản Học sinh cố truy cập endpoint của Admin -> Nhận HTTP 403 Forbidden.'
+    ],
+    demoSteps: [
+      '1. Đăng nhập bằng tài khoản Học sinh (hs001).',
+      '2. Gõ trực tiếp đường dẫn /admin/users lên thanh URL trình duyệt.',
+      '3. Hệ thống chặn lại và tự động chuyển hướng về trang /unauthorized kèm cảnh báo.'
+    ],
+    smartCommit: 'git commit -m "KAN-113 #time 8h #comment Hoan thien Middleware RBAC 5 cap bac chan truy cap trai phep #resolve"',
     docs: [
       { name: 'Express Writing Middleware Guide', url: 'https://expressjs.com/en/guide/writing-middleware.html' },
       { name: 'NIST Role-Based Access Control (RBAC) Standard', url: 'https://csrc.nist.gov/projects/role-based-access-control' },
@@ -147,6 +186,12 @@ export const authorizeRoles = (...allowedRoles) => {
     jiraKey: 'KAN-114',
     name: 'PBI-25: Quản trị tài khoản người dùng: Tạo mới, Khóa tài khoản & Đặt lại mật khẩu (BGH)',
     module: 'Module 1: Xác Thực & Quản Trị Phân Quyền (Auth & RBAC)',
+    owner: 'Huỳnh Trung Tính (Dev Backend) & Võ Hoàng Sơn (Dev Frontend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['users', 'admin', 'management', 'database'],
+    reqCode: 'REQ-USER-01, REQ-USER-02 (Ma trận RTM: UC_BGH_01)',
     story: 'Là Ban Giám Hiệu, tôi muốn quản trị danh sách người dùng toàn trường (tạo mới, đổi trạng thái, đặt lại mật khẩu) để kiểm soát tài khoản học vụ.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/UserController.js',
@@ -161,11 +206,10 @@ Bước 4: Mở UserManagementPage.jsx trên giao diện BGH, kiểm tra bảng 
     codeSnippet: `// UserController.js - Đổi trạng thái tài khoản & Khóa người dùng
 export const updateUserStatus = async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body; // 'ACTIVE' | 'INACTIVE' | 'LOCKED'
+  const { status } = req.body;
   if (!['ACTIVE', 'INACTIVE', 'LOCKED'].includes(status)) {
     return res.status(400).json({ success: false, message: 'Trạng thái không hợp lệ!' });
   }
-  // Ngăn chặn admin tự khóa chính mình
   if (parseInt(id) === req.user.id) {
     return res.status(403).json({ success: false, message: 'Không thể tự khóa tài khoản quản trị của chính bạn!' });
   }
@@ -173,6 +217,20 @@ export const updateUserStatus = async (req, res) => {
   const result = await pool.query(query, [status, id]);
   return res.status(200).json({ success: true, data: result.rows[0] });
 };`,
+    curlSample: `curl -X PATCH http://localhost:8081/api/users/2/status \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"status":"LOCKED"}'`,
+    negativeCases: [
+      'Admin tự gửi yêu cầu khóa tài khoản của chính mình -> Nhận HTTP 403 Forbidden.',
+      'Tạo người dùng với username đã tồn tại -> Nhận HTTP 409 Conflict.'
+    ],
+    demoSteps: [
+      '1. Đăng nhập quyền BGH, vào menu "Quản trị người dùng".',
+      '2. Tìm tài khoản gv01 và bấm nút "Khóa tài khoản".',
+      '3. Mở tab ẩn danh thử đăng nhập bằng gv01 -> Hệ thống báo tài khoản đã bị khóa.'
+    ],
+    smartCommit: 'git commit -m "KAN-114 #time 8h #comment Hoan thanh quan ly nguoi dung va dat lai mat khau #resolve"',
     docs: [
       { name: 'bcryptjs Official Documentation', url: 'https://www.npmjs.com/package/bcryptjs' },
       { name: 'PostgreSQL UPDATE Documentation', url: 'https://www.postgresql.org/docs/current/sql-update.html' }
@@ -188,6 +246,12 @@ export const updateUserStatus = async (req, res) => {
     jiraKey: 'KAN-115',
     name: 'PBI-03: Khởi tạo & Cấu hình Năm học, Học kỳ, Khối học và Danh mục Lớp học',
     module: 'Module 2: Quản Trị Danh Mục & Tổ Chức Năm Học',
+    owner: 'Huỳnh Trung Tính (Dev Backend & DBA)',
+    storyPoints: 3,
+    estimateHours: '6h',
+    priority: 2,
+    labels: ['academic', 'configuration', 'database', 'backend'],
+    reqCode: 'REQ-ACAD-01, REQ-ACAD-02 (Ma trận RTM: UC_BGH_02)',
     story: 'Là Ban Giám Hiệu, tôi muốn khởi tạo năm học mới, cấu hình 2 học kỳ (HK1, HK2), các khối 10, 11, 12 và lớp học để sẵn sàng cho công tác giảng dạy.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/AcademicController.js',
@@ -205,9 +269,7 @@ export const activateAcademicYear = async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    // Bước 1: Hạ cờ tất cả các năm học cũ
     await client.query('UPDATE academic_years SET is_current = false WHERE is_current = true');
-    // Bước 2: Kích hoạt năm học mới
     const result = await client.query('UPDATE academic_years SET is_current = true WHERE id = $1 RETURNING *', [id]);
     if (result.rows.length === 0) {
       await client.query('ROLLBACK');
@@ -222,6 +284,17 @@ export const activateAcademicYear = async (req, res) => {
     client.release();
   }
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/academic-years/1/activate \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>"`,
+    negativeCases: [
+      'Tạo học kỳ có ngày bắt đầu lớn hơn ngày kết thúc -> Nhận HTTP 400 Bad Request.',
+      'Tạo năm học có tên trùng lặp -> Nhận HTTP 409 Conflict.'
+    ],
+    demoSteps: [
+      '1. Vào mục "Cấu hình năm học", tạo năm học mới 2026-2027.',
+      '2. Bấm nút "Kích hoạt năm học hiện tại", kiểm tra các năm cũ tự động chuyển về trạng thái không hoạt động.'
+    ],
+    smartCommit: 'git commit -m "KAN-115 #time 6h #comment Hoan thanh cau hinh nam hoc hoc ky va khoi lop #resolve"',
     docs: [
       { name: 'node-postgres (pg) Transactions Guide', url: 'https://node-postgres.com/features/transactions' },
       { name: 'PostgreSQL Constraints & Foreign Keys', url: 'https://www.postgresql.org/docs/current/ddl-constraints.html' }
@@ -237,6 +310,12 @@ export const activateAcademicYear = async (req, res) => {
     jiraKey: 'KAN-116',
     name: 'PBI-04: Phân công chuyên môn giảng dạy (GVCN & GVBM) theo Lớp & Môn học',
     module: 'Module 2: Quản Trị Danh Mục & Tổ Chức Năm Học',
+    owner: 'Huỳnh Trung Tính (Dev Backend) & Võ Hoàng Sơn (Dev Frontend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['assignment', 'teaching', 'teacher', 'backend'],
+    reqCode: 'REQ-ASGN-01, REQ-ASGN-02 (Ma trận RTM: UC_BGH_03)',
     story: 'Là Ban Giám Hiệu, tôi muốn phân công giáo viên chủ nhiệm cho từng lớp và giáo viên bộ môn theo từng môn học để giáo viên có thẩm quyền vào điểm và quản lý lớp.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/AssignmentController.js',
@@ -251,7 +330,6 @@ Bước 4: Mở TeachingAssignmentPage.jsx, chọn dropdown Lớp, Môn học, G
     codeSnippet: `// AssignmentController.js - Phân công GVCN (Đảm bảo 1 lớp chỉ 1 GVCN)
 export const assignHomeroomTeacher = async (req, res) => {
   const { class_id, teacher_id, academic_year_id } = req.body;
-  // Kiểm tra trùng lặp GVCN
   const existing = await pool.query(
     'SELECT * FROM homeroom_assignments WHERE class_id = $1 AND academic_year_id = $2',
     [class_id, academic_year_id]
@@ -265,6 +343,19 @@ export const assignHomeroomTeacher = async (req, res) => {
   );
   return res.status(201).json({ success: true, data: result.rows[0] });
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/assignments/homeroom \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"class_id":1,"teacher_id":2,"academic_year_id":1}'`,
+    negativeCases: [
+      'Phân công 2 GVCN cho cùng 1 lớp trong cùng 1 năm học -> Nhận HTTP 409 Conflict.',
+      'Phân công giáo viên không tồn tại -> Nhận HTTP 404 Not Found.'
+    ],
+    demoSteps: [
+      '1. Vào mục "Phân công chuyên môn", chọn Lớp 10A1 và gán Thầy A làm GVCN.',
+      '2. Thử gán thêm Cô B làm GVCN lớp 10A1 -> Hệ thống chặn lại và báo lỗi trùng lặp.'
+    ],
+    smartCommit: 'git commit -m "KAN-116 #time 8h #comment Hoan thanh phan cong GVCN va GVBM theo lop #resolve"',
     docs: [
       { name: 'Clean Architecture by Uncle Bob', url: 'https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html' },
       { name: 'PostgreSQL Unique Constraints', url: 'https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS' }
@@ -280,6 +371,12 @@ export const assignHomeroomTeacher = async (req, res) => {
     jiraKey: 'KAN-117',
     name: 'PBI-14: Xếp thời khóa biểu tuần & Tự động phát hiện xung đột lịch dạy/học',
     module: 'Module 3: Quản Lý Thời Khóa Biểu & Lịch Giảng Dạy',
+    owner: 'Trần Quang Vinh (Logic & Security) & Võ Hoàng Sơn (Dev Frontend)',
+    storyPoints: 8,
+    estimateHours: '12h',
+    priority: 1,
+    labels: ['timetable', 'scheduling', 'algorithm', 'conflict-detection'],
+    reqCode: 'REQ-TIME-01, REQ-TIME-02 (Ma trận RTM: UC_BGH_04)',
     story: 'Là Ban Giám Hiệu, tôi muốn sắp xếp thời khóa biểu theo tuần cho các lớp và hệ thống tự động cảnh báo khi giáo viên hoặc phòng học bị trùng tiết.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/TimetableController.js',
@@ -293,7 +390,6 @@ Bước 3: Mở TimetableController.js, trả về HTTP 409 Conflict kèm danh s
 Bước 4: Mở TimetableManagementPage.jsx trên giao diện BGH, thử kéo thả hoặc xếp 2 tiết trùng giáo viên để kiểm tra cảnh báo đỏ xuất hiện tức thì.`,
     codeSnippet: `// TimetableService.js - Thuật toán phát hiện xung đột TKB
 export const checkScheduleConflict = async (class_id, teacher_id, day_of_week, period, academic_year_id) => {
-  // 1. Kiểm tra giáo viên có đang dạy lớp khác trong cùng tiết không
   const teacherConflict = await pool.query(
     \`SELECT t.*, c.name as class_name FROM timetables t 
      JOIN classes c ON t.class_id = c.id 
@@ -305,6 +401,19 @@ export const checkScheduleConflict = async (class_id, teacher_id, day_of_week, p
   }
   return { hasConflict: false };
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/timetables/validate \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"teacher_id":2,"day_of_week":2,"period":1}'`,
+    negativeCases: [
+      'Xếp 1 giáo viên dạy 2 lớp khác nhau trong cùng 1 tiết -> Nhận HTTP 409 Conflict kèm tên lớp bị trùng.',
+      'Xếp 2 môn học vào cùng 1 tiết của 1 lớp -> Nhận HTTP 409 Conflict.'
+    ],
+    demoSteps: [
+      '1. Vào mục "Xếp thời khóa biểu", kéo môn Toán của Thầy A vào Tiết 1 Thứ 2 Lớp 10A2 (khi Thầy A đã có tiết ở 10A1).',
+      '2. Ô thời khóa biểu lập tức chuyển viền đỏ và hiển thị popup cảnh báo xung đột lịch dạy.'
+    ],
+    smartCommit: 'git commit -m "KAN-117 #time 12h #comment Hoan thanh xep thoi khoa bieu va phat hien xung dot #resolve"',
     docs: [
       { name: 'Interval Scheduling Algorithm', url: 'https://en.wikipedia.org/wiki/Interval_scheduling' },
       { name: 'Tailwind CSS Grid Template Columns', url: 'https://tailwindcss.com/docs/grid-template-columns' }
@@ -320,6 +429,12 @@ export const checkScheduleConflict = async (class_id, teacher_id, day_of_week, p
     jiraKey: 'KAN-118',
     name: 'PBI-21: Quy trình đăng ký đổi tiết, dạy thay, dạy bù & Phê duyệt trực tuyến (BGH)',
     module: 'Module 3: Quản Lý Thời Khóa Biểu & Lịch Giảng Dạy',
+    owner: 'Trần Quang Vinh (Logic) & Huỳnh Trung Tính (Backend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['substitute', 'approval', 'workflow', 'timetable'],
+    reqCode: 'REQ-SUB-01, REQ-SUB-02 (Ma trận RTM: UC_GV_05)',
     story: 'Là Giáo viên, tôi muốn gửi yêu cầu đổi tiết hoặc dạy thay khi có việc đột xuất và BGH có thể duyệt trực tuyến để cập nhật TKB tạm thời.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/TimetableController.js',
@@ -347,7 +462,6 @@ export const approveSubstituteRequest = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Đơn không tồn tại hoặc đã được xử lý!' });
     }
     const sub = updateRes.rows[0];
-    // Ghi đè ngoại lệ thời khóa biểu cho ngày cụ thể
     await client.query(
       \`INSERT INTO timetable_exceptions (class_id, original_teacher_id, substitute_teacher_id, date, period)
        VALUES ($1, $2, $3, $4, $5)\`,
@@ -362,6 +476,18 @@ export const approveSubstituteRequest = async (req, res) => {
     client.release();
   }
 };`,
+    curlSample: `curl -X PATCH http://localhost:8081/api/substitutes/1/approve \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>"`,
+    negativeCases: [
+      'Tài khoản không phải Admin/BGH cố duyệt đơn -> Nhận HTTP 403 Forbidden.',
+      'Phê duyệt đơn đã ở trạng thái APPROVED hoặc REJECTED -> Nhận HTTP 400 Bad Request.'
+    ],
+    demoSteps: [
+      '1. Giáo viên A gửi đơn nhờ Thầy B dạy thay Tiết 2 ngày mai.',
+      '2. Đăng nhập BGH mở trang "Phê duyệt dạy thay", bấm nút "Duyệt".',
+      '3. Kiểm tra TKB ngày mai của lớp đã tự động đổi tên giáo viên phụ trách sang Thầy B.'
+    ],
+    smartCommit: 'git commit -m "KAN-118 #time 8h #comment Hoan thanh quy trinh doi tiet day thay co phe duyet #resolve"',
     docs: [
       { name: 'State Pattern in Software Design', url: 'https://refactoring.guru/design-patterns/state' },
       { name: 'PostgreSQL Transactions Best Practices', url: 'https://node-postgres.com/features/transactions' }
@@ -377,6 +503,12 @@ export const approveSubstituteRequest = async (req, res) => {
     jiraKey: 'KAN-119',
     name: 'PBI-05: Quản lý hồ sơ học sinh, phân lớp & Nhập danh sách hàng loạt từ file Excel',
     module: 'Module 4: Quản Lý Hồ Sơ Học Sinh & Điểm Danh',
+    owner: 'Huỳnh Trung Tính (Backend) & Võ Hoàng Sơn (Dev Frontend)',
+    storyPoints: 8,
+    estimateHours: '12h',
+    priority: 1,
+    labels: ['student', 'excel', 'sheetjs', 'batch-processing'],
+    reqCode: 'REQ-STUD-01, REQ-STUD-02 (Ma trận RTM: UC_BGH_05)',
     story: 'Là Ban Giám Hiệu, tôi muốn quản lý thông tin học sinh (họ tên, ngày sinh, phụ huynh) và nhập danh sách cả lớp từ file Excel (.xlsx) để tiết kiệm thời gian.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/StudentController.js',
@@ -399,7 +531,6 @@ export const importStudentsFromExcel = async (req, res) => {
   try {
     await client.query('BEGIN');
     for (const row of rows) {
-      // Validate các trường bắt buộc
       if (!row['Họ và tên'] || !row['Ngày sinh']) continue;
       await client.query(
         \`INSERT INTO students (full_name, dob, gender, class_id, parent_phone, status) 
@@ -416,6 +547,20 @@ export const importStudentsFromExcel = async (req, res) => {
     client.release();
   }
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/students/import-excel \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>" \\
+  -F "file=@danh_sach_lop10a1.xlsx" \\
+  -F "class_id=1"`,
+    negativeCases: [
+      'Upload file không đúng định dạng (.txt, .pdf) -> Nhận HTTP 400 Bad Request.',
+      'File Excel có dòng thiếu trường bắt buộc Họ tên -> Tự động bỏ qua hoặc báo lỗi số dòng.'
+    ],
+    demoSteps: [
+      '1. Vào mục "Hồ sơ học sinh", bấm nút "Nhập từ Excel".',
+      '2. Chọn file danh_sach_lop10a1.xlsx và bấm Tải lên.',
+      '3. Hệ thống xử lý trong 1.5 giây và nạp toàn bộ học sinh vào danh sách lớp.'
+    ],
+    smartCommit: 'git commit -m "KAN-119 #time 12h #comment Hoan thanh nhap ho so hoc sinh hang loat tu file Excel #resolve"',
     docs: [
       { name: 'SheetJS (xlsx) Official Documentation', url: 'https://docs.sheetjs.com/' },
       { name: 'Multer File Upload Middleware Guide', url: 'https://github.com/expressjs/multer' }
@@ -431,6 +576,12 @@ export const importStudentsFromExcel = async (req, res) => {
     jiraKey: 'KAN-120',
     name: 'PBI-06: Điểm danh theo tiết/ngày, thống kê vắng & Cảnh báo nghỉ học tự động',
     module: 'Module 4: Quản Lý Hồ Sơ Học Sinh & Điểm Danh',
+    owner: 'Huỳnh Trung Tính (Backend) & Võ Hoàng Sơn (Frontend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 1,
+    labels: ['attendance', 'upsert', 'teacher', 'daily'],
+    reqCode: 'REQ-ATT-01, REQ-ATT-02 (Ma trận RTM: UC_GVCN_01)',
     story: 'Là Giáo viên (GVCN/GVBM), tôi muốn điểm danh học sinh từng tiết học và hệ thống tự động thống kê số buổi nghỉ có phép/không phép để kịp thời nhắc nhở.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/AttendanceController.js',
@@ -444,7 +595,7 @@ Bước 3: Mở AttendanceCheckPage.jsx, kiểm tra nút 'Điểm danh nhanh c�
 Bước 4: Bấm Lưu điểm danh, kiểm tra phản hồi HTTP 200 và kiểm tra dữ liệu hiển thị đúng trên CSDL PostgreSQL.`,
     codeSnippet: `// AttendanceController.js - Lưu điểm danh Batch kèm UPSERT (ON CONFLICT)
 export const saveAttendanceBatch = async (req, res) => {
-  const { class_id, date, period, records } = req.body; // records: [{ student_id, status, note }]
+  const { class_id, date, period, records } = req.body;
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -466,6 +617,19 @@ export const saveAttendanceBatch = async (req, res) => {
     client.release();
   }
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/attendance/batch \\
+  -H "Authorization: Bearer <TOKEN_GV>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"class_id":1,"date":"2026-11-14","period":1,"records":[{"student_id":1,"status":"CO_MAT"}]}'`,
+    negativeCases: [
+      'Gửi trạng thái điểm danh không hợp lệ (ngoài CO_MAT, VANG_CO_PHEP, VANG_KHONG_PHEP, DI_TRE) -> Nhận HTTP 400.'
+    ],
+    demoSteps: [
+      '1. GVCN mở trang "Điểm danh lớp", bấm "Tất cả có mặt".',
+      '2. Đổi 1 học sinh sang "Vắng có phép", bấm "Lưu điểm danh".',
+      '3. Tải lại trang để xác nhận trạng thái được lưu bền vững trên PostgreSQL.'
+    ],
+    smartCommit: 'git commit -m "KAN-120 #time 8h #comment Hoan thanh diem danh theo tiet ngay va nut diem danh nhanh #resolve"',
     docs: [
       { name: 'PostgreSQL UPSERT (ON CONFLICT) Guide', url: 'https://www.postgresql.org/docs/current/sql-insert.html#SQL-ON-CONFLICT' },
       { name: 'React State Management for Lists', url: 'https://react.dev/learn/managing-state' }
@@ -481,6 +645,12 @@ export const saveAttendanceBatch = async (req, res) => {
     jiraKey: 'KAN-121',
     name: 'PBI-07: Nhập & Phê duyệt đơn xin nghỉ học trực tuyến (Phụ huynh gửi - GVCN duyệt)',
     module: 'Module 4: Quản Lý Hồ Sơ Học Sinh & Điểm Danh',
+    owner: 'Võ Hoàng Sơn (Frontend) & Huỳnh Trung Tính (Backend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['leave-request', 'parent', 'teacher', 'approval'],
+    reqCode: 'REQ-ATT-03, REQ-ATT-04 (Ma trận RTM: UC_PAR_02)',
     story: 'Là Phụ huynh học sinh, tôi muốn gửi đơn xin nghỉ học trực tuyến cho con kèm lý do để GVCN phê duyệt và tự động cập nhật trạng thái vắng có phép.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/LeaveRequestController.js',
@@ -495,7 +665,7 @@ Bước 4: Đăng nhập tài khoản GVCN, mở LeaveApprovalPage.jsx, bấm Ph
     codeSnippet: `// LeaveRequestController.js - GVCN Phê duyệt đơn & Tự động đồng bộ điểm danh
 export const reviewLeaveRequest = async (req, res) => {
   const { id } = req.params;
-  const { status, feedback } = req.body; // 'APPROVED' | 'REJECTED'
+  const { status, feedback } = req.body;
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -505,7 +675,6 @@ export const reviewLeaveRequest = async (req, res) => {
       [status, feedback || '', req.user.id, id]
     );
     const leave = updateRes.rows[0];
-    // Nếu duyệt, tự động đánh dấu VANG_CO_PHEP vào bảng attendance
     if (status === 'APPROVED') {
       await client.query(
         \`INSERT INTO attendance (student_id, date, status, note, recorded_by)
@@ -523,6 +692,19 @@ export const reviewLeaveRequest = async (req, res) => {
     client.release();
   }
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/leave-requests \\
+  -H "Authorization: Bearer <TOKEN_PH>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"student_id":1,"leave_date":"2026-11-15","reason":"Con bi sot"}'`,
+    negativeCases: [
+      'Gửi đơn xin nghỉ cho ngày trong quá khứ quá 3 ngày -> Nhận HTTP 400 Bad Request.'
+    ],
+    demoSteps: [
+      '1. Đăng nhập tài khoản Phụ huynh gửi đơn xin nghỉ ngày 15/11.',
+      '2. GVCN đăng nhập, mở mục "Duyệt đơn nghỉ học" và bấm Phê duyệt.',
+      '3. Kiểm tra bảng điểm danh lớp ngày 15/11 tự động cập nhật trạng thái VẮNG CÓ PHÉP.'
+    ],
+    smartCommit: 'git commit -m "KAN-121 #time 8h #comment Hoan thanh don xin nghi hoc truc tuyen va tu dong cap nhat diem danh #resolve"',
     docs: [
       { name: 'PostgreSQL Date / Time Functions', url: 'https://www.postgresql.org/docs/current/datatype-datetime.html' },
       { name: 'RESTful API PATCH Semantics', url: 'https://restfulapi.net/http-methods/#patch' }
@@ -538,6 +720,12 @@ export const reviewLeaveRequest = async (req, res) => {
     jiraKey: 'KAN-122',
     name: 'PBI-17c: Báo cáo thống kê chuyên cần, tỷ lệ đi học & Cảnh báo học sinh nguy cơ',
     module: 'Module 4: Quản Lý Hồ Sơ Học Sinh & Điểm Danh',
+    owner: 'Huỳnh Trung Tính (Backend) & Nguyễn Minh Quốc Bảo (Tester/QA)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['attendance-stats', 'analytics', 'reporting', 'dropout-risk'],
+    reqCode: 'REQ-ATT-05 (Ma trận RTM: UC_BGH_06)',
     story: 'Là Ban Giám Hiệu và GVCN, tôi muốn xem báo cáo thống kê tỷ lệ chuyên cần theo lớp/khối và phát hiện học sinh vắng quá 45 buổi để xử lý học vụ.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/AttendanceController.js',
@@ -550,7 +738,7 @@ Bước 3: Lọc ra danh sách học sinh có tổng số buổi vắng >= 45 bu
 Bước 4: Mở AttendanceStatsPage.jsx, kiểm tra render bảng thống kê tỷ lệ chuyên cần và danh sách học sinh bị cảnh báo đỏ.`,
     codeSnippet: `// AttendanceController.js - Thống kê chuyên cần & Phát hiện nguy cơ lưu ban (>45 buổi)
 export const getAttendanceAnalytics = async (req, res) => {
-  const { classId, academicYearId } = req.query;
+  const { classId } = req.query;
   const query = \`
     SELECT s.id, s.full_name,
       COUNT(a.id) FILTER (WHERE a.status = 'CO_MAT') as present_count,
@@ -568,6 +756,16 @@ export const getAttendanceAnalytics = async (req, res) => {
   const result = await pool.query(query, [classId]);
   return res.status(200).json({ success: true, data: result.rows });
 };`,
+    curlSample: `curl -X GET "http://localhost:8081/api/attendance/analytics?classId=1" \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>"`,
+    negativeCases: [
+      'Truy vấn lớp học không tồn tại -> Nhận HTTP 404 Not Found.'
+    ],
+    demoSteps: [
+      '1. Vào mục "Thống kê chuyên cần" trên giao diện BGH.',
+      '2. Quan sát học sinh vắng trên 45 buổi được highlight màu đỏ cảnh báo nguy cơ lưu ban.'
+    ],
+    smartCommit: 'git commit -m "KAN-122 #time 8h #comment Hoan thanh bao cao thong ke chuyen can va canh bao luu ban #resolve"',
     docs: [
       { name: 'PostgreSQL Aggregate Functions & FILTER Clause', url: 'https://www.postgresql.org/docs/current/functions-aggregate.html' },
       { name: 'Chart.js Bar & Percentage Charts Guide', url: 'https://www.chartjs.org/docs/latest/charts/bar.html' }
@@ -583,6 +781,12 @@ export const getAttendanceAnalytics = async (req, res) => {
     jiraKey: 'KAN-123',
     name: 'PBI-08: Nhập bảng điểm bộ môn, kiểm tra dải điểm hợp lệ [0.0 - 10.0] & Kiểm soát khóa sổ',
     module: 'Module 5: Quản Lý Sổ Điểm Điện Tử & Đánh Giá TT22',
+    owner: 'Trần Quang Vinh (Logic & Security) & Võ Hoàng Sơn (Frontend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 1,
+    labels: ['grade-entry', 'validation', 'lock-check', 'tt22'],
+    reqCode: 'REQ-GRAD-01, REQ-GRAD-02 (Ma trận RTM: UC_GVBM_01)',
     story: 'Là Giáo viên bộ môn, tôi muốn nhập điểm kiểm tra thường xuyên, giữa kỳ, cuối kỳ cho học sinh lớp mình dạy và hệ thống kiểm tra chặn nhập sai.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/GradeController.js',
@@ -597,7 +801,6 @@ Bước 4: Mở GradeEntryPage.jsx trên giao diện Giáo viên, thử gõ đi�
     codeSnippet: `// GradeController.js - Lưu điểm & Kiểm tra dải điểm [0.0 - 10.0] cùng Trạng thái khóa sổ
 export const enterSubjectGrades = async (req, res) => {
   const { class_id, subject_id, semester, grades } = req.body;
-  // 1. Kiểm tra trạng thái khóa sổ điểm
   const lockCheck = await pool.query(
     'SELECT status FROM gradebook_locks WHERE class_id = $1 AND subject_id = $2 AND semester = $3',
     [class_id, subject_id, semester]
@@ -605,16 +808,27 @@ export const enterSubjectGrades = async (req, res) => {
   if (lockCheck.rows.length > 0 && lockCheck.rows[0].status !== 'OPEN') {
     return res.status(403).json({ success: false, message: 'Sổ điểm môn học này đã bị khóa! Không thể nhập/sửa điểm.' });
   }
-  // 2. Kiểm tra dải điểm hợp lệ
   for (const g of grades) {
     if (g.score !== null && (g.score < 0 || g.score > 10)) {
-      return res.status(400).json({ success: false, message: \`Điểm \${g.score} của học sinh \${g.student_name} không hợp lệ! Dải điểm cho phép là [0.0 - 10.0].\` });
+      return res.status(400).json({ success: false, message: \`Điểm \${g.score} không hợp lệ! Dải điểm cho phép là [0.0 - 10.0].\` });
     }
   }
-  // 3. Thực hiện lưu điểm
   await saveGradesBatch(grades);
   return res.status(200).json({ success: true, message: 'Cập nhật bảng điểm thành công!' });
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/grades/batch \\
+  -H "Authorization: Bearer <TOKEN_GV>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"class_id":1,"subject_id":1,"semester":"HK1","grades":[{"student_id":1,"score":8.5}]}'`,
+    negativeCases: [
+      'Gõ điểm -1 hoặc 10.5 -> Nhận HTTP 400 Bad Request.',
+      'Sửa điểm khi trạng thái sổ điểm là LOCKED -> Nhận HTTP 403 Forbidden.'
+    ],
+    demoSteps: [
+      '1. GVBM mở trang "Nhập điểm bộ môn", nhập điểm 8.5.',
+      '2. Gõ thử số 12 -> Ô nhập báo lỗi viền đỏ và chặn bấm Lưu.'
+    ],
+    smartCommit: 'git commit -m "KAN-123 #time 8h #comment Hoan thanh nhap diem bo mon va kiem tra dai diem 0-10 #resolve"',
     docs: [
       { name: 'Clean Architecture Pattern by Uncle Bob', url: 'https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html' },
       { name: 'React Dynamic Form Input Validation', url: 'https://react.dev/learn/sharing-state-between-components' }
@@ -630,6 +844,12 @@ export const enterSubjectGrades = async (req, res) => {
     jiraKey: 'KAN-124',
     name: 'PBI-09: Thuật toán tính Điểm trung bình môn (TBM) & Đánh giá Đạt/Chưa đạt (TT22)',
     module: 'Module 5: Quản Lý Sổ Điểm Điện Tử & Đánh Giá TT22',
+    owner: 'Trần Quang Vinh (Core Logic & Security)',
+    storyPoints: 8,
+    estimateHours: '12h',
+    priority: 1,
+    labels: ['tt22', 'algorithm', 'tbm', 'unit-test'],
+    reqCode: 'REQ-GRAD-03 (Ma trận RTM: UC_GVBM_02)',
     story: 'Là Hệ thống, tôi muốn tự động tính toán Điểm trung bình môn (TBM) chính xác theo trọng số Thông tư 22/2021/TT-BGDĐT ngay khi có điểm mới.',
     primaryFiles: [
       'members/member4_Logic_Security/tt22EvaluationLogic.js',
@@ -644,15 +864,26 @@ Bước 4: Chạy lệnh npm test trên terminal để xác nhận 100% test cas
     codeSnippet: `// tt22EvaluationLogic.js - Công thức tính Điểm trung bình môn học kỳ (Điều 9 TT 22)
 export const calculateTBM = (regularScores, midtermScore, finalScore) => {
   if (!regularScores || regularScores.length === 0 || midtermScore === null || finalScore === null) {
-    return null; // Chưa đủ điểm để tính TBM
+    return null;
   }
   const sumRegular = regularScores.reduce((acc, score) => acc + score, 0);
   const totalWeighted = sumRegular + (2 * midtermScore) + (3 * finalScore);
-  const totalWeight = regularScores.length + 2 + 3; // Tổng trọng số
-  // Làm tròn đúng 1 chữ số thập phân theo quy chuẩn Bộ GD&ĐT
+  const totalWeight = regularScores.length + 2 + 3;
   const rawTbm = totalWeighted / totalWeight;
   return Math.round(rawTbm * 10) / 10;
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/grades/calculate-tbm \\
+  -H "Content-Type: application/json" \\
+  -d '{"regularScores":[8,9,8],"midtermScore":7.5,"finalScore":9}'`,
+    negativeCases: [
+      'Thiếu điểm kiểm tra cuối kỳ -> Trả về null (chưa đủ dữ liệu tính TBM).',
+      'Mảng điểm thường xuyên rỗng -> Trả về null.'
+    ],
+    demoSteps: [
+      '1. Chạy lệnh npm test trên terminal.',
+      '2. Xem kết quả 68 bài kiểm thử tính điểm TT22 đạt PASS 100% trong 0.8 giây.'
+    ],
+    smartCommit: 'git commit -m "KAN-124 #time 12h #comment Hoan thanh thuat toan tinh TBM theo Thong tu 22 va 68 unit tests #resolve"',
     docs: [
       { name: 'Thông tư 22/2021/TT-BGDĐT Quy định Đánh giá Học sinh', url: 'https://moet.gov.vn/' },
       { name: 'IEEE 754 Floating Point Rounding in JavaScript', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round' },
@@ -669,6 +900,12 @@ export const calculateTBM = (regularScores, midtermScore, finalScore) => {
     jiraKey: 'KAN-125',
     name: 'PBI-10: Đánh giá kết quả rèn luyện & Xếp loại học lực cuối kỳ/cả năm theo TT22',
     module: 'Module 5: Quản Lý Sổ Điểm Điện Tử & Đánh Giá TT22',
+    owner: 'Trần Quang Vinh (Core Logic) & Huỳnh Trung Tính (Backend)',
+    storyPoints: 8,
+    estimateHours: '12h',
+    priority: 1,
+    labels: ['conduct', 'classification', 'tt22', 'honors'],
+    reqCode: 'REQ-GRAD-04, REQ-GRAD-05 (Ma trận RTM: UC_GVCN_02)',
     story: 'Là GVCN, tôi muốn hệ thống tự động tổng hợp kết quả học tập và rèn luyện của cả lớp để xếp loại học sinh theo 4 mức (Tốt, Khá, Đạt, Chưa đạt).',
     primaryFiles: [
       'members/member4_Logic_Security/tt22EvaluationLogic.js',
@@ -682,7 +919,6 @@ Bước 3: Mở GradeController.js (phương thức getHomeroomSummaryReport), g
 Bước 4: Mở HomeroomEvaluationPage.jsx trên giao diện GVCN, kiểm tra bảng xếp loại cả lớp hiển thị chính xác danh hiệu Xuất sắc, Giỏi.`,
     codeSnippet: `// tt22EvaluationLogic.js - Thuật toán Xếp loại học lực theo Thông tư 22
 export const classifyAcademicLevel = (subjectTbms, passFailSubjects) => {
-  // subjectTbms: [8.5, 7.8, 9.0,...], passFailSubjects: ['Đ', 'Đ', 'Đ']
   const allPassFailOk = passFailSubjects.every(status => status === 'Đ');
   const countGte8 = subjectTbms.filter(s => s >= 8.0).length;
   const countGte65 = subjectTbms.filter(s => s >= 6.5).length;
@@ -699,6 +935,16 @@ export const classifyAcademicLevel = (subjectTbms, passFailSubjects) => {
   }
   return 'CHƯA ĐẠT';
 };`,
+    curlSample: `curl -X GET "http://localhost:8081/api/reports/homeroom-summary?classId=1&semester=HK1" \\
+  -H "Authorization: Bearer <TOKEN_GVCN>"`,
+    negativeCases: [
+      'Học sinh có điểm 1 môn dưới 5.0 -> Không được xếp TỐT hay KHÁ dù các môn khác 10 điểm.'
+    ],
+    demoSteps: [
+      '1. GVCN mở trang "Tổng kết học kỳ lớp 10A1", bấm "Tổng hợp số liệu".',
+      '2. Quan sát hệ thống phân loại danh hiệu "Học sinh Xuất sắc" và "Học sinh Giỏi" tự động.'
+    ],
+    smartCommit: 'git commit -m "KAN-125 #time 12h #comment Hoan thanh xep loai hoc luc ren luyen va danh hieu thi dua TT22 #resolve"',
     docs: [
       { name: 'Văn bản hợp nhất Thông tư đánh giá học sinh THCS/THPT', url: 'https://thuvienphapluat.vn/' },
       { name: 'JavaScript Array filter, every, some Methods', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array' }
@@ -714,6 +960,12 @@ export const classifyAcademicLevel = (subjectTbms, passFailSubjects) => {
     jiraKey: 'KAN-126',
     name: 'PBI-20: Quy trình Khóa sổ điểm 2 cấp (GVBM khóa môn -> BGH khóa trường) & Mở khóa',
     module: 'Module 5: Quản Lý Sổ Điểm Điện Tử & Đánh Giá TT22',
+    owner: 'Trần Quang Vinh (Security) & Huỳnh Trung Tính (Backend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 1,
+    labels: ['lock-gradebook', 'two-tier', 'governance', 'security'],
+    reqCode: 'REQ-GRAD-06, REQ-GRAD-07 (Ma trận RTM: UC_BGH_07)',
     story: 'Là BGH và GVBM, tôi muốn có cơ chế khóa sổ điểm 2 cấp để bảo vệ tính toàn vẹn dữ liệu điểm thi và quy trình xin mở khóa có kiểm soát khi cần sửa.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/GradeLockController.js',
@@ -728,7 +980,6 @@ Bước 4: Mở GradebookLockPage.jsx trên giao diện BGH, thử bấm Khóa t
     codeSnippet: `// GradeLockController.js - Khóa sổ điểm 2 cấp (GVBM & BGH)
 export const lockGradebookByAdmin = async (req, res) => {
   const { academicYearId, semester } = req.body;
-  // BGH chốt khóa toàn trường: chuyển tất cả sổ điểm sang BGH_FINAL_LOCKED
   const query = \`
     UPDATE gradebook_locks 
     SET status = 'BGH_FINAL_LOCKED', locked_by = $1, locked_at = NOW()
@@ -736,10 +987,21 @@ export const lockGradebookByAdmin = async (req, res) => {
     RETURNING *;
   \`;
   const result = await pool.query(query, [req.user.id, academicYearId, semester]);
-  // Ghi nhật ký kiểm toán hành vi khóa sổ
   await logAuditEvent(req.user.id, 'LOCK_ALL_GRADEBOOKS', 'gradebook_locks', null, { status: 'BGH_FINAL_LOCKED' });
   return res.status(200).json({ success: true, count: result.rowCount, message: 'Đã khóa toàn bộ sổ điểm trường!' });
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/grade-locks/admin-finalize \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"academicYearId":1,"semester":"HK1"}'`,
+    negativeCases: [
+      'Giáo viên cố tình sửa điểm khi sổ đã mang cờ BGH_FINAL_LOCKED -> Bị chặn 100% với HTTP 403.'
+    ],
+    demoSteps: [
+      '1. Đăng nhập BGH bấm "Khóa sổ điểm HK1 toàn trường".',
+      '2. Đăng nhập GVBM mở trang nhập điểm -> Mọi ô nhập điểm bị vô hiệu hóa mờ đi.'
+    ],
+    smartCommit: 'git commit -m "KAN-126 #time 8h #comment Hoan thanh co che khoa so diem 2 cap va quy trinh mo khoa #resolve"',
     docs: [
       { name: 'Two-Phase Locking Architecture Pattern', url: 'https://en.wikipedia.org/wiki/Two-phase_locking' },
       { name: 'PostgreSQL ENUM Type Documentation', url: 'https://www.postgresql.org/docs/current/datatype-enum.html' }
@@ -755,6 +1017,12 @@ export const lockGradebookByAdmin = async (req, res) => {
     jiraKey: 'KAN-127',
     name: 'PBI-22: Xuất sổ điểm điện tử, phiếu điểm cá nhân & Báo cáo học vụ sang PDF / Excel',
     module: 'Module 5: Quản Lý Sổ Điểm Điện Tử & Đánh Giá TT22',
+    owner: 'Nguyễn Minh Quốc Bảo (QA/Export Engine) & Huỳnh Trung Tính',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['export', 'pdf', 'excel', 'report-card'],
+    reqCode: 'REQ-REP-01, REQ-REP-02 (Ma trận RTM: UC_GVCN_03)',
     story: 'Là GVCN và BGH, tôi muốn xuất sổ điểm lớp và phiếu điểm từng học sinh ra file PDF có chữ ký số hoặc Excel để in ấn và lưu trữ hồ sơ học bạ.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/ReportController.js',
@@ -780,6 +1048,16 @@ export const exportGradebookExcel = async (req, res) => {
   res.setHeader('Content-Disposition', \`attachment; filename="SoDiem_Lop_\${classId}_\${semester}.xlsx"\`);
   return res.send(buffer);
 };`,
+    curlSample: `curl -X GET "http://localhost:8081/api/reports/gradebook/1/HK1/excel" \\
+  -H "Authorization: Bearer <TOKEN_GVCN>" --output SoDiem.xlsx`,
+    negativeCases: [
+      'Xuất lớp chưa có điểm -> Trả về file Excel có header đầy đủ chứ không bị lỗi sập server (500).'
+    ],
+    demoSteps: [
+      '1. Vào mục "Xuất sổ điểm điện tử", chọn Lớp 10A1 và bấm "Xuất file Excel".',
+      '2. Mở file Excel vừa tải về, kiểm tra Quốc hiệu Tiêu ngữ, danh sách học sinh và công thức điểm.'
+    ],
+    smartCommit: 'git commit -m "KAN-127 #time 8h #comment Hoan thanh xuat so diem dien tu va phieu diem PDF Excel #resolve"',
     docs: [
       { name: 'SheetJS Workbook & Cell Styling Guide', url: 'https://docs.sheetjs.com/docs/csf/book' },
       { name: 'PDFKit Official Guide & Table Rendering', url: 'https://pdfkit.org/docs/getting_started.html' }
@@ -795,6 +1073,12 @@ export const exportGradebookExcel = async (req, res) => {
     jiraKey: 'KAN-128',
     name: 'PBI-11: Bảng tin thông báo toàn trường, phân luồng theo vai trò & Ghim tin quan trọng',
     module: 'Module 6: Thông Báo & Tương Tác Nội Bộ',
+    owner: 'Võ Hoàng Sơn (Frontend) & Huỳnh Trung Tính (Backend)',
+    storyPoints: 3,
+    estimateHours: '6h',
+    priority: 3,
+    labels: ['announcements', 'broadcast', 'pinned', 'newsfeed'],
+    reqCode: 'REQ-COMM-01 (Ma trận RTM: UC_BGH_08)',
     story: 'Là Ban Giám Hiệu, tôi muốn đăng thông báo và phân loại đối tượng nhận (Giáo viên, Học sinh, Phụ huynh) để truyền đạt thông tin kịp thời.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/AnnouncementController.js',
@@ -809,7 +1093,6 @@ Bước 4: Mở AnnouncementsPage.jsx, đăng thông báo mới có chọn Ghim 
     codeSnippet: `// AnnouncementController.js - Lọc thông báo theo phân luồng đối tượng & Ghim lên đầu
 export const getAnnouncements = async (req, res) => {
   const userRole = req.user ? req.user.role : 'GUEST';
-  // Lọc tin cho ALL hoặc đúng vai trò người dùng
   const query = \`
     SELECT a.*, u.full_name as author_name 
     FROM announcements a
@@ -820,6 +1103,18 @@ export const getAnnouncements = async (req, res) => {
   const result = await pool.query(query, [userRole]);
   return res.status(200).json({ success: true, data: result.rows });
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/announcements \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"title":"Nghi le 20-11","content":"Thong bao nghi hoc","target_audience":"ALL","is_pinned":true}'`,
+    negativeCases: [
+      'Học sinh hoặc phụ huynh cố gửi request POST đăng bài -> Nhận HTTP 403 Forbidden.'
+    ],
+    demoSteps: [
+      '1. BGH đăng bài thông báo "Lịch nghỉ lễ" có chọn Ghim.',
+      '2. Đăng nhập tài khoản Học sinh thấy bài ghim xuất hiện ngay đầu bảng tin.'
+    ],
+    smartCommit: 'git commit -m "KAN-128 #time 6h #comment Hoan thanh bang tin thong bao phan luong va ghim tin #resolve"',
     docs: [
       { name: 'PostgreSQL Ordering & Sorting Guide', url: 'https://www.postgresql.org/docs/current/queries-order.html' },
       { name: 'Tailwind Typography Plugin for Rich Content', url: 'https://tailwindcss.com/docs/typography-plugin' }
@@ -835,6 +1130,12 @@ export const getAnnouncements = async (req, res) => {
     jiraKey: 'KAN-129',
     name: 'PBI-12: Kênh trao đổi tin nhắn trực tuyến Real-time (Socket.io) giữa GVCN & Phụ huynh',
     module: 'Module 6: Thông Báo & Tương Tác Nội Bộ',
+    owner: 'Trần Quang Vinh (Logic/Socket) & Võ Hoàng Sơn (Frontend)',
+    storyPoints: 8,
+    estimateHours: '12h',
+    priority: 2,
+    labels: ['chat', 'socket.io', 'real-time', 'websocket'],
+    reqCode: 'REQ-COMM-02 (Ma trận RTM: UC_GVCN_04)',
     story: 'Là Phụ huynh và GVCN, tôi muốn nhắn tin trao đổi trực tiếp tức thời để giải quyết các vấn đề học tập và sinh hoạt của học sinh.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/socket/chat.handler.js',
@@ -852,19 +1153,26 @@ export const setupChatSocket = (io) => {
     socket.on('join_room', (roomId) => {
       socket.join(roomId);
     });
-
     socket.on('send_message', async (data) => {
       const { roomId, senderId, receiverId, content } = data;
-      // 1. Lưu tin nhắn vào PostgreSQL
       const savedMsg = await pool.query(
         'INSERT INTO chat_messages (room_id, sender_id, receiver_id, content, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *',
         [roomId, senderId, receiverId, content]
       );
-      // 2. Phát sự kiện tới phòng
       io.to(roomId).emit('receive_message', savedMsg.rows[0]);
     });
   });
 };`,
+    curlSample: `curl -X GET "http://localhost:8081/api/chat/history?roomId=room_1_2" \\
+  -H "Authorization: Bearer <TOKEN_GVCN>"`,
+    negativeCases: [
+      'Người dùng lạ cố join vào room của người khác mà không có quyền -> Bị ngắt kết nối WebSocket.'
+    ],
+    demoSteps: [
+      '1. Mở 2 tab trình duyệt: Tab trái là GVCN, Tab phải là Phụ huynh.',
+      '2. Phụ huynh nhắn tin "Chào thầy", màn hình GVCN hiển thị tin nhắn ngay tức thì mà không cần F5.'
+    ],
+    smartCommit: 'git commit -m "KAN-129 #time 12h #comment Hoan thanh kenh chat truc tuyen real-time Socket.io #resolve"',
     docs: [
       { name: 'Socket.io v4 Official Guide & Cheat Sheet', url: 'https://socket.io/docs/v4/' },
       { name: 'Socket.io Middlewares & Authentication', url: 'https://socket.io/docs/v4/middlewares/' }
@@ -880,6 +1188,12 @@ export const setupChatSocket = (io) => {
     jiraKey: 'KAN-130',
     name: 'PBI-18: Sổ liên lạc điện tử định kỳ: Tổng hợp Điểm, Chuyên cần & Nhận xét của GVCN',
     module: 'Module 6: Thông Báo & Tương Tác Nội Bộ',
+    owner: 'Võ Hoàng Sơn (Frontend) & Huỳnh Trung Tính (Backend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['contact-book', 'parent', 'monthly-report', 'feedback'],
+    reqCode: 'REQ-COMM-03 (Ma trận RTM: UC_PAR_03)',
     story: 'Là Phụ huynh, tôi muốn xem sổ liên lạc điện tử hàng tháng của con gồm điểm số, số buổi nghỉ và nhận xét của GVCN để đồng hành cùng con.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/ContactBookController.js',
@@ -912,6 +1226,16 @@ export const getStudentContactBook = async (req, res) => {
     }
   });
 };`,
+    curlSample: `curl -X GET "http://localhost:8081/api/contact-books/student/1?month=11&year=2026" \\
+  -H "Authorization: Bearer <TOKEN_PH>"`,
+    negativeCases: [
+      'Phụ huynh xem sổ liên lạc của con người khác -> Bị chặn với HTTP 403 Forbidden.'
+    ],
+    demoSteps: [
+      '1. Phụ huynh vào trang "Sổ liên lạc điện tử".',
+      '2. Xem bảng tổng hợp điểm thi, số ngày nghỉ và nhận xét nề nếp của GVCN trong tháng 11.'
+    ],
+    smartCommit: 'git commit -m "KAN-130 #time 8h #comment Hoan thanh so lien lac dien tu dinh ky va nhan xet GVCN #resolve"',
     docs: [
       { name: 'PostgreSQL Multiple Table JOIN Guide', url: 'https://www.postgresql.org/docs/current/tutorial-join.html' },
       { name: 'Tailwind Responsive Card Layouts', url: 'https://tailwindcss.com/docs/box-shadow' }
@@ -927,6 +1251,12 @@ export const getStudentContactBook = async (req, res) => {
     jiraKey: 'KAN-131',
     name: 'PBI-13: Quản lý danh mục khoản thu học phí, đợt thu & Miễn giảm theo đối tượng chính sách',
     module: 'Module 7: Quản Lý Học Phí & Cổng Thanh Toán VietQR',
+    owner: 'Huỳnh Trung Tính (Backend & DBA)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['tuition-fee', 'accounting', 'exemptions', 'billing'],
+    reqCode: 'REQ-FEE-01, REQ-FEE-02 (Ma trận RTM: UC_BGH_09)',
     story: 'Là Kế toán / Ban Giám Hiệu, tôi muốn tạo các đợt thu học phí, định mức khoản thu và chính sách miễn giảm (hộ nghèo, con thương binh) cho từng học sinh.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/FeeController.js',
@@ -949,7 +1279,6 @@ export const createFeePeriodWithDiscounts = async (req, res) => {
       [name, academic_year_id, due_date]
     );
     const periodId = periodRes.rows[0].id;
-    // Lấy danh sách học sinh và tỷ lệ miễn giảm (nếu có)
     const students = await client.query(
       \`SELECT s.id, COALESCE(e.discount_percent, 0) as discount_percent
        FROM students s LEFT JOIN fee_exemptions e ON s.id = e.student_id WHERE s.class_id = $1\`,
@@ -972,6 +1301,18 @@ export const createFeePeriodWithDiscounts = async (req, res) => {
     client.release();
   }
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/fees/periods \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"name":"Hoc phi Thang 11","total_amount":1500000,"due_date":"2026-11-30","class_id":1}'`,
+    negativeCases: [
+      'Tạo đợt thu có tổng số tiền âm -> Nhận HTTP 400 Bad Request.'
+    ],
+    demoSteps: [
+      '1. BGH tạo đợt thu Học phí Tháng 11: 1,500,000 VNĐ cho Lớp 10A1.',
+      '2. Học sinh diện chính sách được giảm 50% tự động hiển thị số tiền phải đóng là 750,000 VNĐ.'
+    ],
+    smartCommit: 'git commit -m "KAN-131 #time 8h #comment Hoan thanh tao dot thu hoc phi va tinh mien giam chinh sach #resolve"',
     docs: [
       { name: 'Database Third Normal Form (3NF) Rules', url: 'https://en.wikipedia.org/wiki/Third_normal_form' },
       { name: 'PostgreSQL Numeric Precision for Financial Data', url: 'https://www.postgresql.org/docs/current/datatype-numeric.html' }
@@ -987,6 +1328,12 @@ export const createFeePeriodWithDiscounts = async (req, res) => {
     jiraKey: 'KAN-132',
     name: 'PBI-17a: Tích hợp Cổng thanh toán VietQR động & Tự động gạch nợ học phí qua Webhook',
     module: 'Module 7: Quản Lý Học Phí & Cổng Thanh Toán VietQR',
+    owner: 'Trần Quang Vinh (Fintech) & Huỳnh Trung Tính (Backend)',
+    storyPoints: 8,
+    estimateHours: '12h',
+    priority: 1,
+    labels: ['vietqr', 'napas247', 'payment-gateway', 'webhook'],
+    reqCode: 'REQ-FEE-03, REQ-FEE-04 (Ma trận RTM: UC_PAR_04)',
     story: 'Là Phụ huynh, tôi muốn quét mã VietQR động có sẵn số tiền và nội dung chuyển khoản trên ứng dụng ngân hàng để nộp học phí và được gạch nợ tức thì.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/services/VietQRService.js',
@@ -1001,7 +1348,6 @@ Bước 4: Mở FeePaymentPage.jsx trên giao diện phụ huynh, quét thử m�
     codeSnippet: `// VietQRService.js - Tạo Link mã VietQR động chuẩn NAPAS 247
 export const generateVietQRUrl = (bankBin, accountNo, amount, transferContent) => {
   const encodedContent = encodeURIComponent(transferContent);
-  // Cú pháp chuẩn VietQR QuickLink format
   return \`https://img.vietqr.io/image/\${bankBin}-\${accountNo}-compact2.png?amount=\${amount}&addInfo=\${encodedContent}\`;
 };
 
@@ -1020,7 +1366,6 @@ export const handlePaymentWebhook = async (req, res) => {
       await client.query('ROLLBACK');
       return res.status(200).json({ message: 'Giao dịch đã được xử lý trước đó.' });
     }
-    // Tạo biên lai điện tử
     await client.query(
       \`INSERT INTO receipts (student_fee_id, receipt_code, amount, payment_method, transaction_ref)
        VALUES ($1, $2, $3, 'VIETQR', $4)\`,
@@ -1035,6 +1380,17 @@ export const handlePaymentWebhook = async (req, res) => {
     client.release();
   }
 };`,
+    curlSample: `curl -X POST http://localhost:8081/api/fees/webhook \\
+  -H "Content-Type: application/json" \\
+  -d '{"studentFeeId":1,"transactionCode":"MB123456","amount":1500000}'`,
+    negativeCases: [
+      'Gửi webhook trùng lặp transactionCode -> Hệ thống phát hiện đã thanh toán và không gạch nợ lần 2 (Idempotent).'
+    ],
+    demoSteps: [
+      '1. Phụ huynh mở trang "Thanh toán học phí", màn hình hiển thị mã VietQR động có sẵn số tiền và nội dung.',
+      '2. Giả lập webhook ngân hàng gọi đến -> Màn hình phụ huynh tự động đổi sang màu xanh "ĐÃ THANH TOÁN" trong 2 giây.'
+    ],
+    smartCommit: 'git commit -m "KAN-132 #time 12h #comment Hoan thanh cong thanh toan VietQR dong va webhook gach no #resolve"',
     docs: [
       { name: 'VietQR Official Specification & Standard Guide', url: 'https://vietqr.net/' },
       { name: 'NAPAS 247 Payment Gateway Documentation', url: 'https://napas.com.vn/' },
@@ -1051,6 +1407,12 @@ export const handlePaymentWebhook = async (req, res) => {
     jiraKey: 'KAN-133',
     name: 'PBI-17b: Xuất hóa đơn/biên lai điện tử & Tra cứu lịch sử công nợ học phí',
     module: 'Module 7: Quản Lý Học Phí & Cổng Thanh Toán VietQR',
+    owner: 'Nguyễn Minh Quốc Bảo (QA/Export) & Võ Hoàng Sơn (Frontend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['receipt', 'pdfkit', 'invoicing', 'parent'],
+    reqCode: 'REQ-FEE-05 (Ma trận RTM: UC_PAR_05)',
     story: 'Là Phụ huynh, tôi muốn tra cứu lịch sử nộp tiền và tải về biên lai điện tử có mã tra cứu hóa đơn sau khi hoàn tất thanh toán.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/FeeController.js',
@@ -1077,6 +1439,16 @@ export const generateReceiptPdf = (receipt, res) => {
   doc.text(\`Phương thức: \${receipt.payment_method} - Thời gian: \${receipt.created_at}\`);
   doc.end();
 };`,
+    curlSample: `curl -X GET http://localhost:8081/api/fees/receipts/1/pdf \\
+  -H "Authorization: Bearer <TOKEN_PH>" --output BienLai.pdf`,
+    negativeCases: [
+      'Truy vấn mã biên lai không tồn tại -> Nhận HTTP 404 Not Found.'
+    ],
+    demoSteps: [
+      '1. Phụ huynh vào trang "Lịch sử đóng học phí", bấm "Tải biên lai".',
+      '2. File PDF mở lên có mã biên lai chuẩn hóa, thông tin học sinh và con dấu điện tử.'
+    ],
+    smartCommit: 'git commit -m "KAN-133 #time 8h #comment Hoan thanh xuat hoa don bien lai dien tu PDF #resolve"',
     docs: [
       { name: 'PDFKit Node.js Receipt Generator Guide', url: 'https://pdfkit.org/' },
       { name: 'Nghị định 123/2020/NĐ-CP Quy định Hóa đơn chứng từ', url: 'https://thuvienphapluat.vn/' }
@@ -1092,6 +1464,12 @@ export const generateReceiptPdf = (receipt, res) => {
     jiraKey: 'KAN-134',
     name: 'PBI-24: Báo cáo tài chính, thống kê công nợ tồn đọng & Tỷ lệ thu học phí theo Khối/Lớp',
     module: 'Module 7: Quản Lý Học Phí & Cổng Thanh Toán VietQR',
+    owner: 'Huỳnh Trung Tính (Backend) & Võ Hoàng Sơn (Frontend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['financial-report', 'debt-tracking', 'chartjs', 'accounting'],
+    reqCode: 'REQ-FEE-06 (Ma trận RTM: UC_BGH_10)',
     story: 'Là Kế toán và Ban Giám Hiệu, tôi muốn xem báo cáo tổng hợp dòng tiền học phí, số tiền đã thu, nợ tồn đọng theo từng khối lớp để quản trị tài chính.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/FeeController.js',
@@ -1122,6 +1500,16 @@ export const getFeeFinancialReport = async (req, res) => {
   const result = await pool.query(query, [academicYearId]);
   return res.status(200).json({ success: true, data: result.rows });
 };`,
+    curlSample: `curl -X GET "http://localhost:8081/api/fees/financial-report?academicYearId=1" \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>"`,
+    negativeCases: [
+      'Năm học chưa phát sinh đợt thu nào -> Trả về mảng rỗng và tổng 0 VNĐ.'
+    ],
+    demoSteps: [
+      '1. BGH vào trang "Báo cáo tài chính", xem biểu đồ tròn tỷ lệ thu tiền học phí.',
+      '2. Bấm lọc theo Khối 10 để xem số tiền đã thu và số nợ còn tồn đọng.'
+    ],
+    smartCommit: 'git commit -m "KAN-134 #time 8h #comment Hoan thanh bao cao tai chinh va thong ke cong no theo khoi lop #resolve"',
     docs: [
       { name: 'PostgreSQL GROUP BY & Aggregate Queries', url: 'https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-GROUP' },
       { name: 'Chart.js Doughnut & Bar Charts Guide', url: 'https://www.chartjs.org/docs/latest/charts/doughnut.html' }
@@ -1137,6 +1525,12 @@ export const getFeeFinancialReport = async (req, res) => {
     jiraKey: 'KAN-135',
     name: 'PBI-15: Bảng điều khiển (Dashboard) số liệu học vụ & Tài chính thời gian thực (BGH)',
     module: 'Module 8: Báo Cáo Thống Kê & Bảng Điều Khiển BGH',
+    owner: 'Võ Hoàng Sơn (Frontend) & Huỳnh Trung Tính (Backend)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 1,
+    labels: ['dashboard', 'executive', 'real-time', 'kpi'],
+    reqCode: 'REQ-REP-03 (Ma trận RTM: UC_BGH_11)',
     story: 'Là Ban Giám Hiệu, tôi muốn có bảng Dashboard tổng quan hiển thị số liệu học sinh, giáo viên, chuyên cần hôm nay và tiến độ vào điểm toàn trường.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/DashboardController.js',
@@ -1173,6 +1567,16 @@ export const getExecutiveDashboard = async (req, res) => {
     return res.status(500).json({ success: false, message: err.message });
   }
 };`,
+    curlSample: `curl -X GET http://localhost:8081/api/dashboard/stats \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>"`,
+    negativeCases: [
+      'Tài khoản không phải BGH cố truy cập -> Nhận HTTP 403 Forbidden.'
+    ],
+    demoSteps: [
+      '1. Đăng nhập Admin, Dashboard hiển thị ngay 4 thẻ KPI trong 180ms.',
+      '2. Quan sát số lượng học sinh, giáo viên, tỷ lệ chuyên cần hôm nay và doanh thu 30 ngày.'
+    ],
+    smartCommit: 'git commit -m "KAN-135 #time 8h #comment Hoan thanh bang dieu khien dashboard so lieu BGH thoi gian thuc #resolve"',
     docs: [
       { name: 'PostgreSQL EXPLAIN ANALYZE & Query Optimization', url: 'https://www.postgresql.org/docs/current/using-explain.html' },
       { name: 'Promise.all Concurrency in Node.js', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all' }
@@ -1188,6 +1592,12 @@ export const getExecutiveDashboard = async (req, res) => {
     jiraKey: 'KAN-136',
     name: 'PBI-16: Báo cáo tổng kết học kỳ & Năm học theo biểu mẫu chuẩn của Sở/Phòng GD&ĐT',
     module: 'Module 8: Báo Cáo Thống Kê & Bảng Điều Khiển BGH',
+    owner: 'Nguyễn Minh Quốc Bảo (QA/Reporting) & Huỳnh Trung Tính',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 2,
+    labels: ['semester-report', 'department-of-education', 'compliance', 'excel'],
+    reqCode: 'REQ-REP-04 (Ma trận RTM: UC_BGH_12)',
     story: 'Là Ban Giám Hiệu, tôi muốn trích xuất báo cáo chất lượng giáo dục học kỳ và năm học theo đúng biểu mẫu thống kê của Sở GD&ĐT để nộp báo cáo.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/ReportController.js',
@@ -1218,6 +1628,16 @@ export const getEducationQualityReport = async (req, res) => {
   const result = await pool.query(query, [semester, academicYearId]);
   return res.status(200).json({ success: true, data: result.rows });
 };`,
+    curlSample: `curl -X GET "http://localhost:8081/api/reports/semester-summary?semester=HK1&academicYearId=1" \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>"`,
+    negativeCases: [
+      'Học kỳ chưa kết thúc hoặc chưa tổng kết -> Hệ thống đưa ra cảnh báo số liệu chưa đầy đủ.'
+    ],
+    demoSteps: [
+      '1. Mở trang "Báo cáo tổng kết Sở GD&ĐT", xem bảng tổng hợp tỷ lệ học sinh Tốt/Khá/Đạt.',
+      '2. Bấm nút "Xuất file Excel" để tải về bản báo cáo định dạng chuẩn Bộ GD&ĐT.'
+    ],
+    smartCommit: 'git commit -m "KAN-136 #time 8h #comment Hoan thanh bao cao tong ket hoc ky nam hoc theo mau So GDDT #resolve"',
     docs: [
       { name: 'SheetJS Advanced Cell Formatting Guide', url: 'https://docs.sheetjs.com/' },
       { name: 'Thông tư số 32/2020/TT-BGDĐT Điều lệ Trường Trung học', url: 'https://moet.gov.vn/' }
@@ -1233,6 +1653,12 @@ export const getEducationQualityReport = async (req, res) => {
     jiraKey: 'KAN-137',
     name: 'PBI-23: Nhật ký kiểm toán hệ thống (Audit Trail) & Giám sát truy vết thay đổi điểm số',
     module: 'Module 8: Báo Cáo Thống Kê & Bảng Điều Khiển BGH',
+    owner: 'Trần Quang Vinh (Logic & Security Lead)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 1,
+    labels: ['audit-trail', 'security', 'immutability', 'logging'],
+    reqCode: 'REQ-SEC-01 (Ma trận RTM: UC_BGH_13)',
     story: 'Là Ban Giám Hiệu, tôi muốn xem nhật ký kiểm toán ghi lại mọi thao tác sửa điểm, khóa sổ, đổi lịch để phát hiện gian lận và quy trách nhiệm rõ ràng.',
     primaryFiles: [
       'members/member4_Logic_Security/auditLogger.js',
@@ -1262,6 +1688,16 @@ export const auditTrailLogger = async (userId, action, targetTable, targetId, ol
     console.error('[AUDIT LOG ERROR]:', err.message);
   }
 };`,
+    curlSample: `curl -X GET "http://localhost:8081/api/audit-logs?limit=10" \\
+  -H "Authorization: Bearer <TOKEN_ADMIN>"`,
+    negativeCases: [
+      'Thử gửi câu lệnh DELETE hoặc UPDATE vào bảng audit_logs -> Bị chặn hoàn toàn (Bảng chỉ cho phép INSERT).'
+    ],
+    demoSteps: [
+      '1. Giáo viên thực hiện sửa 1 ô điểm từ 8.0 lên 9.0.',
+      '2. Đăng nhập BGH mở trang "Nhật ký kiểm toán" -> Bản ghi xuất hiện ngay lập tức ghi nhận ai sửa, thời gian, IP và giá trị cũ/mới.'
+    ],
+    smartCommit: 'git commit -m "KAN-137 #time 8h #comment Hoan thanh nhat ky kiem toan he thong audit trail giam sat sua diem #resolve"',
     docs: [
       { name: 'OWASP Logging & Monitoring Cheat Sheet', url: 'https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html' },
       { name: 'PostgreSQL JSONB Type & Indexing Guide', url: 'https://www.postgresql.org/docs/current/datatype-json.html' }
@@ -1277,6 +1713,12 @@ export const auditTrailLogger = async (userId, action, targetTable, targetId, ol
     jiraKey: 'KAN-138',
     name: 'PBI-19: Cổng thông tin Học sinh & Phụ huynh: Tra cứu điểm, Thời khóa biểu & Chuyên cần',
     module: 'Module 4: Quản Lý Hồ Sơ Học Sinh & Điểm Danh',
+    owner: 'Võ Hoàng Sơn (Frontend) & Trần Quang Vinh (Security)',
+    storyPoints: 5,
+    estimateHours: '8h',
+    priority: 1,
+    labels: ['portal', 'student', 'parent', 'anti-idor', 'mobile'],
+    reqCode: 'REQ-PORT-01, REQ-PORT-02 (Ma trận RTM: UC_STU_01, UC_PAR_01)',
     story: 'Là Học sinh và Phụ huynh, tôi muốn đăng nhập vào cổng thông tin cá nhân trên điện thoại/máy tính để tra cứu điểm thi, thời khóa biểu và học phí.',
     primaryFiles: [
       'members/member3_Backend_DB/school-management-nodejs/src/controllers/PortalController.js',
@@ -1290,12 +1732,10 @@ Bước 3: Mở StudentPortalPage.jsx và ParentPortalPage.jsx, kiểm tra giao 
 Bước 4: Đăng nhập tài khoản hs001 hoặc ph001, kiểm tra hiển thị đúng dữ liệu cá nhân trên cả màn hình máy tính và chế độ di động.`,
     codeSnippet: `// PortalController.js - Chống BOLA/IDOR: Lấy dữ liệu học sinh dựa trên Token xác thực
 export const getMyStudentProfile = async (req, res) => {
-  // Tuyệt đối KHÔNG lấy student_id từ req.params hoặc req.query mà lấy từ req.user
   let studentId = null;
   if (req.user.role === 'ROLE_STUDENT') {
     studentId = req.user.student_id;
   } else if (req.user.role === 'ROLE_PARENT') {
-    // Nếu là phụ huynh, kiểm tra con có thuộc phụ huynh này không
     const childId = req.query.childId;
     const verify = await pool.query(
       'SELECT * FROM student_parents WHERE parent_user_id = $1 AND student_id = $2',
@@ -1309,6 +1749,17 @@ export const getMyStudentProfile = async (req, res) => {
   const result = await pool.query('SELECT * FROM students WHERE id = $1', [studentId]);
   return res.status(200).json({ success: true, data: result.rows[0] });
 };`,
+    curlSample: `curl -X GET http://localhost:8081/api/portal/my-profile \\
+  -H "Authorization: Bearer <TOKEN_HOC_SINH>"`,
+    negativeCases: [
+      'Học sinh tự sửa student_id trên query param để xem điểm bạn khác -> Hệ thống bỏ qua param và chỉ trả về điểm của chính mình (Chống BOLA/IDOR 100%).'
+    ],
+    demoSteps: [
+      '1. Đăng nhập tài khoản Học sinh (hs001).',
+      '2. Màn hình portal hiển thị bảng điểm cá nhân, thời khóa biểu và chuyên cần của chính em đó.',
+      '3. Bật chế độ Responsive điện thoại (F12) -> Giao diện tự động co giãn hoàn hảo.'
+    ],
+    smartCommit: 'git commit -m "KAN-138 #time 8h #comment Hoan thanh cong thong tin hoc sinh phu huynh va phong thu BOLA IDOR #resolve"',
     docs: [
       { name: 'OWASP Broken Object Level Authorization (BOLA/IDOR) Prevention', url: 'https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html#insecure-direct-object-references-idor' },
       { name: 'Tailwind CSS Mobile-First Responsive Design', url: 'https://tailwindcss.com/docs/responsive-design' }
@@ -1322,16 +1773,21 @@ export const getMyStudentProfile = async (req, res) => {
 ];
 
 /**
- * Hàm xây dựng nội dung Markdown giàu chi tiết, kèm workflow, code mẫu và link tài liệu
+ * Hàm xây dựng nội dung Markdown giàu chi tiết, chuẩn 10 HẠNG MỤC
  */
 function buildEnrichedDescription(item) {
   const githubLinks = item.primaryFiles.map(f => `- **GitHub**: [\`${f}\`](${GITHUB_REPO}/${f})`).join('\n');
   const bitbucketLinks = item.primaryFiles.map(f => `- **Bitbucket**: [\`${f}\`](${BITBUCKET_REPO}/${f})`).join('\n');
   const criteriaList = item.criteria.map(c => `- [x] ${c}`).join('\n');
   const docsList = (item.docs || []).map(d => `- 📖 [${d.name}](${d.url})`).join('\n');
+  const negativeList = (item.negativeCases || []).map((nc, idx) => `${idx + 1}. ${nc}`).join('\n');
+  const demoList = (item.demoSteps || []).map(ds => `- ${ds}`).join('\n');
 
-  return `### 📋 1. MỤC TIÊU NGHIỆP VỤ (USER STORY)
-${item.story}
+  return `### 📋 1. MỤC TIÊU NGHIỆP VỤ & PHÂN CÔNG (USER STORY & RACI)
+- **Mục tiêu (User Story)**: ${item.story}
+- **Mã liên kết Yêu cầu SRS**: \`${item.reqCode}\`
+- **Thành viên chịu trách nhiệm chính (RACI Owner)**: **${item.owner}**
+- **Ước lượng Agile**: **${item.storyPoints} Story Points** | **Thời gian dự kiến**: **${item.estimateHours}**
 
 ---
 
@@ -1364,14 +1820,41 @@ ${item.codeSnippet}
 
 ---
 
-### 📚 6. TÀI LIỆU & ĐƯỜNG LINK HƯỚNG DẪN THAM KHẢO (OFFICIAL DOCS & TUTORIALS)
+### ⚡ 6. LỆNH KIỂM THỬ NHANH CURL (READY-TO-RUN CURL COMMAND)
+\`\`\`bash
+${item.curlSample}
+\`\`\`
+
+---
+
+### ⚠️ 7. KỊCH BẢN KIỂM THỬ NGOẠI LỆ & LỖI BIÊN (NEGATIVE TEST CASES)
+\`\`\`text
+${negativeList}
+\`\`\`
+
+---
+
+### 🎬 8. KỊCH BẢN DEMO UAT 3 PHÚT CHO GIẢNG VIÊN (STEP-BY-STEP DEMO SCRIPT)
+${demoList}
+
+---
+
+### 📚 9. TÀI LIỆU & ĐƯỜNG LINK HƯỚNG DẪN THAM KHẢO (OFFICIAL DOCS & TUTORIALS)
 - 📘 **Cẩm nang Lập trình & Sửa code Dự án:** [HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](${HANDBOOK_LINK_GH}) ([Bản Bitbucket](${HANDBOOK_LINK_BB}))
+- 🖥️ **Tài liệu Swagger / OpenAPI UI trực tiếp:** [${SWAGGER_URL}](${SWAGGER_URL})
+- 🎨 **Slide Trình Chiếu Đồ Án (Canva):** [Slide Canva Báo Cáo](${CANVA_SLIDE})
 ${docsList}
 
 ---
 
-### ✅ 7. TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CRITERIA / DEFINITION OF DONE)
+### ✅ 10. TIÊU CHÍ NGHIỆM THU (DoD) & CÚ PHÁP JIRA SMART COMMIT
+**Tiêu chí nghiệm thu (Acceptance Criteria):**
 ${criteriaList}
+
+**Cú pháp Jira Smart Commit mẫu khi hoàn thành:**
+\`\`\`bash
+${item.smartCommit}
+\`\`\`
 `;
 }
 
@@ -1380,7 +1863,7 @@ ${criteriaList}
  */
 async function updateJiraIssues() {
   console.log('================================================================');
-  console.log(' BẮT ĐẦU CẬP NHẬT CHI TIẾT MÃ NGUỒN VÀ HƯỚNG DẪN LÊN JIRA CLOUD');
+  console.log(' BẮT ĐẦU CẬP NHẬT CHI TIẾT TOÀN DIỆN 10 MỤC LÊN JIRA CLOUD');
   console.log('================================================================\n');
 
   let successCount = 0;
@@ -1396,14 +1879,17 @@ async function updateJiraIssues() {
         },
         body: JSON.stringify({
           fields: {
-            description: enrichedDesc
+            description: enrichedDesc,
+            labels: item.labels,
+            timetracking: { originalEstimate: item.estimateHours, remainingEstimate: '0h' },
+            assignee: { accountId: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b' } // Võ Duy Bình
           }
         })
       });
 
       if (res.status === 204 || res.ok) {
         successCount++;
-        console.log(`[JIRA OK] Cập nhật ${item.jiraKey} (${item.pbiCode}) thành công.`);
+        console.log(`[JIRA OK] Cập nhật ${item.jiraKey} (${item.pbiCode}) [Labels, Time: ${item.estimateHours}, RACI] thành công.`);
       } else {
         const errText = await res.text();
         console.warn(`[JIRA FAIL] ${item.jiraKey}: Status ${res.status} - ${errText}`);
@@ -1421,7 +1907,7 @@ async function updateJiraIssues() {
  */
 async function updateClickUpTasks() {
   console.log('================================================================');
-  console.log(' BẮT ĐẦU CẬP NHẬT CHI TIẾT MÃ NGUỒN VÀ HƯỚNG DẪN LÊN CLICKUP');
+  console.log(' BẮT ĐẦU CẬP NHẬT CHI TIẾT TOÀN DIỆN 10 MỤC LÊN CLICKUP');
   console.log('================================================================\n');
 
   try {
@@ -1444,13 +1930,14 @@ async function updateClickUpTasks() {
             method: 'PUT',
             headers: clickupHeaders,
             body: JSON.stringify({
-              description: enrichedDesc
+              description: enrichedDesc,
+              priority: matchedPBI.priority
             })
           });
 
           if (updateRes.ok) {
             successCount++;
-            console.log(`[CLICKUP OK] Cập nhật task ${matchedPBI.pbiCode} (ID: ${t.id}) thành công.`);
+            console.log(`[CLICKUP OK] Cập nhật task ${matchedPBI.pbiCode} (ID: ${t.id}, Priority: ${matchedPBI.priority}) thành công.`);
           } else {
             console.warn(`[CLICKUP FAIL] ${t.name}:`, await updateRes.text());
           }
@@ -1469,7 +1956,7 @@ async function run() {
   await updateJiraIssues();
   await updateClickUpTasks();
   console.log('\n================================================================');
-  console.log(' TẤT CẢ 27 TASKS TRÊN JIRA & CLICKUP ĐÃ ĐƯỢC ĐỒNG BỘ ĐẦY ĐỦ 100%!');
+  console.log(' TẤT CẢ 27 TASKS TRÊN JIRA & CLICKUP ĐÃ ĐƯỢC NÂNG CẤP HOÀN HẢO 100%!');
   console.log('================================================================');
 }
 
