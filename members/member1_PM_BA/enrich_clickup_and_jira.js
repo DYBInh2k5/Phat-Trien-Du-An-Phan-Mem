@@ -1,17 +1,18 @@
 /**
  * ================================================================================
  * TỆP: members/member1_PM_BA/enrich_clickup_and_jira.js
- * MỤC ĐÍCH: Bổ sung chi tiết ĐỈNH CAO CHUẨN DOANH NGHIỆP & HỌC THUẬT cho 27 Tasks:
+ * MỤC ĐÍCH: Bổ sung chi tiết TOÀN DIỆN, ĐOẠN MÃ MẪU & ĐỒNG BỘ DEADLINE CHUẨN XÁC:
  *           - 1. Mục tiêu nghiệp vụ (User Story), Mã RTM SRS, Phân công RACI & Story Points
- *           - 2. Liên kết mã nguồn trực tiếp trên GitHub và Bitbucket
- *           - 3. Vị trí kiến trúc & Phân tầng Clean Architecture / Frontend
- *           - 4. Quy trình 4 bước thực hiện & sửa code (Step-by-Step Dev Workflow)
- *           - 5. Đoạn mã mẫu thực thi (Executable Sample Code Snippet)
- *           - 6. Lệnh kiểm thử cURL mẫu (Ready-to-run cURL Command)
- *           - 7. Kịch bản kiểm thử ngoại lệ & lỗi biên (Negative Test Cases)
- *           - 8. Kịch bản Demo UAT 3 phút cho Giảng viên (Step-by-Step Demo Script)
- *           - 9. Danh mục Link tài liệu kỹ thuật chính thức & Slide Canva
- *           - 10. Tiêu chí nghiệm thu (DoD) & Cú pháp Jira Smart Commit
+ *           - 2. HẠN CHÓT HOÀN THÀNH (DEADLINE / DUE DATE) & LỊCH TRÌNH THEO SPRINT
+ *           - 3. Liên kết mã nguồn trực tiếp trên GitHub và Bitbucket
+ *           - 4. Vị trí kiến trúc & Phân tầng Clean Architecture / Frontend
+ *           - 5. Quy trình 4 bước thực hiện & sửa code (Step-by-Step Dev Workflow)
+ *           - 6. Đoạn mã mẫu thực thi (Executable Sample Code Snippet)
+ *           - 7. Lệnh kiểm thử cURL mẫu (Ready-to-run cURL Command)
+ *           - 8. Kịch bản kiểm thử ngoại lệ & lỗi biên (Negative Test Cases)
+ *           - 9. Kịch bản Demo UAT 3 phút cho Giảng viên (Step-by-Step Demo Script)
+ *           - 10. Danh mục Link tài liệu kỹ thuật chính thức & Slide Canva
+ *           - 11. Tiêu chí nghiệm thu (DoD) & Cú pháp Jira Smart Commit
  * TÁC GIẢ: Võ Duy Bình (Project Manager & Lead BA)
  * NGÀY CẬP NHẬT: 14/11/2026 (Tuần 10)
  * ================================================================================
@@ -39,7 +40,7 @@ const clickupHeaders = {
 };
 
 /**
- * 27 PBIs với ĐẦY ĐỦ 10 HẠNG MỤC CHI TIẾT
+ * 27 PBIs với ĐẦY ĐỦ THỜI GIAN START_DATE & DEADLINE (DUE_DATE)
  */
 const DETAILED_PBIS = [
   {
@@ -51,6 +52,9 @@ const DETAILED_PBIS = [
     storyPoints: 5,
     estimateHours: '8h',
     priority: 1, // Urgent
+    startDate: '2026-09-28',
+    dueDate: '2026-10-11',
+    sprint: 'Sprint 1 (Tuần 3 - Tuần 4)',
     labels: ['auth', 'jwt', 'security', 'frontend', 'backend', 'sprint-1'],
     reqCode: 'REQ-AUTH-01, REQ-AUTH-02 (Ma trận RTM: UC_AUTH_01)',
     story: 'Là Người dùng (BGH, GVCN, GVBM, HS, PH), tôi muốn đăng nhập bằng tài khoản/mật khẩu hoặc dùng nút 1-Click Demo Login để vào đúng phân hệ chức năng tương ứng với quyền hạn của mình.',
@@ -129,6 +133,9 @@ export const login = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 1,
+    startDate: '2026-09-28',
+    dueDate: '2026-10-11',
+    sprint: 'Sprint 1 (Tuần 3 - Tuần 4)',
     labels: ['rbac', 'security', 'middleware', 'authorization'],
     reqCode: 'REQ-AUTH-03, REQ-AUTH-04 (Ma trận RTM: UC_AUTH_02)',
     story: 'Là Ban Giám Hiệu, tôi muốn hệ thống kiểm soát quyền hạn 5 cấp bậc (Admin, GVCN, GVBM, Học sinh, Phụ huynh) để ngăn chặn truy cập trái phép vào các endpoint nhạy cảm.',
@@ -190,6 +197,9 @@ export const authorizeRoles = (...allowedRoles) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-10-05',
+    dueDate: '2026-10-18',
+    sprint: 'Sprint 1 (Tuần 4 - Tuần 5)',
     labels: ['users', 'admin', 'management', 'database'],
     reqCode: 'REQ-USER-01, REQ-USER-02 (Ma trận RTM: UC_BGH_01)',
     story: 'Là Ban Giám Hiệu, tôi muốn quản trị danh sách người dùng toàn trường (tạo mới, đổi trạng thái, đặt lại mật khẩu) để kiểm soát tài khoản học vụ.',
@@ -250,6 +260,9 @@ export const updateUserStatus = async (req, res) => {
     storyPoints: 3,
     estimateHours: '6h',
     priority: 2,
+    startDate: '2026-09-28',
+    dueDate: '2026-10-04',
+    sprint: 'Sprint 1 (Tuần 3)',
     labels: ['academic', 'configuration', 'database', 'backend'],
     reqCode: 'REQ-ACAD-01, REQ-ACAD-02 (Ma trận RTM: UC_BGH_02)',
     story: 'Là Ban Giám Hiệu, tôi muốn khởi tạo năm học mới, cấu hình 2 học kỳ (HK1, HK2), các khối 10, 11, 12 và lớp học để sẵn sàng cho công tác giảng dạy.',
@@ -314,6 +327,9 @@ export const activateAcademicYear = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-10-05',
+    dueDate: '2026-10-18',
+    sprint: 'Sprint 1 (Tuần 4 - Tuần 5)',
     labels: ['assignment', 'teaching', 'teacher', 'backend'],
     reqCode: 'REQ-ASGN-01, REQ-ASGN-02 (Ma trận RTM: UC_BGH_03)',
     story: 'Là Ban Giám Hiệu, tôi muốn phân công giáo viên chủ nhiệm cho từng lớp và giáo viên bộ môn theo từng môn học để giáo viên có thẩm quyền vào điểm và quản lý lớp.',
@@ -375,6 +391,9 @@ export const assignHomeroomTeacher = async (req, res) => {
     storyPoints: 8,
     estimateHours: '12h',
     priority: 1,
+    startDate: '2026-10-12',
+    dueDate: '2026-10-25',
+    sprint: 'Sprint 2 (Tuần 5 - Tuần 6)',
     labels: ['timetable', 'scheduling', 'algorithm', 'conflict-detection'],
     reqCode: 'REQ-TIME-01, REQ-TIME-02 (Ma trận RTM: UC_BGH_04)',
     story: 'Là Ban Giám Hiệu, tôi muốn sắp xếp thời khóa biểu theo tuần cho các lớp và hệ thống tự động cảnh báo khi giáo viên hoặc phòng học bị trùng tiết.',
@@ -433,6 +452,9 @@ export const checkScheduleConflict = async (class_id, teacher_id, day_of_week, p
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-10-19',
+    dueDate: '2026-11-01',
+    sprint: 'Sprint 2 (Tuần 6 - Tuần 7)',
     labels: ['substitute', 'approval', 'workflow', 'timetable'],
     reqCode: 'REQ-SUB-01, REQ-SUB-02 (Ma trận RTM: UC_GV_05)',
     story: 'Là Giáo viên, tôi muốn gửi yêu cầu đổi tiết hoặc dạy thay khi có việc đột xuất và BGH có thể duyệt trực tuyến để cập nhật TKB tạm thời.',
@@ -507,6 +529,9 @@ export const approveSubstituteRequest = async (req, res) => {
     storyPoints: 8,
     estimateHours: '12h',
     priority: 1,
+    startDate: '2026-10-12',
+    dueDate: '2026-10-25',
+    sprint: 'Sprint 2 (Tuần 5 - Tuần 6)',
     labels: ['student', 'excel', 'sheetjs', 'batch-processing'],
     reqCode: 'REQ-STUD-01, REQ-STUD-02 (Ma trận RTM: UC_BGH_05)',
     story: 'Là Ban Giám Hiệu, tôi muốn quản lý thông tin học sinh (họ tên, ngày sinh, phụ huynh) và nhập danh sách cả lớp từ file Excel (.xlsx) để tiết kiệm thời gian.',
@@ -580,6 +605,9 @@ export const importStudentsFromExcel = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 1,
+    startDate: '2026-10-19',
+    dueDate: '2026-11-01',
+    sprint: 'Sprint 2 (Tuần 6 - Tuần 7)',
     labels: ['attendance', 'upsert', 'teacher', 'daily'],
     reqCode: 'REQ-ATT-01, REQ-ATT-02 (Ma trận RTM: UC_GVCN_01)',
     story: 'Là Giáo viên (GVCN/GVBM), tôi muốn điểm danh học sinh từng tiết học và hệ thống tự động thống kê số buổi nghỉ có phép/không phép để kịp thời nhắc nhở.',
@@ -649,6 +677,9 @@ export const saveAttendanceBatch = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-10-19',
+    dueDate: '2026-11-01',
+    sprint: 'Sprint 2 (Tuần 6 - Tuần 7)',
     labels: ['leave-request', 'parent', 'teacher', 'approval'],
     reqCode: 'REQ-ATT-03, REQ-ATT-04 (Ma trận RTM: UC_PAR_02)',
     story: 'Là Phụ huynh học sinh, tôi muốn gửi đơn xin nghỉ học trực tuyến cho con kèm lý do để GVCN phê duyệt và tự động cập nhật trạng thái vắng có phép.',
@@ -724,6 +755,9 @@ export const reviewLeaveRequest = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-10-26',
+    dueDate: '2026-11-08',
+    sprint: 'Sprint 2 (Tuần 7 - Tuần 8)',
     labels: ['attendance-stats', 'analytics', 'reporting', 'dropout-risk'],
     reqCode: 'REQ-ATT-05 (Ma trận RTM: UC_BGH_06)',
     story: 'Là Ban Giám Hiệu và GVCN, tôi muốn xem báo cáo thống kê tỷ lệ chuyên cần theo lớp/khối và phát hiện học sinh vắng quá 45 buổi để xử lý học vụ.',
@@ -785,6 +819,9 @@ export const getAttendanceAnalytics = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 1,
+    startDate: '2026-10-19',
+    dueDate: '2026-11-01',
+    sprint: 'Sprint 3 (Tuần 6 - Tuần 7)',
     labels: ['grade-entry', 'validation', 'lock-check', 'tt22'],
     reqCode: 'REQ-GRAD-01, REQ-GRAD-02 (Ma trận RTM: UC_GVBM_01)',
     story: 'Là Giáo viên bộ môn, tôi muốn nhập điểm kiểm tra thường xuyên, giữa kỳ, cuối kỳ cho học sinh lớp mình dạy và hệ thống kiểm tra chặn nhập sai.',
@@ -848,6 +885,9 @@ export const enterSubjectGrades = async (req, res) => {
     storyPoints: 8,
     estimateHours: '12h',
     priority: 1,
+    startDate: '2026-10-19',
+    dueDate: '2026-10-25',
+    sprint: 'Sprint 3 (Tuần 6)',
     labels: ['tt22', 'algorithm', 'tbm', 'unit-test'],
     reqCode: 'REQ-GRAD-03 (Ma trận RTM: UC_GVBM_02)',
     story: 'Là Hệ thống, tôi muốn tự động tính toán Điểm trung bình môn (TBM) chính xác theo trọng số Thông tư 22/2021/TT-BGDĐT ngay khi có điểm mới.',
@@ -904,6 +944,9 @@ export const calculateTBM = (regularScores, midtermScore, finalScore) => {
     storyPoints: 8,
     estimateHours: '12h',
     priority: 1,
+    startDate: '2026-10-26',
+    dueDate: '2026-11-08',
+    sprint: 'Sprint 3 (Tuần 7 - Tuần 8)',
     labels: ['conduct', 'classification', 'tt22', 'honors'],
     reqCode: 'REQ-GRAD-04, REQ-GRAD-05 (Ma trận RTM: UC_GVCN_02)',
     story: 'Là GVCN, tôi muốn hệ thống tự động tổng hợp kết quả học tập và rèn luyện của cả lớp để xếp loại học sinh theo 4 mức (Tốt, Khá, Đạt, Chưa đạt).',
@@ -964,6 +1007,9 @@ export const classifyAcademicLevel = (subjectTbms, passFailSubjects) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 1,
+    startDate: '2026-11-02',
+    dueDate: '2026-11-15',
+    sprint: 'Sprint 3 (Tuần 8 - Tuần 9)',
     labels: ['lock-gradebook', 'two-tier', 'governance', 'security'],
     reqCode: 'REQ-GRAD-06, REQ-GRAD-07 (Ma trận RTM: UC_BGH_07)',
     story: 'Là BGH và GVBM, tôi muốn có cơ chế khóa sổ điểm 2 cấp để bảo vệ tính toàn vẹn dữ liệu điểm thi và quy trình xin mở khóa có kiểm soát khi cần sửa.',
@@ -1021,6 +1067,9 @@ export const lockGradebookByAdmin = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-10-26',
+    dueDate: '2026-11-08',
+    sprint: 'Sprint 3 (Tuần 7 - Tuần 8)',
     labels: ['export', 'pdf', 'excel', 'report-card'],
     reqCode: 'REQ-REP-01, REQ-REP-02 (Ma trận RTM: UC_GVCN_03)',
     story: 'Là GVCN và BGH, tôi muốn xuất sổ điểm lớp và phiếu điểm từng học sinh ra file PDF có chữ ký số hoặc Excel để in ấn và lưu trữ hồ sơ học bạ.',
@@ -1077,6 +1126,9 @@ export const exportGradebookExcel = async (req, res) => {
     storyPoints: 3,
     estimateHours: '6h',
     priority: 3,
+    startDate: '2026-10-26',
+    dueDate: '2026-11-08',
+    sprint: 'Sprint 4 (Tuần 7 - Tuần 8)',
     labels: ['announcements', 'broadcast', 'pinned', 'newsfeed'],
     reqCode: 'REQ-COMM-01 (Ma trận RTM: UC_BGH_08)',
     story: 'Là Ban Giám Hiệu, tôi muốn đăng thông báo và phân loại đối tượng nhận (Giáo viên, Học sinh, Phụ huynh) để truyền đạt thông tin kịp thời.',
@@ -1134,6 +1186,9 @@ export const getAnnouncements = async (req, res) => {
     storyPoints: 8,
     estimateHours: '12h',
     priority: 2,
+    startDate: '2026-11-02',
+    dueDate: '2026-11-15',
+    sprint: 'Sprint 4 (Tuần 8 - Tuần 9)',
     labels: ['chat', 'socket.io', 'real-time', 'websocket'],
     reqCode: 'REQ-COMM-02 (Ma trận RTM: UC_GVCN_04)',
     story: 'Là Phụ huynh và GVCN, tôi muốn nhắn tin trao đổi trực tiếp tức thời để giải quyết các vấn đề học tập và sinh hoạt của học sinh.',
@@ -1192,6 +1247,9 @@ export const setupChatSocket = (io) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-11-02',
+    dueDate: '2026-11-15',
+    sprint: 'Sprint 4 (Tuần 8 - Tuần 9)',
     labels: ['contact-book', 'parent', 'monthly-report', 'feedback'],
     reqCode: 'REQ-COMM-03 (Ma trận RTM: UC_PAR_03)',
     story: 'Là Phụ huynh, tôi muốn xem sổ liên lạc điện tử hàng tháng của con gồm điểm số, số buổi nghỉ và nhận xét của GVCN để đồng hành cùng con.',
@@ -1255,6 +1313,9 @@ export const getStudentContactBook = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-11-02',
+    dueDate: '2026-11-15',
+    sprint: 'Sprint 5 (Tuần 8 - Tuần 9)',
     labels: ['tuition-fee', 'accounting', 'exemptions', 'billing'],
     reqCode: 'REQ-FEE-01, REQ-FEE-02 (Ma trận RTM: UC_BGH_09)',
     story: 'Là Kế toán / Ban Giám Hiệu, tôi muốn tạo các đợt thu học phí, định mức khoản thu và chính sách miễn giảm (hộ nghèo, con thương binh) cho từng học sinh.',
@@ -1332,6 +1393,9 @@ export const createFeePeriodWithDiscounts = async (req, res) => {
     storyPoints: 8,
     estimateHours: '12h',
     priority: 1,
+    startDate: '2026-11-09',
+    dueDate: '2026-11-22',
+    sprint: 'Sprint 5 (Tuần 9 - Tuần 10)',
     labels: ['vietqr', 'napas247', 'payment-gateway', 'webhook'],
     reqCode: 'REQ-FEE-03, REQ-FEE-04 (Ma trận RTM: UC_PAR_04)',
     story: 'Là Phụ huynh, tôi muốn quét mã VietQR động có sẵn số tiền và nội dung chuyển khoản trên ứng dụng ngân hàng để nộp học phí và được gạch nợ tức thì.',
@@ -1411,6 +1475,9 @@ export const handlePaymentWebhook = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-11-09',
+    dueDate: '2026-11-22',
+    sprint: 'Sprint 5 (Tuần 9 - Tuần 10)',
     labels: ['receipt', 'pdfkit', 'invoicing', 'parent'],
     reqCode: 'REQ-FEE-05 (Ma trận RTM: UC_PAR_05)',
     story: 'Là Phụ huynh, tôi muốn tra cứu lịch sử nộp tiền và tải về biên lai điện tử có mã tra cứu hóa đơn sau khi hoàn tất thanh toán.',
@@ -1468,6 +1535,9 @@ export const generateReceiptPdf = (receipt, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-11-09',
+    dueDate: '2026-11-22',
+    sprint: 'Sprint 5 (Tuần 9 - Tuần 10)',
     labels: ['financial-report', 'debt-tracking', 'chartjs', 'accounting'],
     reqCode: 'REQ-FEE-06 (Ma trận RTM: UC_BGH_10)',
     story: 'Là Kế toán và Ban Giám Hiệu, tôi muốn xem báo cáo tổng hợp dòng tiền học phí, số tiền đã thu, nợ tồn đọng theo từng khối lớp để quản trị tài chính.',
@@ -1529,6 +1599,9 @@ export const getFeeFinancialReport = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 1,
+    startDate: '2026-11-09',
+    dueDate: '2026-11-22',
+    sprint: 'Sprint 5 (Tuần 9 - Tuần 10)',
     labels: ['dashboard', 'executive', 'real-time', 'kpi'],
     reqCode: 'REQ-REP-03 (Ma trận RTM: UC_BGH_11)',
     story: 'Là Ban Giám Hiệu, tôi muốn có bảng Dashboard tổng quan hiển thị số liệu học sinh, giáo viên, chuyên cần hôm nay và tiến độ vào điểm toàn trường.',
@@ -1596,6 +1669,9 @@ export const getExecutiveDashboard = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 2,
+    startDate: '2026-11-09',
+    dueDate: '2026-11-22',
+    sprint: 'Sprint 5 (Tuần 9 - Tuần 10)',
     labels: ['semester-report', 'department-of-education', 'compliance', 'excel'],
     reqCode: 'REQ-REP-04 (Ma trận RTM: UC_BGH_12)',
     story: 'Là Ban Giám Hiệu, tôi muốn trích xuất báo cáo chất lượng giáo dục học kỳ và năm học theo đúng biểu mẫu thống kê của Sở GD&ĐT để nộp báo cáo.',
@@ -1657,6 +1733,9 @@ export const getEducationQualityReport = async (req, res) => {
     storyPoints: 5,
     estimateHours: '8h',
     priority: 1,
+    startDate: '2026-11-02',
+    dueDate: '2026-11-15',
+    sprint: 'Sprint 5 (Tuần 8 - Tuần 9)',
     labels: ['audit-trail', 'security', 'immutability', 'logging'],
     reqCode: 'REQ-SEC-01 (Ma trận RTM: UC_BGH_13)',
     story: 'Là Ban Giám Hiệu, tôi muốn xem nhật ký kiểm toán ghi lại mọi thao tác sửa điểm, khóa sổ, đổi lịch để phát hiện gian lận và quy trách nhiệm rõ ràng.',
@@ -1717,6 +1796,9 @@ export const auditTrailLogger = async (userId, action, targetTable, targetId, ol
     storyPoints: 5,
     estimateHours: '8h',
     priority: 1,
+    startDate: '2026-11-09',
+    dueDate: '2026-11-22',
+    sprint: 'Sprint 5 (Tuần 9 - Tuần 10)',
     labels: ['portal', 'student', 'parent', 'anti-idor', 'mobile'],
     reqCode: 'REQ-PORT-01, REQ-PORT-02 (Ma trận RTM: UC_STU_01, UC_PAR_01)',
     story: 'Là Học sinh và Phụ huynh, tôi muốn đăng nhập vào cổng thông tin cá nhân trên điện thoại/máy tính để tra cứu điểm thi, thời khóa biểu và học phí.',
@@ -1773,7 +1855,7 @@ export const getMyStudentProfile = async (req, res) => {
 ];
 
 /**
- * Hàm xây dựng nội dung Markdown giàu chi tiết, chuẩn 10 HẠNG MỤC
+ * Hàm xây dựng nội dung Markdown giàu chi tiết, chuẩn 11 HẠNG MỤC CÓ DEADLINE
  */
 function buildEnrichedDescription(item) {
   const githubLinks = item.primaryFiles.map(f => `- **GitHub**: [\`${f}\`](${GITHUB_REPO}/${f})`).join('\n');
@@ -1788,6 +1870,7 @@ function buildEnrichedDescription(item) {
 - **Mã liên kết Yêu cầu SRS**: \`${item.reqCode}\`
 - **Thành viên chịu trách nhiệm chính (RACI Owner)**: **${item.owner}**
 - **Ước lượng Agile**: **${item.storyPoints} Story Points** | **Thời gian dự kiến**: **${item.estimateHours}**
+- 📅 **Lịch trình & Hạn chót (Deadlines)**: **Bắt đầu**: \`${item.startDate}\` | **Hạn chót (Due Date)**: **\`${item.dueDate}\`** (\`${item.sprint}\`)
 
 ---
 
@@ -1859,11 +1942,11 @@ ${item.smartCommit}
 }
 
 /**
- * Cập nhật trên JIRA CLOUD
+ * Cập nhật trên JIRA CLOUD (Kèm duedate, labels, timetracking, assignee)
  */
 async function updateJiraIssues() {
   console.log('================================================================');
-  console.log(' BẮT ĐẦU CẬP NHẬT CHI TIẾT TOÀN DIỆN 10 MỤC LÊN JIRA CLOUD');
+  console.log(' BẮT ĐẦU CẬP NHẬT DEADLINE & CHI TIẾT TOÀN DIỆN LÊN JIRA CLOUD');
   console.log('================================================================\n');
 
   let successCount = 0;
@@ -1880,6 +1963,7 @@ async function updateJiraIssues() {
         body: JSON.stringify({
           fields: {
             description: enrichedDesc,
+            duedate: item.dueDate, // Cập nhật hạn chót Deadline native trên Jira
             labels: item.labels,
             timetracking: { originalEstimate: item.estimateHours, remainingEstimate: '0h' },
             assignee: { accountId: '712020:79b4e402-a50a-4abe-b0fb-cbc1ab970f0b' } // Võ Duy Bình
@@ -1889,7 +1973,7 @@ async function updateJiraIssues() {
 
       if (res.status === 204 || res.ok) {
         successCount++;
-        console.log(`[JIRA OK] Cập nhật ${item.jiraKey} (${item.pbiCode}) [Labels, Time: ${item.estimateHours}, RACI] thành công.`);
+        console.log(`[JIRA OK] Cập nhật ${item.jiraKey} (${item.pbiCode}) [Deadline: ${item.dueDate}, Labels, Time: ${item.estimateHours}] thành công.`);
       } else {
         const errText = await res.text();
         console.warn(`[JIRA FAIL] ${item.jiraKey}: Status ${res.status} - ${errText}`);
@@ -1899,15 +1983,15 @@ async function updateJiraIssues() {
     }
   }
 
-  console.log(`\n=> HOÀN TẤT JIRA: ${successCount} / ${DETAILED_PBIS.length} issues cập nhật chi tiết thành công!\n`);
+  console.log(`\n=> HOÀN TẤT JIRA: ${successCount} / ${DETAILED_PBIS.length} issues cập nhật Deadline thành công!\n`);
 }
 
 /**
- * Cập nhật trên CLICKUP
+ * Cập nhật trên CLICKUP (Kèm due_date, start_date, priority)
  */
 async function updateClickUpTasks() {
   console.log('================================================================');
-  console.log(' BẮT ĐẦU CẬP NHẬT CHI TIẾT TOÀN DIỆN 10 MỤC LÊN CLICKUP');
+  console.log(' BẮT ĐẦU CẬP NHẬT DEADLINE & CHI TIẾT TOÀN DIỆN LÊN CLICKUP');
   console.log('================================================================\n');
 
   try {
@@ -1926,18 +2010,25 @@ async function updateClickUpTasks() {
         const matchedPBI = DETAILED_PBIS.find(p => t.name.includes(p.pbiCode));
         if (matchedPBI) {
           const enrichedDesc = buildEnrichedDescription(matchedPBI);
+          const startMs = new Date(`${matchedPBI.startDate}T00:00:00+07:00`).getTime();
+          const dueMs = new Date(`${matchedPBI.dueDate}T23:59:59+07:00`).getTime();
+
           const updateRes = await fetch(`${CLICKUP_API_BASE}/task/${t.id}`, {
             method: 'PUT',
             headers: clickupHeaders,
             body: JSON.stringify({
               description: enrichedDesc,
-              priority: matchedPBI.priority
+              priority: matchedPBI.priority,
+              start_date: startMs,
+              start_date_time: false,
+              due_date: dueMs,
+              due_date_time: false
             })
           });
 
           if (updateRes.ok) {
             successCount++;
-            console.log(`[CLICKUP OK] Cập nhật task ${matchedPBI.pbiCode} (ID: ${t.id}, Priority: ${matchedPBI.priority}) thành công.`);
+            console.log(`[CLICKUP OK] Cập nhật task ${matchedPBI.pbiCode} (ID: ${t.id}) [Start: ${matchedPBI.startDate}, Deadline: ${matchedPBI.dueDate}] thành công.`);
           } else {
             console.warn(`[CLICKUP FAIL] ${t.name}:`, await updateRes.text());
           }
@@ -1945,7 +2036,7 @@ async function updateClickUpTasks() {
       }
     }
 
-    console.log(`\n=> HOÀN TẤT CLICKUP: ${successCount} / ${DETAILED_PBIS.length} tasks cập nhật chi tiết thành công!`);
+    console.log(`\n=> HOÀN TẤT CLICKUP: ${successCount} / ${DETAILED_PBIS.length} tasks cập nhật Deadline thành công!`);
 
   } catch (err) {
     console.error('[CLICKUP ERROR]:', err.message);
@@ -1956,7 +2047,7 @@ async function run() {
   await updateJiraIssues();
   await updateClickUpTasks();
   console.log('\n================================================================');
-  console.log(' TẤT CẢ 27 TASKS TRÊN JIRA & CLICKUP ĐÃ ĐƯỢC NÂNG CẤP HOÀN HẢO 100%!');
+  console.log(' TẤT CẢ 27 TASKS TRÊN JIRA & CLICKUP ĐÃ ĐỒNG BỘ DEADLINE 100%!');
   console.log('================================================================');
 }
 
