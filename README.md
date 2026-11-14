@@ -97,7 +97,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 12/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - [docs/project2_specs.md](docs/project2_specs.md): Đặc tả yêu cầu kỹ thuật đồ án môn học.
 
 ### 5.3 Hồ Sơ Phân Tích & Tiến Độ 15 Tuần (BrainStorm/)
-- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án 15 tuần (Bắt đầu từ 14/09/2026, thời điểm hiện tại: 12/11/2026 - Tuần 9 hoàn thành xuất sắc).
+- [timeline.md](timeline.md): Tiến độ & Lộ trình thực hiện dự án 15 tuần (Bắt đầu từ 14/09/2026, thời điểm hiện tại: 14/11/2026 - Chính thức bước vào Tuần 10: Tích hợp hệ thống & An ninh OWASP).
 - [USE_CASES.md](USE_CASES.md): Tài liệu tổng hợp đặc tả chi tiết 43 Use Cases cho 5 nhóm tác nhân.
 - [BrainStorm/Week1 TL SRS .md](BrainStorm/Week1%20TL%20SRS%20.md): Tuần 1 - Tài liệu Phân tích Yêu cầu Phần mềm (SRS IEEE 830), Ma trận RBAC, Rules & NFRs.
 - [BrainStorm/Week2 UXUI .md](BrainStorm/Week2%20UXUI%20.md): Tuần 2 - Chuyên đề Nghiên cứu UI/UX (Design System, Tailwind CSS, 8 Wireframes phân hệ).
@@ -108,7 +108,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 12/11/2026 (TUẦN 8-9 / 15 TUẦN H�
 - [BrainStorm/Week7.md](BrainStorm/Week7.md) & [BrainStorm/Week7 Authentication Authorization .md](BrainStorm/Week7%20Authentication%20Authorization%20.md): Tuần 7 - Chuyên đề Xác thực & Bảo mật (JWT, RBAC 5 Roles, 1-Click Demo Login). *(Đã hoàn thành xuất sắc)*
 - [BrainStorm/Week8.md](BrainStorm/Week8.md) & [BrainStorm/Week8 Logging .md](BrainStorm/Week8%20Logging%20.md): Tuần 8 - Chuyên đề Nhật ký Hệ thống (Centralized Audit Logging), Đồng bộ Dual-Remote (GitHub & Bitbucket), Tái cấu trúc Menu Nhóm & Nạp dữ liệu mẫu 100%. *(Đã hoàn thành xuất sắc)*
 - [BrainStorm/Week9.md](BrainStorm/Week9.md) & [BrainStorm/Week9 Testing .md](BrainStorm/Week9%20Testing%20.md): Tuần 9 - Chuyên đề Kiểm thử Phần mềm (Automated QA Unit Test Suite 68/68 Backend & 13/13 Frontend Vitest đạt 100% PASS), Đồng bộ Jira & ClickUp, Canva Slide & Cẩm nang PostgreSQL Extension. *(Đã hoàn thành xuất sắc)*
-- [BrainStorm/Week10.md](BrainStorm/Week10.md): Tuần 10 - Tích hợp Hệ thống, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP Top 10.
+- [BrainStorm/Week10.md](BrainStorm/Week10.md): Tuần 10 - Tích hợp Toàn Hệ Thống, Kiểm thử Bảo mật & Phòng thủ Lỗ hổng OWASP Top 10 (Security Hardening, Rate Limiting, Helmet Headers, Chống SQLi & BOLA). *(Đang triển khai - In Progress)*
 - [BrainStorm/Week11.md](BrainStorm/Week11.md): Tuần 11 - Tối ưu hóa Hiệu năng, Indexing CSDL PostgreSQL & Caching Redis (Cache-Aside).
 - [BrainStorm/Week12.md](BrainStorm/Week12.md): Tuần 12 - Đóng gói Docker, Docker Compose & Tự động hóa CI/CD GitHub Actions.
 - [BrainStorm/Week13.md](BrainStorm/Week13.md): Tuần 13 - Báo cáo Thẩm định Kỹ thuật & Nghiệm thu Người dùng UAT Toàn diện (43 Use Cases).
