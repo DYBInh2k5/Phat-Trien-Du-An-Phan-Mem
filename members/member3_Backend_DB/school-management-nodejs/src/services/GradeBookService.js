@@ -6,9 +6,13 @@
  * Vai trò: Tầng Nghiệp Vụ Sổ Điểm Điện Tử & Tính Điểm Trung Bình Môn (GradeBook Use Cases)
  * Kiến trúc: Clean Architecture - Tầng Nghiệp Vụ Cốt Lõi (Application Business Rules)
  * Tiêu chuẩn học vụ: Quy chế đánh giá học sinh THPT theo Thông tư 22/2021/TT-BGDĐT
+ * Tác giả: Nhóm Đồ Án PTDA Phần Mềm (Võ Duy Bình - Lead BA & Dev Team)
+ * Ngày cập nhật: 13/11/2026 (Đồng bộ hóa 100% sơ đồ SD-02 với UnitOfWork và AuditLogger)
  * Công thức tính điểm trung bình môn học kỳ (ĐTBmhk):
  *   ĐTBmhk = (Điểm Miệng + Điểm 15p + Điểm 1 Tiết*2 + Điểm Giữa Kỳ*2 + Điểm Cuối Kỳ*3) / 9
  * Quy tắc an toàn:
+ *   - Quản lý giao dịch nguyên tử (Atomic Transaction): Sử dụng UnitOfWork bảo đảm ACID khi lưu điểm cả lớp.
+ *   - Ghi nhật ký kiểm toán (Audit Logging): Tự động ghi vết mọi hành vi cập nhật điểm và khóa/mở khóa sổ điểm.
  *   - Kiểm tra trạng thái khóa sổ điểm (status === 'LOCKED'): Tuyệt đối ngăn chặn sửa điểm nếu BGH đã chốt sổ.
  *   - Hỗ trợ lưu điểm hàng loạt (Batch Save) cho cả lớp 45 học sinh.
  * ==============================================================================
@@ -18,6 +22,8 @@ import { GradeBookRepository } from '../repositories/GradeBookRepository.js';
 import { StudentRepository } from '../repositories/StudentRepository.js';
 import { SubjectRepository } from '../repositories/SubjectRepository.js';
 import { ClassRepository } from '../repositories/ClassRepository.js';
+import { UnitOfWork } from '../utils/UnitOfWork.js';
+import { AuditLogger } from '../utils/AuditLogger.js';
 
 /**
  * Lớp GradeBookService - Điều phối nghiệp vụ chấm điểm môn học
@@ -80,34 +86,65 @@ export class GradeBookService {
   }
 
   /**
-   * Lưu hàng loạt grades từ spreadsheet.
+   * Lưu hàng loạt grades từ spreadsheet bên trong một giao dịch UnitOfWork nguyên tử.
    * Mỗi item: { studentCode, studentName, className, subjectId (=subjectName),
    *             semester, schoolYear, scoreOral, score15m, score1Hour,
    *             scoreMidTerm, scoreFinalTerm }
+   * @async
+   * @param {Array<Object>} items - Danh sách điểm từ bảng tính spreadsheet
+   * @param {Object} [userContext=null] - Ngữ cảnh người dùng (username, role, ipAddress)
+   * @returns {Promise<Array<Object>>} Kết quả các bản ghi đã lưu
+   * @throws {Error} Nếu có bất kỳ lỗi nào trong quá trình thực thi giao dịch
    */
-  static async saveGradesFromSpreadsheet(items) {
-    const results = [];
-    for (const item of items) {
-      const gb = {
-        studentCode:    item.studentCode,
-        studentName:    item.studentName,
-        className:      item.className,
-        subjectName:    item.subjectId,
-        semester:       item.semester,
-        schoolYear:     item.schoolYear,
-        scoreOral:      item.scoreOral,
-        scoreOral2:     item.scoreOral2  ?? null,
-        score15m:       item.score15m,
-        score15m2:      item.score15m2   ?? null,
-        score1Hour:     item.score1Hour,
-        scoreMidTerm:   item.scoreMidTerm,
-        scoreFinalTerm: item.scoreFinalTerm,
-        status:         'APPROVED',
-      };
-      const saved = await this.saveGrade(gb);
-      results.push(saved);
+  static async saveGradesFromSpreadsheet(items, userContext = null) {
+    const uow = new UnitOfWork();
+    await uow.beginTransaction();
+
+    try {
+      const results = [];
+      for (const item of items) {
+        const gb = {
+          studentCode:    item.studentCode,
+          studentName:    item.studentName,
+          className:      item.className,
+          subjectName:    item.subjectId,
+          semester:       item.semester,
+          schoolYear:     item.schoolYear,
+          scoreOral:      item.scoreOral,
+          scoreOral2:     item.scoreOral2  ?? null,
+          score15m:       item.score15m,
+          score15m2:      item.score15m2   ?? null,
+          score1Hour:     item.score1Hour,
+          scoreMidTerm:   item.scoreMidTerm,
+          scoreFinalTerm: item.scoreFinalTerm,
+          status:         'APPROVED',
+        };
+        const calculated = this.calculateTBM(gb);
+        // Lưu từng dòng điểm qua kết nối giao dịch UnitOfWork
+        const saved = await GradeBookRepository.save(calculated, uow);
+        results.push(saved);
+      }
+
+      // Xác nhận commit giao dịch vào cơ sở dữ liệu
+      await uow.commit();
+
+      // Kích hoạt ghi nhật ký kiểm toán (Audit Log) theo đặc tả SD-02
+      AuditLogger.log({
+        action: 'GRADE_BATCH_UPDATE',
+        user: userContext?.username || 'system',
+        role: userContext?.role || 'GV',
+        entity: 'grade_books',
+        entityId: 'SPREADSHEET_BATCH',
+        newValue: { count: results.length, className: items[0]?.className },
+        ipAddress: userContext?.ipAddress || '127.0.0.1',
+      });
+
+      return results;
+    } catch (err) {
+      // Hoàn tác toàn bộ nếu có lỗi trong giao dịch
+      await uow.rollback();
+      throw err;
     }
-    return results;
   }
 
   /**
@@ -134,12 +171,14 @@ export class GradeBookService {
 
   /**
    * Lưu điểm cho một học sinh đơn lẻ (kèm kiểm tra khóa sổ và tính ĐTB môn)
+   * Kích hoạt AuditLogger để ghi nhận vết kiểm toán hành vi sửa điểm.
    * @async
    * @param {Object} gradeBook - Dữ liệu điểm học sinh
-   * @returns {Promise<Object>}
+   * @param {Object} [userContext=null] - Thông tin tài khoản người thực hiện (username, role, ipAddress)
+   * @returns {Promise<Object>} Bản ghi điểm sau khi lưu
    * @throws {Error} Nếu sổ điểm đã bị khóa bởi Ban Giám Hiệu
    */
-  static async saveGrade(gradeBook) {
+  static async saveGrade(gradeBook, userContext = null) {
     if (gradeBook.id) {
       const existing = await GradeBookRepository.findById(gradeBook.id);
       // Quy tắc nghiệp vụ: Nếu trạng thái là LOCKED -> Chặn không cho sửa
@@ -150,50 +189,122 @@ export class GradeBookService {
 
     // Tự động tính điểm trung bình môn và xếp loại theo Thông tư 22
     const calculated = this.calculateTBM(gradeBook);
-    return await GradeBookRepository.save(calculated);
+    const saved = await GradeBookRepository.save(calculated);
+
+    // Kích hoạt ghi vết kiểm toán (Audit Logger) theo sơ đồ SD-02
+    AuditLogger.log({
+      action: 'UPDATE_GRADE',
+      user: userContext?.username || 'system',
+      role: userContext?.role || 'GV',
+      entity: 'grade_books',
+      entityId: saved?.id || gradeBook?.id || gradeBook?.studentCode,
+      newValue: {
+        averageScore: calculated.averageScore,
+        gradeLetter: calculated.gradeLetter,
+        studentCode: gradeBook.studentCode || gradeBook.student_code,
+      },
+      ipAddress: userContext?.ipAddress || '127.0.0.1',
+    });
+
+    return saved;
   }
 
   /**
    * Lưu điểm hàng loạt cho danh sách nhiều học sinh (phục vụ chức năng Lưu Toàn Bộ Sổ Điểm)
+   * Quản lý giao dịch nguyên tử (ACID Transaction) thông qua UnitOfWork theo đúng thiết kế SD-02.
    * @async
    * @param {Array<Object>} gradeBooks - Mảng các bản ghi điểm
+   * @param {Object} [userContext=null] - Ngữ cảnh người dùng (username, role, ipAddress)
    * @returns {Promise<Array<Object>>} Mảng các bản ghi đã lưu
-   * @throws {Error} Nếu phát hiện bất kỳ bản ghi nào đã bị khóa
+   * @throws {Error} Nếu phát hiện bất kỳ bản ghi nào đã bị khóa hoặc lỗi giao dịch
    */
-  static async saveAllGrades(gradeBooks) {
-    const savedList = [];
-    for (const gb of gradeBooks) {
-      if (gb.id) {
-        const existing = await GradeBookRepository.findById(gb.id);
-        if (existing && existing.status === 'LOCKED') {
-          throw new Error(`Điểm của học sinh ${gb.studentCode || gb.student_code} đã bị khóa sổ.`);
+  static async saveAllGrades(gradeBooks, userContext = null) {
+    // 1. Khởi tạo đối tượng UnitOfWork và bắt đầu Transaction
+    const uow = new UnitOfWork();
+    await uow.beginTransaction();
+
+    try {
+      const savedList = [];
+      for (const gb of gradeBooks) {
+        if (gb.id) {
+          const existing = await GradeBookRepository.findById(gb.id);
+          if (existing && existing.status === 'LOCKED') {
+            throw new Error(`Điểm của học sinh ${gb.studentCode || gb.student_code} đã bị khóa sổ.`);
+          }
         }
+        // 2. Tính TBM chuẩn Thông tư 22
+        const calculated = this.calculateTBM(gb);
+        // 3. Thực thi lưu từng dòng điểm bên trong transaction UnitOfWork
+        const saved = await GradeBookRepository.save(calculated, uow);
+        savedList.push(saved);
       }
-      const calculated = this.calculateTBM(gb);
-      const saved = await GradeBookRepository.save(calculated);
-      savedList.push(saved);
+
+      // 4. Xác nhận commit vĩnh viễn toàn bộ thay đổi vào PostgreSQL
+      await uow.commit();
+
+      // 5. Kích hoạt ghi vết kiểm toán (Audit Logger) sau khi commit thành công
+      AuditLogger.log({
+        action: 'GRADE_BATCH_UPDATE',
+        user: userContext?.username || 'system',
+        role: userContext?.role || 'GV',
+        entity: 'grade_books',
+        entityId: savedList[0]?.id || 'BATCH',
+        newValue: { count: savedList.length },
+        ipAddress: userContext?.ipAddress || '127.0.0.1',
+      });
+
+      return savedList;
+    } catch (err) {
+      // 6. Hoàn tác toàn bộ 100% nếu có bất kỳ lỗi nào phát sinh
+      await uow.rollback();
+      throw err;
     }
-    return savedList;
   }
 
   /**
-   * Khóa sổ điểm môn học của một lớp (Chỉ dành cho Ban Giám Hiệu)
+   * Khóa sổ điểm môn học của một lớp (Chỉ dành cho Ban Giám Hiệu hoặc GV chốt sổ)
+   * Kèm theo ghi vết kiểm toán để theo dõi lịch sử chốt sổ.
    * @async
    * @param {string} className - Tên lớp
    * @param {string} subjectName - Tên môn học
+   * @param {Object} [userContext=null] - Thông tin tài khoản người thực hiện
    */
-  static async lockGradeSheet(className, subjectName) {
+  static async lockGradeSheet(className, subjectName, userContext = null) {
     await GradeBookRepository.updateStatusByClassAndSubject(className, subjectName, 'LOCKED');
+
+    // Ghi vết kiểm toán khóa sổ
+    AuditLogger.log({
+      action: 'LOCK_GRADEBOOK',
+      user: userContext?.username || 'system',
+      role: userContext?.role || 'GV',
+      entity: 'grade_books',
+      entityId: `${className}_${subjectName}`,
+      newValue: { status: 'LOCKED' },
+      ipAddress: userContext?.ipAddress || '127.0.0.1',
+    });
   }
 
   /**
-   * Mở khóa sổ điểm môn học cho phép giáo viên chỉnh sửa lại
+   * Mở khóa sổ điểm môn học cho phép giáo viên chỉnh sửa lại theo phê duyệt của BGH
+   * Kèm theo ghi vết kiểm toán để đảm bảo tính giải trình.
    * @async
-   * @param {string} className
-   * @param {string} subjectName
+   * @param {string} className - Tên lớp
+   * @param {string} subjectName - Tên môn học
+   * @param {Object} [userContext=null] - Thông tin tài khoản người duyệt mở khóa
    */
-  static async unlockGradeSheet(className, subjectName) {
+  static async unlockGradeSheet(className, subjectName, userContext = null) {
     await GradeBookRepository.updateStatusByClassAndSubject(className, subjectName, 'APPROVED');
+
+    // Ghi vết kiểm toán mở khóa sổ
+    AuditLogger.log({
+      action: 'UNLOCK_GRADEBOOK',
+      user: userContext?.username || 'system',
+      role: userContext?.role || 'BGH',
+      entity: 'grade_books',
+      entityId: `${className}_${subjectName}`,
+      newValue: { status: 'APPROVED' },
+      ipAddress: userContext?.ipAddress || '127.0.0.1',
+    });
   }
 
   /**

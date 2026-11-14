@@ -104,4 +104,21 @@ export class UnitOfWork {
       this.inTransaction = false;
     }
   }
+
+  /**
+   * Phương thức bao gói thực thi tác vụ bên trong Transaction an toàn tự động (Auto commit / rollback)
+   * @param {Function} callback - Hàm thực thi nhận đối tượng client hoặc this
+   * @returns {Promise<any>}
+   */
+  async execute(callback) {
+    await this.beginTransaction();
+    try {
+      const result = await callback(this.client);
+      await this.commit();
+      return result;
+    } catch (err) {
+      await this.rollback();
+      throw err;
+    }
+  }
 }

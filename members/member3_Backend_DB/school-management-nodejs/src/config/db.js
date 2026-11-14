@@ -370,6 +370,32 @@ export async function initDatabaseSchema() {
         UNIQUE (parent_user_id, student_code)
       );
 
+      -- 9. BẢNG GIAO DỊCH THANH TOÁN HỌC PHÍ (PAYMENTS & AUDIT RECONCILIATION)
+      CREATE TABLE IF NOT EXISTS payments (
+        id SERIAL PRIMARY KEY,
+        order_code VARCHAR(50) UNIQUE NOT NULL,
+        tuition_id INT NOT NULL REFERENCES tuitions(id) ON DELETE CASCADE,
+        student_code VARCHAR(30) NOT NULL,
+        amount NUMERIC(12, 2) NOT NULL,
+        payment_method VARCHAR(30) DEFAULT 'VIETQR',
+        bank_bin VARCHAR(10) DEFAULT '970422',
+        bank_account_no VARCHAR(50) DEFAULT '0388888888',
+        bank_transaction_id VARCHAR(100),
+        status VARCHAR(20) DEFAULT 'OPEN', -- OPEN, PENDING, PAID, REJECTED, EXPIRED
+        receipt_no VARCHAR(50) UNIQUE,
+        payer_name VARCHAR(100),
+        payer_phone VARCHAR(20),
+        proof_image TEXT,
+        note TEXT,
+        expires_at TIMESTAMPTZ NOT NULL,
+        paid_at TIMESTAMPTZ,
+        created_at TIMESTAMPTZ DEFAULT NOW(),
+        updated_at TIMESTAMPTZ DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_payments_tuition_id ON payments(tuition_id);
+      CREATE INDEX IF NOT EXISTS idx_payments_order_code ON payments(order_code);
+      CREATE INDEX IF NOT EXISTS idx_payments_status ON payments(status);
+
       ALTER TABLE parent_messages ADD COLUMN IF NOT EXISTS conversation_type VARCHAR(20) NOT NULL DEFAULT 'GVCN';
       ALTER TABLE parent_messages ADD COLUMN IF NOT EXISTS sender_id INT REFERENCES users(id);
       ALTER TABLE parent_messages ADD COLUMN IF NOT EXISTS read_at TIMESTAMPTZ;

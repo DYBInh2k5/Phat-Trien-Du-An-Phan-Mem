@@ -1,8 +1,23 @@
-// src/tests/gradebook.test.js
-// Unit tests for GradeBookService logic and GVCN scope checks.
-// Uses inline logic — no imports from production modules.
+/**
+ * ==============================================================================
+ * DỰ ÁN HỆ THỐNG QUẢN LÝ LỚP HỌC (HTQLLH) - THPT HSU
+ * ==============================================================================
+ * Tệp: members/member3_Backend_DB/school-management-nodejs/src/tests/gradebook.test.js
+ * Vai trò: Kịch Bản Kiểm Thử Đơn Vị Phân Hệ Sổ Điểm (GradeBook Unit & Integration Tests)
+ * Kiến trúc: Clean Architecture - Tầng Kiểm Thử Chất Lượng (Quality Assurance Layer)
+ * Tác giả: Nhóm Đồ Án PTDA Phần Mềm (Võ Duy Bình - Lead BA & Dev Team)
+ * Ngày cập nhật: 13/11/2026 (Bổ sung kiểm thử UnitOfWork giao dịch và AuditLogger)
+ * Mô tả:
+ *   - Kiểm tra tính toán điểm trung bình môn (TBM) theo Thông tư 22/2021/TT-BGDĐT.
+ *   - Kiểm tra kiểm soát phạm vi truy cập dữ liệu của GVCN (Scope Isolation).
+ *   - Kiểm tra ghi vết kiểm toán học vụ qua AuditLogger.
+ *   - Kiểm tra tính nguyên tử của giao dịch Unit of Work (ACID Transaction).
+ * ==============================================================================
+ */
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { AuditLogger } from '../utils/AuditLogger.js';
+import { UnitOfWork } from '../utils/UnitOfWork.js';
 
 // ============================================================
 // Inline resolveEffectiveClassName logic
@@ -202,5 +217,62 @@ describe('C. calculateTBM', () => {
     const result = calculateTBM(gb);
     assert.ok(result.averageScore >= 5.0 && result.averageScore < 6.5);
     assert.equal(result.gradeLetter, 'Trung bình');
+  });
+});
+
+// ============================================================
+// TESTS – D. UnitOfWork transaction & AuditLogger recording (SD-02)
+// ============================================================
+describe('D. UnitOfWork transaction & AuditLogger recording (SD-02)', () => {
+  it('AuditLogger.log ghi nhận chính xác hành động sửa điểm GRADE_BATCH_UPDATE', () => {
+    const entry = AuditLogger.log({
+      action: 'GRADE_BATCH_UPDATE',
+      user: 'gv_toan',
+      role: 'GV',
+      entity: 'grade_books',
+      entityId: '10A1_Toán',
+      newValue: { count: 45 },
+      ipAddress: '192.168.1.100',
+    });
+
+    assert.equal(entry.action, 'GRADE_BATCH_UPDATE');
+    assert.equal(entry.user, 'gv_toan');
+    assert.equal(entry.role, 'GV');
+    assert.equal(entry.entity, 'grade_books');
+    assert.ok(entry.timestamp);
+
+    const logs = AuditLogger.getAuditLogs({ entity: 'grade_books', user: 'gv_toan' });
+    assert.ok(logs.length > 0);
+  });
+
+  it('AuditLogger.log ghi nhận hành động khóa sổ điểm LOCK_GRADEBOOK', () => {
+    const entry = AuditLogger.log({
+      action: 'LOCK_GRADEBOOK',
+      user: 'gvcn01',
+      role: 'GVCN',
+      entity: 'grade_books',
+      entityId: '10A1_Toán',
+      newValue: { status: 'LOCKED' },
+    });
+
+    assert.equal(entry.action, 'LOCK_GRADEBOOK');
+    assert.equal(entry.newValue.status, 'LOCKED');
+  });
+
+  it('UnitOfWork khởi tạo an toàn và quản lý trạng thái inTransaction', async () => {
+    const uow = new UnitOfWork();
+    assert.equal(uow.inTransaction, false);
+    await uow.beginTransaction();
+    assert.equal(uow.inTransaction, true);
+    await uow.commit();
+    assert.equal(uow.inTransaction, false);
+  });
+
+  it('UnitOfWork rollback khôi phục trạng thái an toàn khi gặp lỗi', async () => {
+    const uow = new UnitOfWork();
+    await uow.beginTransaction();
+    assert.equal(uow.inTransaction, true);
+    await uow.rollback();
+    assert.equal(uow.inTransaction, false);
   });
 });

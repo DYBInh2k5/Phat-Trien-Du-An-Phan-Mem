@@ -649,8 +649,71 @@ export const submitGradeReviewRequest = async ({ studentCode, subjectName, semes
  * GV/GVCN xem danh sách đơn phúc khảo điểm đang chờ.
  * @returns {Array}
  */
-export const fetchGradeReviewRequests = async () => {
-  const data = await apiClient('/gradebook/review-requests');
-  if (!data?.success) throw new Error(data?.message || 'Lỗi khi tải danh sách phúc khảo');
-  return data.data ?? [];
+// ── Tuition & VietQR Payment API (SD-04 / UC-PAR-08) ──────────────────────────
+
+/**
+ * Khởi tạo phiên thanh toán VietQR động từ Backend.
+ * @param {string|number} tuitionId - ID khoản học phí
+ * @param {string} studentCode - Mã học sinh
+ * @returns {Promise<Object>} { orderCode, amount, expiresAt, qrImageUrl, qrDataUrl, emvcoPayload, bankInfo }
+ */
+export const checkoutTuition = async (tuitionId, studentCode) => {
+  const data = await apiClient(`/tuition/${encodeURIComponent(tuitionId)}/checkout`, {
+    method: 'POST',
+    body: { studentCode },
+  });
+  if (!data?.success) throw new Error(data?.message || 'Khởi tạo phiên thanh toán thất bại');
+  return data.data;
 };
+
+/**
+ * Phụ huynh xác nhận đã nộp tiền (chuyển trạng thái sang PENDING chờ đối soát).
+ * @param {string} orderCode
+ * @param {string} [note]
+ * @returns {Promise<Object>}
+ */
+export const claimTuitionPayment = async (orderCode, note = '') => {
+  const data = await apiClient('/tuition/payments/claim', {
+    method: 'POST',
+    body: { orderCode, note },
+  });
+  if (!data?.success) throw new Error(data?.message || 'Gửi xác nhận thanh toán thất bại');
+  return data;
+};
+
+/**
+ * Tra cứu trạng thái giao dịch thanh toán (Polling).
+ * @param {string} orderCode
+ * @returns {Promise<Object>}
+ */
+export const fetchPaymentStatus = async (orderCode) => {
+  const data = await apiClient(`/tuition/payments/${encodeURIComponent(orderCode)}/status`);
+  if (!data?.success) throw new Error(data?.message || 'Không thể tra cứu trạng thái giao dịch');
+  return data.data;
+};
+
+/**
+ * Giả lập tiền về thành công (Dev/Test mode).
+ * @param {string} orderCode
+ * @returns {Promise<Object>}
+ */
+export const simulatePaymentSuccess = async (orderCode) => {
+  const data = await apiClient('/tuition/payments/simulate-success', {
+    method: 'POST',
+    body: { orderCode },
+  });
+  if (!data?.success) throw new Error(data?.message || 'Mô phỏng thanh toán thất bại');
+  return data;
+};
+
+/**
+ * Lấy dữ liệu biên lai chính thức từ Backend để in / xuất PDF.
+ * @param {string|number} paymentId
+ * @returns {Promise<Object>}
+ */
+export const fetchTuitionReceipt = async (paymentId) => {
+  const data = await apiClient(`/tuition/receipt/${encodeURIComponent(paymentId)}`);
+  if (!data?.success) throw new Error(data?.message || 'Không thể tải biên lai thanh toán');
+  return data.data;
+};
+
