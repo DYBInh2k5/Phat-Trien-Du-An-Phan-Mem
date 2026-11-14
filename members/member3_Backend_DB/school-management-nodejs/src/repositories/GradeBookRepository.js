@@ -6,10 +6,13 @@
  * Vai trò: Kho Lưu Trữ Dữ Liệu Sổ Điểm (GradeBook Data Access Repository)
  * Kiến trúc: Clean Architecture - Tầng Giao Tiếp Dữ Liệu (Interface Adapters / Data Access)
  * Tiêu chuẩn: Quy chế đánh giá cho điểm môn học theo Thông tư 22/2021/TT-BGDĐT
+ * Tác giả: Nhóm Đồ Án PTDA Phần Mềm (Võ Duy Bình - Lead BA & Dev Team)
+ * Ngày cập nhật: 13/11/2026 (Tích hợp hỗ trợ Unit of Work giao dịch nguyên tử)
  * Mô tả:
  *   - Thực thi các câu lệnh SQL tác động lên bảng 'grade_books' trong PostgreSQL.
  *   - Hỗ trợ lưu trữ các đầu điểm: Miệng (Oral), 15 phút, 1 tiết, Giữa kỳ, Cuối kỳ.
  *   - Hỗ trợ lưu điểm (Upsert: tự động INSERT nếu chưa có ID hoặc UPDATE nếu đã có ID).
+ *   - Hỗ trợ thực thi câu truy vấn bên trong giao dịch nguyên tử UnitOfWork.
  *   - Cung cấp thao tác khóa/mở khóa sổ điểm hàng loạt theo Lớp và Môn học.
  *   - Tích hợp kho nhớ tạm thời (In-Memory Fallback) khi chưa kết nối CSDL Docker.
  * ==============================================================================
@@ -130,17 +133,25 @@ export class GradeBookRepository {
 
   /**
    * Lưu bản ghi điểm học sinh (Tự động UPDATE nếu đã có id, hoặc INSERT nếu chưa có id)
+   * Hỗ trợ thực thi bên trong giao dịch nguyên tử (ACID Transaction) khi truyền đối tượng UnitOfWork.
    * @async
    * @param {Object} gb - Bản ghi điểm học sinh
+   * @param {import('../utils/UnitOfWork.js').UnitOfWork|null} [uow=null] - Đối tượng điều phối giao dịch UnitOfWork
    * @returns {Promise<Object>} Bản ghi điểm sau khi lưu
+   * @throws {Error} Nếu câu lệnh SQL thất bại trong giao dịch nghiêm ngặt
    */
-  static async save(gb) {
+  static async save(gb, uow = null) {
     // Đảm bảo school_year luôn có giá trị — bắt buộc cho UNIQUE constraint
     const schoolYear = gb.schoolYear || gb.school_year || '2024-2025';
 
+    // Xác định hàm thực thi truy vấn: ưu tiên uow.query nếu có giao dịch đang mở và client hợp lệ
+    const executeQuery = (uow && typeof uow.query === 'function' && uow.client)
+      ? (sql, params) => uow.query(sql, params)
+      : queryStrict;
+
     if (gb.id) {
-      // UPDATE theo id — dùng queryStrict khi đã có id từ DB
-      const res = await queryStrict(
+      // UPDATE theo id — câu lệnh tham số hóa ($1..$9) chống SQL Injection
+      const res = await executeQuery(
         `UPDATE grade_books SET score_oral = $1, score_15m = $2, score_1hour = $3,
             score_mid_term = $4, score_final_term = $5, average_score = $6,
             grade_letter = $7, status = $8
@@ -152,8 +163,8 @@ export class GradeBookRepository {
       return gb;
     }
 
-    // UPSERT — dùng queryStrict để lỗi được throw, không nuốt vào in-memory
-    const res = await queryStrict(
+    // UPSERT theo Unique constraint (student_code, subject_name, class_name, semester, school_year)
+    const res = await executeQuery(
       `INSERT INTO grade_books
          (student_id, student_code, student_name, class_name, subject_name,
           semester, school_year, score_oral, score_oral_2, score_15m, score_15m_2,
@@ -179,7 +190,7 @@ export class GradeBookRepository {
        gb.score1Hour, gb.scoreMidTerm, gb.scoreFinalTerm,
        gb.averageScore, gb.gradeLetter, gb.status || 'APPROVED']
     );
-    if (res.rows.length > 0) return res.rows[0];
+    if (res && res.rows && res.rows.length > 0) return res.rows[0];
     return gb;
   }
 

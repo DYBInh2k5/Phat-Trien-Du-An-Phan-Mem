@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { fetchGradeBook, fetchTuitions } from '../../api/stubs.js';
+import { fetchGradeBook, fetchTuitions, checkoutTuition } from '../../api/stubs.js';
 import { apiClient } from '../../api/client.js';
 import { exportTuitionReceiptPDF } from '../../utils/exportEngine.js';
+import VietQrPaymentModal from '../../components/VietQrPaymentModal.jsx';
 
 const DEFAULT_TUITION = [
   { id: 'T1', name: 'Học phí chính khóa (HK1)', amount: 1500000, status: 'paid' },
@@ -16,7 +17,17 @@ function getStudentCode() {
     if (raw) {
       const parsed = JSON.parse(raw);
       const u = parsed?.user ?? parsed;
-      return u?.studentCode ?? u?.username ?? 'HS001';
+      // Nếu user có studentCode rõ ràng
+      if (u?.studentCode) return u.studentCode;
+      // Nếu username là phụ huynh ph.hs0001 hoặc ph001 -> trích xuất mã học sinh con
+      const username = u?.username || '';
+      const match = username.match(/hs0*(\d+)/i);
+      if (match) {
+        const num = parseInt(match[1], 10);
+        return `HS${String(num).padStart(3, '0')}`;
+      }
+      if (username === 'ph001' || username.includes('001')) return 'HS001';
+      return u?.username ?? 'HS001';
     }
   } catch { /* ignore */ }
   return 'HS001';
@@ -46,6 +57,11 @@ export default function ParentPortalPage() {
 
   const [tuitionItems, setTuitionItems] = useState([]);
   const [tuitionLoading, setTuitionLoading] = useState(true);
+
+  // VietQR Modal States (SD-04)
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [checkoutData, setCheckoutData] = useState(null);
+  const [payingItemId, setPayingItemId] = useState(null);
 
   // UC-PAR-04: Fetch grades
   useEffect(() => {
@@ -92,39 +108,60 @@ export default function ParentPortalPage() {
   }, []);
 
   // UC-PAR-07: Fetch tuitions
-  useEffect(() => {
+  const loadTuitions = () => {
     setTuitionLoading(true);
     fetchTuitions()
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          const mapped = data.map((item, idx) => ({
-            id: item.id ?? item.tuition_id ?? String(idx + 1),
-            name: item.item_name ?? item.description ?? item.name ?? `Khoản thu ${idx + 1}`,
-            amount: parseFloat(item.amount_due ?? item.amount ?? 0),
-            status: (item.payment_status ?? item.status ?? 'unpaid').toLowerCase(),
-          }));
+          const mapped = data.map((item, idx) => {
+            const amountDue = parseFloat(item.amount_due ?? item.amount ?? 0);
+            const amountPaid = parseFloat(item.amount_paid ?? item.amountPaid ?? 0);
+            const rawStatus = (item.payment_status ?? item.status ?? 'unpaid').toLowerCase();
+            // Nếu số tiền đã đóng >= số tiền phải nộp thì chắc chắn trạng thái là 'paid'
+            const isPaid = rawStatus === 'paid' || (amountDue > 0 && amountPaid >= amountDue);
+
+            return {
+              id: item.id ?? item.tuition_id ?? String(idx + 1),
+              name: item.item_name ?? item.description ?? item.name ?? `Khoản thu ${idx + 1}`,
+              amount: amountDue,
+              amountPaid: amountPaid,
+              status: isPaid ? 'paid' : (amountPaid > 0 ? 'partial' : 'unpaid'),
+              receiptNo: item.receipt_no ?? item.receiptNo ?? null,
+            };
+          });
           setTuitionItems(mapped);
         } else {
-          // API trả rỗng = chưa có học phí trong DB, hiện trống (không dùng mockdata)
           setTuitionItems([]);
         }
       })
       .catch(() => setTuitionItems([]))
       .finally(() => setTuitionLoading(false));
+  };
+
+  useEffect(() => {
+    loadTuitions();
   }, []);
 
   const totalAmount = tuitionItems.reduce((sum, item) => sum + item.amount, 0);
   const paidAmount  = tuitionItems.filter(i => i.status === 'paid').reduce((sum, item) => sum + item.amount, 0);
 
-  // UC-PAR-08: Pay tuition
-  const handlePayTuition = async (id) => {
+  // UC-PAR-08: Checkout & Pay tuition with Dynamic VietQR
+  const handleOpenPayment = async (item) => {
     try {
-      await apiClient('/tuition/pay', { method: 'POST', body: { tuitionId: id, studentCode } });
-      setTuitionItems(prev => prev.map(item => item.id === id ? { ...item, status: 'paid' } : item));
-      alert('Thanh toán thành công!');
-    } catch {
-      alert('Thanh toán thất bại. Vui lòng thử lại.');
+      setPayingItemId(item.id);
+      const data = await checkoutTuition(item.id, studentCode);
+      setCheckoutData(data);
+      setIsPaymentModalOpen(true);
+    } catch (err) {
+      alert(err.message || 'Không thể tạo mã VietQR thanh toán. Vui lòng thử lại.');
+    } finally {
+      setPayingItemId(null);
     }
+  };
+
+  const handlePaymentSuccess = (paymentResult) => {
+    // Tự động tải lại danh sách học phí từ API để đồng bộ trạng thái thực tế từ Backend
+    loadTuitions();
   };
 
   // UC-PAR-06: Leave request
@@ -355,13 +392,18 @@ export default function ParentPortalPage() {
                         {item.status === 'unpaid' ? (
                           <button
                             type="button"
-                            onClick={() => handlePayTuition(item.id)}
-                            className="px-3 py-1.5 rounded bg-[#15803d] hover:bg-[#166534] text-white text-label-sm font-semibold shadow-xs"
+                            disabled={payingItemId === item.id}
+                            onClick={() => handleOpenPayment(item)}
+                            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#15803d] hover:bg-[#166534] text-white text-label-sm font-semibold shadow-xs transition-all disabled:opacity-50"
                           >
-                            Thanh Toán QR
+                            <span className="material-symbols-outlined text-[16px]">qr_code_2</span>
+                            {payingItemId === item.id ? 'Đang tạo...' : 'Thanh Toán VietQR'}
                           </button>
                         ) : (
-                          <span className="text-label-sm text-[#94a3b8]">Đã xác nhận</span>
+                          <span className="inline-flex items-center gap-1 text-label-sm font-semibold text-[#15803d]">
+                            <span className="material-symbols-outlined text-[16px]">verified</span>
+                            Đã xác nhận
+                          </span>
                         )}
                       </td>
                     </tr>
@@ -372,6 +414,14 @@ export default function ParentPortalPage() {
           )}
         </div>
       )}
+
+      {/* Modal Thanh toán VietQR Động */}
+      <VietQrPaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        checkoutData={checkoutData}
+        onSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }
