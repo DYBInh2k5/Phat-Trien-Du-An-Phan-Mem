@@ -1,9 +1,10 @@
 {
+  "client": "Thunder Client",
   "clientName": "Thunder Client",
   "environmentName": "HTQLLH Local (Port 8081)",
-  "environmentId": "htqllh-sms-thunder-env-2026",
-  "dateExported": "2026-11-15T08:48:10.889Z",
-  "version": "1.2",
+  "environmentId": "5cf8d839-fa80-498c-8f3b-e01e4a6e1102",
+  "dateExported": "2026-11-15T08:57:32.609Z",
+  "version": "1.1",
   "variables": [
     {
       "name": "baseUrl",

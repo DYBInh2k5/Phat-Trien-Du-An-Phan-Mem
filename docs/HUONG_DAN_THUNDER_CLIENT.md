@@ -45,24 +45,24 @@ Nhóm đã tạo sẵn cấu hình Git-Sync chuẩn của Thunder Client tại t
 
 ---
 
-### CÁCH 2: IMPORT THỦ CÔNG BẰNG 1-CLICK (NẾU CHƯA THẤY HIỆN)
+### CÁCH 2: IMPORT THỦ CÔNG BẰNG 1-CLICK (KHUYÊN DÙNG TRÊN BẢN FREE)
 
-Nếu Thunder Client của bạn chưa tự động quét thư mục `thunder-tests/`, hãy làm theo 2 bước sau:
+Khi bấm vào nút menu **≡ (More Options)** $\rightarrow$ chọn **Import**, Thunder Client cho phép bạn chọn một trong 2 định dạng:
 
-#### Bước 2.1: Import Bộ Sưu Tập (Collection)
+#### Lựa chọn A: Import dạng "Thunder Client" (Đã chuẩn hóa chuẩn v1.1)
 1. Trong thanh Thunder Client, chuyển sang tab **Collections**.
-2. Nhìn lên góc trên bên phải của bảng Collections, bấm vào biểu tượng menu **≡ (More Options)** $\rightarrow$ Chọn **Import**.
+2. Bấm vào menu **≡ (More Options)** $\rightarrow$ Chọn **Import** $\rightarrow$ Chọn **Thunder Client**.
 3. Chọn tệp:
-   👉 [`docs/HTQLLH_ThunderClient_Collection.json`](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HTQLLH_ThunderClient_Collection.json)  
-   *(Hoặc chọn tệp Postman [`docs/HTQLLH_Postman_Collection.json`](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HTQLLH_Postman_Collection.json) vì Thunder Client hỗ trợ trực tiếp chuẩn Postman v2.1)*.
-4. Bấm **Open** $\rightarrow$ Toàn bộ 11 phân hệ sẽ xuất hiện ngay lập tức!
+   👉 [`docs/HTQLLH_ThunderClient_Collection.json`](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HTQLLH_ThunderClient_Collection.json)
+4. Tương tự tab **Env**: Bấm menu **≡** $\rightarrow$ Chọn **Import** $\rightarrow$ Chọn **Thunder Client** $\rightarrow$ Chọn tệp:
+   👉 [`docs/HTQLLH_ThunderClient_Environment.json`](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HTQLLH_ThunderClient_Environment.json)
 
-#### Bước 2.2: Import Môi Trường (Environment)
-1. Chuyển sang tab **Env** trên thanh Thunder Client.
-2. Bấm vào menu **≡ (More Options)** $\rightarrow$ Chọn **Import**.
-3. Chọn tệp:
-   👉 [`docs/HTQLLH_ThunderClient_Environment.json`](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HTQLLH_ThunderClient_Environment.json).
-4. Bấm **Open** để hoàn tất.
+#### Lựa chọn B: Import dạng "Postman" (Dự phòng cực kỳ tin cậy)
+1. Trong tab **Collections**, bấm menu **≡** $\rightarrow$ Chọn **Import** $\rightarrow$ Chọn **Postman**.
+2. Chọn tệp:
+   👉 [`docs/HTQLLH_Postman_Collection.json`](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HTQLLH_Postman_Collection.json)
+3. Trong tab **Env**, bấm menu **≡** $\rightarrow$ Chọn **Import** $\rightarrow$ Chọn **Postman** $\rightarrow$ Chọn tệp:
+   👉 [`docs/HTQLLH_Postman_Environment.json`](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HTQLLH_Postman_Environment.json)
 
 ---
 
