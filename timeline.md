@@ -5,6 +5,7 @@ Môn học: **Phát triển dự án phần mềm (SW320DV01)** - Đại học H
 Trưởng nhóm & Quản lý: **Võ Duy Bình (PM / Lead BA)**
 
 ### Liên Kết Quản Trị Hệ Thống & Trình Chiếu Trực Tuyến:
+- **Bản Tổng Quan Toàn Bộ Hệ Thống Dành Cho Leader**: [docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md](docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md)
 - **Cẩm nang Lập trình & Sửa mã nguồn (Developer Handbook)**: [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md)
 - **Jira Kanban Board (5 cột tiến độ)**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
 - **ClickUp Workspace (10 Modules & 27 Tasks)**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
