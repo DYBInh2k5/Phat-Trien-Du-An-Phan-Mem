@@ -337,6 +337,11 @@ https.get({ hostname: 'reputyze-team-vx3aseym.atlassian.net', path: '/rest/api/2
 "
 ```
 
+### 6.4 Kiểm Thử API Bằng Thunder Client Trực Tiếp Trong IDE (Biểu Tượng ⚡)
+- Bộ sưu tập tự động nhận diện tại: `thunder-tests/thunderCollection.json` & `thunder-tests/thunderEnvironment.json`.
+- Cẩm nang hướng dẫn chi tiết: [docs/HUONG_DAN_THUNDER_CLIENT.md](file:///d:/HSU/2631Semester%201(2026-2027)/PT_DA_PM/docs/HUONG_DAN_THUNDER_CLIENT.md).
+- Leader chỉ cần mở tab Thunder Client bên trái $\rightarrow$ Chọn Environment `HTQLLH Local (Port 8081)` $\rightarrow$ Bấm `Send` request `1.1 Đăng nhập BGH` là tự động có Token JWT để test 35 API còn lại!
+
 ---
 
 ## 7. CẨM NANG HƯỚNG DẪN TRẢ LỜI PHẢN BIỆN TRƯỚC GIẢNG VIÊN VÀ HỘI ĐỒNG

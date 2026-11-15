@@ -1,0 +1,903 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "HTQLLH — School Management System (THPT HSU)",
+  "collectionId": "htqllh-sms-thunder-collection-2026",
+  "dateExported": "2026-11-15T08:48:10.888Z",
+  "version": "1.2",
+  "folders": [
+    {
+      "_id": "folder_1",
+      "name": "00. Health Check (Kiểm tra Server)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 10000
+    },
+    {
+      "_id": "folder_2",
+      "name": "01. Xác Thực & Đăng Nhập (Authentication)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 20000
+    },
+    {
+      "_id": "folder_3",
+      "name": "02. Quản Lý Hồ Sơ Học Sinh (Students)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 30000
+    },
+    {
+      "_id": "folder_4",
+      "name": "03. Sổ Điểm Điện Tử TT22 (GradeBook)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 40000
+    },
+    {
+      "_id": "folder_5",
+      "name": "04. Điểm Danh Chuyên Cần (Attendance)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 50000
+    },
+    {
+      "_id": "folder_6",
+      "name": "05. Đơn Xin Nghỉ Phép (Leave Requests)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 60000
+    },
+    {
+      "_id": "folder_7",
+      "name": "06. Quản Lý Học Phí & VietQR (Tuition)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 70000
+    },
+    {
+      "_id": "folder_8",
+      "name": "07. Thời Khóa Biểu (Schedules)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 80000
+    },
+    {
+      "_id": "folder_9",
+      "name": "08. Dashboard Thống Kê (BGH & GVCN)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 90000
+    },
+    {
+      "_id": "folder_10",
+      "name": "09. Thông Báo & Sổ Liên Lạc (Notifications & Communication)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 100000
+    },
+    {
+      "_id": "folder_11",
+      "name": "10. Danh Mục Lớp Học & Môn Học (Classes & Subjects)",
+      "containerId": "",
+      "created": "2026-11-15T08:48:10.889Z",
+      "sortNum": 110000
+    }
+  ],
+  "requests": [
+    {
+      "_id": "req_1",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_1",
+      "name": "Kiểm tra trạng thái máy chủ (Health Check)",
+      "url": "{{baseUrl}}/api/health",
+      "method": "GET",
+      "sortNum": 1000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_2",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_2",
+      "name": "1.1 Đăng nhập BGH / Admin (Lấy Token tự động)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 2000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"bgh.admin\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_ADMIN\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "set-env-var",
+          "custom": "json.token",
+          "action": "setto",
+          "value": "{{jwtToken}}"
+        }
+      ]
+    },
+    {
+      "_id": "req_3",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_2",
+      "name": "1.2 Đăng nhập Giáo Viên Chủ Nhiệm (GVCN 10A1)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 3000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"gvcn.10a1\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_HOMEROOM_TEACHER\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "set-env-var",
+          "custom": "json.token",
+          "action": "setto",
+          "value": "{{jwtToken}}"
+        }
+      ]
+    },
+    {
+      "_id": "req_4",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_2",
+      "name": "1.3 Đăng nhập Giáo Viên Bộ Môn (GV An)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 4000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"gv.an\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_SUBJECT_TEACHER\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "set-env-var",
+          "custom": "json.token",
+          "action": "setto",
+          "value": "{{jwtToken}}"
+        }
+      ]
+    },
+    {
+      "_id": "req_5",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_2",
+      "name": "1.4 Đăng nhập Học Sinh (hs.anh)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 5000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"hs.anh\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_STUDENT\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_6",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_2",
+      "name": "1.5 Đăng nhập Phụ Huynh (ph.anh)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 6000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"ph.anh\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_PARENT\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_7",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_2",
+      "name": "1.6 Lấy thông tin phiên hiện tại (Auth Me)",
+      "url": "{{baseUrl}}/api/auth/me",
+      "method": "GET",
+      "sortNum": 7000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_8",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_2",
+      "name": "1.7 Yêu cầu quên mật khẩu (Forgot Password)",
+      "url": "{{baseUrl}}/api/auth/forgot-password",
+      "method": "POST",
+      "sortNum": 8000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"teacher@school.edu.vn\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_9",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_3",
+      "name": "2.1 Lấy danh sách học sinh theo lớp",
+      "url": "{{baseUrl}}/api/students?className=10A1",
+      "method": "GET",
+      "sortNum": 9000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_10",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_3",
+      "name": "2.2 Lấy chi tiết 1 học sinh theo ID",
+      "url": "{{baseUrl}}/api/students/1",
+      "method": "GET",
+      "sortNum": 10000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_11",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_3",
+      "name": "2.3 Thêm mới học sinh",
+      "url": "{{baseUrl}}/api/students",
+      "method": "POST",
+      "sortNum": 11000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"student_code\": \"HS10099\",\n  \"full_name\": \"Nguyễn Văn Test\",\n  \"gender\": \"Nam\",\n  \"dob\": \"2010-05-15\",\n  \"class_name\": \"10A1\",\n  \"parent_name\": \"Nguyễn Văn Phụ Huynh\",\n  \"parent_phone\": \"0901234567\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_12",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_3",
+      "name": "2.4 Cập nhật đánh giá hạnh kiểm học sinh",
+      "url": "{{baseUrl}}/api/students/1/conduct",
+      "method": "PUT",
+      "sortNum": 12000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"conduct\": \"Tốt\",\n  \"academicRank\": \"Khá\",\n  \"conductRemarks\": \"Ngoan ngoãn, tích cực phát biểu trong giờ học\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_13",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_3",
+      "name": "2.5 Tính toán lại GPA hệ 10 và hệ 4",
+      "url": "{{baseUrl}}/api/students/1/calculate-gpa",
+      "method": "POST",
+      "sortNum": 13000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_14",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_4",
+      "name": "3.1 Lấy dữ liệu sổ điểm (GradeBook)",
+      "url": "{{baseUrl}}/api/gradebook?className=10A1&subject=Toán&semester=HK1&schoolYear=2026-2027",
+      "method": "GET",
+      "sortNum": 14000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_15",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_4",
+      "name": "3.2 Lưu điểm hàng loạt (Unit of Work ACID)",
+      "url": "{{baseUrl}}/api/gradebook/save",
+      "method": "POST",
+      "sortNum": 15000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\",\n  \"grades\": [\n    {\n      \"student_code\": \"HS00001\",\n      \"score_oral\": 8.5,\n      \"score_15m\": 8,\n      \"score_1hour\": 7.5,\n      \"score_mid_term\": 8,\n      \"score_final_term\": 9\n    }\n  ]\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_16",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_4",
+      "name": "3.3 Kiểm tra trạng thái chốt sổ điểm (Closure Status)",
+      "url": "{{baseUrl}}/api/gradebook/closure?className=10A1&subject=Toán&semester=HK1&schoolYear=2026-2027",
+      "method": "GET",
+      "sortNum": 16000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_17",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_4",
+      "name": "3.4 Chốt nộp sổ điểm lên BGH (Submit Closure)",
+      "url": "{{baseUrl}}/api/gradebook/closure/submit",
+      "method": "POST",
+      "sortNum": 17000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\",\n  \"notes\": \"Giáo viên đã hoàn thành chấm điểm học kỳ 1\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_18",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_4",
+      "name": "3.5 Khóa sổ điểm (Lock Gradebook - BGH)",
+      "url": "{{baseUrl}}/api/gradebook/lock",
+      "method": "POST",
+      "sortNum": 18000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_19",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_5",
+      "name": "4.1 Lấy dữ liệu điểm danh theo ngày",
+      "url": "{{baseUrl}}/api/attendance?className=10A1&date=2026-11-06",
+      "method": "GET",
+      "sortNum": 19000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_20",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_5",
+      "name": "4.2 Lưu điểm danh học sinh",
+      "url": "{{baseUrl}}/api/attendance/save",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"className\": \"10A1\",\n  \"attDate\": \"2026-11-06\",\n  \"records\": [\n    {\n      \"student_code\": \"HS00001\",\n      \"status\": \"PRESENT\",\n      \"note\": \"\"\n    },\n    {\n      \"student_code\": \"HS00002\",\n      \"status\": \"LATE\",\n      \"note\": \"Kẹt xe 10 phút\"\n    },\n    {\n      \"student_code\": \"HS00003\",\n      \"status\": \"ABSENT\",\n      \"note\": \"Ốm có phép\"\n    }\n  ]\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_21",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_5",
+      "name": "4.3 Thống kê chuyên cần lớp",
+      "url": "{{baseUrl}}/api/attendance/summary?className=10A1",
+      "method": "GET",
+      "sortNum": 21000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_22",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_6",
+      "name": "5.1 Lấy danh sách đơn xin nghỉ phép",
+      "url": "{{baseUrl}}/api/leave-requests?className=10A1",
+      "method": "GET",
+      "sortNum": 22000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_23",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_6",
+      "name": "5.2 Phụ huynh nộp đơn xin nghỉ học trực tuyến",
+      "url": "{{baseUrl}}/api/leave-requests",
+      "method": "POST",
+      "sortNum": 23000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"student_code\": \"HS00001\",\n  \"class_name\": \"10A1\",\n  \"from_date\": \"2026-11-10\",\n  \"to_date\": \"2026-11-11\",\n  \"reason\": \"Em bị sốt xuất huyết cần nghỉ theo chỉ định bác sĩ\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_24",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_6",
+      "name": "5.3 GVCN duyệt đơn xin nghỉ phép",
+      "url": "{{baseUrl}}/api/leave-requests/1/approve",
+      "method": "PUT",
+      "sortNum": 24000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"APPROVED\",\n  \"note\": \"Đã duyệt đơn, chúc em mau khỏe\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_25",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_7",
+      "name": "6.1 Lấy danh sách học phí theo lớp",
+      "url": "{{baseUrl}}/api/tuition?className=10A1",
+      "method": "GET",
+      "sortNum": 25000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_26",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_7",
+      "name": "6.2 Đóng học phí trực tuyến (Sinh biên lai)",
+      "url": "{{baseUrl}}/api/tuition/pay",
+      "method": "POST",
+      "sortNum": 26000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"student_code\": \"HS00001\",\n  \"amountPaid\": 2500000,\n  \"receiptNo\": \"BL20261106-001\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_27",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_8",
+      "name": "7.1 Lấy dữ liệu thời khóa biểu",
+      "url": "{{baseUrl}}/api/schedules?className=10A1",
+      "method": "GET",
+      "sortNum": 27000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_28",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_8",
+      "name": "7.2 Lấy danh mục mẫu thời khóa biểu",
+      "url": "{{baseUrl}}/api/schedules/templates",
+      "method": "GET",
+      "sortNum": 28000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_29",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_9",
+      "name": "8.1 Dashboard Ban Giám Hiệu",
+      "url": "{{baseUrl}}/api/dashboard/bgh",
+      "method": "GET",
+      "sortNum": 29000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_30",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_9",
+      "name": "8.2 Dashboard Giáo Viên Chủ Nhiệm",
+      "url": "{{baseUrl}}/api/dashboard/gvcn",
+      "method": "GET",
+      "sortNum": 30000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_31",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_10",
+      "name": "9.1 Đếm số thông báo chưa đọc",
+      "url": "{{baseUrl}}/api/notifications/unread-count",
+      "method": "GET",
+      "sortNum": 31000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_32",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_10",
+      "name": "9.2 Lấy danh sách thông báo",
+      "url": "{{baseUrl}}/api/notifications",
+      "method": "GET",
+      "sortNum": 32000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_33",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_10",
+      "name": "9.3 Lấy danh bạ sổ liên lạc",
+      "url": "{{baseUrl}}/api/communication/contacts",
+      "method": "GET",
+      "sortNum": 33000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_34",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_11",
+      "name": "10.1 Danh sách lớp học",
+      "url": "{{baseUrl}}/api/classes",
+      "method": "GET",
+      "sortNum": 34000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    },
+    {
+      "_id": "req_35",
+      "colId": "htqllh-sms-thunder-collection-2026",
+      "containerId": "folder_11",
+      "name": "10.2 Danh sách môn học",
+      "url": "{{baseUrl}}/api/subjects",
+      "method": "GET",
+      "sortNum": 35000,
+      "created": "2026-11-15T08:48:10.889Z",
+      "modified": "2026-11-15T08:48:10.889Z",
+      "headers": [],
+      "body": {
+        "type": "json",
+        "raw": "",
+        "form": []
+      }
+    }
+  ]
+}

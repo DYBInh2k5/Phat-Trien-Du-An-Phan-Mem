@@ -1,0 +1,17 @@
+{
+  "clientName": "Thunder Client",
+  "environmentName": "HTQLLH Local (Port 8081)",
+  "environmentId": "htqllh-sms-thunder-env-2026",
+  "dateExported": "2026-11-15T08:48:10.889Z",
+  "version": "1.2",
+  "variables": [
+    {
+      "name": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "name": "jwtToken",
+      "value": ""
+    }
+  ]
+}
