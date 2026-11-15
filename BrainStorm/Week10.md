@@ -48,7 +48,7 @@ Theo quy chuẩn quản trị dự án phần mềm trên Jira Cloud (`KAN Board
 
 | STT | Mã Thẻ Jira | Họ và Tên | Vai Trò Kỹ Thuật | Nhiệm Vụ Trọng Tâm Tuần 10 (Security & Integration) | Tỷ Lệ Đóng Góp | Trạng Thái Jira |
 | :---: | :---: | :--- | :--- | :--- | :---: | :---: |
-| 1 | [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33) | **Võ Duy Bình** | **Project Manager & Lead BA** | Điều phối tiến độ Tuần 10, đồng bộ lộ trình trên Jira & ClickUp, rà soát kịch bản kiểm thử tích hợp End-to-End, kiểm tra ma trận truy xuất RTM với các yêu cầu bảo mật an ninh. | 20% (100% KPI) | **IN PROGRESS** |
+| 1 | [KAN-33](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-33) | **Võ Duy Bình** | **Project Manager & Lead BA** | Điều phối tiến độ Tuần 10, đồng bộ lộ trình trên Jira & ClickUp; thiết lập Deadline & Assignee chuẩn xác; biên soạn Cẩm nang lập trình & sửa code; hoàn tất 100% 5 PBIs phụ trách (`KAN-114`, `KAN-117`, `KAN-134`, `KAN-137`, `KAN-138`). | 20% (100% KPI) | **DONE (100%)** |
 | 2 | [KAN-34](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-34) | **Võ Hoàng Sơn** | **Dev Frontend (UI/UX)** | Rà soát an ninh giao diện Web SPA, làm sạch dữ liệu đầu vào (Input Sanitization) chống XSS trên các Form nhập điểm và đơn nghỉ học, xử lý các phản hồi lỗi HTTP 401/403/409 hiển thị trực quan. | 20% (100% KPI) | **IN PROGRESS** |
 | 3 | [KAN-35](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-35) | **Huỳnh Trung Tính** | **Dev Backend & DBA** | Rà soát toàn bộ 8 Repositories bảo đảm 100% câu truy vấn SQL an toàn tham số hóa `$1, $2`, kiểm tra tính toàn vẹn giao dịch nguyên tử Unit of Work khi có lỗi phát sinh trong giao dịch đồng thời. | 20% (100% KPI) | **IN PROGRESS** |
 | 4 | [KAN-36](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-36) | **Trần Quang Vinh** | **Logic Security (Lead)** | Chủ trì Chuyên đề Bảo mật Tuần 10: Cấu hình `express-rate-limit`, tích hợp `helmet`, kiểm thử phòng thủ các lỗ hổng OWASP Top 10 (chống tấn công cURL bỏ qua giao diện, kiểm soát Token JWT). | 20% (100% KPI) | **IN PROGRESS** |
@@ -112,11 +112,12 @@ const result = await this.db.query(
 
 | Kênh Quản Trị / Tài Liệu | Nội Dung Đồng Bộ Hiện Tại | Trạng Thái Tuần 10 |
 | :--- | :--- | :---: |
-| **Bảng Jira Kanban** | 10 Epics (EPIC-01 đến EPIC-10), 27 Stories/Tasks kỹ thuật, liên kết chặt chẽ với mã nguồn và Use Cases. Thẻ Tuần 10 chuyển trạng thái sang **IN PROGRESS**. | **Đồng bộ 100%** |
-| **Không Gian ClickUp** | Folder `HTQLLH` thuộc Space `Group 2_PTDAPM` hiển thị đầy đủ 10 Modules tương ứng WBS. Tiến độ 5 thành viên được cập nhật đồng bộ. | **Đồng bộ 100%** |
+| **Bảng Jira Kanban** | 10 Epics (EPIC-01 đến EPIC-10), 27 Stories/Tasks kỹ thuật có đầy đủ 11 mục chi tiết, Deadline & Assignee chuẩn. 5 Tasks của Võ Duy Bình (`KAN-114, 117, 134, 137, 138`) đã chuyển trạng thái sang **DONE** kèm ghi nhận Worklog. | **Đồng bộ 100%** |
+| **Không Gian ClickUp** | Folder `HTQLLH` thuộc Space `Group 2_PTDAPM` hiển thị đầy đủ 10 Modules, Deadline và Assignee. Toàn bộ 5 Tasks của Võ Duy Bình chuyển sang **complete**. | **Đồng bộ 100%** |
 | **Bản Slide Canva** | Slide 4 (Kanban & ClickUp), Slide 12 (Hiện trạng tuần 8-9-10), Slide 15 (5 thành viên chính thức) được phản ánh chuẩn xác. | **Đồng bộ 100%** |
 | **Kho Git GitHub** | Kho chính thức: `https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem` (Dual-Remote push). | **Up-to-date** |
 | **Kho Git Bitbucket** | Kho đối ứng: `https://bitbucket.org/codyisme27205/pt_da_pm` (Dual-Remote push). | **Up-to-date** |
+| **Cẩm nang Lập trình** | [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md) (978 dòng) hướng dẫn quy trình 5 bước phát triển, SQL an toàn và link tài liệu chuẩn. | **Đã hoàn thành** |
 | **Tài liệu Nghiệp vụ** | [USE_CASES.md](USE_CASES.md) & [UML_DIAGRAMS.md](docs/UML_DIAGRAMS.md) chuẩn hóa RUP Cockburn và OMG UML 2.5. | **Đã hoàn thành** |
 | **Cẩm nang CSDL** | [docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md](docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md) hướng dẫn toàn bộ thành viên thao tác DB. | **Đã hoàn thành** |
 

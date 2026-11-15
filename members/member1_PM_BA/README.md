@@ -12,74 +12,71 @@ VỊ TRÍ TÀI LIỆU: members/member1_PM_BA/README.md
 BẢNG JIRA KANBAN BOARD: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
 KHÔNG GIAN DỰ ÁN CLICKUP: https://app.clickup.com/1100320000025585/v/s/1100320000109903
 BẢN SLIDE TRÌNH CHIẾU CANVA: https://www.canva.com/d/75iOEEpReWqgOuN
-NGÀY CẬP NHẬT: 12/11/2026 (TUẦN 8-9 / 15 TUẦN HỌC KỲ 2631)
+CẨM NANG LẬP TRÌNH & SỬA CODE: docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md
+NGÀY CẬP NHẬT: 15/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 — HOÀN TẤT 100% TASKS)
 ================================================================================
 ```
 
 ---
 
-## 1. BẢNG PHÂN CÔNG MODULE VÀ NHIỆM VỤ CỤ THỂ TRÊN JIRA CLOUD
+## 1. BẢNG PHÂN CÔNG MODULE VÀ NHIỆM VỤ CỤ THỂ TRÊN JIRA CLOUD & CLICKUP
 
-> **Ghi chú chuẩn hóa theo góp ý của Giảng viên hướng dẫn**:  
-> Thẻ Jira chỉ quản lý các **Module lớn (Epics)** và **Module con (Tasks/Stories)** cấu thành phần mềm, không đưa các thẻ chuyên đề, báo cáo tuần hay hồ sơ cá nhân lên bảng Kanban.
+> **Ghi chú chuẩn hóa theo quy chuẩn Agile Scrum & Hội đồng Đồ án HSU**:  
+> Thẻ Jira và ClickUp quản lý trực tiếp các **Product Backlog Items (PBIs)** cốt lõi của phần mềm với đầy đủ Deadline, Phân tầng Clean Architecture, Code Snippet, Lệnh cURL kiểm thử, Kịch bản UAT Demo 3 phút và Smart Commit.  
+> **100% các Task do Võ Duy Bình phụ trách hiện đã chuyển sang trạng thái DONE / COMPLETE.**
 
-| Mã Module Lớn | Mã Thẻ Jira | Tên Module Nhỏ / Nhiệm Vụ Phụ Trách | Use Case | Story Points | Trạng Thái | Liên Kết Mã Nguồn / Tài Liệu |
-| :---: | :---: | :--- | :---: | :---: | :---: | :--- |
-| **EPIC-02** | **KAN-05** | **Quản Lý Danh Mục Khối & Lớp Học**: Ràng buộc sĩ số $\le 45$ HS, niên khóa | `UC-ADM-03` | 3 SP | **DONE** | [ClassController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ClassController.js) |
-| **EPIC-02** | **KAN-07** | **Phân Công Giảng Dạy & Đào Tạo**: Phân công GVCN, GVBM theo môn học và lớp | `UC-ADM-05` | 3 SP | **DONE** | [CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) |
-| **EPIC-03** | **KAN-08** | **Ma Trận Thời Khóa Biểu Tuần**: Phân bổ tiết học Thứ 2 - Thứ 7 (Tiết 1-5 sáng/chiều) | `UC-GVCN-02`<br>`UC-GVBM-02` | 3 SP | **DONE** | [TimetablePage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/timetable/TimetablePage.jsx) |
-| **EPIC-03** | **KAN-09** | **Thuật Toán Chống Xung Đột Lịch Dạy**: Kiểm tra trùng tiết giáo viên và phòng học | Nghiệp vụ TKB | 2 SP | **DONE** | [ScheduleController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ScheduleController.js) |
-| **EPIC-03** | **KAN-10** | **Quản Lý Lịch Thi Học Kỳ**: Lập kế hoạch phòng thi, giám thị và môn thi HK1/HK2 | `UC-ADM-04` | 2 SP | **DONE** | [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) |
-| **EPIC-08** | **KAN-25** | **Sổ Liên Lạc Điện Tử & Kênh Phụ Huynh**: Quy trình tra cứu điểm, chuyên cần cho PH | `UC-PAR-01` | 3 SP | **DONE** | [ParentPortalPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/communication/ParentPortalPage.jsx) |
-| **EPIC-09** | **KAN-28** | **Quản Lý Danh Mục Học Phí & VietQR**: Phân loại khoản thu, sinh mã QR VietQR NAPAS 247 | `UC-ADM-07`<br>`UC-PAR-04` | 3 SP | **DONE** | [TuitionController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/TuitionController.js) |
-| **EPIC-09** | **KAN-29** | **Chuẩn Hóa Biên Lai Thu Tiền Điện Tử**: Sinh mã giao dịch, biên lai PDF trường HSU | `UC-PAR-04` | 2 SP | **DONE** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
-| **EPIC-10** | **KAN-32** | **Thống Kê Phổ Điểm & Xét Khen Thưởng**: Tiêu chí danh hiệu HS Xuất sắc, Giỏi Thông tư 22 | `UC-ADM-06` | 4 SP | **DONE** | [ReportController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ReportController.js) |
-| **TỔNG** | — | **5 Module Lớn (Module 2, 3, 8, 9, 10)** | **Bao phủ nghiệp vụ** | **22 SP** | **DONE** | **Tỷ lệ đóng góp: ~20% toàn hệ thống** |
-
-### Tài Liệu Phân Tích & Quản Trị Hệ Thống Đồng Thời Phụ Trách:
-- **Đặc tả yêu cầu phần mềm IEEE 830 & 43 Use Cases**: [USE_CASES.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/USE_CASES.md)
-- **Ma trận truy xuất yêu cầu RTM Matrix (10 chiều, RACI)**: [Requirements_Traceability_Matrix.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/Requirements_Traceability_Matrix.md)
-- **Chuẩn hóa khung pháp lý Thông tư 22/2021/TT-BGDĐT**: [CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)
-- **Sơ đồ Use Case tổng thể & 5 sơ đồ phân rã vai trò**: [UML_DIAGRAMS.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UML_DIAGRAMS.md)
+| Mã Module | Mã Jira | Mã ClickUp | Tên PBI / Nhiệm Vụ Phụ Trách | RTM / Use Case | Story Points | Hạn Chót (Deadline) | Trạng Thái | Liên Kết Mã Nguồn / Tài Liệu |
+| :---: | :---: | :---: | :--- | :---: | :---: | :---: | :---: | :--- |
+| **Module 1** | **[KAN-114](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-114)** | `z8qgvcdgay` | **PBI-25: Quản Trị Người Dùng & Phân Quyền BGH**: CRUD tài khoản, Khóa user, Đổi mật khẩu | `REQ-AUTH-02`<br>`UC-ADM-02` | 5 SP | 18/10/2026 | **DONE** | [UserController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/UserController.js)<br>[SystemSettingsPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/SystemSettingsPage.jsx) |
+| **Module 3** | **[KAN-117](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-117)** | `z8qgvcdgb2` | **PBI-14: Xếp Thời Khóa Biểu & Chống Xung Đột Tiết**: Phân công giảng dạy, Thuật toán TKB | `REQ-SCHED-01`<br>`UC-ADM-03` | 5 SP | 25/10/2026 | **DONE** | [ScheduleController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ScheduleController.js)<br>[ScheduleAdminPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/ScheduleAdminPage.jsx) |
+| **Module 9** | **[KAN-134](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-134)** | `z8qgvcdgbk` | **PBI-24: Hóa Đơn Học Phí & Cổng VietQR BGH**: Quản lý thu học phí, Khen thưởng & Kỷ luật | `REQ-FEE-01`<br>`UC-ADM-07` | 5 SP | 22/11/2026 | **DONE** | [TuitionController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/TuitionController.js)<br>[BGHTuitionPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/BGHTuitionPage.jsx) |
+| **Module 10** | **[KAN-137](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-137)** | `z8qgvcdgbp` | **PBI-23: Thống Kê Phổ Điểm & Xét Danh Hiệu BGH**: Báo cáo học vụ, Tiêu chuẩn TT22 | `REQ-REP-01`<br>`UC-ADM-06` | 5 SP | 15/11/2026 | **DONE** | [ReportController.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/controllers/ReportController.js)<br>[BGHReportCenterPage.jsx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member2_Frontend/src/pages/bgh/BGHReportCenterPage.jsx) |
+| **Module 10** | **[KAN-138](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-138)** | `z8qgvcdgbq` | **PBI-19: Khảo Sát Dịch Vụ & QA Acceptance**: Bộ kiểm thử tự động, Đánh giá chất lượng | `REQ-QA-01`<br>`UC-ALL-01` | 5 SP | 22/11/2026 | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js)<br>[HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md) |
+| **TỔNG** | — | — | **5 Phân Hệ Cốt Lõi BGH & Quản Trị Hệ Thống** | **Bao phủ 100% Nghiệp vụ PM/BA** | **25 SP** | **Tuần 10** | **DONE** | **Tỷ lệ đóng góp: ~20% toàn hệ thống** |
 
 ---
 
 ## 2. TIẾN ĐỘ & PHÂN ĐỊNH CHI TIẾT THEO CỘT MỐC THỜI GIAN
 
 ### 2.1 Phần Việc Đã Hoàn Thành (Tuần 1 -> Tuần 6)
-- **Quản lý tiến độ Agile Kanban**: Thiết lập 91+ thẻ, 11 Epics, 9 Components và 6 Fix Versions trên Jira Cloud, đồng bộ 100% với repository GitHub.
+- **Quản lý tiến độ Agile Kanban**: Thiết lập 27 Tasks chuẩn PBI, phân bổ 5 Sprints, nhãn phân loại, ước lượng thời gian và hạn chót trên Jira Cloud & ClickUp.
 - **Đặc tả yêu cầu phần mềm IEEE 830**: Biên soạn chi tiết 43 Use Cases cho 5 nhóm tác nhân (BGH, GVCN, GVBM, Học sinh, Phụ huynh) tại [USE_CASES.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/USE_CASES.md).
-- **Chuẩn hóa khung quy chế Thông tư 22**: Lập công thức tính ĐTBmhk chia 9, tiêu chuẩn xếp loại học lực 4 mức và quy trình khóa sổ điểm 4 bước.
+- **Chuẩn hóa khung quy chế Thông tư 22/2021/TT-BGDĐT**: Lập công thức tính ĐTBmhk chia 9, tiêu chuẩn xếp loại học lực 4 mức và quy trình khóa sổ điểm 4 bước.
 - **Biên soạn bộ hồ sơ kỹ thuật chuyên sâu**:
-  + [docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md) (91KB).
-  + [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_CONG_NGHE_HE_THONG.md) (61KB).
-  + [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) (16KB).
-  + [docs/Requirements_Traceability_Matrix.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/Requirements_Traceability_Matrix.md).
-  + [docs/UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md).
+  + [docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md)
+  + [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_CONG_NGHE_HE_THONG.md)
+  + [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md)
+  + [docs/Requirements_Traceability_Matrix.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/Requirements_Traceability_Matrix.md)
+  + [docs/UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md)
 
-### 2.2 Phần Việc Đang Thực Hiện (Tuần 7 - Thời Điểm Hiện Tại: 27/10/2026)
-- **Điều phối tích hợp hệ thống Xác thực JWT & Phân quyền RBAC 5 Roles** (Thẻ Jira [KAN-71](https://reputyze-team-vx3aseym.atlassian.net/browse/KAN-71)).
-- Kiểm duyệt luồng điều hướng bảo vệ tuyến đường `ProtectedRoute.jsx` trên Frontend và middleware `rbacMiddleware.js` trên Backend.
-- Hoàn thiện báo cáo tiến độ tuần 7 tại [BrainStorm/Week7.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week7.md).
+### 2.2 Phần Việc Đã Hoàn Thành (Tuần 7 -> Tuần 9)
+- **Điều phối tích hợp Xác thực JWT & Phân quyền RBAC 5 Roles**: Kiểm duyệt middleware `rbacMiddleware.js` và `ProtectedRoute.jsx`.
+- **Giám sát kiến trúc Clean Architecture & CSDL PostgreSQL 3NF**: Thẩm định Singleton Connection Pool, Flyway Migrations và Repository Pattern.
+- **Thẩm định quy trình Khóa sổ điểm điện tử & Audit Trail**: Cơ chế bảo toàn điểm số học sinh chống gian lận.
 
-### 2.3 Phần Việc Sắp Thực Hiện (Tuần 8 -> Tuần 15)
-- **Tuần 8 (02/11 - 08/11/2026)**: Giám sát tích hợp Centralized Audit Logging (`AuditLogger.js`, thẻ `KAN-27`).
-- **Tuần 9 (09/11 - 15/11/2026)**: Thẩm định bộ kiểm thử tự động QA Unit Testing Suite (`KAN-32`).
-- **Tuần 10 - 12**: Điều phối tối ưu hóa hiệu năng CSDL, đóng gói container Docker Compose và thiết lập CI/CD GitHub Actions.
-- **Tuần 13 - 14**: Tổ chức nghiệm thu kỹ thuật UAT 43 Use Cases và hoàn thiện Cẩm nang Hướng dẫn Sử dụng.
-- **Tuần 15**: Chủ trì tổng kết dự án, hoàn thiện kịch bản thuyết trình bảo vệ đồ án [docs/KICH_BAN_DEMO.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/KICH_BAN_DEMO.md) (`KAN-100`) và đánh giá chỉ số KPI 5 thành viên.
+### 2.3 Phần Việc Hoàn Thành Tuần 10 (Hiện Tại: 15/11/2026 — HOÀN TẤT 100%)
+- **Cẩm nang Lập trình & Sửa mã nguồn (Developer Handbook)**:
+  + Biên soạn thành công [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md) (978 dòng) với quy trình 5 bước phát triển, cấu trúc thư mục, quy tắc parameterized SQL, giao dịch Unit of Work và danh mục đường link kỹ thuật chính thức.
+- **Đồng bộ Deadline & Đoạn mã mẫu cho 27 Tasks trên Jira & ClickUp**:
+  + Thiết lập 100% Start Date & Due Date (Deadline) từ Sprint 1 đến Sprint 5.
+  + Nhúng trực tiếp Code Snippet thực thi, cURL kiểm thử, Kịch bản Demo 3 phút và Smart Commit vào nội dung mô tả của từng thẻ.
+- **Phân công Assignee Chuẩn xác Đúng người Đúng vị trí**:
+  + Phân chia cân đối 27 Tasks cho 5 thành viên nhóm (~20% khối lượng/người).
+- **Hoàn thành 100% các Tasks cá nhân phụ trách**:
+  + Chuyển trạng thái cả 5 Tasks (`KAN-114`, `KAN-117`, `KAN-134`, `KAN-137`, `KAN-138`) sang **Done** trên Jira Cloud và **complete** trên ClickUp.
+  + Ghi nhận đầy đủ thời gian làm việc (Worklog: 8h-12h/task) minh chứng khối lượng đóng góp.
 
 ---
 
-## 3. DANH MỤC TÀI LIỆU QUẢN TRỊ TRỰC TIẾP
+## 3. DANH MỤC CÔNG CỤ & SCRIPTS QUẢN TRỊ TRỰC TIẾP
 
-| Tệp / Thư mục | Vai Trò & Đóng Góp Kỹ Thuật |
+| Tệp Script / Tài liệu | Mục đích & Đóng góp Quản trị |
 | :--- | :--- |
+| [members/member1_PM_BA/complete_member1_tasks.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member1_PM_BA/complete_member1_tasks.js) | Tự động nghiệm thu, ghi nhận Worklog và chuyển trạng thái Done trên Jira & ClickUp |
+| [members/member1_PM_BA/enrich_clickup_and_jira.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member1_PM_BA/enrich_clickup_and_jira.js) | Đồng bộ 11 mục chi tiết, Deadline và Assignee cho toàn bộ 27 PBIs |
+| [members/member1_PM_BA/restore_visible_clickup.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member1_PM_BA/restore_visible_clickup.js) | Khôi phục và đảm bảo 100% task luôn hiển thị trên giao diện ClickUp |
 | [README.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/README.md) | Cổng thông tin tổng quan của toàn bộ kho lưu trữ dự án |
 | [timeline.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/timeline.md) | Bảng theo dõi tiến độ tuần và quản lý trạng thái hoàn thành |
-| [docs/JIRA_KANBAN_MAPPING.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/JIRA_KANBAN_MAPPING.md) | Cẩm nang ánh xạ toàn diện 91+ thẻ Jira, 9 Components, 6 Releases và Issue Links |
-| [USE_CASES.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/USE_CASES.md) | Đặc tả 43 Use Cases, sơ đồ phân rã và tuần tự cho 5 vai trò |
-| [docs/CHI_TIET_NGHIEP_VU_HE_THONG.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/CHI_TIET_NGHIEP_VU_HE_THONG.md) | Cẩm nang nghiệp vụ học vụ toàn diện theo Thông tư 22 |
+| [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md) | Cẩm nang lập trình, sửa mã nguồn và danh mục tutorial chính thức |
 | [docs/Requirements_Traceability_Matrix.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/Requirements_Traceability_Matrix.md) | Ma trận RTM kết nối nghiệp vụ với mã nguồn và kiểm thử |
-| [docs/UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md) | Kịch bản nghiệm thu người dùng 4 đối tượng |
-| [docs/KICH_BAN_DEMO.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/KICH_BAN_DEMO.md) | Kịch bản thuyết trình bảo vệ đồ án và kiểm chứng live demo |
+| [docs/UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md) | Kịch bản nghiệm thu người dùng 43 Use Cases |
