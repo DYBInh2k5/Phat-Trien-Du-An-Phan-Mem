@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: htqllh-db
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-htqllh}
+      POSTGRES_HOST_AUTH_METHOD: md5
+    ports:
+      - '${DB_PORT:-5434}:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # schema.sql của nhóm được mount NGUYÊN BẢN, chạy tự động lần đầu tạo volume
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/001_schema.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
