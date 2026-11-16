@@ -6,11 +6,14 @@
  * Vai trò: Bộ Điều Khiển Sổ Điểm Điện Tử (GradeBook Interface Adapter / Controller)
  * Kiến trúc: Clean Architecture - Tầng Giao Tiếp Ngoại Vi (Interface Adapters)
  * Mẫu thiết kế: Slim Controller
+ * Tác giả: Nhóm Đồ Án PTDA Phần Mềm (Võ Duy Bình - Lead BA & Dev Team)
+ * Ngày cập nhật: 13/11/2026 (Bổ sung truyền User Context cho Audit Logger và Unit of Work)
  * Mô tả:
  *   - Tiếp nhận yêu cầu HTTP liên quan đến sổ điểm môn học.
  *   - Hỗ trợ lấy sổ điểm theo bộ lọc query (className, subjectName, studentCode).
  *   - Hỗ trợ lưu điểm đơn lẻ hoặc lưu đồng loạt mảng đối tượng cả lớp (Batch Save).
  *   - Hỗ trợ các hành động nghiệp vụ đặc thù: Khóa sổ điểm (Lock) và Mở khóa sổ điểm (Unlock).
+ *   - Trích xuất thông tin người dùng (username, role, IP) gửi xuống tầng Service để ghi Audit Log.
  * ==============================================================================
  */
 
@@ -148,15 +151,23 @@ export class GradeBookController {
           }
         }
       }
+
+      // Trích xuất thông tin người dùng từ JWT Token để phục vụ ghi nhật ký kiểm toán (Audit Log)
+      const userContext = {
+        username: req.user?.username || 'system',
+        role: req.user?.role || 'GV',
+        ipAddress: req.ip || req.connection?.remoteAddress || '127.0.0.1',
+      };
+
       let count = 0;
 
-      // Phân nhánh: Nếu gửi mảng -> Lưu hàng loạt
+      // Phân nhánh: Nếu gửi mảng -> Lưu hàng loạt qua UnitOfWork
       if (Array.isArray(payload)) {
-        const saved = await GradeBookService.saveAllGrades(payload);
+        const saved = await GradeBookService.saveAllGrades(payload, userContext);
         count = saved.length;
       } else {
-        // Nếu gửi đối tượng đơn lẻ -> Lưu 1 em
-        await GradeBookService.saveGrade(payload);
+        // Nếu gửi đối tượng đơn lẻ -> Lưu 1 em kèm ghi AuditLog
+        await GradeBookService.saveGrade(payload, userContext);
         count = 1;
       }
       return res.json({
@@ -172,7 +183,7 @@ export class GradeBookController {
   /**
    * POST /api/gradebook/save-spreadsheet
    * Body: { className, semester, schoolYear, items: [...] }
-   * Lưu hàng loạt từ trang spreadsheet GradebookPage.
+   * Lưu hàng loạt từ trang spreadsheet GradebookPage qua UnitOfWork.
    */
   static async saveSpreadsheet(req, res) {
     try {
@@ -192,7 +203,15 @@ export class GradeBookController {
           }
         }
       }
-      const saved = await GradeBookService.saveGradesFromSpreadsheet(items);
+
+      // Trích xuất ngữ cảnh người dùng phục vụ Audit Logger
+      const userContext = {
+        username: req.user?.username || 'system',
+        role: req.user?.role || 'GV',
+        ipAddress: req.ip || req.connection?.remoteAddress || '127.0.0.1',
+      };
+
+      const saved = await GradeBookService.saveGradesFromSpreadsheet(items, userContext);
       return res.json({
         success: true,
         message: `Đã lưu ${saved.length} dòng điểm vào PostgreSQL!`,
@@ -214,7 +233,12 @@ export class GradeBookController {
   static async lockGradeSheet(req, res) {
     try {
       const { className, subjectName } = req.query;
-      await GradeBookService.lockGradeSheet(className, subjectName);
+      const userContext = {
+        username: req.user?.username || 'system',
+        role: req.user?.role || 'GV',
+        ipAddress: req.ip || req.connection?.remoteAddress || '127.0.0.1',
+      };
+      await GradeBookService.lockGradeSheet(className, subjectName, userContext);
       return res.json({
         success: true,
         message: `Đã khóa sổ điểm lớp ${className} môn ${subjectName}`,
@@ -234,7 +258,12 @@ export class GradeBookController {
   static async unlockGradeSheet(req, res) {
     try {
       const { className, subjectName } = req.query;
-      await GradeBookService.unlockGradeSheet(className, subjectName);
+      const userContext = {
+        username: req.user?.username || 'system',
+        role: req.user?.role || 'BGH',
+        ipAddress: req.ip || req.connection?.remoteAddress || '127.0.0.1',
+      };
+      await GradeBookService.unlockGradeSheet(className, subjectName, userContext);
       return res.json({
         success: true,
         message: `Đã mở khóa sổ điểm lớp ${className} môn ${subjectName}`,
