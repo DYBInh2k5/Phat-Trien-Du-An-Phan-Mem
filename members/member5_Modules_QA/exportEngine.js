@@ -174,14 +174,32 @@ function groupKeyOf(student, groupBy) {
 }
 
 /**
+ * Điểm dùng để xếp loại: trả về số hữu hạn đầu tiên, hoặc null khi học sinh
+ * chưa có điểm. Phân biệt "chưa nhập điểm" với "điểm thấp" để không đẩy học
+ * sinh chưa có điểm vào nhóm Chưa đạt.
+ */
+function scoreValueOf(...candidates) {
+  for (const raw of candidates) {
+    if (raw === null || raw === undefined || raw === '') continue;
+    const value = Number(raw);
+    if (Number.isFinite(value)) return value;
+  }
+  return null;
+}
+
+/**
  * Tổng hợp phổ điểm theo 4 mức học lực Thông tư 22 (Tốt/Khá/Đạt/Chưa đạt).
  * Dùng cho báo cáo chất lượng giáo dục của BGH (EPIC-10) — số liệu khớp với
  * cách xếp loại cá nhân vì dùng chung `rankAcademicScore`.
  *
+ * Học sinh chưa có điểm không bị xếp vào "Chưa đạt": chúng được đếm riêng ở
+ * `chuaCoDiem`, còn tỷ lệ 4 mức tính trên số học sinh đã có điểm (`graded`).
+ *
  * @param {Array<{studentCode?: string, className?: string, gradeLevel?: string|number, gpa?: number, averageScore?: number}>} students
  * @param {'gradeLevel'|'className'|'school'} [groupBy='gradeLevel'] - Tiêu chí nhóm.
- * @returns {Array<{group: string, total: number, tot: number, kha: number, dat: number, chuadat: number,
- *          totPct: number, khaPct: number, datPct: number, chuadatPct: number}>}
+ * @returns {Array<{group: string, total: number, graded: number, tot: number, kha: number, dat: number,
+ *          chuadat: number, chuaCoDiem: number, totPct: number, khaPct: number, datPct: number,
+ *          chuadatPct: number, chuaCoDiemPct: number}>}
  */
 export function buildScoreDistribution(students = [], groupBy = 'gradeLevel') {
   const buckets = new Map();
@@ -189,11 +207,17 @@ export function buildScoreDistribution(students = [], groupBy = 'gradeLevel') {
   students.forEach((student) => {
     const key = groupKeyOf(student, groupBy);
     if (!buckets.has(key)) {
-      buckets.set(key, { group: key, total: 0, tot: 0, kha: 0, dat: 0, chuadat: 0 });
+      buckets.set(key, { group: key, total: 0, graded: 0, tot: 0, kha: 0, dat: 0, chuadat: 0, chuaCoDiem: 0 });
     }
     const bucket = buckets.get(key);
     bucket.total += 1;
-    const rank = rankAcademicScore(student.gpa ?? student.averageScore ?? student.average_score);
+    const score = scoreValueOf(student.gpa, student.averageScore, student.average_score);
+    if (score === null) {
+      bucket.chuaCoDiem += 1;
+      return;
+    }
+    bucket.graded += 1;
+    const rank = rankAcademicScore(score);
     if (rank === 'Tốt') bucket.tot += 1;
     else if (rank === 'Khá') bucket.kha += 1;
     else if (rank === 'Đạt') bucket.dat += 1;
@@ -205,10 +229,11 @@ export function buildScoreDistribution(students = [], groupBy = 'gradeLevel') {
 
   return rows.map((row) => ({
     ...row,
-    totPct:      percent(row.tot, row.total),
-    khaPct:      percent(row.kha, row.total),
-    datPct:      percent(row.dat, row.total),
-    chuadatPct:  percent(row.chuadat, row.total),
+    totPct:         percent(row.tot, row.graded),
+    khaPct:         percent(row.kha, row.graded),
+    datPct:         percent(row.dat, row.graded),
+    chuadatPct:     percent(row.chuadat, row.graded),
+    chuaCoDiemPct:  percent(row.chuaCoDiem, row.total),
   }));
 }
 
@@ -231,19 +256,22 @@ export function exportScoreDistributionToExcel(students = [], options = {}) {
   const totalRow = rows.reduce((acc, row) => ({
     group:        'Toàn trường',
     total:        acc.total + row.total,
+    graded:       acc.graded + row.graded,
     tot:          acc.tot + row.tot,
     kha:          acc.kha + row.kha,
     dat:          acc.dat + row.dat,
     chuadat:      acc.chuadat + row.chuadat,
-  }), { group: 'Toàn trường', total: 0, tot: 0, kha: 0, dat: 0, chuadat: 0 });
+    chuaCoDiem:   acc.chuaCoDiem + row.chuaCoDiem,
+  }), { group: 'Toàn trường', total: 0, graded: 0, tot: 0, kha: 0, dat: 0, chuadat: 0, chuaCoDiem: 0 });
 
   const percent = (count, total) => (total > 0 ? Number(((count / total) * 100).toFixed(1)) : 0);
   const tableRows = [...rows, {
     ...totalRow,
-    totPct:     percent(totalRow.tot, totalRow.total),
-    khaPct:     percent(totalRow.kha, totalRow.total),
-    datPct:     percent(totalRow.dat, totalRow.total),
-    chuadatPct: percent(totalRow.chuadat, totalRow.total),
+    totPct:         percent(totalRow.tot, totalRow.graded),
+    khaPct:         percent(totalRow.kha, totalRow.graded),
+    datPct:         percent(totalRow.dat, totalRow.graded),
+    chuadatPct:     percent(totalRow.chuadat, totalRow.graded),
+    chuaCoDiemPct:  percent(totalRow.chuaCoDiem, totalRow.total),
   }];
 
   try {
@@ -252,12 +280,13 @@ export function exportScoreDistributionToExcel(students = [], options = {}) {
       return { success: true, fileName, rowCount: rows.length, rows: tableRows };
     }
 
-    const headers = ['Nhóm', 'Sĩ số', ...ACADEMIC_RANK_LABELS, ...ACADEMIC_RANK_LABELS.map((r) => `% ${r}`)];
+    const headers = ['Nhóm', 'Sĩ số', 'Có điểm', ...ACADEMIC_RANK_LABELS, 'Chưa có điểm',
+      ...ACADEMIC_RANK_LABELS.map((r) => `% ${r}`), '% Chưa có điểm'];
     const aoa = [
       headers,
       ...tableRows.map((row) => [
-        row.group, row.total, row.tot, row.kha, row.dat, row.chuadat,
-        row.totPct, row.khaPct, row.datPct, row.chuadatPct,
+        row.group, row.total, row.graded, row.tot, row.kha, row.dat, row.chuadat, row.chuaCoDiem,
+        row.totPct, row.khaPct, row.datPct, row.chuadatPct, row.chuaCoDiemPct,
       ]),
     ];
 
@@ -335,8 +364,9 @@ function toAsciiSlug(text) {
  *
  * @param {Array<Object>} students - Học sinh kèm `subjects: [{subjectName, averageScore}]`.
  * @param {{filter?: {className?: string, gradeLevel?: string|number}, className?: string, gradeLevel?: string|number}} [options]
- * @returns {Array<{subject: string, total: number, tot: number, kha: number, dat: number, chuadat: number,
- *          totPct: number, khaPct: number, datPct: number, chuadatPct: number}>}
+ * @returns {Array<{subject: string, total: number, graded: number, tot: number, kha: number, dat: number,
+ *          chuadat: number, chuaCoDiem: number, totPct: number, khaPct: number, datPct: number,
+ *          chuadatPct: number, chuaCoDiemPct: number}>}
  */
 export function buildSubjectScoreDistribution(students = [], options = {}) {
   const filter = options.filter ?? options;
@@ -346,11 +376,17 @@ export function buildSubjectScoreDistribution(students = [], options = {}) {
     subjectsOf(student).forEach((row) => {
       const subject = row.subjectName ?? row.subject_name ?? row.subject ?? 'Khác';
       if (!buckets.has(subject)) {
-        buckets.set(subject, { subject, total: 0, tot: 0, kha: 0, dat: 0, chuadat: 0 });
+        buckets.set(subject, { subject, total: 0, graded: 0, tot: 0, kha: 0, dat: 0, chuadat: 0, chuaCoDiem: 0 });
       }
       const bucket = buckets.get(subject);
       bucket.total += 1;
-      const rank = rankAcademicScore(subjectAverageOf(row));
+      const score = scoreValueOf(subjectAverageOf(row));
+      if (score === null) {
+        bucket.chuaCoDiem += 1;
+        return;
+      }
+      bucket.graded += 1;
+      const rank = rankAcademicScore(score);
       if (rank === 'Tốt') bucket.tot += 1;
       else if (rank === 'Khá') bucket.kha += 1;
       else if (rank === 'Đạt') bucket.dat += 1;
@@ -363,10 +399,11 @@ export function buildSubjectScoreDistribution(students = [], options = {}) {
     .sort((a, b) => String(a.subject).localeCompare(String(b.subject), 'vi'))
     .map((row) => ({
       ...row,
-      totPct:      percent(row.tot, row.total),
-      khaPct:      percent(row.kha, row.total),
-      datPct:      percent(row.dat, row.total),
-      chuadatPct:  percent(row.chuadat, row.total),
+      totPct:         percent(row.tot, row.graded),
+      khaPct:         percent(row.kha, row.graded),
+      datPct:         percent(row.dat, row.graded),
+      chuadatPct:     percent(row.chuadat, row.graded),
+      chuaCoDiemPct:  percent(row.chuaCoDiem, row.total),
     }));
 }
 
@@ -388,10 +425,15 @@ export function buildAwardLists(students = [], options = {}) {
   scoped.forEach((student) => {
     const rows = subjectsOf(student);
     const conduct = conductOf(student);
-    const failedSubjects = rows
-      .filter((row) => rankAcademicScore(subjectAverageOf(row)) === 'Chưa đạt')
-      .map((row) => row.subjectName ?? row.subject_name ?? row.subject ?? 'Khác');
-    const ranks = rows.map((row) => rankAcademicScore(subjectAverageOf(row)));
+    const scoredRows = rows
+      .map((row) => ({ row, score: scoreValueOf(subjectAverageOf(row)) }))
+      .filter(({ score }) => score !== null);
+    const failedSubjects = scoredRows
+      .filter(({ score }) => rankAcademicScore(score) === 'Chưa đạt')
+      .map(({ row }) => row.subjectName ?? row.subject_name ?? row.subject ?? 'Khác');
+    const allExcellent = rows.length > 0
+      && scoredRows.length === rows.length
+      && scoredRows.every(({ score }) => rankAcademicScore(score) === 'Tốt');
 
     const record = {
       studentCode: student.studentCode ?? student.student_code ?? '',
@@ -402,7 +444,7 @@ export function buildAwardLists(students = [], options = {}) {
       subjectCount: rows.length,
     };
 
-    if (rows.length > 0 && ranks.every((rank) => rank === 'Tốt') && conduct === 'Tốt') {
+    if (allExcellent && conduct === 'Tốt') {
       excellent.push({ ...record, title: 'Học sinh Xuất sắc' });
     }
 

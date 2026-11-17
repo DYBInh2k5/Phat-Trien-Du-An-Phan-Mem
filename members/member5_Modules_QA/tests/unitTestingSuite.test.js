@@ -3,6 +3,9 @@ import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { calculateAverageSubjectScore, evaluateAcademicRank, convertGPA10To4 } from '../../member4_Logic_Security/gpaCalculationLogic.js';
+import { authorizeRoles, ROLES } from '../../member4_Logic_Security/rbacMiddleware.js';
+import { AuditLogger } from '../../member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js';
+import { formatTlv, crc16Ccitt, generateVietQrPayload, buildVietQrData } from '../../member3_Backend_DB/school-management-nodejs/src/utils/vietQrHelper.js';
 import { exportGradeBookToExcel, exportReportCardToPDF, exportTuitionReceiptToPDF, rankAcademicScore, generateReceiptLookupCode, buildScoreDistribution, exportScoreDistributionToExcel, buildSubjectScoreDistribution, buildAwardLists, exportAwardReportToExcel } from '../exportEngine.js';
 
 /**
@@ -68,6 +71,19 @@ export function runSystemUnitTests() {
       return;
     }
     assertEqual(testName, actual, expected);
+  }
+
+  // Gọi Express middleware thật (không dựng lại logic) để kiểm tra 401/403/next.
+  function callMiddlewareQA(middleware, req = {}) {
+    const res = {
+      statusCode: 200,
+      body: null,
+      status(code) { this.statusCode = code; return this; },
+      json(payload) { this.body = payload; return this; },
+    };
+    let nextCalled = false;
+    middleware(req, res, () => { nextCalled = true; });
+    return { status: res.statusCode, body: res.body, nextCalled };
   }
 
   // ─── Tests 1–5 (original) ────────────────────────────────────────────────
@@ -452,6 +468,17 @@ export function runSystemUnitTests() {
   assertFileWrite('Test 24f: Phổ điểm có filePath', Boolean(distExport.filePath), true);
   assertFileWrite('Test 24g: Tệp phổ điểm tồn tại trên đĩa', Boolean(distExport.filePath && fs.existsSync(distExport.filePath)), true);
 
+  // Học sinh chưa có điểm không được xếp vào "Chưa đạt" (tránh thổi phồng
+  // phổ điểm và danh sách rèn luyện hè).
+  const distWithUngraded = buildScoreDistribution([
+    ...schoolStudents,
+    { studentCode: 'HS007', className: '11A1', gradeLevel: 11 },
+  ], 'gradeLevel');
+  const grade11WithUngraded = distWithUngraded.find((row) => row.group === 11);
+  assertEqual('Test 24h: HS chưa có điểm không bị tính là Chưa đạt', grade11WithUngraded.chuadat, 0);
+  assertEqual('Test 24i: HS chưa có điểm vào bucket riêng', grade11WithUngraded.chuaCoDiem, 1);
+  assertEqual('Test 24j: Tỷ lệ xếp loại tính trên số HS có điểm', grade11WithUngraded.datPct, 50);
+
   // ─── KAN-133: Tra cứu lịch sử nộp học phí nhiều năm ──────────────────────
 
   // Helper: lọc lịch sử biên lai theo học sinh + năm học, mới nhất trước
@@ -710,51 +737,39 @@ export function runSystemUnitTests() {
     role: 'GVBM', teacherId: 'gv.toan01', assignment: gvbmAssignment,
     className: '10A1', date: '2026-11-18', period: 2, existing: otherSlot,
   }).httpStatus, 200);
-  assertEqual('Test 33e: GVCN không dùng chức năng điểm danh theo tiết → 403', canRecordPeriodAttendanceQA({
-    role: 'GVCN', teacherId: 'gvcn.10a1', assignment: gvbmAssignment,
-    className: '10A1', date: '2026-11-17', period: 2, existing: [],
-  }).httpStatus, 403);
+  assertEqual('Test 33e: GVCN không dùng chức năng điểm danh theo tiết → 403',
+    callMiddlewareQA(authorizeRoles('GVBM'), { user: { role: ROLES.GVCN } }).status, 403);
 
-  // ─── PBI-13: Nhật ký kiểm toán sửa điểm (chỉ INSERT / SELECT) ────────────
+  // ─── PBI-13: Nhật ký kiểm toán sửa điểm (module AuditLogger thật) ─────────
+  // Dùng chính AuditLogger của backend thay vì object mô phỏng, để thay đổi
+  // hợp đồng ghi log ở member3 làm bộ test đỏ ngay.
 
-  function createAuditLogQA() {
-    const entries = [];
-    return {
-      entries,
-      insert(entry) {
-        entries.push({ ...entry });
-        return entries.length;
-      },
-      update() { throw new Error('UPDATE bị từ chối ở tầng CSDL'); },
-      remove() { throw new Error('DELETE bị từ chối ở tầng CSDL'); },
-    };
-  }
-
-  const auditLog = createAuditLogQA();
-  auditLog.insert({
-    userId: 'gv.toan01',
-    studentId: 'HS00001',
-    oldScore: 7.5,
-    newScore: 8.0,
-    reason: 'Sửa lỗi nhập điểm',
-    ip: '192.168.1.15',
-    timestamp: '2026-11-17T08:30:00+07:00',
+  const auditBefore = AuditLogger.getAuditLogs().length;
+  const auditEntityBefore = AuditLogger.getAuditLogs({ user: 'gv.toan01' })
+    .filter((entry) => entry.entityId === 'HS00001').length;
+  const auditEntry = AuditLogger.log({
+    action: 'UPDATE_SCORE',
+    user: 'gv.toan01',
+    role: 'GVBM',
+    entity: 'grade_books',
+    entityId: 'HS00001',
+    previousValue: 7.5,
+    newValue: 8.0,
+    ipAddress: '192.168.1.15',
   });
-  const auditEntry = auditLog.entries[0];
-  assertEqual('Test 34a: Ghi old_score = 7.5', auditEntry.oldScore, 7.5);
-  assertEqual('Test 34b: Ghi new_score = 8.0', auditEntry.newScore, 8.0);
-  assertEqual('Test 34c: Ghi đúng user_id', auditEntry.userId, 'gv.toan01');
-  assertEqual('Test 34d: Ghi đúng student_id', auditEntry.studentId, 'HS00001');
-  assertEqual('Test 34e: Ghi IP người thực hiện', auditEntry.ip, '192.168.1.15');
-  assertEqual('Test 34f: Ghi timestamp chính xác', auditEntry.timestamp, '2026-11-17T08:30:00+07:00');
-  let updateBlocked = false;
-  try { auditLog.update(); } catch { updateBlocked = true; }
-  let deleteBlocked = false;
-  try { auditLog.remove(); } catch { deleteBlocked = true; }
-  assertEqual('Test 34g: UPDATE bị từ chối', updateBlocked, true);
-  assertEqual('Test 34h: DELETE bị từ chối', deleteBlocked, true);
-  assertEqual('Test 34i: Chỉ có 1 bản ghi sau khi bị chặn sửa/xóa', auditLog.entries.length, 1);
-  assertEqual('Test 34j: Ghi đúng lý do sửa điểm', auditEntry.reason, 'Sửa lỗi nhập điểm');
+  assertEqual('Test 34a: Ghi old_score = 7.5', auditEntry.previousValue, 7.5);
+  assertEqual('Test 34b: Ghi new_score = 8.0', auditEntry.newValue, 8.0);
+  assertEqual('Test 34c: Ghi đúng user_id', auditEntry.user, 'gv.toan01');
+  assertEqual('Test 34d: Ghi đúng student_id', auditEntry.entityId, 'HS00001');
+  assertEqual('Test 34e: Ghi IP người thực hiện', auditEntry.ipAddress, '192.168.1.15');
+  assertEqual('Test 34f: Timestamp ISO 8601',
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(auditEntry.timestamp), true);
+  assertEqual('Test 34g: AuditLogger không mở API UPDATE', typeof AuditLogger.update, 'undefined');
+  assertEqual('Test 34h: AuditLogger không mở API DELETE', typeof AuditLogger.delete, 'undefined');
+  assertEqual('Test 34i: Tra cứu lại thấy thêm đúng 1 bản ghi',
+    AuditLogger.getAuditLogs({ user: 'gv.toan01' }).filter((entry) => entry.entityId === 'HS00001').length,
+    auditEntityBefore + 1);
+  assertEqual('Test 34j: id tự tăng theo số bản ghi', auditEntry.id, auditBefore + 1);
 
   // ─── PBI-09 / KAN-16: 5 ca điểm TBM theo Thông tư 22 ─────────────────────
 
@@ -771,43 +786,51 @@ export function runSystemUnitTests() {
   assertEqual('Test 35f: TBM 7.7 xếp loại Khá', evaluateAcademicRank(7.7), 'Khá');
   assertEqual('Test 35g: TBM 10.0 xếp loại Tốt', evaluateAcademicRank(10), 'Tốt');
 
-  // ─── PBI-19: Ma trận phân quyền RBAC 5 vai trò ──────────────────────────
+  // ─── PBI-19: Ma trận phân quyền RBAC 5 vai trò (middleware thật) ─────────
+  // Ma trận endpoint của hệ thống chỉ là dữ liệu đầu vào; hành vi 401/403/next
+  // do chính rbacMiddleware.js của member4 quyết định.
 
-  const ROLE_PERMISSIONS_QA = {
+  const ROLE_ENDPOINTS_QA = {
     BGH:  ['/api/students', '/api/gradebook', '/api/attendance', '/api/audit-logs'],
     GVCN: ['/api/gradebook', '/api/attendance', '/api/leave-requests'],
     GVBM: ['/api/gradebook', '/api/attendance'],
     HS:   ['/api/grades/me', '/api/schedule'],
     PH:   ['/api/tuition', '/api/parent-portal'],
   };
+  const rolesForEndpointQA = (apiPath) => Object.keys(ROLE_ENDPOINTS_QA)
+    .filter((role) => ROLE_ENDPOINTS_QA[role].includes(apiPath));
+  const guardQA = (apiPath) => authorizeRoles(...rolesForEndpointQA(apiPath));
 
-  // Thiếu token → 401; token hợp lệ nhưng sai vai trò → 403
-  function authorizeQA({ role, path, hasToken }) {
-    if (!hasToken) return 401;
-    const allowed = ROLE_PERMISSIONS_QA[role] ?? [];
-    return allowed.includes(path) ? 200 : 403;
-  }
-
-  const noTokenCases = Object.keys(ROLE_PERMISSIONS_QA)
-    .map((role) => authorizeQA({ role, path: '/api/students', hasToken: false }));
+  const noTokenCases = Object.keys(ROLE_ENDPOINTS_QA)
+    .map((role) => callMiddlewareQA(authorizeRoles(role), {}).status);
   assertEqual('Test 36a: Thiếu token → 401 với cả 5 vai trò', noTokenCases.every((code) => code === 401), true);
-  assertEqual('Test 36b: HS gọi /api/students → 403', authorizeQA({ role: 'HS', path: '/api/students', hasToken: true }), 403);
-  assertEqual('Test 36c: PH gọi /api/students → 403', authorizeQA({ role: 'PH', path: '/api/students', hasToken: true }), 403);
-  assertEqual('Test 36d: GVBM gọi /api/gradebook → 200', authorizeQA({ role: 'GVBM', path: '/api/gradebook', hasToken: true }), 200);
-  assertEqual('Test 36e: GVCN duyệt đơn /api/leave-requests → 200', authorizeQA({ role: 'GVCN', path: '/api/leave-requests', hasToken: true }), 200);
-  assertEqual('Test 36f: BGH xem /api/audit-logs → 200', authorizeQA({ role: 'BGH', path: '/api/audit-logs', hasToken: true }), 200);
-  assertEqual('Test 36g: Vai trò lạ bị chặn 403', authorizeQA({ role: 'GUEST', path: '/api/gradebook', hasToken: true }), 403);
+  assertEqual('Test 36b: HS gọi /api/students → 403',
+    callMiddlewareQA(guardQA('/api/students'), { user: { role: ROLES.HS } }).status, 403);
+  assertEqual('Test 36c: PH gọi /api/students → 403',
+    callMiddlewareQA(guardQA('/api/students'), { user: { role: ROLES.PH } }).status, 403);
+  assertEqual('Test 36d: GVBM gọi /api/gradebook → đi tiếp',
+    callMiddlewareQA(guardQA('/api/gradebook'), { user: { role: 'GVBM' } }).nextCalled, true);
+  assertEqual('Test 36e: GVCN duyệt đơn /api/leave-requests → đi tiếp',
+    callMiddlewareQA(guardQA('/api/leave-requests'), { user: { role: ROLES.GVCN } }).nextCalled, true);
+  assertEqual('Test 36f: BGH xem /api/audit-logs → đi tiếp',
+    callMiddlewareQA(guardQA('/api/audit-logs'), { user: { role: ROLES.BGH } }).nextCalled, true);
+  assertEqual('Test 36g: Vai trò lạ bị chặn 403',
+    callMiddlewareQA(guardQA('/api/gradebook'), { user: { role: 'GUEST' } }).status, 403);
 
-  // Quét toàn bộ 5 vai trò × 6 endpoint: mọi kết quả phải khớp ma trận
-  const matrixPaths = ['/api/students', '/api/gradebook', '/api/attendance', '/api/audit-logs', '/api/grades/me', '/api/tuition'];
+  // Quét 5 vai trò × toàn bộ endpoint: middleware thật phải cho qua đúng role
+  // trong ma trận và trả 403 cho mọi role còn lại.
+  const matrixPaths = [...new Set(Object.values(ROLE_ENDPOINTS_QA).flat())];
   let matrixMismatch = 0;
-  Object.keys(ROLE_PERMISSIONS_QA).forEach((role) => {
+  Object.keys(ROLE_ENDPOINTS_QA).forEach((role) => {
     matrixPaths.forEach((apiPath) => {
-      const expected = ROLE_PERMISSIONS_QA[role].includes(apiPath) ? 200 : 403;
-      if (authorizeQA({ role, path: apiPath, hasToken: true }) !== expected) matrixMismatch += 1;
+      const result = callMiddlewareQA(guardQA(apiPath), { user: { role } });
+      const expectedAllowed = ROLE_ENDPOINTS_QA[role].includes(apiPath);
+      if (expectedAllowed !== result.nextCalled || (!expectedAllowed && result.status !== 403)) {
+        matrixMismatch += 1;
+      }
     });
   });
-  assertEqual('Test 36h: Ma trận 5 vai trò × 6 endpoint khớp 100%', matrixMismatch, 0);
+  assertEqual('Test 36h: Ma trận 5 vai trò × toàn bộ endpoint khớp middleware thật', matrixMismatch, 0);
 
   // ─── PBI-15: Tên tệp + định dạng Excel sổ điểm ──────────────────────────
 
@@ -833,6 +856,26 @@ export function runSystemUnitTests() {
   assertStyle('Test 37g: Ô tiêu đề A1 nền xanh nhạt', styledSheet.A1?.s?.fgColor?.rgb, 'D9E1F2');
   assertStyle('Test 37h: Hàng dữ liệu đầu (A2) nền trắng', styledSheet.A2?.s?.patternType ?? 'none', 'none');
   assertStyle('Test 37i: Hàng dữ liệu thứ hai (A3) nền xám nhạt', styledSheet.A3?.s?.fgColor?.rgb, 'F2F2F2');
+
+  // ─── PBI-24: VietQR thật của backend (EMVCo + CRC16) ────────────────────
+  // Gọi thẳng vietQrHelper.js của member3 để UAT-15 không còn "PASS auto"
+  // trên giấy mà không có ca kiểm thử nào.
+
+  assertEqual('Test 38a: TLV tag 00 độ dài 02', formatTlv('00', '01'), '000201');
+
+  const qrPayload = generateVietQrPayload({ accountNo: '0388888888', amount: 1500000, orderCode: 'HP20261001' });
+  assertEqual('Test 38b: Payload bắt đầu 000201 và có tag CRC 6304',
+    qrPayload.startsWith('000201') && qrPayload.includes('6304'), true);
+  assertEqual('Test 38c: CRC16 cuối chuỗi khớp khi tính lại',
+    qrPayload.slice(-4), crc16Ccitt(qrPayload.slice(0, -4)));
+  assertEqual('Test 38d: Payload chứa số tiền và nội dung chuyển khoản',
+    qrPayload.includes('1500000') && qrPayload.includes('HP20261001'), true);
+
+  const qrData = buildVietQrData({ accountNo: '0388888888', amount: 1500000, orderCode: 'HP20261001' });
+  assertEqual('Test 38e: buildVietQrData trả đúng payload và URL ảnh VietQR',
+    qrData.emvcoPayload === qrPayload
+      && qrData.qrImageUrl.includes('0388888888')
+      && qrData.qrImageUrl.includes('1500000'), true);
 
   // ─── Summary ─────────────────────────────────────────────────────────────
   console.log('=====================================================');

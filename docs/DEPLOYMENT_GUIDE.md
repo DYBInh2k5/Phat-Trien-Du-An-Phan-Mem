@@ -150,8 +150,8 @@ Kết quả đạt được: **79/79 tests PASS (100%)** bao gồm:
 # Từ thư mục gốc repo (script test:qa đã khai báo trong package.json gốc)
 npm run test:qa
 ```
-Kết quả đạt được: **185 PASS + 15 SKIP + 0 FAIL** trên máy chưa cài thư viện ghi Excel;
-**200/200 PASS** khi môi trường có `xlsx-js-style` (ví dụ chạy kèm
+Kết quả đạt được: **193 PASS + 15 SKIP + 0 FAIL** trên máy chưa cài thư viện ghi Excel;
+**208/208 PASS** khi môi trường có `xlsx-js-style` (ví dụ chạy kèm
 `NODE_PATH` trỏ tới thư mục đã cài gói fork). Bao gồm:
 - ĐTBmhk 5 ca (7.7; 0.0; 10.0; điểm khống; làm tròn), xếp loại 4 mức Thông tư 22, quy đổi GPA 10 → 4.
 - PBI-05: điểm danh 4 trạng thái, mặc định PRESENT, lưu lịch sử, cổng PH chỉ báo vắng không phép.
@@ -161,7 +161,7 @@ Kết quả đạt được: **185 PASS + 15 SKIP + 0 FAIL** trên máy chưa c�
 - PBI-15 / KAN-30: tên tệp `SoDiem_[TenLop]_[MonHoc]_[HocKy].xlsx`, tự căn độ rộng cột; header in đậm + hàng xen kẽ trắng/xám được gắn khi môi trường có thư viện ghi style.
 - PBI-16: phiếu báo điểm/học bạ A4 có quốc hiệu, tiêu ngữ, 6 đầu điểm, xếp loại học lực + hạnh kiểm.
 - PBI-17b/17c: đơn xin nghỉ và luồng duyệt đồng bộ điểm danh `EXCUSED`; GVCN khác lớp bị chặn 403.
-- PBI-19: ma trận RBAC 5 vai trò × 6 endpoint khớp 100% (thiếu token 401, sai vai trò 403).
+- PBI-19: ma trận RBAC 5 vai trò × toàn bộ endpoint khớp `rbacMiddleware.js` thật (thiếu token 401, sai vai trò 403).
 - KAN-133: biên lai duy nhất theo giao dịch + mã tra cứu tất định, tra cứu mã lạ trả 404.
 - EPIC-10 / PBI-23: phổ điểm theo khối/lớp/môn, danh sách Học sinh Xuất sắc và rèn luyện hè.
 - KAN-22/24: connection pool không cạn kiệt và rate limiter đăng nhập.
