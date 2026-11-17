@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "Hệ thống Quản lý Lớp học & Học vụ (HTQLLH) — Root workspace",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "concurrently --names \"FRONTEND,BACKEND\" --prefix-colors \"cyan,yellow\" \"npm run dev --prefix members/member2_Frontend\" \"npm run dev --prefix members/member3_Backend_DB/school-management-nodejs\"",
     "start": "concurrently --names \"FRONTEND,BACKEND\" --prefix-colors \"cyan,yellow\" \"npm run build --prefix members/member2_Frontend && npm run preview --prefix members/member2_Frontend\" \"npm run start --prefix members/member3_Backend_DB/school-management-nodejs\"",
-    "install:all": "npm install --prefix members/member2_Frontend && npm install --prefix members/member3_Backend_DB/school-management-nodejs",
-    "build": "npm run build --prefix members/member2_Frontend"
+    "install:all": "npm install --prefix members/member2_Frontend && npm install --prefix members/member3_Backend_DB/school-management-nodejs && npm install --prefix members/member4_Logic_Security",
+    "build": "npm run build --prefix members/member2_Frontend",
+    "test": "npm test --prefix members/member3_Backend_DB/school-management-nodejs && npm run test:unit --prefix members/member4_Logic_Security && node -e \"import('./members/member5_Modules_QA/tests/unitTestingSuite.test.js').then(m => m.runSystemUnitTests())\"",
+    "test:backend": "npm test --prefix members/member3_Backend_DB/school-management-nodejs",
+    "test:security": "npm run test:unit --prefix members/member4_Logic_Security",
+    "test:qa": "node -e \"import('./members/member5_Modules_QA/tests/unitTestingSuite.test.js').then(m => m.runSystemUnitTests())\""
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

@@ -24,8 +24,7 @@
     "test:integration": "node scripts/run-tests.js integration",
     "test:coverage:unit": "node scripts/run-tests.js unit --coverage --no-threshold",
     "postman:run": "npx --yes newman run postman/HTQLLH.postman_collection.json -e postman/HTQLLH-Local.postman_environment.json",
-    "coverage:html": "node scripts/coverage-html.js",
-    "prepare": "husky"
+    "coverage:html": "node scripts/coverage-html.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

@@ -35,7 +35,7 @@ NGÀY PHÁT HÀNH: 15/11/2026
   - **ClickUp Workspace**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
   - **Bản Slide Thuyết Trình Canva (16 Trang Chuyên Nghiệp)**: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)
 
-### 1.2 Chỉ Số Sức Khỏe Dự Án Hiện Tại (Tuần 10: 15/11/2026)
+### 1.2 Chỉ Số Sức Khỏe Dự Án Hiện Tại (Tuần 10: 17/11/2026 - Sau Rà Soát & Tối Ưu Toàn Hệ Thống)
 ```text
 +---------------------------------------------------------------------------------------+
 | CHỈ SỐ QUẢN TRỊ DỰ ÁN                    | GIÁ TRỊ ĐO LƯỜNG     | ĐÁNH GIÁ CHẤT LƯỢNG |
@@ -43,7 +43,11 @@ NGÀY PHÁT HÀNH: 15/11/2026
 | Tổng số Product Backlog Items (PBIs)      | 27 Tasks chuẩn hóa   | Bao phủ 10 Modules  |
 | Số lượng Use Cases đặc tả IEEE 830       | 43 Use Cases         | Đầy đủ 5 Actors     |
 | Tỷ lệ phân bổ công việc 5 thành viên     | ~20% / thành viên    | Đạt chuẩn Rubric    |
-| Số ca kiểm thử tự động (Unit Test Suite) | 44/44 Tests PASS     | Đạt 100% Xanh       |
+| Số ca kiểm thử tự động (Unit Test Suite) | 322/322 Tests PASS   | Đạt 100% Xanh       |
+| - Phân hệ Backend CSDL (Member 3)        | 79/79 Tests PASS     | Sổ điểm, VietQR     |
+| - Phân hệ An ninh & RBAC (Member 4)      | 94/94 Tests PASS     | Token, RateLimit, TT22 |
+| - Phân hệ QA & Nghiệp vụ (Member 5)      | 136/136 Tests PASS   | 15 UCs, Export PDF/Excel |
+| - Giao diện Web SPA React (Member 2)     | 13/13 Vitest PASS    | Forms, UI Components |
 | Số ca kiểm thử nghiệp thu người dùng     | 43/43 UCs PASS       | Đạt 100% Nghiệm thu |
 | Mức độ tham số hóa SQL chống SQL Injection| 100% Prepared ($1,$2)| Triệt tiêu SQLi     |
 | Trạng thái Dual-Remote Git Synchronization| Khớp từng Commit     | Đẩy 1 lệnh cập nhật |
