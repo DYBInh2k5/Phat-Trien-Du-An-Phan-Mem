@@ -8,7 +8,7 @@ VAI TRÒ: FRONTEND DEVELOPER (DEV FRONTEND)
 TÀI KHOẢN JIRA CLOUD: Sonvohoang
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 VỊ TRÍ TÀI LIỆU: members/member2_Frontend/README.md
-NGÀY CẬP NHẬT: 27/10/2026 (TUẦN 7 / 15 TUẦN HỌC KỲ 2631)
+NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - VIETQR MODAL & PDF RECEIPT EXPORT HOÀN TẤT)
 ================================================================================
 ```
 
