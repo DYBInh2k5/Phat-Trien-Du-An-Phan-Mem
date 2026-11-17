@@ -2,8 +2,11 @@
   "client": "Thunder Client",
   "clientName": "Thunder Client",
   "collectionName": "HTQLLH — School Management System (THPT HSU)",
+  "name": "HTQLLH — School Management System (THPT HSU)",
+  "colName": "HTQLLH — School Management System (THPT HSU)",
   "collectionId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
-  "dateExported": "2026-11-15T08:57:32.609Z",
+  "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+  "dateExported": "2026-11-17T01:08:27.402Z",
   "version": "1.1",
   "folders": [
     {
@@ -97,11 +100,6 @@
       "modified": "2026-11-15T08:57:32.609Z",
       "headers": [],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -241,11 +239,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -289,11 +282,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -313,11 +301,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -393,11 +376,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -417,11 +395,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -469,11 +442,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -549,11 +517,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -601,11 +564,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -625,11 +583,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -705,11 +658,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -757,11 +705,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -781,11 +724,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -805,11 +743,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -829,11 +762,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -853,11 +781,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -877,11 +800,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -901,11 +819,6 @@
         }
       ],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -920,11 +833,6 @@
       "modified": "2026-11-15T08:57:32.609Z",
       "headers": [],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     },
     {
@@ -939,11 +847,6 @@
       "modified": "2026-11-15T08:57:32.609Z",
       "headers": [],
       "params": [],
-      "body": {
-        "type": "json",
-        "raw": "",
-        "form": []
-      },
       "tests": []
     }
   ]

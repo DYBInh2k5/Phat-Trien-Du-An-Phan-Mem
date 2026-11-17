@@ -1,18 +1,20 @@
-{
-  "client": "Thunder Client",
-  "clientName": "Thunder Client",
-  "environmentName": "HTQLLH Local (Port 8081)",
-  "environmentId": "5cf8d839-fa80-498c-8f3b-e01e4a6e1102",
-  "dateExported": "2026-11-15T08:57:32.609Z",
-  "version": "1.1",
-  "variables": [
-    {
-      "name": "baseUrl",
-      "value": "http://localhost:8081"
-    },
-    {
-      "name": "jwtToken",
-      "value": ""
-    }
-  ]
-}
+[
+  {
+    "_id": "5cf8d839-fa80-498c-8f3b-e01e4a6e1102",
+    "name": "HTQLLH Local (Port 8081)",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2026-11-17T01:09:02.661Z",
+    "modified": "2026-11-17T01:09:02.663Z",
+    "data": [
+      {
+        "name": "baseUrl",
+        "value": "http://localhost:8081"
+      },
+      {
+        "name": "jwtToken",
+        "value": ""
+      }
+    ]
+  }
+]
