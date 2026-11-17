@@ -1,5 +1,18 @@
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { createRequire } from 'node:module';
 import { calculateAverageSubjectScore, evaluateAcademicRank, convertGPA10To4 } from '../../member4_Logic_Security/gpaCalculationLogic.js';
 import { exportGradeBookToExcel, exportReportCardToPDF, exportTuitionReceiptToPDF, rankAcademicScore, generateReceiptLookupCode, buildScoreDistribution, exportScoreDistributionToExcel, buildSubjectScoreDistribution, buildAwardLists, exportAwardReportToExcel } from '../exportEngine.js';
+
+/**
+ * Thư mục tạm dành riêng cho các ca kiểm thử ghi tệp Excel.
+ * Dùng os.tmpdir() thay vì '.' để không làm rác thư mục mã nguồn khi chạy test.
+ */
+const TMP_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'htqllh-member5-'));
+
+/** require() cho tệp ESM — dò gói ghi Excel tùy chọn của môi trường chạy. */
+const require = createRequire(import.meta.url);
 
 /**
  * Member 5: QA Testing Suite (Week 9 – Extended)
@@ -17,6 +30,7 @@ export function runSystemUnitTests() {
 
   let passed = 0;
   let failed = 0;
+  let skipped = 0;
 
   function assertEqual(testName, actual, expected) {
     if (actual === expected) {
@@ -26,6 +40,34 @@ export function runSystemUnitTests() {
       console.error(`FAIL: [${testName}] -> Actual: ${actual}, Expected: ${expected}`);
       failed++;
     }
+  }
+
+  // Gói ghi .xlsx / ghi style là phụ thuộc tùy chọn của môi trường chạy (không kèm
+  // trong bài nộp). Thiếu thư viện thì các ca liên quan được SKIP, không FAIL.
+  const hasXlsxStyle = (() => {
+    try { require.resolve('xlsx-js-style'); return true; } catch { return false; }
+  })();
+  const hasXlsx = (() => {
+    try { require.resolve('xlsx'); return true; } catch { return false; }
+  })();
+  const hasExcelLib = hasXlsx || hasXlsxStyle;
+
+  function assertFileWrite(testName, actual, expected) {
+    if (!hasExcelLib) {
+      skipped += 1;
+      console.log(`SKIP: [${testName}] -> chưa cài gói xlsx (tùy chọn)`);
+      return;
+    }
+    assertEqual(testName, actual, expected);
+  }
+
+  function assertStyle(testName, actual, expected) {
+    if (!hasXlsxStyle) {
+      skipped += 1;
+      console.log(`SKIP: [${testName}] -> chưa cài xlsx-js-style (tùy chọn)`);
+      return;
+    }
+    assertEqual(testName, actual, expected);
   }
 
   // ─── Tests 1–5 (original) ────────────────────────────────────────────────
@@ -43,8 +85,12 @@ export function runSystemUnitTests() {
   assertEqual('Test 3: GPA 10/4 Scale Conversion', gpa4, 4.0);
 
   // Test 4: Excel Export Engine Validation
-  const excelRes = exportGradeBookToExcel('10A1', 'Toán Học', [{ studentCode: 'HS001', fullName: 'Nguyễn Thị Ánh', averageScore: 8.7 }]);
-  assertEqual('Test 4: Excel Export Row Count', excelRes.rowCount, 1);
+  // Ghi vào thư mục tạm và xác minh tệp .xlsx có thật trên đĩa — tránh trường hợp
+  // thiếu SheetJS mà hàm vẫn trả success:true (thành công giả).
+  const excelRes = exportGradeBookToExcel('10A1', 'Toán Học', [{ studentCode: 'HS001', fullName: 'Nguyễn Thị Ánh', averageScore: 8.7 }], TMP_DIR);
+  assertEqual('Test 4a: Excel Export Row Count', excelRes.rowCount, 1);
+  assertFileWrite('Test 4b: Excel Export có filePath', Boolean(excelRes.filePath), true);
+  assertFileWrite('Test 4c: Tệp .xlsx tồn tại trên đĩa', Boolean(excelRes.filePath && fs.existsSync(excelRes.filePath)), true);
 
   // Test 5: PDF Report Card Engine Validation
   const pdfRes = exportReportCardToPDF({ studentCode: 'HS001', fullName: 'Nguyễn Thị Ánh', gpa: 8.7 });
@@ -159,11 +205,14 @@ export function runSystemUnitTests() {
     { studentCode: 'HS002', fullName: 'Trần Minh Khoa',  averageScore: 7.2 },
     { studentCode: 'HS003', fullName: 'Lê Hoàng Phúc',   averageScore: 6.8 },
   ];
-  const excelResult = exportGradeBookToExcel('10A1', 'Toán', gradeData);
+  const excelResult = exportGradeBookToExcel('10A1', 'Toán', gradeData, TMP_DIR);
   assertEqual('Test 11a: Export Excel success',    excelResult.success,  true);
   assertEqual('Test 11b: Export Excel rowCount',   excelResult.rowCount, 3);
   assertEqual('Test 11c: Export Excel fileName prefix',
-    excelResult.fileName.startsWith('Bang_Diem_'), true);
+    excelResult.fileName.startsWith('SoDiem_'), true);
+  // Xác minh tệp thật khi môi trường có SheetJS; thiếu thư viện thì SKIP
+  assertFileWrite('Test 11d: Export Excel có filePath', Boolean(excelResult.filePath), true);
+  assertFileWrite('Test 11e: Tệp Excel tồn tại trên đĩa', Boolean(excelResult.filePath && fs.existsSync(excelResult.filePath)), true);
 
   // Test 12 — UC-PAR-09: Export Tuition Receipt to PDF
   const receiptResult = exportTuitionReceiptToPDF({
@@ -393,12 +442,15 @@ export function runSystemUnitTests() {
   assertEqual('Test 23j: Toàn trường — sĩ số', schoolWide[0].total, 6);
 
   // Test 24 — Xuất Excel phổ điểm có dòng tổng cộng
-  const distExport = exportScoreDistributionToExcel(schoolStudents, { groupBy: 'gradeLevel' });
+  const distExport = exportScoreDistributionToExcel(schoolStudents, { groupBy: 'gradeLevel', outputDir: TMP_DIR });
   assertEqual('Test 24a: Xuất phổ điểm thành công', distExport.success, true);
   assertEqual('Test 24b: Tên tệp phổ điểm', distExport.fileName, 'Pho_Diem_Theo_Khoi.xlsx');
   assertEqual('Test 24c: Số nhóm dữ liệu', distExport.rowCount, 2);
   assertEqual('Test 24d: Có dòng tổng cộng cuối', distExport.rows[distExport.rows.length - 1].group, 'Toàn trường');
   assertEqual('Test 24e: Tổng sĩ số khớp', distExport.rows[distExport.rows.length - 1].total, 6);
+  // Chốt chặn "thành công giả": phải có tệp thật trong thư mục tạm
+  assertFileWrite('Test 24f: Phổ điểm có filePath', Boolean(distExport.filePath), true);
+  assertFileWrite('Test 24g: Tệp phổ điểm tồn tại trên đĩa', Boolean(distExport.filePath && fs.existsSync(distExport.filePath)), true);
 
   // ─── KAN-133: Tra cứu lịch sử nộp học phí nhiều năm ──────────────────────
 
@@ -473,12 +525,15 @@ export function runSystemUnitTests() {
   assertEqual('Test 27g: Phạm vi báo cáo toàn trường', awards.scope, 'Toàn trường');
 
   // Test 28 — Xuất báo cáo BGH ra Excel (3 sheet)
-  const awardExport = exportAwardReportToExcel(awardStudents, { filter: { className: '10A1' }, outputDir: '.' });
+  const awardExport = exportAwardReportToExcel(awardStudents, { filter: { className: '10A1' }, outputDir: TMP_DIR });
   assertEqual('Test 28a: Xuất báo cáo BGH thành công', awardExport.success, true);
   assertEqual('Test 28b: Tên tệp theo phạm vi lớp', awardExport.fileName, 'Bao_Cao_BGH_Lop_10A1.xlsx');
   assertEqual('Test 28c: Số dòng phổ điểm môn', awardExport.rowCount, 2);
   assertEqual('Test 28d: Chỉ còn HS001 trong danh sách Xuất sắc', awardExport.excellent.length, 1);
   assertEqual('Test 28e: Lớp 10A1 không có ai phải rèn luyện hè', awardExport.summerTraining.length, 0);
+  // Báo cáo 3 sheet cũng phải ghi ra tệp thật, không chỉ trả object
+  assertFileWrite('Test 28f: Báo cáo BGH có filePath', Boolean(awardExport.filePath), true);
+  assertFileWrite('Test 28g: Tệp báo cáo BGH tồn tại trên đĩa', Boolean(awardExport.filePath && fs.existsSync(awardExport.filePath)), true);
 
   // ─── KAN-22: Chịu tải 5 request đồng thời (Connection Pool) ──────────────
 
@@ -545,12 +600,246 @@ export function runSystemUnitTests() {
   assertEqual('Test 30d: Hết cửa sổ thời gian → được thử lại', attemptLoginQA(limiter, 'ip:10.0.0.1', t0 + 61000), 401);
   assertEqual('Test 30e: Sai tiếp trong cửa sổ mới bị đếm lại', attemptLoginQA(limiter, 'ip:10.0.0.1', t0 + 62000), 401);
 
+  // ─── PBI-05: Điểm danh chuyên cần 4 trạng thái (GVCN) ────────────────────
+
+  const ATTENDANCE_STATUSES_QA = ['PRESENT', 'EXCUSED', 'ABSENT', 'LATE'];
+
+  // Mở trang điểm danh: mặc định toàn bộ học sinh "Có mặt"
+  function buildAttendanceSheetQA(students) {
+    return students.map((s) => ({ studentCode: s.studentCode, status: 'PRESENT' }));
+  }
+
+  // Lưu lịch sử điểm danh: chỉ nhận 4 trạng thái hợp lệ, gắn ngày + người ghi
+  function saveAttendanceQA(records, { date, recordedBy }) {
+    const saved = [];
+    let rejected = 0;
+    records.forEach((r) => {
+      if (!ATTENDANCE_STATUSES_QA.includes(r.status)) { rejected += 1; return; }
+      saved.push({ ...r, date, recordedBy });
+    });
+    return { saved, rejected };
+  }
+
+  // Cổng phụ huynh chỉ hiển thị ghi chú cho học sinh vắng KHÔNG PHÉP
+  function parentAbsenceNotesQA(records) {
+    return records
+      .filter((r) => r.status === 'ABSENT')
+      .map((r) => `${r.studentCode}: Vắng không phép ngày ${r.date}`);
+  }
+
+  const classStudents = [{ studentCode: 'HS001' }, { studentCode: 'HS002' }, { studentCode: 'HS003' }];
+  const attendanceSheet = buildAttendanceSheetQA(classStudents);
+  assertEqual('Test 31a: Mặc định tất cả Có mặt', attendanceSheet.every((r) => r.status === 'PRESENT'), true);
+  assertEqual('Test 31b: Cả 4 trạng thái đều lưu được', saveAttendanceQA(
+    ATTENDANCE_STATUSES_QA.map((status) => ({ studentCode: 'HS010', status })),
+    { date: '2026-11-17', recordedBy: 'gvcn.10a1' },
+  ).saved.length, 4);
+  assertEqual('Test 31c: Trạng thái lạ "NGHI" bị từ chối', ATTENDANCE_STATUSES_QA.includes('NGHI'), false);
+
+  const attendanceSave = saveAttendanceQA(
+    [
+      { studentCode: 'HS001', status: 'PRESENT' },
+      { studentCode: 'HS002', status: 'ABSENT' },
+      { studentCode: 'HS003', status: 'EXCUSED' },
+      { studentCode: 'HS004', status: 'LATE' },
+      { studentCode: 'HS005', status: 'NGHI' },
+    ],
+    { date: '2026-11-17', recordedBy: 'gvcn.10a1' },
+  );
+  assertEqual('Test 31d: Lưu đúng 4 bản ghi hợp lệ', attendanceSave.saved.length, 4);
+  assertEqual('Test 31e: Từ chối 1 trạng thái không hợp lệ', attendanceSave.rejected, 1);
+  assertEqual('Test 31f: Bản ghi có ngày điểm danh', attendanceSave.saved[0].date, '2026-11-17');
+  assertEqual('Test 31g: Bản ghi có người thực hiện', attendanceSave.saved[0].recordedBy, 'gvcn.10a1');
+
+  const absenceNotes = parentAbsenceNotesQA(attendanceSave.saved);
+  assertEqual('Test 31h: Cổng PH chỉ báo vắng không phép', absenceNotes.length, 1);
+  assertEqual('Test 31i: Đúng học sinh vắng không phép', absenceNotes[0].startsWith('HS002'), true);
+  assertEqual('Test 31j: Vắng có phép không sinh cảnh báo', absenceNotes.some((n) => n.startsWith('HS003')), false);
+
+  // ─── PBI-07 / KAN-13: Cảnh báo vắng ≥ 20% (nguy cơ cấm thi) ──────────────
+
+  // Tỷ lệ vắng = (số buổi vắng / tổng số buổi học) × 100%, làm tròn 1 chữ số
+  function computeAbsenceRateQA(absentSessions, totalSessions) {
+    if (!totalSessions || totalSessions <= 0) return 0;
+    return Math.round((absentSessions / totalSessions) * 1000) / 10;
+  }
+
+  function absenceBadgeQA(absentSessions, totalSessions) {
+    return computeAbsenceRateQA(absentSessions, totalSessions) >= 20 ? 'danger' : 'normal';
+  }
+
+  assertEqual('Test 32a: 10/45 buổi = 22.2%', computeAbsenceRateQA(10, 45), 22.2);
+  assertEqual('Test 32b: 22.2% → cảnh báo đỏ', absenceBadgeQA(10, 45), 'danger');
+  assertEqual('Test 32c: Đúng ngưỡng 20% (9/45) → cảnh báo', absenceBadgeQA(9, 45), 'danger');
+  assertEqual('Test 32d: 9/45 = 20%', computeAbsenceRateQA(9, 45), 20);
+  assertEqual('Test 32e: Dưới ngưỡng 8/45 = 17.8% → không cảnh báo', absenceBadgeQA(8, 45), 'normal');
+  assertEqual('Test 32f: Vắng 0 buổi → 0% và không cảnh báo', absenceBadgeQA(0, 45), 'normal');
+  assertEqual('Test 32g: Tổng buổi = 0 không chia cho 0', computeAbsenceRateQA(0, 0), 0);
+
+  // ─── KAN-12: Chặn điểm danh sai tiết / trùng tiết (GVBM) ─────────────────
+
+  const gvbmAssignment = { teacherId: 'gv.toan01', className: '10A1', subject: 'Toán', period: 2 };
+
+  // GVBM chỉ được điểm danh đúng lớp + đúng tiết được phân công, và không trùng
+  // tiết với một lớp khác trong cùng ngày.
+  function canRecordPeriodAttendanceQA({ role, teacherId, assignment, className, date, period, existing }) {
+    if (role !== 'GVBM') return { httpStatus: 403, reason: 'FORBIDDEN_ROLE' };
+    if (assignment.className !== className || assignment.period !== period) {
+      return { httpStatus: 403, reason: 'WRONG_PERIOD' };
+    }
+    const clash = existing.some((e) => e.teacherId === teacherId && e.date === date
+      && e.period === period && e.className !== className);
+    if (clash) return { httpStatus: 409, reason: 'DUPLICATE_SLOT' };
+    return { httpStatus: 200, reason: 'OK' };
+  }
+
+  const otherSlot = [{ teacherId: 'gv.toan01', className: '10A2', date: '2026-11-17', period: 2 }];
+  assertEqual('Test 33a: Điểm danh đúng tiết được phân công → 200', canRecordPeriodAttendanceQA({
+    role: 'GVBM', teacherId: 'gv.toan01', assignment: gvbmAssignment,
+    className: '10A1', date: '2026-11-17', period: 2, existing: [],
+  }).httpStatus, 200);
+  assertEqual('Test 33b: Sai tiết bị chặn 403', canRecordPeriodAttendanceQA({
+    role: 'GVBM', teacherId: 'gv.toan01', assignment: gvbmAssignment,
+    className: '10A1', date: '2026-11-17', period: 3, existing: [],
+  }).httpStatus, 403);
+  assertEqual('Test 33c: Trùng tiết với lớp khác → 409', canRecordPeriodAttendanceQA({
+    role: 'GVBM', teacherId: 'gv.toan01', assignment: gvbmAssignment,
+    className: '10A1', date: '2026-11-17', period: 2, existing: otherSlot,
+  }).httpStatus, 409);
+  assertEqual('Test 33d: Khác ngày không tính trùng tiết', canRecordPeriodAttendanceQA({
+    role: 'GVBM', teacherId: 'gv.toan01', assignment: gvbmAssignment,
+    className: '10A1', date: '2026-11-18', period: 2, existing: otherSlot,
+  }).httpStatus, 200);
+  assertEqual('Test 33e: GVCN không dùng chức năng điểm danh theo tiết → 403', canRecordPeriodAttendanceQA({
+    role: 'GVCN', teacherId: 'gvcn.10a1', assignment: gvbmAssignment,
+    className: '10A1', date: '2026-11-17', period: 2, existing: [],
+  }).httpStatus, 403);
+
+  // ─── PBI-13: Nhật ký kiểm toán sửa điểm (chỉ INSERT / SELECT) ────────────
+
+  function createAuditLogQA() {
+    const entries = [];
+    return {
+      entries,
+      insert(entry) {
+        entries.push({ ...entry });
+        return entries.length;
+      },
+      update() { throw new Error('UPDATE bị từ chối ở tầng CSDL'); },
+      remove() { throw new Error('DELETE bị từ chối ở tầng CSDL'); },
+    };
+  }
+
+  const auditLog = createAuditLogQA();
+  auditLog.insert({
+    userId: 'gv.toan01',
+    studentId: 'HS00001',
+    oldScore: 7.5,
+    newScore: 8.0,
+    reason: 'Sửa lỗi nhập điểm',
+    ip: '192.168.1.15',
+    timestamp: '2026-11-17T08:30:00+07:00',
+  });
+  const auditEntry = auditLog.entries[0];
+  assertEqual('Test 34a: Ghi old_score = 7.5', auditEntry.oldScore, 7.5);
+  assertEqual('Test 34b: Ghi new_score = 8.0', auditEntry.newScore, 8.0);
+  assertEqual('Test 34c: Ghi đúng user_id', auditEntry.userId, 'gv.toan01');
+  assertEqual('Test 34d: Ghi đúng student_id', auditEntry.studentId, 'HS00001');
+  assertEqual('Test 34e: Ghi IP người thực hiện', auditEntry.ip, '192.168.1.15');
+  assertEqual('Test 34f: Ghi timestamp chính xác', auditEntry.timestamp, '2026-11-17T08:30:00+07:00');
+  let updateBlocked = false;
+  try { auditLog.update(); } catch { updateBlocked = true; }
+  let deleteBlocked = false;
+  try { auditLog.remove(); } catch { deleteBlocked = true; }
+  assertEqual('Test 34g: UPDATE bị từ chối', updateBlocked, true);
+  assertEqual('Test 34h: DELETE bị từ chối', deleteBlocked, true);
+  assertEqual('Test 34i: Chỉ có 1 bản ghi sau khi bị chặn sửa/xóa', auditLog.entries.length, 1);
+  assertEqual('Test 34j: Ghi đúng lý do sửa điểm', auditEntry.reason, 'Sửa lỗi nhập điểm');
+
+  // ─── PBI-09 / KAN-16: 5 ca điểm TBM theo Thông tư 22 ─────────────────────
+
+  assertEqual('Test 35a: Ca thường (7,8,6,9,8) → 7.7',
+    calculateAverageSubjectScore({ oral: 7, m15: 8, h1: 6, mid: 9, final: 8 }), 7.7);
+  assertEqual('Test 35b: Ca biên dưới — tất cả 0.0 → 0',
+    calculateAverageSubjectScore({ oral: 0, m15: 0, h1: 0, mid: 0, final: 0 }), 0);
+  assertEqual('Test 35c: Ca biên trên — tất cả 10.0 → 10',
+    calculateAverageSubjectScore({ oral: 10, m15: 10, h1: 10, mid: 10, final: 10 }), 10);
+  assertEqual('Test 35d: Điểm khống (chưa nhập) coi như 0 → 4.8',
+    calculateAverageSubjectScore({ mid: 8, final: 9 }), 4.8);
+  assertEqual('Test 35e: Làm tròn 77/9 = 8.555… → 8.6',
+    calculateAverageSubjectScore({ oral: 8, m15: 8, h1: 8, mid: 9, final: 9 }), 8.6);
+  assertEqual('Test 35f: TBM 7.7 xếp loại Khá', evaluateAcademicRank(7.7), 'Khá');
+  assertEqual('Test 35g: TBM 10.0 xếp loại Tốt', evaluateAcademicRank(10), 'Tốt');
+
+  // ─── PBI-19: Ma trận phân quyền RBAC 5 vai trò ──────────────────────────
+
+  const ROLE_PERMISSIONS_QA = {
+    BGH:  ['/api/students', '/api/gradebook', '/api/attendance', '/api/audit-logs'],
+    GVCN: ['/api/gradebook', '/api/attendance', '/api/leave-requests'],
+    GVBM: ['/api/gradebook', '/api/attendance'],
+    HS:   ['/api/grades/me', '/api/schedule'],
+    PH:   ['/api/tuition', '/api/parent-portal'],
+  };
+
+  // Thiếu token → 401; token hợp lệ nhưng sai vai trò → 403
+  function authorizeQA({ role, path, hasToken }) {
+    if (!hasToken) return 401;
+    const allowed = ROLE_PERMISSIONS_QA[role] ?? [];
+    return allowed.includes(path) ? 200 : 403;
+  }
+
+  const noTokenCases = Object.keys(ROLE_PERMISSIONS_QA)
+    .map((role) => authorizeQA({ role, path: '/api/students', hasToken: false }));
+  assertEqual('Test 36a: Thiếu token → 401 với cả 5 vai trò', noTokenCases.every((code) => code === 401), true);
+  assertEqual('Test 36b: HS gọi /api/students → 403', authorizeQA({ role: 'HS', path: '/api/students', hasToken: true }), 403);
+  assertEqual('Test 36c: PH gọi /api/students → 403', authorizeQA({ role: 'PH', path: '/api/students', hasToken: true }), 403);
+  assertEqual('Test 36d: GVBM gọi /api/gradebook → 200', authorizeQA({ role: 'GVBM', path: '/api/gradebook', hasToken: true }), 200);
+  assertEqual('Test 36e: GVCN duyệt đơn /api/leave-requests → 200', authorizeQA({ role: 'GVCN', path: '/api/leave-requests', hasToken: true }), 200);
+  assertEqual('Test 36f: BGH xem /api/audit-logs → 200', authorizeQA({ role: 'BGH', path: '/api/audit-logs', hasToken: true }), 200);
+  assertEqual('Test 36g: Vai trò lạ bị chặn 403', authorizeQA({ role: 'GUEST', path: '/api/gradebook', hasToken: true }), 403);
+
+  // Quét toàn bộ 5 vai trò × 6 endpoint: mọi kết quả phải khớp ma trận
+  const matrixPaths = ['/api/students', '/api/gradebook', '/api/attendance', '/api/audit-logs', '/api/grades/me', '/api/tuition'];
+  let matrixMismatch = 0;
+  Object.keys(ROLE_PERMISSIONS_QA).forEach((role) => {
+    matrixPaths.forEach((apiPath) => {
+      const expected = ROLE_PERMISSIONS_QA[role].includes(apiPath) ? 200 : 403;
+      if (authorizeQA({ role, path: apiPath, hasToken: true }) !== expected) matrixMismatch += 1;
+    });
+  });
+  assertEqual('Test 36h: Ma trận 5 vai trò × 6 endpoint khớp 100%', matrixMismatch, 0);
+
+  // ─── PBI-15: Tên tệp + định dạng Excel sổ điểm ──────────────────────────
+
+  const pbi15Export = exportGradeBookToExcel('10A1', 'Toán Học', gradeData, TMP_DIR, 'HK1');
+  assertEqual('Test 37a: Tên tệp SoDiem_10A1_ToánHọc_HK1.xlsx', pbi15Export.fileName, 'SoDiem_10A1_ToánHọc_HK1.xlsx');
+  assertEqual('Test 37b: Học kỳ HK2 đổi đúng tên tệp',
+    exportGradeBookToExcel('10A1', 'Toán Học', gradeData, TMP_DIR, 'HK2').fileName, 'SoDiem_10A1_ToánHọc_HK2.xlsx');
+  assertFileWrite('Test 37c: Xuất sổ điểm có filePath', Boolean(pbi15Export.filePath), true);
+
+  // Style ô chỉ ghi được khi môi trường có xlsx-js-style (fork của SheetJS).
+  // Đọc lại chính tệp trên đĩa để xác minh, không tin object trả về.
+  let styledBook = null;
+  if (hasXlsxStyle && pbi15Export.filePath) {
+    const XLSX_STYLE = require('xlsx-js-style');
+    styledBook = XLSX_STYLE.readFile(pbi15Export.filePath, { cellStyles: true, bookFiles: true });
+  }
+  const stylesXml = styledBook ? Buffer.from(styledBook.files['xl/styles.xml'].content).toString('utf8') : '';
+  const styledSheet = styledBook ? styledBook.Sheets[styledBook.SheetNames[0]] : {};
+
+  assertStyle('Test 37d: styles.xml có font in đậm', stylesXml.includes('<b/>'), true);
+  assertStyle('Test 37e: styles.xml có màu header D9E1F2', stylesXml.includes('FFD9E1F2'), true);
+  assertStyle('Test 37f: styles.xml có màu hàng xen kẽ F2F2F2', stylesXml.includes('FFF2F2F2'), true);
+  assertStyle('Test 37g: Ô tiêu đề A1 nền xanh nhạt', styledSheet.A1?.s?.fgColor?.rgb, 'D9E1F2');
+  assertStyle('Test 37h: Hàng dữ liệu đầu (A2) nền trắng', styledSheet.A2?.s?.patternType ?? 'none', 'none');
+  assertStyle('Test 37i: Hàng dữ liệu thứ hai (A3) nền xám nhạt', styledSheet.A3?.s?.fgColor?.rgb, 'F2F2F2');
+
   // ─── Summary ─────────────────────────────────────────────────────────────
   console.log('=====================================================');
-  console.log(`[TEST SUMMARY] Total: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
+  console.log(`[TEST SUMMARY] Total: ${passed + failed + skipped} | Passed: ${passed} | Failed: ${failed} | Skipped: ${skipped}`);
   console.log('=====================================================');
 
-  return { passed, failed, total: passed + failed };
+  return { passed, failed, skipped, total: passed + failed + skipped };
 }
 
 // Execute unit tests

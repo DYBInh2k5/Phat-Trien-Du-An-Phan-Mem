@@ -7,7 +7,7 @@ THÀNH VIÊN: NGUYỄN MINH QUỐC BẢO
 VAI TRÒ: QA/QC TESTER (TESTER LEAD) & FUNCTIONAL MODULES DEVELOPER
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 VỊ TRÍ TÀI LIỆU: members/member5_Modules_QA/README.md
-NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 136 AUTOMATED TESTS PASS 100%)
+NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 200 CA, 0 FAIL)
 ================================================================================
 ```
 
@@ -15,52 +15,65 @@ NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 136 AUTO
 
 ## 1. BẢNG PHÂN CÔNG MODULE VÀ NHIỆM VỤ CỤ THỂ TRÊN JIRA CLOUD
 
-> **Ghi chú chuẩn hóa theo góp ý của Giảng viên hướng dẫn**:  
+> **Ghi chú chuẩn hóa theo góp ý của Giảng viên hướng dẫn**:
 > Thẻ Jira chỉ quản lý các **Module lớn (Epics)** và **Module con (Tasks/Stories)** cấu thành phần mềm, không đưa các thẻ chuyên đề, báo cáo tuần hay hồ sơ cá nhân lên bảng Kanban.
 
-| Mã Module Lớn | Mã Thẻ Jira | Tên Module Nhỏ / Nhiệm Vụ Phụ Trách | Use Case | Story Points | Trạng Thái | Liên Kết Mã Nguồn / Kiểm Thử |
+| Mã Module Lớn | Mã Thẻ Jira | Tên Module Nhỏ / Nhiệm Vụ Phụ Trách | Use Case | Story Points | Trạng Thái | Ca Kiểm Thử Truy Vết |
 | :---: | :---: | :--- | :---: | :---: | :---: | :--- |
-| **EPIC-04** | **KAN-12** | **Kiểm Thử Điểm Danh Trùng Tiết**: Test case chặn giáo viên điểm danh sai tiết | `UC-GVBM-03` | 2 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
-| **EPIC-04** | **KAN-13** | **Kiểm Thử Cảnh Báo Vắng $\ge 20\%$**: Test case kích hoạt cấm thi học kỳ | `UC-ADM-04` | 2 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
-| **EPIC-05** | **KAN-16** | **Kiểm Thử 5 Ca Biên Điểm Số Thông Tư 22**: Điểm 0.0, 10.0, điểm khống, làm tròn | `UC-GVBM-04` | 3 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
-| **EPIC-06** | **KAN-22** | **Kiểm Thử Chịu Tải 5 Request Đồng Thời**: Kiểm chứng Connection Pool không cạn kiệt | Tầng DB | 2 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
-| **EPIC-07** | **KAN-24** | **Kiểm Thử Phòng Thủ Brute-Force Mật Khẩu**: Kiểm chứng Rate Limiter chặn HTTP 429 | Bảo mật API | 2 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
-| **EPIC-09** | **KAN-29** | **Động Cơ Xuất Biên Lai Học Phí PDF (jsPDF)**: Sinh file PDF biên lai trường HSU | `UC-PAR-04` | 2 SP | **DONE** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
-| **EPIC-10** | **KAN-30** | **Động Cơ Xuất Bảng Điểm Lớp Excel (SheetJS)**: Định dạng `.xlsx` chuẩn cột điểm | `UC-GVCN-10` | 3 SP | **DONE** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
-| **EPIC-10** | **KAN-31** | **Động Cơ In Ấn Phiếu Điểm Học Bạ PDF (jsPDF)**: Quốc hiệu, tiêu ngữ, bảng điểm | `UC-GVCN-10`<br>`UC-STU-05` | 2 SP | **DONE** | [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js) |
-| **EPIC-10** | **KAN-33** | **Bộ Kiểm Thử Tự Động QA Toàn Diện (68 Ca Tests PASS)**: Unit tests, Vitest, UAT | Cả 43 UCs | 5 SP | **DONE** | [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) |
-| **TỔNG** | — | **6 Module Lớn (Module 4, 5, 6, 7, 9, 10)** | **Kiểm thử tự động QA & Động cơ xuất báo cáo** | **23 SP** | **DONE** | **Tỷ lệ đóng góp: ~21% toàn hệ thống** |
+| **EPIC-04** | **KAN-12** | **Kiểm Thử Điểm Danh Trùng Tiết**: Chặn giáo viên điểm danh sai tiết / trùng tiết với lớp khác | `UC-GVBM-03` | 2 SP | **DONE** | Test 33a–33e |
+| **EPIC-04** | **KAN-13** | **Kiểm Thử Cảnh Báo Vắng ≥ 20%**: Kích hoạt cảnh báo cấm thi học kỳ | `UC-ADM-06` | 2 SP | **DONE** | Test 32a–32g |
+| **EPIC-05** | **KAN-16** | **Kiểm Thử 5 Ca Biên Điểm Số Thông Tư 22**: Điểm 0.0, 10.0, điểm khống, làm tròn | `UC-GVBM-06` | 3 SP | **DONE** | Test 35a–35g |
+| **EPIC-06** | **KAN-22** | **Kiểm Thử Chịu Tải 5 Request Đồng Thời**: Kiểm chứng Connection Pool không cạn kiệt | Tầng DB | 2 SP | **DONE** | Test 29a–29g |
+| **EPIC-07** | **KAN-24** | **Kiểm Thử Phòng Thủ Brute-Force Mật Khẩu**: Kiểm chứng Rate Limiter chặn HTTP 429 | Bảo mật API | 2 SP | **DONE** | Test 30a–30e |
+| **EPIC-09** | **KAN-29** | **Động Cơ In Biên Lai Học Phí**: Sinh biểu mẫu biên lai trường HSU, mã tra cứu duy nhất | `UC-PAR-07` | 2 SP | **DONE** | Test 12, 22a–22j, 25a–25e |
+| **EPIC-10** | **KAN-30** | **Động Cơ Xuất Bảng Điểm Lớp Excel (SheetJS)**: Định dạng `.xlsx` chuẩn cột điểm | `UC-GVBM-11` | 3 SP | **DONE** | Test 4, 11a–11e, 24, 28, 37a–37c |
+| **EPIC-10** | **KAN-31** | **Động Cơ In Ấn Phiếu Điểm Học Bạ**: Quốc hiệu, tiêu ngữ, bảng điểm khổ A4 | `UC-GVCN-08`<br>`UC-STU-02` | 2 SP | **DONE** | Test 5, 17a–17b, 19a–19j |
+| **EPIC-10** | **KAN-33** | **Bộ Kiểm Thử Tự Động QA Toàn Diện (200 Ca Tests)**: Unit tests, Vitest, UAT | Cả 43 UCs | 5 SP | **DONE** | Toàn bộ `unitTestingSuite.test.js` |
+| **TỔNG** | — | **6 Module Lớn (Module 4, 5, 6, 7, 9, 10)** | **Kiểm thử tự động QA & Động cơ xuất báo cáo** | **23 SP** | **DONE** | **200 ca, 0 FAIL** |
 
 ### Hệ Thống Động Cơ Báo Cáo & Kế Hoạch QA Đồng Thời Phụ Trách:
-- **Động cơ xuất báo cáo đa định dạng (Excel SheetJS, PDF jsPDF)**: [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js)
-- **Bộ 68 ca kiểm thử tự động toàn diện (Node.js Test Runner)**: [unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js)
-- **Kịch bản kiểm thử chấp nhận người dùng UAT (15 kịch bản / 43 Use Cases)**: [UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md)
-- **Cẩm nang triển khai & cài đặt hệ thống**: [DEPLOYMENT_GUIDE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/DEPLOYMENT_GUIDE.md)
+- **Động cơ xuất báo cáo (Excel SheetJS, in ấn HTML/A4)**: [exportEngine.js](exportEngine.js)
+- **Bộ 200 ca kiểm thử tự động toàn diện (Node.js Test Runner)**: [tests/unitTestingSuite.test.js](tests/unitTestingSuite.test.js)
+- **Kịch bản kiểm thử chấp nhận người dùng UAT (15 kịch bản / 43 Use Cases)**: [docs/UAT_Testing_Plan.md](../../docs/UAT_Testing_Plan.md)
+- **Cẩm nang triển khai & cài đặt hệ thống**: [docs/DEPLOYMENT_GUIDE.md](../../docs/DEPLOYMENT_GUIDE.md)
+
+### Phạm vi nghiệp vụ đã phủ kiểm thử (đối chiếu `docs/PRODUCT_BACKLOG.md`)
+
+| PBI | Nội dung | Ca kiểm thử |
+| :---: | :--- | :--- |
+| PBI-05 | Điểm danh 4 trạng thái PRESENT / EXCUSED / ABSENT / LATE, mặc định PRESENT, lưu lịch sử, cổng PH chỉ báo vắng không phép | Test 31a–31j |
+| PBI-07 | Cảnh báo vắng ≥ 20% (10/45 = 22.2%, đúng 20%, dưới 20%) | Test 32a–32g |
+| PBI-09 | 5 ca điểm TBM theo Thông tư 22 (7.7; 0.0; 10.0; điểm khống; làm tròn) | Test 35a–35g |
+| PBI-13 | Nhật ký kiểm toán sửa điểm: old/new score, IP, timestamp; chặn UPDATE/DELETE | Test 34a–34i |
+| PBI-15 | Tên tệp `SoDiem_[TenLop]_[MonHoc]_[HocKy].xlsx`, tự căn độ rộng cột; tệp ghi ra đĩa khi môi trường có SheetJS; style header/hàng xen kẽ khi có `xlsx-js-style` | Test 4, 11a–11e, 37a–37i |
+| PBI-16 | Phiếu báo điểm A4, quốc hiệu, tiêu ngữ, đủ đầu điểm, hạnh kiểm, `window.print()` | Test 19a–19j |
+| PBI-19 | Ma trận RBAC 5 vai trò, 100% pass, UAT plan | Test 36a–36h |
+| PBI-23 | Phổ điểm từng môn, danh sách Xuất sắc / rèn luyện hè | Test 26a–26g, 27a–27g, 28a–28g |
+| PBI-24 | Học phí, VietQR, biên lai điện tử, lịch sử nhiều năm | Test 9, 12, 14, 22, 25 |
 
 ---
 
 ## 2. TIẾN ĐỘ & PHÂN ĐỊNH CHI TIẾT THEO CỘT MỐC THỜI GIAN
 
-### 2.1 Phần Việc Đã Hoàn Thành (Tuần 1 -> Tuần 6)
+### 2.1 Phần Việc Đã Hoàn Thành (Tuần 1 -> Tuần 10)
 - **Động cơ Xuất Báo cáo Học vụ Đa định dạng (Export Engine)**:
-  + Phát triển mô đun [exportEngine.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/exportEngine.js):
-    * Xuất file bảng tính Excel (`.xlsx`) bằng `SheetJS`, tự động căn lề và định dạng tiêu đề in đậm.
-    * Xuất và in ấn Học bạ điện tử, Phiếu báo điểm và Biên lai học phí PDF chuẩn biểu mẫu Sở GD&ĐT TP.HCM bằng `jsPDF`.
-  + Hoàn thành Báo cáo Chuyên đề 5 tại [CHUYENDE/Chuyên đề 5 Export.docx](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%205%20Export.docx) (`KAN-92`).
+  + Phát triển mô đun [exportEngine.js](exportEngine.js):
+    * Xuất file bảng tính Excel (`.xlsx`) bằng `SheetJS`, tự động căn độ rộng cột; gắn style header in đậm + hàng dữ liệu xen kẽ trắng/xám nhạt khi môi trường có thư viện ghi style (PBI-15).
+    * Sinh Phiếu báo điểm / Học bạ khổ A4 (quốc hiệu, tiêu ngữ, đủ 6 đầu điểm, xếp loại học lực, hạnh kiểm) và Biên lai học phí có mã tra cứu duy nhất, in bằng `window.print()` — người dùng chọn "Lưu thành PDF" của trình duyệt (PBI-16, KAN-29).
+  + Hoàn thành Báo cáo Chuyên đề 5 tại [CHUYENDE/Chuyên đề 5 Export.docx](../../CHUYENDE/Chuy%C3%AAn%20%C4%91%E1%BB%81%205%20Export.docx).
 - **Xây dựng Tài liệu Kiểm thử & Triển khai**:
-  + Soạn thảo [docs/UAT_Testing_Plan.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/UAT_Testing_Plan.md) bao quát 43 Use Cases cho 5 nhóm vai trò.
-  + Soạn thảo [docs/DEPLOYMENT_GUIDE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/DEPLOYMENT_GUIDE.md).
+  + Soạn thảo [docs/UAT_Testing_Plan.md](../../docs/UAT_Testing_Plan.md) bao quát 15 kịch bản / 43 Use Cases cho 5 nhóm vai trò.
+  + Soạn thảo [docs/DEPLOYMENT_GUIDE.md](../../docs/DEPLOYMENT_GUIDE.md).
 
-### 2.2 Phần Việc Đang Thực Hiện (Tuần 7 - Thời Điểm Hiện Tại: 27/10/2026)
+### 2.2 Phần Việc Đang Thực Hiện (Tuần 7 - 10)
 - **Kiểm thử tích hợp hệ thống Xác thực JWT & Phân quyền RBAC**:
-  + Thiết lập kịch bản kiểm thử giả lập tấn công không có Bearer Token (kết quả mong đợi: `401 Unauthorized`).
-  + Thiết lập kịch bản kiểm thử Học sinh cố tình gọi Endpoint sửa điểm của Giáo viên (kết quả mong đợi: `403 Forbidden`).
-  + Phối hợp cùng Member 4 hoàn thiện báo cáo [BrainStorm/Week7.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/BrainStorm/Week7.md).
+  + Giả lập tấn công không có Bearer Token → `401 Unauthorized` (Test 36a).
+  + Học sinh / Phụ huynh gọi Endpoint của BGH → `403 Forbidden` (Test 36b–36c, 21f–21g).
+  + Ma trận 5 vai trò × 6 endpoint khớp 100% (Test 36h).
 
-### 2.3 Phần Việc Sắp Thực Hiện (Tuần 8 -> Tuần 15)
-- **Tuần 8**: Hỗ trợ kiểm thử phân hệ ghi nhật ký kiểm toán [src/utils/AuditLogger.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js).
-- **Tuần 9 (Trọng tâm)**: Hoàn thiện toàn diện Bộ kiểm thử tự động [tests/unitTestingSuite.test.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member5_Modules_QA/tests/unitTestingSuite.test.js) (`KAN-32`) và nộp Báo cáo Chuyên đề 8 `Testing.docx` (`KAN-95`).
-- **Tuần 13**: Chủ trì đợt nghiệm thu kỹ thuật UAT toàn diện 43 Use Cases với hội đồng đánh giá.
+### 2.3 Phần Việc Sắp Thực Hiện (Tuần 11 -> Tuần 15)
+- UAT toàn diện 43 Use Cases với hội đồng đánh giá (Tuần 13).
+- Theo dõi hồi quy: chạy lại `npm run test:qa` mỗi khi member2/member3 hợp nhất mã nguồn.
 
 ---
 
@@ -68,9 +81,36 @@ NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 136 AUTO
 
 | Tệp / Thư mục mã nguồn | Vai Trò & Chức Năng Kỹ Thuật Cụ Thể |
 | :--- | :--- |
-| `members/member5_Modules_QA/exportEngine.js` | Động cơ xuất file Excel .xlsx và tạo trang in PDF học bạ |
-| `members/member5_Modules_QA/tests/unitTestingSuite.test.js` | Bộ kịch bản kiểm thử tự động QA Unit Testing Suite |
-| `docs/UAT_Testing_Plan.md` | Kịch bản kiểm thử chấp nhận người dùng UAT Plan 5 vai trò |
+| `members/member5_Modules_QA/exportEngine.js` | Xuất Excel .xlsx và sinh trang in A4 Phiếu điểm / Biên lai |
+| `members/member5_Modules_QA/tests/unitTestingSuite.test.js` | Bộ 200 ca kiểm thử tự động QA Unit Testing Suite |
+| `docs/UAT_Testing_Plan.md` | 15 kịch bản UAT phủ 43 Use Cases, 5 vai trò |
 | `docs/DEPLOYMENT_GUIDE.md` | Cẩm nang hướng dẫn triển khai Docker và vận hành |
 | `CHUYENDE/Chuyên đề 5 Export.docx` | Báo cáo nghiên cứu Chuyên đề 5 Xuất báo cáo định dạng Word |
 | `CHUYENDE/Chuyên đề 8 Testing.docx` | Báo cáo nghiên cứu Chuyên đề 8 Kiểm thử phần mềm định dạng Word |
+
+### Ghi chú kỹ thuật về định dạng Excel (PBI-15)
+Bản SheetJS Community (`xlsx` v0.18.5) **không ghi được style ô**. `exportEngine.js` vì vậy dò
+`xlsx-js-style` (fork giữ nguyên API 0.18.x, bổ sung ghi style) trước và tự rơi về `xlsx`;
+cả hai đều là phụ thuộc *tùy chọn của môi trường chạy*, không nằm trong bài nộp của member 5
+(`members/member2_Frontend/package.json` đã khai báo `xlsx ^0.18.5` cho phía client).
+
+Vì vậy bộ test tách hai nhóm:
+- **185 khẳng định logic** (tên tệp, số dòng, nội dung dòng, RBAC, TT22…) chạy ở mọi môi trường.
+- **9 khẳng định xác minh tệp trên đĩa** (`filePath` + `fs.existsSync`) tự **SKIP** nếu môi
+  trường chưa có `xlsx`, và chạy đủ khi thư viện hiện diện — không còn "thành công giả".
+- **6 khẳng định style** (Test 37d–37i) tự **SKIP** nếu chưa có `xlsx-js-style`; có gói này thì
+  đọc lại `xl/styles.xml` của tệp thật để xác minh `<b/>`, `FFD9E1F2`, `FFF2F2F2`.
+
+---
+
+## 4. CÁCH CHẠY
+
+Từ thư mục gốc repo (root `package.json` đã có `"type": "module"` và script `test:qa`):
+
+```bash
+npm run test:qa     # 185 PASS + 15 SKIP khi máy chưa cài gì; 200 PASS khi có xlsx-js-style
+```
+
+Muốn chạy đủ cả 15 ca (9 ca tệp + 6 ca style): cài `xlsx-js-style` ở một thư mục bất kỳ rồi chạy
+kèm `NODE_PATH` trỏ tới `node_modules` đó (ví dụ dùng `members/member2_Frontend/node_modules`
+nếu đã cài thêm gói fork); bộ test không khai báo phụ thuộc riêng.

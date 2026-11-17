@@ -31,15 +31,53 @@ let xlsx = null;
  */
 function getXlsx() {
   if (xlsx) return xlsx;
-  try {
-    xlsx = require('xlsx');
-  } catch {
-    // Gói xlsx chưa cài đặt — báo hiệu cho chế độ dự phòng
+  // SheetJS CE (`xlsx`) không ghi được style ô; `xlsx-js-style` là fork giữ nguyên
+  // API 0.18.x và bổ sung ghi style, cần cho header in đậm + hàng xen kẽ (PBI-15).
+  for (const packageId of ['xlsx-js-style', 'xlsx']) {
     try {
-      xlsx = { utils: null };
-    } catch { /* bỏ qua lỗi môi trường cực đoan */ }
+      xlsx = require(packageId);
+      break;
+    } catch { /* thử gói kế tiếp */ }
   }
-  return xlsx;
+  // Không có thư viện nào — báo hiệu cho chế độ dự phòng
+  return xlsx ?? (xlsx = { utils: null });
+}
+
+/**
+ * Làm sạch một đoạn tên tệp: bỏ khoảng trắng và ký tự không hợp lệ trên Windows.
+ * @param {string} value - Đoạn tên gốc (tên lớp, môn học, học kỳ).
+ * @param {string} fallback - Giá trị thay thế khi đoạn tên rỗng.
+ * @returns {string} Đoạn tên an toàn để đặt tên tệp.
+ */
+function toFileSegment(value, fallback) {
+  const cleaned = String(value ?? '').trim().replace(/\s+/g, '').replace(/[\\/:*?"<>|]/g, '');
+  return cleaned || fallback;
+}
+
+/**
+ * Gắn style cho sheet sổ điểm: hàng tiêu đề in đậm, hàng dữ liệu chẵn nền xám nhạt
+ * để xen kẽ với hàng trắng (PBI-15). Chỉ có hiệu lực khi thư viện ghi style được nạp.
+ * @param {object} lib - Module SheetJS đã nạp.
+ * @param {object} worksheet - Worksheet vừa tạo từ mảng 2 chiều.
+ * @param {number} totalRows - Tổng số dòng của mảng 2 chiều (kể cả tiêu đề).
+ */
+function styleGradeBookSheet(lib, worksheet, totalRows) {
+  const headerStyle = {
+    font: { bold: true },
+    fill: { patternType: 'solid', fgColor: { rgb: 'D9E1F2' } },
+    alignment: { horizontal: 'center', vertical: 'center' },
+  };
+  const stripedStyle = { fill: { patternType: 'solid', fgColor: { rgb: 'F2F2F2' } } };
+
+  for (let r = 0; r < totalRows; r += 1) {
+    // Dòng 0 là tiêu đề; các dòng dữ liệu 1,3,5… (chỉ số lẻ) xen kẽ nền xám
+    const style = r === 0 ? headerStyle : (r % 2 === 0 ? stripedStyle : null);
+    if (!style) continue;
+    for (let c = 0; c < 32; c += 1) {
+      const addr = lib.utils.encode_cell({ r, c });
+      if (worksheet[addr]) worksheet[addr].s = style;
+    }
+  }
 }
 
 // ─── UC-GVCN-10 / UC-GVBM-10: Xuất Sổ Điểm ra Excel ─────────────────────────
@@ -54,11 +92,13 @@ function getXlsx() {
  * @param {string} subjectName - Tên môn học, ví dụ 'Toán Học'.
  * @param {Array<Object>} gradeData - Danh sách điểm học sinh.
  * @param {string} [outputDir='.'] - Thư mục ghi file .xlsx (mặc định: thư mục hiện tại).
+ * @param {string} [semester='HK1'] - Học kỳ, dùng đặt tên tệp theo PBI-15.
  * @returns {{success: boolean, fileName: string, rowCount: number, filePath?: string, buffer?: Buffer, rows?: Array}}
  * @throws {Error} Không ném trực tiếp — mọi lỗi đều được ghi log và chuyển về kết quả dự phòng.
  */
-export function exportGradeBookToExcel(className, subjectName, gradeData = [], outputDir = '.') {
-  const fileName = `Bang_Diem_${className}_${subjectName}.xlsx`;
+export function exportGradeBookToExcel(className, subjectName, gradeData = [], outputDir = '.', semester = 'HK1') {
+  // Tên tệp theo DoD PBI-15: SoDiem_[TenLop]_[MonHoc]_[HocKy].xlsx
+  const fileName = `SoDiem_${toFileSegment(className, 'Lop')}_${toFileSegment(subjectName, 'Mon')}_${toFileSegment(semester, 'HK1')}.xlsx`;
 
   // Bước 1: Chuẩn hóa từng dòng điểm sang tiêu đề cột tiếng Việt chuẩn Thông tư 22
   const excelRows = gradeData.map((item, index) => ({
@@ -96,6 +136,9 @@ export function exportGradeBookToExcel(className, subjectName, gradeData = [], o
       });
       return { wch: Math.min(Math.max(max + 4, 10), 40) };
     });
+
+    // Header in đậm + hàng dữ liệu xen kẽ trắng/xám nhạt (PBI-15)
+    styleGradeBookSheet(lib, worksheet, aoa.length);
 
     const workbook = lib.utils.book_new();
     lib.utils.book_append_sheet(workbook, worksheet, `Lớp ${className}`);
