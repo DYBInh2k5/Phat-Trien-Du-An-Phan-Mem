@@ -1,0 +1,4 @@
+# Ép xuống dòng LF trên mọi máy (khớp Prettier endOfLine=lf), tránh Windows tự đổi sang CRLF
+* text=auto eol=lf
+*.png binary
+*.jpg binary
