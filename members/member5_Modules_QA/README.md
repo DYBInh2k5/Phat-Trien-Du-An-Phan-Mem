@@ -7,7 +7,7 @@ THÀNH VIÊN: NGUYỄN MINH QUỐC BẢO
 VAI TRÒ: QA/QC TESTER (TESTER LEAD) & FUNCTIONAL MODULES DEVELOPER
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 VỊ TRÍ TÀI LIỆU: members/member5_Modules_QA/README.md
-NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 208 CA, 0 FAIL)
+NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 214 CA, 0 FAIL)
 ================================================================================
 ```
 
@@ -28,12 +28,12 @@ NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 208 CA, 
 | **EPIC-09** | **KAN-29** | **Động Cơ In Biên Lai Học Phí**: Sinh biểu mẫu biên lai trường HSU, mã tra cứu duy nhất | `UC-PAR-07` | 2 SP | **DONE** | Test 12, 22a–22j, 25a–25e |
 | **EPIC-10** | **KAN-30** | **Động Cơ Xuất Bảng Điểm Lớp Excel (SheetJS)**: Định dạng `.xlsx` chuẩn cột điểm | `UC-GVBM-11` | 3 SP | **DONE** | Test 4, 11a–11e, 24, 28, 37a–37c |
 | **EPIC-10** | **KAN-31** | **Động Cơ In Ấn Phiếu Điểm Học Bạ**: Quốc hiệu, tiêu ngữ, bảng điểm khổ A4 | `UC-GVCN-08`<br>`UC-STU-02` | 2 SP | **DONE** | Test 5, 17a–17b, 19a–19j |
-| **EPIC-10** | **KAN-33** | **Bộ Kiểm Thử Tự Động QA Toàn Diện (208 Ca Tests)**: Unit tests, Vitest, UAT | Cả 43 UCs | 5 SP | **DONE** | Toàn bộ `unitTestingSuite.test.js` |
-| **TỔNG** | — | **6 Module Lớn (Module 4, 5, 6, 7, 9, 10)** | **Kiểm thử tự động QA & Động cơ xuất báo cáo** | **23 SP** | **DONE** | **208 ca, 0 FAIL** |
+| **EPIC-10** | **KAN-33** | **Bộ Kiểm Thử Tự Động QA Toàn Diện (214 Ca Tests)**: Unit tests, Vitest, UAT | Cả 43 UCs | 5 SP | **DONE** | Toàn bộ `unitTestingSuite.test.js` |
+| **TỔNG** | — | **6 Module Lớn (Module 4, 5, 6, 7, 9, 10)** | **Kiểm thử tự động QA & Động cơ xuất báo cáo** | **23 SP** | **DONE** | **214 ca, 0 FAIL** |
 
 ### Hệ Thống Động Cơ Báo Cáo & Kế Hoạch QA Đồng Thời Phụ Trách:
 - **Động cơ xuất báo cáo (Excel SheetJS, in ấn HTML/A4)**: [exportEngine.js](exportEngine.js)
-- **Bộ 208 ca kiểm thử tự động toàn diện (Node.js Test Runner)**: [tests/unitTestingSuite.test.js](tests/unitTestingSuite.test.js)
+- **Bộ 214 ca kiểm thử tự động toàn diện (Node.js Test Runner)**: [tests/unitTestingSuite.test.js](tests/unitTestingSuite.test.js)
 - **Kịch bản kiểm thử chấp nhận người dùng UAT (15 kịch bản / 43 Use Cases)**: [docs/UAT_Testing_Plan.md](../../docs/UAT_Testing_Plan.md)
 - **Cẩm nang triển khai & cài đặt hệ thống**: [docs/DEPLOYMENT_GUIDE.md](../../docs/DEPLOYMENT_GUIDE.md)
 
@@ -47,8 +47,8 @@ NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 208 CA, 
 | PBI-13 | Nhật ký kiểm toán sửa điểm: old/new score, IP, timestamp; chặn UPDATE/DELETE | Test 34a–34i |
 | PBI-15 | Tên tệp `SoDiem_[TenLop]_[MonHoc]_[HocKy].xlsx`, tự căn độ rộng cột; tệp ghi ra đĩa khi môi trường có SheetJS; style header/hàng xen kẽ khi có `xlsx-js-style` | Test 4, 11a–11e, 37a–37i |
 | PBI-16 | Phiếu báo điểm A4, quốc hiệu, tiêu ngữ, đủ đầu điểm, hạnh kiểm, `window.print()` | Test 19a–19j |
-| PBI-19 | Ma trận RBAC 5 vai trò, 100% pass, UAT plan | Test 36a–36h |
-| PBI-23 | Phổ điểm từng môn, danh sách Xuất sắc / rèn luyện hè | Test 26a–26g, 27a–27g, 28a–28g |
+| PBI-19 | Ma trận RBAC 5 vai trò, 100% pass, UAT plan | Test 36a–36h, 39a |
+| PBI-23 | Phổ điểm từng môn, danh sách Xuất sắc (mọi môn Tốt + hạnh kiểm Tốt + ĐTB ≥ 9.0 theo §9.2) / rèn luyện hè | Test 26a–26g, 27a–27l, 28a–28g |
 | PBI-24 | Học phí, VietQR, biên lai điện tử, lịch sử nhiều năm | Test 9, 12, 14, 22, 25 |
 
 ---
@@ -71,6 +71,8 @@ NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 208 CA, 
   + Học sinh / Phụ huynh gọi Endpoint của BGH → `403 Forbidden` (Test 36b–36c, 21f–21g).
   + Ma trận 5 vai trò × toàn bộ endpoint khớp middleware RBAC thật của member4 (Test 36h).
   + Test 34 gọi thẳng `AuditLogger` của member3; Test 38 gọi `vietQrHelper` (EMVCo + CRC16) cho PBI-24.
+  + Test 27h–27l khóa điều kiện "Học sinh Xuất sắc" theo §9.2 (ĐTB các môn ≥ 9.0) và nhãn hạnh kiểm `Chưa Đạt` cho danh sách rèn luyện hè.
+  + Test 39a quét `server.js` của member3 để phát hiện việc chưa nối `authorizeRoles` — tránh "test xanh mà sản phẩm chưa gắn RBAC".
 
 ### 2.3 Phần Việc Sắp Thực Hiện (Tuần 11 -> Tuần 15)
 - UAT toàn diện 43 Use Cases với hội đồng đánh giá (Tuần 13).
@@ -83,7 +85,7 @@ NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 208 CA, 
 | Tệp / Thư mục mã nguồn | Vai Trò & Chức Năng Kỹ Thuật Cụ Thể |
 | :--- | :--- |
 | `members/member5_Modules_QA/exportEngine.js` | Xuất Excel .xlsx và sinh trang in A4 Phiếu điểm / Biên lai |
-| `members/member5_Modules_QA/tests/unitTestingSuite.test.js` | Bộ 208 ca kiểm thử tự động QA Unit Testing Suite |
+| `members/member5_Modules_QA/tests/unitTestingSuite.test.js` | Bộ 214 ca kiểm thử tự động QA Unit Testing Suite |
 | `docs/UAT_Testing_Plan.md` | 15 kịch bản UAT phủ 43 Use Cases, 5 vai trò |
 | `docs/DEPLOYMENT_GUIDE.md` | Cẩm nang hướng dẫn triển khai Docker và vận hành |
 | `CHUYENDE/Chuyên đề 5 Export.docx` | Báo cáo nghiên cứu Chuyên đề 5 Xuất báo cáo định dạng Word |
@@ -96,11 +98,13 @@ cả hai đều là phụ thuộc *tùy chọn của môi trường chạy*, kh�
 (`members/member2_Frontend/package.json` đã khai báo `xlsx ^0.18.5` cho phía client).
 
 Vì vậy bộ test tách hai nhóm:
-- **193 khẳng định logic** (tên tệp, số dòng, nội dung dòng, RBAC, TT22…) chạy ở mọi môi trường.
+- **198 khẳng định logic** (tên tệp, số dòng, nội dung dòng, RBAC, TT22…) chạy ở mọi môi trường.
 - **9 khẳng định xác minh tệp trên đĩa** (`filePath` + `fs.existsSync`) tự **SKIP** nếu môi
   trường chưa có `xlsx`, và chạy đủ khi thư viện hiện diện — không còn "thành công giả".
 - **6 khẳng định style** (Test 37d–37i) tự **SKIP** nếu chưa có `xlsx-js-style`; có gói này thì
   đọc lại `xl/styles.xml` của tệp thật để xác minh `<b/>`, `FFD9E1F2`, `FFF2F2F2`.
+- **1 ca hợp đồng tích hợp** (Test 39a) quét `server.js` của member3: hiện **SKIP** vì server chưa
+  nối `authorizeRoles` vào route (nợ kỹ thuật của member3); khi member3 nối xong ca này tự PASS.
 
 ---
 
@@ -109,7 +113,7 @@ Vì vậy bộ test tách hai nhóm:
 Từ thư mục gốc repo (root `package.json` đã có `"type": "module"` và script `test:qa`):
 
 ```bash
-npm run test:qa     # 193 PASS + 15 SKIP khi máy chưa cài gì; 208 PASS khi có xlsx-js-style
+npm run test:qa     # 198 PASS + 16 SKIP khi máy chưa cài gì; 213 PASS + 1 SKIP khi có xlsx-js-style
 ```
 
 Muốn chạy đủ cả 15 ca (9 ca tệp + 6 ca style): cài `xlsx-js-style` ở một thư mục bất kỳ rồi chạy

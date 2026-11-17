@@ -407,10 +407,13 @@ export function buildSubjectScoreDistribution(students = [], options = {}) {
     }));
 }
 
+/** ĐTB các môn tối thiểu để đạt danh hiệu Học sinh Xuất sắc (CHI_TIET_NGHIEP_VU §9.2). */
+const EXCELLENT_MIN_AVERAGE = 9.0;
+
 /**
- * Danh sách xét khen thưởng & rèn luyện hè của BGH (PBI-23):
- * - **Học sinh Xuất sắc**: tất cả môn đều xếp loại `Tốt` và hạnh kiểm `Tốt`.
- * - **Cần rèn luyện hè**: có ít nhất một môn `Chưa đạt` hoặc hạnh kiểm `Yếu`.
+ * Danh sách xét khen thưởng & rèn luyện hè của BGH (PBI-23, CHI_TIET_NGHIEP_VU §9.2):
+ * - **Học sinh Xuất sắc**: tất cả môn xếp loại `Tốt`, hạnh kiểm `Tốt` và ĐTB các môn >= 9.0.
+ * - **Cần rèn luyện hè**: có ít nhất một môn `Chưa đạt` hoặc hạnh kiểm `Chưa Đạt`/`Yếu`.
  *
  * @param {Array<Object>} students
  * @param {{filter?: {className?: string, gradeLevel?: string|number}} & {className?: string, gradeLevel?: string|number}} [options]
@@ -434,6 +437,9 @@ export function buildAwardLists(students = [], options = {}) {
     const allExcellent = rows.length > 0
       && scoredRows.length === rows.length
       && scoredRows.every(({ score }) => rankAcademicScore(score) === 'Tốt');
+    const averageScore = scoredRows.length === rows.length && rows.length > 0
+      ? Number((scoredRows.reduce((sum, { score }) => sum + score, 0) / rows.length).toFixed(2))
+      : null;
 
     const record = {
       studentCode: student.studentCode ?? student.student_code ?? '',
@@ -442,15 +448,16 @@ export function buildAwardLists(students = [], options = {}) {
       gradeLevel: student.gradeLevel ?? student.grade_level ?? '',
       conductRank: conduct,
       subjectCount: rows.length,
+      averageScore,
     };
 
-    if (allExcellent && conduct === 'Tốt') {
+    if (allExcellent && conduct === 'Tốt' && averageScore !== null && averageScore >= EXCELLENT_MIN_AVERAGE) {
       excellent.push({ ...record, title: 'Học sinh Xuất sắc' });
     }
 
     const reasons = [];
     if (failedSubjects.length > 0) reasons.push(`Môn Chưa đạt: ${failedSubjects.join(', ')}`);
-    if (conduct === 'Yếu') reasons.push('Hạnh kiểm: Yếu');
+    if (conduct === 'Chưa Đạt' || conduct === 'Yếu') reasons.push(`Hạnh kiểm: ${conduct}`);
     if (reasons.length > 0) summerTraining.push({ ...record, reason: reasons.join(' · ') });
   });
 

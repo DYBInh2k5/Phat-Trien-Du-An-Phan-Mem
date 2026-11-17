@@ -150,9 +150,10 @@ Kết quả đạt được: **79/79 tests PASS (100%)** bao gồm:
 # Từ thư mục gốc repo (script test:qa đã khai báo trong package.json gốc)
 npm run test:qa
 ```
-Kết quả đạt được: **193 PASS + 15 SKIP + 0 FAIL** trên máy chưa cài thư viện ghi Excel;
-**208/208 PASS** khi môi trường có `xlsx-js-style` (ví dụ chạy kèm
-`NODE_PATH` trỏ tới thư mục đã cài gói fork). Bao gồm:
+Kết quả đạt được: **198 PASS + 16 SKIP + 0 FAIL** trên máy chưa cài thư viện ghi Excel;
+**213 PASS + 1 SKIP** khi môi trường có `xlsx-js-style` (ví dụ chạy kèm
+`NODE_PATH` trỏ tới thư mục đã cài gói fork). SKIP còn lại là Test 39a — ca hợp đồng phát hiện
+`server.js` của member3 chưa nối `authorizeRoles` vào route. Bao gồm:
 - ĐTBmhk 5 ca (7.7; 0.0; 10.0; điểm khống; làm tròn), xếp loại 4 mức Thông tư 22, quy đổi GPA 10 → 4.
 - PBI-05: điểm danh 4 trạng thái, mặc định PRESENT, lưu lịch sử, cổng PH chỉ báo vắng không phép.
 - PBI-07 / KAN-13: cảnh báo vắng ≥ 20% (10/45 = 22.2%, đúng ngưỡng 20%, dưới ngưỡng 17.8%).

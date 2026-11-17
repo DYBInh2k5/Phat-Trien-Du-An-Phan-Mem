@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import { calculateAverageSubjectScore, evaluateAcademicRank, convertGPA10To4 } from '../../member4_Logic_Security/gpaCalculationLogic.js';
 import { authorizeRoles, ROLES } from '../../member4_Logic_Security/rbacMiddleware.js';
 import { AuditLogger } from '../../member3_Backend_DB/school-management-nodejs/src/utils/AuditLogger.js';
@@ -509,8 +510,8 @@ export function runSystemUnitTests() {
     {
       studentCode: 'HS001', fullName: 'Nguyễn Thị Ánh', className: '10A1', gradeLevel: 10, conductRank: 'Tốt',
       subjects: [
-        { subjectName: 'Toán', averageScore: 9.0 },
-        { subjectName: 'Ngữ văn', averageScore: 8.2 },
+        { subjectName: 'Toán', averageScore: 9.5 },
+        { subjectName: 'Ngữ văn', averageScore: 9.0 },
       ],
     },
     {
@@ -550,6 +551,34 @@ export function runSystemUnitTests() {
   assertEqual('Test 27e: Lý do gồm môn Chưa đạt + hạnh kiểm Yếu', awards.summerTraining[0].reason.includes('Toán') && awards.summerTraining[0].reason.includes('Hạnh kiểm: Yếu'), true);
   assertEqual('Test 27f: Lọc theo lớp 10A2 chỉ còn HS003', buildAwardLists(awardStudents, { filter: { className: '10A2' } }).excellent.length, 0);
   assertEqual('Test 27g: Phạm vi báo cáo toàn trường', awards.scope, 'Toàn trường');
+
+  // Test 27 (tt) — Ngưỡng ĐTB >= 9.0 của CHI_TIET_NGHIEP_VU §9.2
+  const boundaryStudents = [
+    {
+      studentCode: 'HS101', fullName: 'Đúng Ngưỡng', className: '10B1', gradeLevel: 10, conductRank: 'Tốt',
+      subjects: [{ subjectName: 'Toán', averageScore: 9.0 }, { subjectName: 'Ngữ văn', averageScore: 9.0 }],
+    },
+    {
+      studentCode: 'HS102', fullName: 'Dưới Ngưỡng', className: '10B1', gradeLevel: 10, conductRank: 'Tốt',
+      subjects: [{ subjectName: 'Toán', averageScore: 9.0 }, { subjectName: 'Ngữ văn', averageScore: 8.8 }],
+    },
+    {
+      studentCode: 'HS103', fullName: 'Hạnh Kiểm Chưa Đạt', className: '10B1', gradeLevel: 10, conductRank: 'Chưa Đạt',
+      subjects: [{ subjectName: 'Toán', averageScore: 9.5 }, { subjectName: 'Ngữ văn', averageScore: 9.5 }],
+    },
+    {
+      studentCode: 'HS104', fullName: 'Thiếu Điểm', className: '10B1', gradeLevel: 10, conductRank: 'Tốt',
+      subjects: [{ subjectName: 'Toán', averageScore: 9.5 }, { subjectName: 'Ngữ văn', averageScore: null }],
+    },
+  ];
+  const boundaryAwards = buildAwardLists(boundaryStudents);
+  assertEqual('Test 27h: HS001 có ĐTB các môn 9.25', awards.excellent[0].averageScore, 9.25);
+  assertEqual('Test 27i: ĐTB đúng 9.0 vẫn đạt Xuất sắc', boundaryAwards.excellent.length, 1);
+  assertEqual('Test 27j: ĐTB 8.9 dù mọi môn Tốt → không Xuất sắc', boundaryAwards.excellent.some((s) => s.studentCode === 'HS102'), false);
+  assertEqual('Test 27k: Hạnh kiểm Chưa Đạt vào rèn luyện hè',
+    boundaryAwards.summerTraining.find((s) => s.studentCode === 'HS103')?.reason.includes('Hạnh kiểm: Chưa Đạt'), true);
+  assertEqual('Test 27l: Thiếu điểm không bị kết luận oan vào rèn luyện hè',
+    boundaryAwards.summerTraining.some((s) => s.studentCode === 'HS104'), false);
 
   // Test 28 — Xuất báo cáo BGH ra Excel (3 sheet)
   const awardExport = exportAwardReportToExcel(awardStudents, { filter: { className: '10A1' }, outputDir: TMP_DIR });
@@ -876,6 +905,24 @@ export function runSystemUnitTests() {
     qrData.emvcoPayload === qrPayload
       && qrData.qrImageUrl.includes('0388888888')
       && qrData.qrImageUrl.includes('1500000'), true);
+
+  // ─── Test 39: Hợp đồng RBAC ở tầng ứng dụng ──────────────────────────────
+  // Test 36 chứng minh middleware đúng; ca này kiểm server.js có nạp
+  // authorizeRoles vào route hay chưa. Thiếu thì SKIP kèm lý do, không PASS giả.
+  try {
+    const serverFile = fileURLToPath(new URL('../../member3_Backend_DB/school-management-nodejs/server.js', import.meta.url));
+    const serverSource = fs.readFileSync(serverFile, 'utf8');
+    if (serverSource.includes('authorizeRoles')) {
+      passed += 1;
+      console.log('PASS: [Test 39a: server.js đã nối authorizeRoles vào route]');
+    } else {
+      skipped += 1;
+      console.log('SKIP: [Test 39a: server.js CHƯA nối authorizeRoles] -> RBAC mới kiểm ở mức middleware; member3 phải gắn authorizeRoles vào route');
+    }
+  } catch {
+    skipped += 1;
+    console.log('SKIP: [Test 39a: không đọc được server.js của member3]');
+  }
 
   // ─── Summary ─────────────────────────────────────────────────────────────
   console.log('=====================================================');

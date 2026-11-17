@@ -21,7 +21,7 @@ Kiểm thử các màn hình giao diện React Frontend tại `members/member2_F
 4. **Học sinh**: `StudentGradebookPage.jsx`, `StudentSchedulePage.jsx`, `StudentExamsPage.jsx`, `StudentAttendancePage.jsx`.
 5. **Phụ huynh**: `ParentCommunicationPage.jsx`.
 
-Mỗi kịch bản đối chiếu đồng thời với bộ 208 ca kiểm thử tự động của Member 5 và đặc tả Use Case tương ứng.
+Mỗi kịch bản đối chiếu đồng thời với bộ 214 ca kiểm thử tự động của Member 5 và đặc tả Use Case tương ứng.
 
 ---
 
@@ -61,7 +61,7 @@ Mỗi kịch bản đối chiếu đồng thời với bộ 208 ca kiểm thử 
 | Mã | Kịch bản | Các bước | Kết quả kỳ vọng | UC | Trạng thái |
 | :--- | :--- | :--- | :--- | :--- | :---: |
 | `UAT-10` | Sổ điểm tổng hợp, hạnh kiểm, sổ liên lạc | GVCN mở sổ điểm tổng hợp → nhập hạnh kiểm + nhận xét → phát hành sổ liên lạc | Hạnh kiểm 4 mức Tốt/Khá/Trung bình/Yếu; nhận xét ≤ 500 ký tự; PH thấy đúng dữ liệu của con | `UC_GVCN_01`, `UC_GVCN_04`, `UC_GVCN_05`, `UC_GVCN_06` | PASS (thủ công) |
-| `UAT-11` | Xuất Excel sổ điểm & báo cáo khen thưởng | Bấm "Xuất Excel" ở sổ điểm; BGH xuất báo cáo phổ điểm | Tệp `SoDiem_[TenLop]_[MonHoc]_[HocKy].xlsx`, header in đậm, hàng xen kẽ trắng/xám; báo cáo có phổ điểm từng môn + danh sách Xuất sắc / rèn luyện hè | `UC_GVBM_11`, `UC_GVCN_09`, `UC_ADM_07` | PASS (auto) — Test 37a–37i, 26–28 |
+| `UAT-11` | Xuất Excel sổ điểm & báo cáo khen thưởng | Bấm "Xuất Excel" ở sổ điểm; BGH xuất báo cáo phổ điểm | Tệp `SoDiem_[TenLop]_[MonHoc]_[HocKy].xlsx`, header in đậm, hàng xen kẽ trắng/xám; báo cáo có phổ điểm từng môn + danh sách Xuất sắc (mọi môn Tốt + hạnh kiểm Tốt + ĐTB các môn ≥ 9.0 theo §9.2) / rèn luyện hè | `UC_GVBM_11`, `UC_GVCN_09`, `UC_ADM_07` | PASS (auto) — Test 37a–37i, 26–28 |
 | `UAT-12` | In phiếu báo điểm / học bạ | Mở phiếu báo điểm → bấm "In / Lưu PDF" | Print Preview khổ A4, quốc hiệu + tiêu ngữ, đủ 6 đầu điểm, xếp loại học lực, hạnh kiểm; HS xem GPA hệ 10 và hệ 4 | `UC_GVCN_08`, `UC_STU_02` | PASS (auto) — Test 19a–19j |
 
 ### 2.6. Cổng Phụ huynh & Học sinh
@@ -92,5 +92,5 @@ Mỗi kịch bản đối chiếu đồng thời với bộ 208 ca kiểm thử 
 ## 4. KẾT LUẬN VÀ NGHIỆM THU
 
 - 15/15 kịch bản đã soạn đầy đủ bước thực hiện và kết quả kỳ vọng, phủ trọn 43 Use Cases của hệ thống.
-- Các kịch bản gắn `PASS (auto)` được chứng minh bằng bộ **208 ca kiểm thử tự động** (0 FAIL) tại `members/member5_Modules_QA/tests/unitTestingSuite.test.js`.
+- Các kịch bản gắn `PASS (auto)` được chứng minh bằng bộ **214 ca kiểm thử tự động** (0 FAIL) tại `members/member5_Modules_QA/tests/unitTestingSuite.test.js`.
 - Các kịch bản `PASS (thủ công)` do nhóm ghi nhận trong các đợt kiểm thử giao diện; khi chạy nghiệm thu chính thức cần chụp màn hình đính kèm biên bản UAT.
