@@ -350,7 +350,7 @@ MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, T
 * **Tệp mã nguồn tương ứng**:
   - Backend Helper: `members/member3_Backend_DB/school-management-nodejs/src/utils/vietQrHelper.js`
   - Backend Controller: `members/member3_Backend_DB/school-management-nodejs/src/controllers/TuitionController.js`
-  - Frontend Modal: `members/member2_Frontend/src/components/modals/VietQrPaymentModal.jsx`
+  - Frontend Modal: `members/member2_Frontend/src/components/VietQrPaymentModal.jsx`
 * **Hàm / Component / Chức năng code cụ thể**:
   - `generateVietQRUrl`: Tạo chuỗi mã QR theo chuẩn NAPAS 247 và checksum CRC16.
   - `TuitionController.processWebhook`: Gạch nợ hóa đơn ngay khi nhận tín hiệu chuyển khoản.
