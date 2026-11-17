@@ -120,7 +120,8 @@ const result = await this.db.query(
    - **Hồ sơ kỹ thuật**: Xuất bản 9 tệp tài liệu kiến trúc chuyên sâu tại `members/member4_Logic_Security/docs/` (Mermaid diagrams, Clean Architecture, RESTful API, RBAC, Gradebook logic).
    - **Đã khắc phục**: Cài đặt trọn vẹn 161 gói npm phụ thuộc, cấu hình kiểm thử đơn vị độc lập không phụ thuộc DB sống, đạt **94/94 unit tests PASS**.
 3. **Đồng Bộ Kiểm Thử Tập Trung Toàn Hệ Thống**:
-   - Cập nhật `package.json` gốc với lệnh `npm test` chạy liên hoàn toàn bộ test suites của cả Member 3 (`79/79 PASS`) và Member 4 (`94/94 PASS`), đạt tổng cộng **173 tests PASS (100%)**.
+   - Cập nhật `package.json` gốc với lệnh `npm test` chạy liên hoàn toàn bộ test suites của Backend CSDL (`79/79 PASS`), Logic & Security (`94/94 PASS`), QA System & Use Cases (`136/136 PASS`), cùng Frontend Vitest (`13/13 PASS`), đạt tổng cộng **322/322 tests PASS (100% Xanh)**.
+   - Xuất bản bản đồ chi tiết 27 tasks: `docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md`.
 
 | Kênh Quản Trị / Tài Liệu | Nội Dung Đồng Bộ Hiện Tại | Trạng Thái Tuần 10 |
 | :--- | :--- | :---: |
@@ -130,8 +131,9 @@ const result = await this.db.query(
 | **Kho Git GitHub** | Kho chính thức: `https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem` (Dual-Remote push). | **Up-to-date (Đã merge PR #7, #8)** |
 | **Kho Git Bitbucket** | Kho đối ứng: `https://bitbucket.org/codyisme27205/pt_da_pm` (Dual-Remote push). | **Up-to-date (Đã sync)** |
 | **Cẩm nang Lập trình** | [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md) (978 dòng) hướng dẫn quy trình 5 bước phát triển, SQL an toàn và link tài liệu chuẩn. | **Đã hoàn thành** |
-| **Bản Tổng Quan Leader** | [docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md](docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md) cập nhật tiến độ hợp nhất 2 PRs mới nhất. | **Đã hoàn thành** |
-| **Bộ Kiểm Thử Tập Trung** | Lệnh `npm test` tại thư mục gốc chạy thành công 173/173 tests (79 Backend DB + 94 Logic Security). | **100% PASS** |
+| **Bản Tổng Quan Leader** | [docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md](docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md) cập nhật tiến độ hợp nhất 2 PRs và kết quả 322 tests. | **Đã hoàn thành** |
+| **Bản Đồ 27 Tasks Code** | [docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md](docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md) ánh xạ chi tiết từng task vào file code và hàm. | **Đã hoàn thành** |
+| **Bộ Kiểm Thử Tập Trung** | Lệnh `npm test` tại thư mục gốc chạy thành công 309 unit tests + 13 vitest (Tổng cộng 322 tests). | **100% PASS** |
 
 ---
 

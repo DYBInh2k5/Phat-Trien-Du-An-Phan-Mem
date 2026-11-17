@@ -75,6 +75,8 @@ NGÀY CẬP NHẬT: 15/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 — HOÀN 
 | [members/member1_PM_BA/complete_member1_tasks.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member1_PM_BA/complete_member1_tasks.js) | Tự động nghiệm thu, ghi nhận Worklog và chuyển trạng thái Done trên Jira & ClickUp |
 | [members/member1_PM_BA/enrich_clickup_and_jira.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member1_PM_BA/enrich_clickup_and_jira.js) | Đồng bộ 11 mục chi tiết, Deadline và Assignee cho toàn bộ 27 PBIs |
 | [members/member1_PM_BA/restore_visible_clickup.js](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/members/member1_PM_BA/restore_visible_clickup.js) | Khôi phục và đảm bảo 100% task luôn hiển thị trên giao diện ClickUp |
+| [docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md) | Bản đồ chi tiết 27 tasks: ánh xạ Jira/ClickUp, file code và hàm thực thi cho Leader |
+| [docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md) | Cẩm nang tổng quan 10 modules, kiến trúc và điều hành 322 tests cho Leader |
 | [README.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/README.md) | Cổng thông tin tổng quan của toàn bộ kho lưu trữ dự án |
 | [timeline.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/timeline.md) | Bảng theo dõi tiến độ tuần và quản lý trạng thái hoàn thành |
 | [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md) | Cẩm nang lập trình, sửa mã nguồn và danh mục tutorial chính thức |
