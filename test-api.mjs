@@ -35,7 +35,7 @@ const endpoints = [
     name: '10. Xác thực Đăng nhập Người dùng (Auth Login)',
     method: 'POST',
     url: '/api/auth/login',
-    body: { username: 'admin', password: '123', role: 'ROLE_ADMIN' }
+    body: { username: 'admin', password: 'admin123', role: 'BGH' }
   }
 ];
 

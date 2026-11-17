@@ -108,18 +108,30 @@ const result = await this.db.query(
 
 ---
 
-## 4. TỔNG HỢP TIẾN ĐỘ ĐỒNG BỘ CÁC CÔNG CỤ QUẢN TRỊ DỰ ÁN
+## 4. TỔNG HỢP TIẾN ĐỘ ĐỒNG BỘ CÁC CÔNG CỤ QUẢN TRỊ DỰ ÁN & KẾT QUẢ MERGE PR TUẦN 10
+
+### 4.1. Kết Quả Rà Soát & Hợp Nhất 2 Pull Requests Mới Nhất (17/11/2026):
+1. **Pull Request #7 (Huỳnh Trung Tính & Võ Hoàng Sơn)**:
+   - **Chức năng**: Thanh toán Học phí VietQR Động (chuẩn EMVCo NAPAS, CRC16), đối soát tức thì, xử lý tranh chấp 1 phiên duy nhất (Idempotency) và xuất biên lai PDF in ấn A4 chuẩn mực SD-04 trên Cổng Phụ Huynh (`ParentPortalPage.jsx` & `VietQrPaymentModal.jsx`).
+   - **Backend**: Bổ sung `TuitionController`, `TuitionRepository`, `PaymentRepository`, `vietQrHelper.js`, và bộ kiểm thử `tuition-payment.test.js`.
+   - **Đã sửa lỗi**: Chuẩn hóa lớp `AuditLogger.log` trong `school-management-nodejs` hỗ trợ cả 2 kiểu truyền tham số, khắc phục triệt để lỗi ghi log `undefined` khi ghi nhận giao dịch thanh toán.
+2. **Pull Request #8 (Trần Quang Vinh - Member 4)**:
+   - **Chức năng**: Tái cấu trúc toàn diện phân hệ Xác thực, Phân quyền RBAC & Nghiệp vụ Sổ điểm theo chuẩn Clean Architecture 4 tầng (Express 5 + PostgreSQL).
+   - **Hồ sơ kỹ thuật**: Xuất bản 9 tệp tài liệu kiến trúc chuyên sâu tại `members/member4_Logic_Security/docs/` (Mermaid diagrams, Clean Architecture, RESTful API, RBAC, Gradebook logic).
+   - **Đã khắc phục**: Cài đặt trọn vẹn 161 gói npm phụ thuộc, cấu hình kiểm thử đơn vị độc lập không phụ thuộc DB sống, đạt **94/94 unit tests PASS**.
+3. **Đồng Bộ Kiểm Thử Tập Trung Toàn Hệ Thống**:
+   - Cập nhật `package.json` gốc với lệnh `npm test` chạy liên hoàn toàn bộ test suites của cả Member 3 (`79/79 PASS`) và Member 4 (`94/94 PASS`), đạt tổng cộng **173 tests PASS (100%)**.
 
 | Kênh Quản Trị / Tài Liệu | Nội Dung Đồng Bộ Hiện Tại | Trạng Thái Tuần 10 |
 | :--- | :--- | :---: |
 | **Bảng Jira Kanban** | 10 Epics (EPIC-01 đến EPIC-10), 27 Stories/Tasks kỹ thuật có đầy đủ 11 mục chi tiết, Deadline & Assignee chuẩn. 5 Tasks của Võ Duy Bình (`KAN-114, 117, 134, 137, 138`) đã chuyển trạng thái sang **DONE** kèm ghi nhận Worklog. | **Đồng bộ 100%** |
 | **Không Gian ClickUp** | Folder `HTQLLH` thuộc Space `Group 2_PTDAPM` hiển thị đầy đủ 10 Modules, Deadline và Assignee. Toàn bộ 5 Tasks của Võ Duy Bình chuyển sang **complete**. | **Đồng bộ 100%** |
 | **Bản Slide Canva** | Slide 4 (Kanban & ClickUp), Slide 12 (Hiện trạng tuần 8-9-10), Slide 15 (5 thành viên chính thức) được phản ánh chuẩn xác. | **Đồng bộ 100%** |
-| **Kho Git GitHub** | Kho chính thức: `https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem` (Dual-Remote push). | **Up-to-date** |
-| **Kho Git Bitbucket** | Kho đối ứng: `https://bitbucket.org/codyisme27205/pt_da_pm` (Dual-Remote push). | **Up-to-date** |
+| **Kho Git GitHub** | Kho chính thức: `https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem` (Dual-Remote push). | **Up-to-date (Đã merge PR #7, #8)** |
+| **Kho Git Bitbucket** | Kho đối ứng: `https://bitbucket.org/codyisme27205/pt_da_pm` (Dual-Remote push). | **Up-to-date (Đã sync)** |
 | **Cẩm nang Lập trình** | [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md) (978 dòng) hướng dẫn quy trình 5 bước phát triển, SQL an toàn và link tài liệu chuẩn. | **Đã hoàn thành** |
-| **Tài liệu Nghiệp vụ** | [USE_CASES.md](USE_CASES.md) & [UML_DIAGRAMS.md](docs/UML_DIAGRAMS.md) chuẩn hóa RUP Cockburn và OMG UML 2.5. | **Đã hoàn thành** |
-| **Cẩm nang CSDL** | [docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md](docs/HUONG_DAN_KET_NOI_POSTGRESQL_EXTENSION.md) hướng dẫn toàn bộ thành viên thao tác DB. | **Đã hoàn thành** |
+| **Bản Tổng Quan Leader** | [docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md](docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md) cập nhật tiến độ hợp nhất 2 PRs mới nhất. | **Đã hoàn thành** |
+| **Bộ Kiểm Thử Tập Trung** | Lệnh `npm test` tại thư mục gốc chạy thành công 173/173 tests (79 Backend DB + 94 Logic Security). | **100% PASS** |
 
 ---
 

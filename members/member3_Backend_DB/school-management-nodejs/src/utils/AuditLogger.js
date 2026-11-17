@@ -20,19 +20,33 @@ const auditLogs = [];
  */
 export class AuditLogger {
   /**
-   * Ghi nhận một sự kiện kiểm toán mới
-   * @param {Object} entry - Dữ liệu sự kiện
-   * @param {string} entry.action - Hành động thực hiện (ví dụ: 'UPDATE_GRADE', 'LOCK_GRADEBOOK', 'APPROVE_LEAVE')
-   * @param {string} entry.user - Tên tài khoản người thực hiện
-   * @param {string} entry.role - Vai trò của người thực hiện (BGH, GVCN, GV)
-   * @param {string} entry.entity - Tên thực thể bị tác động (ví dụ: 'grade_books', 'leave_requests')
-   * @param {number|string} entry.entityId - ID của bản ghi bị tác động
-   * @param {any} [entry.previousValue] - Giá trị cũ trước khi sửa (ví dụ: điểm cũ là 7.0)
-   * @param {any} [entry.newValue] - Giá trị mới sau khi sửa (ví dụ: điểm mới là 8.5)
-   * @param {string} [entry.ipAddress='127.0.0.1'] - Địa chỉ IP máy trạm yêu cầu
+   * Ghi nhận một sự kiện kiểm toán mới (Hỗ trợ cả định dạng Object hoặc các tham số rời)
+   * @param {Object|string} entryOrUser - Dữ liệu sự kiện dạng Object hoặc đối tượng người dùng
+   * @param {string} [actionArg] - Hành động thực hiện (nếu truyền dạng tham số rời)
+   * @param {string} [entityArg] - Tên thực thể bị tác động (nếu truyền dạng tham số rời)
+   * @param {number|string} [entityIdArg] - ID thực thể bị tác động
+   * @param {Object} [extraArg={}] - Thông tin bổ sung / giá trị mới
    * @returns {Object} Bản ghi kiểm toán vừa tạo
    */
-  static log({ action, user, role, entity, entityId, previousValue, newValue, ipAddress }) {
+  static log(entryOrUser, actionArg, entityArg, entityIdArg, extraArg = {}) {
+    let action, user, role, entity, entityId, previousValue, newValue, ipAddress;
+
+    if (entryOrUser && typeof entryOrUser === 'object' && entryOrUser.action) {
+      // Kiểu 1: Truyền đối tượng cấu hình { action, user, role, entity, entityId, previousValue, newValue, ipAddress }
+      ({ action, user, role, entity, entityId, previousValue, newValue, ipAddress } = entryOrUser);
+    } else {
+      // Kiểu 2: Truyền tham số rời (userObj, action, entity, entityId, extra)
+      const userObj = entryOrUser || {};
+      user = userObj.username || userObj.user || userObj.name || 'system';
+      role = userObj.role || 'SYSTEM';
+      action = actionArg || 'UNKNOWN_ACTION';
+      entity = entityArg || 'general';
+      entityId = entityIdArg ?? 'N/A';
+      newValue = extraArg.newValue !== undefined ? extraArg.newValue : extraArg;
+      previousValue = extraArg.previousValue || null;
+      ipAddress = extraArg.ipAddress || userObj.ipAddress || '127.0.0.1';
+    }
+
     const logEntry = {
       id: auditLogs.length + 1,
       timestamp: new Date().toISOString(), // Dấu thời gian ISO 8601 chuẩn quốc tế

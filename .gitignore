@@ -18,6 +18,8 @@ yarn-error.log*
 
 # Build output
 dist/
+dist_test/
+coverage/
 build/
 
 # Postman local config
