@@ -240,8 +240,8 @@ graph TD
 | **Module 6: Giao Dịch Dữ Liệu ACID** | - Singleton Connection Pool kết nối PostgreSQL (tối đa 20 clients).<br>- Unit of Work Pattern quản lý giao dịch nguyên tử (Commit / Rollback toàn bộ khi 1 dòng điểm lỗi).<br>- Khóa bi quan (`SELECT ... FOR UPDATE`) chống tranh chấp dữ liệu khi 2 người cùng sửa điểm 1 học sinh. | - Chuẩn bị thiết lập thêm Redis Caching tầng đệm đọc cho bảng điểm ở Tuần 11. |
 | **Module 7: Nhật Ký Kiểm Toán (Audit Log)** | - Ghi vết tự động vào bảng `audit_logs`: Bắt buộc ghi nhận ai sửa, thời gian nào, giá trị cũ và mới.<br>- Bảng nhật ký kiểm toán bất biến (Append-only).<br>- Phòng thủ 100% SQL Injection bằng tham số hóa `$1, $2`.<br>- Middleware Rate Limiting chặn Brute-Force mật khẩu và Helmet bảo vệ HTTP headers. | - Mở rộng xuất toàn bộ file log kiểm toán thành báo cáo PDF có chữ ký số điện tử của Hiệu trưởng. |
 | **Module 8: Sổ Liên Lạc Điện Tử** | - Cổng Phụ huynh tra cứu điểm số chi tiết của con theo thời gian thực.<br>- Nhật ký chuyên cần và lịch sử nghỉ học của con.<br>- Đơn xin nghỉ phép trực tuyến từ phụ huynh đến GVCN.<br>- Kênh thông báo khẩn từ BGH và chat thời gian thực Socket.io. | - Tính năng gửi thông báo tức thì qua Push Notification trên App Mobile native (Flutter/React Native ở v2.0). |
-| **Module 9: Học Phí & VietQR** | - Danh mục khoản thu học phí theo học kỳ và năm học.<br>- Sinh mã VietQR động NAPAS 247 đúng số tiền và nội dung chuyển khoản.<br>- Mô phỏng Webhook tự động cập nhật trạng thái `PAID` ngay sau khi chuyển khoản.<br>- Xuất biên lai học phí điện tử PDF chuẩn trang A4 có mã biên lai. | - Tích hợp thực tế với cổng thanh toán đối tác thứ ba (VNPay / MoMo API Sandbox). |
-| **Module 10: Export Engine & QA Testing** | - Xuất file Excel bảng điểm chuẩn cột điểm bằng `SheetJS`.<br>- Xuất Phiếu báo điểm và Học bạ điện tử PDF chuẩn Sở GD&ĐT bằng `jsPDF`.<br>- Bộ kiểm thử tự động QA Unit Testing Suite (44/44 tests PASS).<br>- Kế hoạch nghiệm thu người dùng UAT bao quát 43 Use Cases. | - Đóng gói Docker Compose và thiết lập CI/CD Pipeline tự động chạy test trên GitHub Actions ở Tuần 12. |
+| **Module 9: Học Phí & VietQR** | - Danh mục khoản thu học phí theo học kỳ và năm học.<br>- Sinh mã VietQR động chuẩn EMVCo NAPAS 247 đúng số tiền nợ và nội dung giao dịch duy nhất.<br>- Hộp thoại `VietQrPaymentModal.jsx` có đồng hồ đếm ngược 15 phút TTL, tự động polling trạng thái mỗi 3 giây.<br>- Cơ chế 1 phiên duy nhất (Idempotency) chống nộp tiền trùng lặp khi đang xử lý.<br>- Mô phỏng tiền về (Dev Test) và xác nhận "Tôi đã nộp tiền" chuyển trạng thái PENDING đối soát.<br>- Xuất và in ấn biên lai thu học phí điện tử PDF chuẩn A4 có watermark, mộc trường và chữ ký số. | - Mở rộng kết nối trực tiếp cổng ngân hàng thanh toán qua VietinBank / Vietcombank Open Banking API. |
+| **Module 10: Export Engine & QA Testing** | - Xuất file Excel bảng điểm chuẩn cột điểm bằng `SheetJS`.<br>- Xuất Phiếu báo điểm và Học bạ điện tử PDF chuẩn Sở GD&ĐT.<br>- Động cơ xuất phổ điểm theo khối và danh sách khen thưởng / rèn luyện hè ra Excel.<br>- **Bộ kiểm thử tự động toàn hệ thống: 322 / 322 Tests PASS (100% Xanh)**:<br>  + Backend CSDL (Member 3): 79 tests PASS.<br>  + Logic & Security TT22 (Member 4): 94 tests PASS.<br>  + QA System & Use Cases (Member 5): 136 tests PASS.<br>  + Frontend Vitest (Member 2): 13 tests PASS.<br>- Lệnh kiểm thử 1 bước từ thư mục gốc: `npm test`. | - Đóng gói Docker Compose và thiết lập CI/CD Pipeline tự động chạy test trên GitHub Actions ở Tuần 12. |
 
 ---
 
@@ -299,12 +299,15 @@ PT_DA_PM/
 │   │       ├── src/repositories/      # Tầng truy cập CSDL (100% Prepared Statements $1, $2)
 │   │       └── src/config/db.js       # Singleton PostgreSQL Connection Pool
 │   ├── member4_Logic_Security/        # TRẦN QUANG VINH (Core Logic & Security)
-│   │   ├── jwtAuthMiddleware.js       # Middleware giải mã JWT & Phân quyền RBAC 5 Roles
-│   │   └── tt22Calculator.js          # Thuật toán tính ĐTBmhk chia 9 và xếp loại học lực TT22
+│   │   ├── gpaCalculationLogic.js     # Facade tính ĐTBmhk chia 9 và xếp loại học lực TT22
+│   │   ├── jwtAuthMiddleware.js       # Facade giải mã JWT & cấp phát Token 24h
+│   │   ├── rbacMiddleware.js          # Facade phân quyền RBAC 5 Roles bảo mật
+│   │   ├── src/                       # Kiến trúc Clean Architecture 4 tầng hoàn chỉnh
+│   │   └── docs/                      # 9 tệp tài liệu kiến trúc chuyên sâu (Mermaid diagrams)
 │   └── member5_Modules_QA/            # NGUYỄN MINH QUỐC BẢO (QA/QC Testing Lead)
 │       ├── exportEngine.js            # Động cơ xuất file Excel (SheetJS) và file PDF (jsPDF)
-│       └── tests/unitTestingSuite.test.js # Bộ kiểm thử tự động toàn hệ thống (44 test cases)
-├── package.json                       # Cấu hình Root Workspace và lệnh chạy Concurrently
+│       └── tests/unitTestingSuite.test.js # Bộ kiểm thử tự động toàn hệ thống (136 test cases)
+├── package.json                       # Cấu hình Root Workspace, Type Module & Runner 3 tầng test
 ├── timeline.md                        # Tiến độ thực hiện 15 tuần của toàn bộ dự án
 └── README.md                          # Cổng thông tin chính thức của kho lưu trữ GitHub & Bitbucket
 ```
@@ -320,13 +323,20 @@ Leader có thể mở PowerShell trong thư mục gốc dự án và chạy ngay
 npm run dev
 # Frontend sẽ chạy tại: http://localhost:5173
 # Backend sẽ chạy tại:  http://localhost:8081
-# Swagger API Docs tại: http://localhost:8081/api-docs
+# Điểm kiểm tra Health: http://localhost:8081/api/health
 ```
 
-### 6.2 Chạy Bộ Kiểm Thử Tự Động Toàn Diện (QA Automated Unit Tests)
+### 6.2 Chạy Bộ Kiểm Thử Tự Động Toàn Diện (Toàn Bộ 322 Tests PASS 100%)
 ```powershell
-node members/member5_Modules_QA/tests/unitTestingSuite.test.js
-# Kết quả: 44/44 Tests PASS 100% (Thuật toán TT22, Điểm danh, Học phí, Export Excel, PDF...)
+# Chạy liên hoàn toàn bộ test suites của cả 3 phân hệ từ thư mục gốc:
+npm test
+# Kết quả: 309/309 Tests PASS 100% (79 Backend DB + 94 Logic Security + 136 QA System)
+
+# Hoặc chạy kiểm tra độc lập từng phân hệ:
+npm run test:backend   # 79 tests (Member 3 Backend & CSDL)
+npm run test:security  # 94 tests (Member 4 An ninh & Domain TT22)
+npm run test:qa        # 136 tests (Member 5 QA System & Use Cases)
+npm test --prefix members/member2_Frontend # 13 Vitest (Member 2 Frontend SPA)
 ```
 
 ### 6.3 Lệnh Kiểm Tra Trực Tiếp Trạng Thái 27 Tasks Trên Jira & ClickUp
