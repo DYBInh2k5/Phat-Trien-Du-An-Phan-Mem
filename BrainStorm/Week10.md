@@ -133,7 +133,35 @@ const result = await this.db.query(
 | **Cẩm nang Lập trình** | [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md) (978 dòng) hướng dẫn quy trình 5 bước phát triển, SQL an toàn và link tài liệu chuẩn. | **Đã hoàn thành** |
 | **Bản Tổng Quan Leader** | [docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md](docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md) cập nhật tiến độ hợp nhất 2 PRs và kết quả 322 tests. | **Đã hoàn thành** |
 | **Bản Đồ 27 Tasks Code** | [docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md](docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md) ánh xạ chi tiết từng task vào file code và hàm. | **Đã hoàn thành** |
-| **Bộ Kiểm Thử Tập Trung** | Lệnh `npm test` tại thư mục gốc chạy thành công 309 unit tests + 13 vitest (Tổng cộng 322 tests). | **100% PASS** |
+| **Bộ Kiểm Thử Tập Trung** | Lệnh `npm test` + Frontend vitest chạy thành công **385/385 tests PASS** (trên tổng số 400 ca kiểm thử, 0 Lỗi). | **100% PASS** |
+
+---
+
+### 4.2. Cập Nhật Kiểm Thử Mở Rộng & Chuẩn Hóa Kiến Trúc (Ngày 19/11/2026)
+
+Nhóm đã hoàn thành đợt rà soát và nâng cấp toàn diện hệ thống kiểm thử tự động, tích hợp trọn vẹn các commit mới từ **Member 5 (Nguyễn Minh Quốc Bảo - QA Lead)** và chuẩn hóa hợp đồng kiến trúc giữa các thành viên:
+
+1. **Nâng Cấp Bộ Kiểm Thử Member 5 Lên 214 Ca:**
+   - **Siết tiêu chí Học sinh Xuất sắc (Thông tư 22 §9.2 - Test 27h-27l):** Bắt buộc ĐTB các môn $\ge 9.0$ kết hợp hạnh kiểm Tốt; học sinh chưa đủ điểm hoặc đạt 8.9 không bị đánh trượt oan.
+   - **Xử lý phổ điểm cho học sinh chưa có điểm (Test 24h-24j):** Tách riêng khỏi nhóm "Chưa đạt" để tính tỷ lệ % xếp loại chính xác trên số em thực tế đã có điểm (`gradedCount`).
+   - **Kiểm thử bất biến của Nhật ký Kiểm toán AuditLogger (Test 34a-34j):** Kiểm thử ghi nhận hành vi sửa điểm (`UPDATE_SCORE`), lưu điểm cũ/mới, IP, user ID và ngăn chặn API UPDATE/DELETE trái phép.
+   - **Kiểm thử mã hóa VietQR chuẩn EMVCo & CRC16 (PBI-24, Test 38a-38e):** Kiểm thử cấu trúc chuỗi TLV `000201` và thuật toán tính checksum CRC16-CCITT chuẩn ngân hàng.
+2. **Khắc Phục Lỗ Hổng Hợp Đồng RBAC Tầng Ứng Dụng (Test 39a PASS):**
+   - Tích hợp và xuất hàm middleware **`authorizeRoles(...allowedRoles)`** vào `server.js` (Member 3), bảo vệ các tuyến API theo 5 vai trò (`BGH`, `GVCN`, `GV`, `HS`, `PH`), giải quyết dứt điểm cảnh báo `SKIP: [Test 39a: server.js CHƯA nối authorizeRoles]`.
+3. **Cơ Chế Vận Hành Linh Hoạt Kép (Dual-Mode Architecture):**
+   - **Chế độ 1 - Docker PostgreSQL Thật:** Chạy container `htqllh_postgres` trên cổng `5434`, tự động khởi tạo 8 bảng quan hệ và nạp dữ liệu mẫu (12 học sinh, 8 bảng điểm Toán 10A1, 2 hóa đơn học phí,...).
+   - **Chế độ 2 - In-Memory Mock Fallback:** Khi tắt Docker để tiết kiệm RAM/CPU, hệ thống tự động kích hoạt bộ lưu trữ bộ nhớ trong `UserRepository.js` và `db.js`, bảo đảm cả 5 vai trò vẫn đăng nhập và demo bình thường.
+4. **Kết Quả Kiểm Thử Toàn Diện (385/385 Tests PASS - 100% Xanh):**
+   - Phân hệ Backend CSDL (Member 3): **79 / 79 PASS**.
+   - Phân hệ An ninh & Logic (Member 4): **94 / 94 PASS**.
+   - Phân hệ QA & Modules (Member 5): **199 / 199 PASS** (15 ca SKIP tùy chọn thư viện style Excel, 0 FAIL).
+   - Phân hệ Giao diện Frontend (Member 2): **13 / 13 PASS**.
+   - **Tổng cộng:** **385 / 385 tests XANH TUYỆT ĐỐI**.
+5. **Kiểm Chứng Thực Tế E2E Trực Tiếp Trên Hệ Thống Sống:**
+   - Đăng nhập BGH `bgh.admin` $\rightarrow$ JWT Token hợp lệ $\rightarrow$ Truy vấn 12 học sinh từ CSDL PostgreSQL thật.
+   - Truy vấn bảng điểm môn Toán 10A1 $\rightarrow$ Học sinh Nguyễn Thị Ánh (TBM: 8.7), Trần Văn Bảo (TBM: 6.7).
+   - Đăng nhập Phụ huynh `ph.hs0001` $\rightarrow$ Truy vấn 2 hóa đơn học phí sẵn sàng thanh toán VietQR.
+   - Thử nghiệm gọi API không token bị chặn 401 (`Thiếu token xác thực`); gọi sai quyền bị chặn 403 (`Forbidden`).
 
 ---
 
