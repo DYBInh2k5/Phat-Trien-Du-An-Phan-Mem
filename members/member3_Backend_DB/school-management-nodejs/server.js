@@ -83,6 +83,16 @@ const requireBGH = (req, res, next) => {
 const app = express();
 const PORT = process.env.PORT || 8081;
 
+// HTTP Security Headers theo chuẩn OWASP Top 10 (A05: Security Misconfiguration)
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.removeHeader('X-Powered-By');
+  next();
+});
+
 // Middlewares: Cấu hình CORS cho phép các cổng Frontend phát triển và xem trước (Dev & Preview)
 app.use(cors({
   origin: [

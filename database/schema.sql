@@ -240,13 +240,30 @@ CREATE TABLE IF NOT EXISTS system_settings (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 18. Bảng Nhật Ký Kiểm Toán Tập Trung (audit_logs - Non-Repudiation)
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id SERIAL PRIMARY KEY,
+  timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  action VARCHAR(50) NOT NULL,
+  username VARCHAR(50) NOT NULL,
+  role VARCHAR(50) NOT NULL,
+  entity VARCHAR(50) NOT NULL,
+  entity_id VARCHAR(100),
+  previous_value TEXT,
+  new_value TEXT,
+  ip_address VARCHAR(45)
+);
+
 -- =============================================================================
 -- INDEXES TỐI ƯU HÓA HIỆU NĂNG TRUY VẤN
 -- =============================================================================
 CREATE INDEX IF NOT EXISTS idx_students_class_name ON students(class_name);
 CREATE INDEX IF NOT EXISTS idx_students_student_code ON students(student_code);
 CREATE INDEX IF NOT EXISTS idx_grade_books_search ON grade_books(student_code, subject_name, semester);
+CREATE INDEX IF NOT EXISTS idx_grade_books_class_subject_sem ON grade_books(class_name, subject_name, semester);
 CREATE INDEX IF NOT EXISTS idx_attendances_class_date ON attendances(class_name, att_date);
+CREATE INDEX IF NOT EXISTS idx_attendances_class_date_status ON attendances(class_name, att_date, status);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_user_action ON audit_logs(username, action, timestamp);
 CREATE INDEX IF NOT EXISTS idx_leave_requests_student ON leave_requests(student_code, status);
 CREATE INDEX IF NOT EXISTS idx_tuitions_student ON tuitions(student_code, status);
 CREATE INDEX IF NOT EXISTS idx_payments_tuition_id ON payments(tuition_id);

@@ -12,6 +12,8 @@
  * ==============================================================================
  */
 
+import { querySafe } from '../config/db.js';
+
 // Bộ nhớ nhật ký kiểm toán trong phiên làm việc
 const auditLogs = [];
 
@@ -62,6 +64,25 @@ export class AuditLogger {
 
     auditLogs.push(logEntry);
     console.log(`[AUDIT LOG] [${logEntry.timestamp}] Người dùng "${user}" (${role}) thực hiện "${action}" trên ${entity} #${entityId}`);
+
+    // Bất đồng bộ ghi nhận vào bảng audit_logs trong PostgreSQL để lưu trữ vĩnh viễn (Append-Only)
+    querySafe(`
+      INSERT INTO audit_logs (timestamp, action, username, role, entity, entity_id, previous_value, new_value, ip_address)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    `, [
+      logEntry.timestamp,
+      action,
+      user,
+      role,
+      entity,
+      String(entityId),
+      previousValue !== null ? JSON.stringify(previousValue) : null,
+      newValue !== null ? JSON.stringify(newValue) : null,
+      ipAddress
+    ]).catch(() => {
+      // Bỏ qua lỗi kết nối khi DB ở chế độ in-memory offline
+    });
+
     return logEntry;
   }
 

@@ -18,6 +18,7 @@
     "concurrently": "^9.1.2"
   },
   "dependencies": {
-    "htqllh-school-management": "file:"
+    "htqllh-school-management": "file:",
+    "xlsx-js-style": "^1.2.0"
   }
 }

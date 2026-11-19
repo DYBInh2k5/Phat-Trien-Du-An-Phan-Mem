@@ -396,6 +396,23 @@ export async function initDatabaseSchema() {
       CREATE INDEX IF NOT EXISTS idx_payments_order_code ON payments(order_code);
       CREATE INDEX IF NOT EXISTS idx_payments_status ON payments(status);
 
+      -- Bảng Nhật ký kiểm toán tập trung (Centralized Audit Trail - Non-Repudiation)
+      CREATE TABLE IF NOT EXISTS audit_logs (
+        id SERIAL PRIMARY KEY,
+        timestamp TIMESTAMPTZ DEFAULT NOW(),
+        action VARCHAR(50) NOT NULL,
+        username VARCHAR(50) NOT NULL,
+        role VARCHAR(50) NOT NULL,
+        entity VARCHAR(50) NOT NULL,
+        entity_id VARCHAR(100),
+        previous_value TEXT,
+        new_value TEXT,
+        ip_address VARCHAR(45)
+      );
+      CREATE INDEX IF NOT EXISTS idx_audit_logs_user_action ON audit_logs(username, action, timestamp);
+      CREATE INDEX IF NOT EXISTS idx_grade_books_class_subject_sem ON grade_books(class_name, subject_name, semester);
+      CREATE INDEX IF NOT EXISTS idx_attendances_class_date_status ON attendances(class_name, att_date, status);
+
       ALTER TABLE parent_messages ADD COLUMN IF NOT EXISTS conversation_type VARCHAR(20) NOT NULL DEFAULT 'GVCN';
       ALTER TABLE parent_messages ADD COLUMN IF NOT EXISTS sender_id INT REFERENCES users(id);
       ALTER TABLE parent_messages ADD COLUMN IF NOT EXISTS read_at TIMESTAMPTZ;
