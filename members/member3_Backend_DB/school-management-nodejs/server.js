@@ -45,6 +45,34 @@ import { resolveGvcnClass } from './src/middleware/dataAccessMiddleware.js';
 import { forgotPasswordLimiter, resetPasswordLimiter } from './src/middleware/rateLimiters.js';
 dotenv.config();
 
+/**
+ * Middleware phân quyền động RBAC (Role-Based Access Control)
+ * Hỗ trợ 5 nhóm vai trò người dùng: BGH, GVCN, GV, HS, PH
+ * Kết nối hợp đồng kiến trúc giữa Member 4 (Logic & Security) và Member 3 (Backend API)
+ * @param  {...string} allowedRoles - Danh sách các vai trò được phép truy cập
+ * @returns {Function} Express Middleware kiểm soát quyền truy cập
+ */
+export function authorizeRoles(...allowedRoles) {
+  return (req, res, next) => {
+    if (!req.user || !req.user.role) {
+      return res.status(401).json({
+        success: false,
+        message: 'Lỗi truy cập: Chưa đăng nhập hệ thống.'
+      });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: `Lỗi phân quyền: Vai trò ${req.user.role} không có quyền thực hiện chức năng này (403 Forbidden).`
+      });
+    }
+
+    return next();
+  };
+}
+
+// Middleware kiểm tra quyền BGH cho các endpoint nhạy cảm (tương thích ngược)
 const requireBGH = (req, res, next) => {
   if (req.user?.role !== 'BGH') {
     return res.status(403).json({ success: false, message: 'Chỉ Ban Giám Hiệu mới có quyền thực hiện thao tác này.' });
