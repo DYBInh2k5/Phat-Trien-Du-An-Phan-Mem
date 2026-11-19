@@ -6,6 +6,8 @@
  * Vai trò: Điểm Khởi Động & Gốc Cấu Thành Hệ Thống (Composition Root)
  * Kiến trúc: Clean Architecture - Tầng Ngoại Vi (Frameworks & Drivers)
  * Cổng lắng nghe mặc định: 8081
+ * Tác giả: Nhóm Đồ Án PTDA Phần Mềm (Võ Duy Bình - Lead BA & Dev Team)
+ * Ngày cập nhật: 13/11/2026 (Bổ sung cổng 4173 cho vite preview vào danh sách CORS)
  * Mô tả:
  *   - Khởi tạo ứng dụng Express.js, thiết lập CORS và trình phân tích JSON.
  *   - Đăng ký toàn bộ các tuyến đường RESTful API cho 8 phân hệ học vụ.
@@ -53,22 +55,31 @@ const requireBGH = (req, res, next) => {
 const app = express();
 const PORT = process.env.PORT || 8081;
 
-// Middlewares
+// Middlewares: Cấu hình CORS cho phép các cổng Frontend phát triển và xem trước (Dev & Preview)
 app.use(cors({
   origin: [
-    'http://localhost:5173',  // Vite default
-    'http://localhost:5174',  // Vite alternate
-    'http://localhost:3000',
+    'http://localhost:5173',  // Vite dev mặc định
+    'http://localhost:5174',  // Vite dev dự phòng
+    'http://localhost:4173',  // Vite preview mặc định (khi chạy npm start)
+    'http://localhost:3000',  // React CRA mặc định
     'http://localhost:3001',
-    'http://localhost:8080',
-    'http://127.0.0.1:5173',
+    'http://localhost:8080',  // Nginx reverse proxy
+    'http://127.0.0.1:5173',  // Vite dev qua IP loopback
     'http://127.0.0.1:5174',
+    'http://127.0.0.1:4173',  // Vite preview qua IP loopback
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buf) => {
+    // Lưu rawBody để xác thực chữ ký HMAC-SHA256 trên webhook thanh toán
+    if (req.originalUrl && req.originalUrl.startsWith('/api/tuition/webhook')) {
+      req.rawBody = buf;
+    }
+  }
+}));
 app.use((req, res, next) => {
   console.log(`[HTTP API] ${req.method} ${req.url}`);
   next();
@@ -128,9 +139,17 @@ app.get('/api/leave-requests', LeaveRequestController.getLeaveRequests);
 app.post('/api/leave-requests', authenticateToken, LeaveRequestController.submitLeaveRequest);
 app.put('/api/leave-requests/:id/approve', LeaveRequestController.approveLeaveRequest);
 
-// Tuition Routes
-app.get('/api/tuition', authenticateToken, TuitionController.getTuitions);
-app.post('/api/tuition/pay', authenticateToken, TuitionController.payTuition);
+// Tuition & VietQR Payment Routes (Phân hệ Đóng học phí trực tuyến SD-04)
+app.get('/api/tuition',                            authenticateToken, TuitionController.getTuitions);
+app.post('/api/tuition/:id/checkout',               authenticateToken, TuitionController.checkout);
+app.post('/api/tuition/payments/claim',             authenticateToken, TuitionController.claimPayment);
+app.get('/api/tuition/payments/pending',           authenticateToken, TuitionController.getPendingPayments);
+app.get('/api/tuition/payments/:orderCode/status',  authenticateToken, TuitionController.getPaymentStatus);
+app.post('/api/tuition/payments/:id/approve',       authenticateToken, TuitionController.approvePayment);
+app.post('/api/tuition/payments/:id/reject',        authenticateToken, TuitionController.rejectPayment);
+app.post('/api/tuition/payments/simulate-success',  authenticateToken, TuitionController.simulateSuccess);
+app.get('/api/tuition/receipt/:paymentId',          authenticateToken, TuitionController.getReceipt);
+app.post('/api/tuition/webhook',                    TuitionController.handleWebhook);
 
 // Phân hệ 7 & 8: Danh mục Lớp học & Môn học (Classes & Subjects)
 app.get('/api/classes', ClassController.getClasses);

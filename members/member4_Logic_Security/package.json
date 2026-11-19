@@ -1,0 +1,60 @@
+{
+  "name": "htqllh-security-academic-api",
+  "version": "1.0.0",
+  "description": "HTQLLH - Member 4: Auth, RBAC, Academic logic (Node.js + Express + PostgreSQL)",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.8.0"
+  },
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --watch --env-file=.env src/server.js",
+    "db:init": "node --env-file=.env scripts/db-init.js",
+    "seed:admin": "node --env-file=.env scripts/seed-admin.js",
+    "seed:demo": "node --env-file=.env scripts/seed-admin.js --demo",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "node scripts/run-tests.js",
+    "test:coverage": "node scripts/run-tests.js all --coverage",
+    "postman:generate": "node scripts/generate-postman.js",
+    "test:unit": "node scripts/run-tests.js unit",
+    "test:integration": "node scripts/run-tests.js integration",
+    "test:coverage:unit": "node scripts/run-tests.js unit --coverage --no-threshold",
+    "postman:run": "npx --yes newman run postman/HTQLLH.postman_collection.json -e postman/HTQLLH-Local.postman_environment.json",
+    "coverage:html": "node scripts/coverage-html.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.1",
+    "pino": "^10.4.0",
+    "pino-http": "^11.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "pino-pretty": "^13.2.0",
+    "prettier": "^3.9.10"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix --no-warn-ignored --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": "prettier --write --ignore-unknown"
+  }
+}

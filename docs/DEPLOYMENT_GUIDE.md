@@ -131,11 +131,13 @@ Hệ thống được nạp sẵn danh sách tài khoản chuẩn hóa 100% dữ
 Hệ thống sở hữu bộ kiểm thử tự động toàn diện cho cả Backend và Frontend, đạt tỷ lệ đạt chuẩn 100%:
 
 ### 5.1 Kiểm thử Backend (Clean Architecture, Thông tư 22, RBAC & Export)
-Chạy bộ kiểm thử Node.js Test Runner:
+Chạy bộ kiểm thử Node.js Test Runner của backend:
 ```bash
-node --test members/member5_Modules_QA/tests/unitTestingSuite.test.js
+cd members/member3_Backend_DB/school-management-nodejs
+npm install
+npm test
 ```
-Kết quả đạt được: **68/68 tests PASS (100%)** bao gồm:
+Kết quả đạt được: **79/79 tests PASS (100%)** bao gồm:
 - Tính điểm trung bình môn học kỳ (ĐTBmhk) theo trọng số chia 9.
 - Phân loại học lực theo Thông tư 22 (Tốt, Khá, Đạt, Chưa đạt).
 - Quy đổi GPA thang điểm 10 sang thang điểm 4.0.
@@ -143,7 +145,31 @@ Kết quả đạt được: **68/68 tests PASS (100%)** bao gồm:
 - Kiểm soát truy cập RBAC 5 Roles, bảo mật JWT và chống SQL Injection.
 - Động cơ xuất báo cáo Excel (`SheetJS`) và PDF (`jsPDF`).
 
-### 5.2 Kiểm thử Frontend (Vite Component & Route Testing)
+### 5.2 Bộ kiểm thử QA của Member 5 (Thông tư 22, PBI-05/07/09/13/15/16/17/19/23/24, KAN-12/13/16/133)
+```bash
+# Từ thư mục gốc repo (script test:qa đã khai báo trong package.json gốc)
+npm run test:qa
+```
+Kết quả đạt được: **198 PASS + 16 SKIP + 0 FAIL** trên máy chưa cài thư viện ghi Excel;
+**213 PASS + 1 SKIP** khi môi trường có `xlsx-js-style` (ví dụ chạy kèm
+`NODE_PATH` trỏ tới thư mục đã cài gói fork). SKIP còn lại là Test 39a — ca hợp đồng phát hiện
+`server.js` của member3 chưa nối `authorizeRoles` vào route. Bao gồm:
+- ĐTBmhk 5 ca (7.7; 0.0; 10.0; điểm khống; làm tròn), xếp loại 4 mức Thông tư 22, quy đổi GPA 10 → 4.
+- PBI-05: điểm danh 4 trạng thái, mặc định PRESENT, lưu lịch sử, cổng PH chỉ báo vắng không phép.
+- PBI-07 / KAN-13: cảnh báo vắng ≥ 20% (10/45 = 22.2%, đúng ngưỡng 20%, dưới ngưỡng 17.8%).
+- KAN-12: chặn GVBM điểm danh sai tiết (403) và trùng tiết với lớp khác (409).
+- PBI-13: audit log ghi old/new score, IP, timestamp; UPDATE/DELETE bị từ chối.
+- PBI-15 / KAN-30: tên tệp `SoDiem_[TenLop]_[MonHoc]_[HocKy].xlsx`, tự căn độ rộng cột; header in đậm + hàng xen kẽ trắng/xám được gắn khi môi trường có thư viện ghi style.
+- PBI-16: phiếu báo điểm/học bạ A4 có quốc hiệu, tiêu ngữ, 6 đầu điểm, xếp loại học lực + hạnh kiểm.
+- PBI-17b/17c: đơn xin nghỉ và luồng duyệt đồng bộ điểm danh `EXCUSED`; GVCN khác lớp bị chặn 403.
+- PBI-19: ma trận RBAC 5 vai trò × toàn bộ endpoint khớp `rbacMiddleware.js` thật (thiếu token 401, sai vai trò 403).
+- KAN-133: biên lai duy nhất theo giao dịch + mã tra cứu tất định, tra cứu mã lạ trả 404.
+- EPIC-10 / PBI-23: phổ điểm theo khối/lớp/môn, danh sách Học sinh Xuất sắc và rèn luyện hè.
+- KAN-22/24: connection pool không cạn kiệt và rate limiter đăng nhập.
+- Test 4/11/24/28/37 xác minh tệp `.xlsx` **tồn tại thật trên đĩa** (`filePath` + `fs.existsSync`); 9 khẳng định này tự **SKIP** nếu máy chưa có `xlsx`, 6 khẳng định style (37d–37i) tự **SKIP** nếu chưa có `xlsx-js-style`, và chạy đủ khi thư viện hiện diện — không báo thành công giả. Tệp xuất được ghi vào `os.tmpdir()` nên không làm rác mã nguồn.
+- Thư viện: `xlsx` 0.18.5 (dữ liệu) là phụ thuộc tùy chọn của môi trường chạy, đã khai báo ở `members/member2_Frontend/package.json`; không có `package.json`/`node_modules` riêng trong thư mục member5. SheetJS Community không ghi được style ô nên engine dò thêm `xlsx-js-style` (nếu có) trước khi rơi về `xlsx`.
+
+### 5.3 Kiểm thử Frontend (Vite Component & Route Testing)
 Chạy bộ kiểm thử Vitest:
 ```bash
 cd members/member2_Frontend

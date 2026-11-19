@@ -1,0 +1,853 @@
+{
+  "client": "Thunder Client",
+  "clientName": "Thunder Client",
+  "collectionName": "HTQLLH — School Management System (THPT HSU)",
+  "name": "HTQLLH — School Management System (THPT HSU)",
+  "colName": "HTQLLH — School Management System (THPT HSU)",
+  "collectionId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+  "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+  "dateExported": "2026-11-17T01:08:27.402Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "_id": "749fceb2-682f-4aac-a931-909b3a55cfdc",
+      "name": "00. Health Check (Kiểm tra Server)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 10000
+    },
+    {
+      "_id": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+      "name": "01. Xác Thực & Đăng Nhập (Authentication)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 20000
+    },
+    {
+      "_id": "8c50f9d7-cb12-4be3-9e95-77b9a4d7f035",
+      "name": "02. Quản Lý Hồ Sơ Học Sinh (Students)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 30000
+    },
+    {
+      "_id": "7f1cc2e2-abba-426d-a66b-b678849c1e39",
+      "name": "03. Sổ Điểm Điện Tử TT22 (GradeBook)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 40000
+    },
+    {
+      "_id": "10f673db-2491-438d-80de-0773458ba811",
+      "name": "04. Điểm Danh Chuyên Cần (Attendance)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 50000
+    },
+    {
+      "_id": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+      "name": "05. Đơn Xin Nghỉ Phép (Leave Requests)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 60000
+    },
+    {
+      "_id": "235b0722-33a4-48cb-a1fc-4e0f4982000a",
+      "name": "06. Quản Lý Học Phí & VietQR (Tuition)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 70000
+    },
+    {
+      "_id": "cba9ad24-272a-40da-ae0a-e3098db73b42",
+      "name": "07. Thời Khóa Biểu (Schedules)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 80000
+    },
+    {
+      "_id": "5417edcf-e282-4489-aa12-666394b710d0",
+      "name": "08. Dashboard Thống Kê (BGH & GVCN)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 90000
+    },
+    {
+      "_id": "f9a41974-ee9e-405f-9363-c652f54a575f",
+      "name": "09. Thông Báo & Sổ Liên Lạc (Notifications & Communication)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 100000
+    },
+    {
+      "_id": "633e0249-8154-43b7-9dea-c43d171ffc21",
+      "name": "10. Danh Mục Lớp Học & Môn Học (Classes & Subjects)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 110000
+    }
+  ],
+  "requests": [
+    {
+      "_id": "960d09bf-353b-4824-a3e6-db112bb684e9",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "749fceb2-682f-4aac-a931-909b3a55cfdc",
+      "name": "Kiểm tra trạng thái máy chủ (Health Check)",
+      "url": "{{baseUrl}}/api/health",
+      "method": "GET",
+      "sortNum": 1000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "e1a411d7-7f6b-4ca1-bf2b-a19c37950eee",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+      "name": "1.1 Đăng nhập BGH / Admin (Lấy Token tự động)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 2000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"bgh.admin\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_ADMIN\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "c30cee6e-34e4-4809-9022-db33b3a58ef0",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+      "name": "1.2 Đăng nhập Giáo Viên Chủ Nhiệm (GVCN 10A1)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 3000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"gvcn.10a1\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_HOMEROOM_TEACHER\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "7d06967d-5bb9-4d87-8122-ae2aa3fa354a",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+      "name": "1.3 Đăng nhập Giáo Viên Bộ Môn (GV An)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 4000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"gv.an\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_SUBJECT_TEACHER\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "23a89ff1-1227-408a-adb3-24406f1533ec",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+      "name": "1.4 Đăng nhập Học Sinh (hs.anh)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 5000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"hs.anh\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_STUDENT\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "9ec08279-5339-4f01-8543-75fe3895670e",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+      "name": "1.5 Đăng nhập Phụ Huynh (ph.anh)",
+      "url": "{{baseUrl}}/api/auth/login",
+      "method": "POST",
+      "sortNum": 6000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"username\": \"ph.anh\",\n  \"password\": \"Password123!\",\n  \"role\": \"ROLE_PARENT\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "6882daef-dd51-4210-9bfa-97b6a8ab88ed",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+      "name": "1.6 Lấy thông tin phiên hiện tại (Auth Me)",
+      "url": "{{baseUrl}}/api/auth/me",
+      "method": "GET",
+      "sortNum": 7000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "dd44af8c-a88b-49ed-9d80-18bdfc003625",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+      "name": "1.7 Yêu cầu quên mật khẩu (Forgot Password)",
+      "url": "{{baseUrl}}/api/auth/forgot-password",
+      "method": "POST",
+      "sortNum": 8000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"teacher@school.edu.vn\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "1031f683-622a-4bec-b462-ef582cbfc110",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "8c50f9d7-cb12-4be3-9e95-77b9a4d7f035",
+      "name": "2.1 Lấy danh sách học sinh theo lớp",
+      "url": "{{baseUrl}}/api/students?className=10A1",
+      "method": "GET",
+      "sortNum": 9000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "a29aafd5-f3f1-4ce8-8757-6a69fc25a55d",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "8c50f9d7-cb12-4be3-9e95-77b9a4d7f035",
+      "name": "2.2 Lấy chi tiết 1 học sinh theo ID",
+      "url": "{{baseUrl}}/api/students/1",
+      "method": "GET",
+      "sortNum": 10000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "e0599230-8769-481a-ad18-35dda19930f2",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "8c50f9d7-cb12-4be3-9e95-77b9a4d7f035",
+      "name": "2.3 Thêm mới học sinh",
+      "url": "{{baseUrl}}/api/students",
+      "method": "POST",
+      "sortNum": 11000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"student_code\": \"HS10099\",\n  \"full_name\": \"Nguyễn Văn Test\",\n  \"gender\": \"Nam\",\n  \"dob\": \"2010-05-15\",\n  \"class_name\": \"10A1\",\n  \"parent_name\": \"Nguyễn Văn Phụ Huynh\",\n  \"parent_phone\": \"0901234567\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "dbb04c93-4137-4375-8696-9a80f596f6cd",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "8c50f9d7-cb12-4be3-9e95-77b9a4d7f035",
+      "name": "2.4 Cập nhật đánh giá hạnh kiểm học sinh",
+      "url": "{{baseUrl}}/api/students/1/conduct",
+      "method": "PUT",
+      "sortNum": 12000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"conduct\": \"Tốt\",\n  \"academicRank\": \"Khá\",\n  \"conductRemarks\": \"Ngoan ngoãn, tích cực phát biểu trong giờ học\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "3f9740a3-f2f0-440e-a322-54ba8dbe5251",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "8c50f9d7-cb12-4be3-9e95-77b9a4d7f035",
+      "name": "2.5 Tính toán lại GPA hệ 10 và hệ 4",
+      "url": "{{baseUrl}}/api/students/1/calculate-gpa",
+      "method": "POST",
+      "sortNum": 13000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "65fa35fd-1974-40f8-80eb-a5aa523083d8",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "7f1cc2e2-abba-426d-a66b-b678849c1e39",
+      "name": "3.1 Lấy dữ liệu sổ điểm (GradeBook)",
+      "url": "{{baseUrl}}/api/gradebook?className=10A1&subject=Toán&semester=HK1&schoolYear=2026-2027",
+      "method": "GET",
+      "sortNum": 14000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "706bf19f-06f9-47c0-a0c2-24007feda42e",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "7f1cc2e2-abba-426d-a66b-b678849c1e39",
+      "name": "3.2 Lưu điểm hàng loạt (Unit of Work ACID)",
+      "url": "{{baseUrl}}/api/gradebook/save",
+      "method": "POST",
+      "sortNum": 15000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\",\n  \"grades\": [\n    {\n      \"student_code\": \"HS00001\",\n      \"score_oral\": 8.5,\n      \"score_15m\": 8,\n      \"score_1hour\": 7.5,\n      \"score_mid_term\": 8,\n      \"score_final_term\": 9\n    }\n  ]\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "29d2631f-6e5f-4065-ba50-d094eecdaae2",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "7f1cc2e2-abba-426d-a66b-b678849c1e39",
+      "name": "3.3 Kiểm tra trạng thái chốt sổ điểm (Closure Status)",
+      "url": "{{baseUrl}}/api/gradebook/closure?className=10A1&subject=Toán&semester=HK1&schoolYear=2026-2027",
+      "method": "GET",
+      "sortNum": 16000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "f6d24f95-91fe-4614-a08e-3284597c852c",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "7f1cc2e2-abba-426d-a66b-b678849c1e39",
+      "name": "3.4 Chốt nộp sổ điểm lên BGH (Submit Closure)",
+      "url": "{{baseUrl}}/api/gradebook/closure/submit",
+      "method": "POST",
+      "sortNum": 17000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\",\n  \"notes\": \"Giáo viên đã hoàn thành chấm điểm học kỳ 1\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "7d6d7360-efb1-4fdf-996f-55628b296f90",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "7f1cc2e2-abba-426d-a66b-b678849c1e39",
+      "name": "3.5 Khóa sổ điểm (Lock Gradebook - BGH)",
+      "url": "{{baseUrl}}/api/gradebook/lock",
+      "method": "POST",
+      "sortNum": 18000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"className\": \"10A1\",\n  \"subjectName\": \"Toán\",\n  \"semester\": \"HK1\",\n  \"schoolYear\": \"2026-2027\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "2b5092e6-fb0d-4078-84d4-c588249c8207",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "10f673db-2491-438d-80de-0773458ba811",
+      "name": "4.1 Lấy dữ liệu điểm danh theo ngày",
+      "url": "{{baseUrl}}/api/attendance?className=10A1&date=2026-11-06",
+      "method": "GET",
+      "sortNum": 19000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "d4f5879b-a277-4f76-9d41-cd9aee499484",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "10f673db-2491-438d-80de-0773458ba811",
+      "name": "4.2 Lưu điểm danh học sinh",
+      "url": "{{baseUrl}}/api/attendance/save",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"className\": \"10A1\",\n  \"attDate\": \"2026-11-06\",\n  \"records\": [\n    {\n      \"student_code\": \"HS00001\",\n      \"status\": \"PRESENT\",\n      \"note\": \"\"\n    },\n    {\n      \"student_code\": \"HS00002\",\n      \"status\": \"LATE\",\n      \"note\": \"Kẹt xe 10 phút\"\n    },\n    {\n      \"student_code\": \"HS00003\",\n      \"status\": \"ABSENT\",\n      \"note\": \"Ốm có phép\"\n    }\n  ]\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "8b88b82f-abbe-4bce-a47f-b713ac80d2c8",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "10f673db-2491-438d-80de-0773458ba811",
+      "name": "4.3 Thống kê chuyên cần lớp",
+      "url": "{{baseUrl}}/api/attendance/summary?className=10A1",
+      "method": "GET",
+      "sortNum": 21000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "d4bb5183-167f-4ed8-8dcf-1d1c5b75aacc",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+      "name": "5.1 Lấy danh sách đơn xin nghỉ phép",
+      "url": "{{baseUrl}}/api/leave-requests?className=10A1",
+      "method": "GET",
+      "sortNum": 22000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "fe7d7770-845f-437b-8a1d-51442a908c95",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+      "name": "5.2 Phụ huynh nộp đơn xin nghỉ học trực tuyến",
+      "url": "{{baseUrl}}/api/leave-requests",
+      "method": "POST",
+      "sortNum": 23000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"student_code\": \"HS00001\",\n  \"class_name\": \"10A1\",\n  \"from_date\": \"2026-11-10\",\n  \"to_date\": \"2026-11-11\",\n  \"reason\": \"Em bị sốt xuất huyết cần nghỉ theo chỉ định bác sĩ\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "9b65c52c-55d9-4e27-be62-0f24c9e97ace",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+      "name": "5.3 GVCN duyệt đơn xin nghỉ phép",
+      "url": "{{baseUrl}}/api/leave-requests/1/approve",
+      "method": "PUT",
+      "sortNum": 24000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"APPROVED\",\n  \"note\": \"Đã duyệt đơn, chúc em mau khỏe\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "3738b0c9-bad1-4eea-b94a-e432353bfde4",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "235b0722-33a4-48cb-a1fc-4e0f4982000a",
+      "name": "6.1 Lấy danh sách học phí theo lớp",
+      "url": "{{baseUrl}}/api/tuition?className=10A1",
+      "method": "GET",
+      "sortNum": 25000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "6db3f593-4902-4ded-9184-4fd9c537161e",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "235b0722-33a4-48cb-a1fc-4e0f4982000a",
+      "name": "6.2 Đóng học phí trực tuyến (Sinh biên lai)",
+      "url": "{{baseUrl}}/api/tuition/pay",
+      "method": "POST",
+      "sortNum": 26000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"student_code\": \"HS00001\",\n  \"amountPaid\": 2500000,\n  \"receiptNo\": \"BL20261106-001\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "0c744743-04c5-4b38-986a-cee69a9c97fc",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "cba9ad24-272a-40da-ae0a-e3098db73b42",
+      "name": "7.1 Lấy dữ liệu thời khóa biểu",
+      "url": "{{baseUrl}}/api/schedules?className=10A1",
+      "method": "GET",
+      "sortNum": 27000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "5aab5402-a3d8-4719-ac16-a336782ce77a",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "cba9ad24-272a-40da-ae0a-e3098db73b42",
+      "name": "7.2 Lấy danh mục mẫu thời khóa biểu",
+      "url": "{{baseUrl}}/api/schedules/templates",
+      "method": "GET",
+      "sortNum": 28000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "61c9e7f5-14eb-4d95-8715-84d85f4e656b",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "5417edcf-e282-4489-aa12-666394b710d0",
+      "name": "8.1 Dashboard Ban Giám Hiệu",
+      "url": "{{baseUrl}}/api/dashboard/bgh",
+      "method": "GET",
+      "sortNum": 29000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "f8846902-1c84-4483-8077-a58d41422e36",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "5417edcf-e282-4489-aa12-666394b710d0",
+      "name": "8.2 Dashboard Giáo Viên Chủ Nhiệm",
+      "url": "{{baseUrl}}/api/dashboard/gvcn",
+      "method": "GET",
+      "sortNum": 30000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "c4cac931-0554-44de-bd04-81b91dd03dbf",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "f9a41974-ee9e-405f-9363-c652f54a575f",
+      "name": "9.1 Đếm số thông báo chưa đọc",
+      "url": "{{baseUrl}}/api/notifications/unread-count",
+      "method": "GET",
+      "sortNum": 31000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "126ce473-ce1c-49c2-9bb1-3e7bca664539",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "f9a41974-ee9e-405f-9363-c652f54a575f",
+      "name": "9.2 Lấy danh sách thông báo",
+      "url": "{{baseUrl}}/api/notifications",
+      "method": "GET",
+      "sortNum": 32000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "8b9a4a4e-1679-4814-8e31-23d597c2f6eb",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "f9a41974-ee9e-405f-9363-c652f54a575f",
+      "name": "9.3 Lấy danh bạ sổ liên lạc",
+      "url": "{{baseUrl}}/api/communication/contacts",
+      "method": "GET",
+      "sortNum": 33000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "10bb2ff4-7c12-4280-8dc2-2c8cac21ada0",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "633e0249-8154-43b7-9dea-c43d171ffc21",
+      "name": "10.1 Danh sách lớp học",
+      "url": "{{baseUrl}}/api/classes",
+      "method": "GET",
+      "sortNum": 34000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "e8ed2457-4db3-4a7e-b1e7-c6ec112b356e",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "633e0249-8154-43b7-9dea-c43d171ffc21",
+      "name": "10.2 Danh sách môn học",
+      "url": "{{baseUrl}}/api/subjects",
+      "method": "GET",
+      "sortNum": 35000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [],
+      "params": [],
+      "tests": []
+    }
+  ]
+}

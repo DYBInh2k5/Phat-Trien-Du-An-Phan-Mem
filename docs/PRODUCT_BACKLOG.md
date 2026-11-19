@@ -8,8 +8,11 @@ MÃ MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM
 VỊ TRÍ TÀI LIỆU: docs/PRODUCT_BACKLOG.md
 TÁC GIẢ: NHÓM DỰ ÁN PHÁT TRIỂN PHẦN MỀM HSU (TRƯỞNG NHÓM: VÕ DUY BÌNH)
 THÀNH VIÊN: Võ Duy Bình · Võ Hoàng Sơn · Huỳnh Trung Tính · Trần Quang Vinh · Nguyễn Minh Quốc Bảo
-NGÀY LẬP: 27/10/2026 | CẬP NHẬT: 02/11/2026
-PHIÊN BẢN: 3.0 (Chuẩn hóa Actor, bổ sung PBI còn thiếu, tách PBI-17, chuẩn Scrum/INVEST)
+BẢNG JIRA KANBAN BOARD: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
+KHÔNG GIAN DỰ ÁN CLICKUP: https://app.clickup.com/1100320000025585/v/s/1100320000109903
+BẢN SLIDE TRÌNH CHIẾU CANVA: https://www.canva.com/d/75iOEEpReWqgOuN
+NGÀY LẬP: 27/10/2026 | CẬP NHẬT: 12/11/2026
+PHIÊN BẢN: 3.1 (Đồng bộ Jira Kanban Board, ClickUp Workspace & Slide Canva)
 ================================================================================
 ```
 

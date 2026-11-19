@@ -1,0 +1,87 @@
+[
+  {
+    "_id": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+    "colName": "HTQLLH — School Management System (THPT HSU)",
+    "created": "2026-11-17T01:08:27.402Z",
+    "sortNum": 10000,
+    "folders": [
+      {
+        "_id": "749fceb2-682f-4aac-a931-909b3a55cfdc",
+        "name": "00. Health Check (Kiểm tra Server)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 10000
+      },
+      {
+        "_id": "ab13686c-81cd-42c4-b2a1-d4af02fa664c",
+        "name": "01. Xác Thực & Đăng Nhập (Authentication)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 20000
+      },
+      {
+        "_id": "8c50f9d7-cb12-4be3-9e95-77b9a4d7f035",
+        "name": "02. Quản Lý Hồ Sơ Học Sinh (Students)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 30000
+      },
+      {
+        "_id": "7f1cc2e2-abba-426d-a66b-b678849c1e39",
+        "name": "03. Sổ Điểm Điện Tử TT22 (GradeBook)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 40000
+      },
+      {
+        "_id": "10f673db-2491-438d-80de-0773458ba811",
+        "name": "04. Điểm Danh Chuyên Cần (Attendance)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 50000
+      },
+      {
+        "_id": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+        "name": "05. Đơn Xin Nghỉ Phép (Leave Requests)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 60000
+      },
+      {
+        "_id": "235b0722-33a4-48cb-a1fc-4e0f4982000a",
+        "name": "06. Quản Lý Học Phí & VietQR (Tuition)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 70000
+      },
+      {
+        "_id": "cba9ad24-272a-40da-ae0a-e3098db73b42",
+        "name": "07. Thời Khóa Biểu (Schedules)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 80000
+      },
+      {
+        "_id": "5417edcf-e282-4489-aa12-666394b710d0",
+        "name": "08. Dashboard Thống Kê (BGH & GVCN)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 90000
+      },
+      {
+        "_id": "f9a41974-ee9e-405f-9363-c652f54a575f",
+        "name": "09. Thông Báo & Sổ Liên Lạc (Notifications & Communication)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 100000
+      },
+      {
+        "_id": "633e0249-8154-43b7-9dea-c43d171ffc21",
+        "name": "10. Danh Mục Lớp Học & Môn Học (Classes & Subjects)",
+        "containerId": "",
+        "created": "2026-11-15T08:57:32.609Z",
+        "sortNum": 110000
+      }
+    ]
+  }
+]

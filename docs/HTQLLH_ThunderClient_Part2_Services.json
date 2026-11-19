@@ -1,0 +1,340 @@
+{
+  "client": "Thunder Client",
+  "clientName": "Thunder Client",
+  "collectionName": "HTQLLH - P2: DichVu (HocPhi, TKB, ThongBao)",
+  "name": "HTQLLH - P2: DichVu (HocPhi, TKB, ThongBao)",
+  "colName": "HTQLLH - P2: DichVu (HocPhi, TKB, ThongBao)",
+  "collectionId": "4bf7c729-fa80-498c-8f3b-e01e4a6e2202",
+  "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e2202",
+  "dateExported": "2026-11-17T01:08:27.409Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "_id": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+      "name": "05. Đơn Xin Nghỉ Phép (Leave Requests)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 60000
+    },
+    {
+      "_id": "235b0722-33a4-48cb-a1fc-4e0f4982000a",
+      "name": "06. Quản Lý Học Phí & VietQR (Tuition)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 70000
+    },
+    {
+      "_id": "cba9ad24-272a-40da-ae0a-e3098db73b42",
+      "name": "07. Thời Khóa Biểu (Schedules)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 80000
+    },
+    {
+      "_id": "5417edcf-e282-4489-aa12-666394b710d0",
+      "name": "08. Dashboard Thống Kê (BGH & GVCN)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 90000
+    },
+    {
+      "_id": "f9a41974-ee9e-405f-9363-c652f54a575f",
+      "name": "09. Thông Báo & Sổ Liên Lạc (Notifications & Communication)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 100000
+    },
+    {
+      "_id": "633e0249-8154-43b7-9dea-c43d171ffc21",
+      "name": "10. Danh Mục Lớp Học & Môn Học (Classes & Subjects)",
+      "containerId": "",
+      "created": "2026-11-15T08:57:32.609Z",
+      "sortNum": 110000
+    }
+  ],
+  "requests": [
+    {
+      "_id": "d4bb5183-167f-4ed8-8dcf-1d1c5b75aacc",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+      "name": "5.1 Lấy danh sách đơn xin nghỉ phép",
+      "url": "{{baseUrl}}/api/leave-requests?className=10A1",
+      "method": "GET",
+      "sortNum": 22000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "fe7d7770-845f-437b-8a1d-51442a908c95",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+      "name": "5.2 Phụ huynh nộp đơn xin nghỉ học trực tuyến",
+      "url": "{{baseUrl}}/api/leave-requests",
+      "method": "POST",
+      "sortNum": 23000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"student_code\": \"HS00001\",\n  \"class_name\": \"10A1\",\n  \"from_date\": \"2026-11-10\",\n  \"to_date\": \"2026-11-11\",\n  \"reason\": \"Em bị sốt xuất huyết cần nghỉ theo chỉ định bác sĩ\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "9b65c52c-55d9-4e27-be62-0f24c9e97ace",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "9bf8482c-abf0-4e0e-a0f7-2994ffba67a7",
+      "name": "5.3 GVCN duyệt đơn xin nghỉ phép",
+      "url": "{{baseUrl}}/api/leave-requests/1/approve",
+      "method": "PUT",
+      "sortNum": 24000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"APPROVED\",\n  \"note\": \"Đã duyệt đơn, chúc em mau khỏe\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "3738b0c9-bad1-4eea-b94a-e432353bfde4",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "235b0722-33a4-48cb-a1fc-4e0f4982000a",
+      "name": "6.1 Lấy danh sách học phí theo lớp",
+      "url": "{{baseUrl}}/api/tuition?className=10A1",
+      "method": "GET",
+      "sortNum": 25000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "6db3f593-4902-4ded-9184-4fd9c537161e",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "235b0722-33a4-48cb-a1fc-4e0f4982000a",
+      "name": "6.2 Đóng học phí trực tuyến (Sinh biên lai)",
+      "url": "{{baseUrl}}/api/tuition/pay",
+      "method": "POST",
+      "sortNum": 26000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"student_code\": \"HS00001\",\n  \"amountPaid\": 2500000,\n  \"receiptNo\": \"BL20261106-001\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "0c744743-04c5-4b38-986a-cee69a9c97fc",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "cba9ad24-272a-40da-ae0a-e3098db73b42",
+      "name": "7.1 Lấy dữ liệu thời khóa biểu",
+      "url": "{{baseUrl}}/api/schedules?className=10A1",
+      "method": "GET",
+      "sortNum": 27000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "5aab5402-a3d8-4719-ac16-a336782ce77a",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "cba9ad24-272a-40da-ae0a-e3098db73b42",
+      "name": "7.2 Lấy danh mục mẫu thời khóa biểu",
+      "url": "{{baseUrl}}/api/schedules/templates",
+      "method": "GET",
+      "sortNum": 28000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "61c9e7f5-14eb-4d95-8715-84d85f4e656b",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "5417edcf-e282-4489-aa12-666394b710d0",
+      "name": "8.1 Dashboard Ban Giám Hiệu",
+      "url": "{{baseUrl}}/api/dashboard/bgh",
+      "method": "GET",
+      "sortNum": 29000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "f8846902-1c84-4483-8077-a58d41422e36",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "5417edcf-e282-4489-aa12-666394b710d0",
+      "name": "8.2 Dashboard Giáo Viên Chủ Nhiệm",
+      "url": "{{baseUrl}}/api/dashboard/gvcn",
+      "method": "GET",
+      "sortNum": 30000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "c4cac931-0554-44de-bd04-81b91dd03dbf",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "f9a41974-ee9e-405f-9363-c652f54a575f",
+      "name": "9.1 Đếm số thông báo chưa đọc",
+      "url": "{{baseUrl}}/api/notifications/unread-count",
+      "method": "GET",
+      "sortNum": 31000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "126ce473-ce1c-49c2-9bb1-3e7bca664539",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "f9a41974-ee9e-405f-9363-c652f54a575f",
+      "name": "9.2 Lấy danh sách thông báo",
+      "url": "{{baseUrl}}/api/notifications",
+      "method": "GET",
+      "sortNum": 32000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "8b9a4a4e-1679-4814-8e31-23d597c2f6eb",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "f9a41974-ee9e-405f-9363-c652f54a575f",
+      "name": "9.3 Lấy danh bạ sổ liên lạc",
+      "url": "{{baseUrl}}/api/communication/contacts",
+      "method": "GET",
+      "sortNum": 33000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{jwtToken}}"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "10bb2ff4-7c12-4280-8dc2-2c8cac21ada0",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "633e0249-8154-43b7-9dea-c43d171ffc21",
+      "name": "10.1 Danh sách lớp học",
+      "url": "{{baseUrl}}/api/classes",
+      "method": "GET",
+      "sortNum": 34000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "e8ed2457-4db3-4a7e-b1e7-c6ec112b356e",
+      "colId": "4bf7c729-fa80-498c-8f3b-e01e4a6e1101",
+      "containerId": "633e0249-8154-43b7-9dea-c43d171ffc21",
+      "name": "10.2 Danh sách môn học",
+      "url": "{{baseUrl}}/api/subjects",
+      "method": "GET",
+      "sortNum": 35000,
+      "created": "2026-11-15T08:57:32.609Z",
+      "modified": "2026-11-15T08:57:32.609Z",
+      "headers": [],
+      "params": [],
+      "tests": []
+    }
+  ]
+}

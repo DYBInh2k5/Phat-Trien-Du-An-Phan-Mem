@@ -9,6 +9,14 @@ import react from '@vitejs/plugin-react';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {                // áp dụng cho `vite` / `npm run dev`
+    port: 5173,
+    strictPort: true,
+  },
+  preview: {               // áp dụng cho `vite preview` / `npm start`
+    port: 5173,
+    strictPort: true,
+  },
   test: {
     environment: 'jsdom',
     globals: true,
