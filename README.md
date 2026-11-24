@@ -40,6 +40,11 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 24/11/2026 (TUẦN 11 / 15 TUẦN HỌ
   - **Jira Cloud (Kanban Board 2)**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
   - **ClickUp Workspace (Group 2_PTDAPM)**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
   - **Slide Báo Cáo Đồ Án (Canva)**: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)
+  - **Hệ Thống Trực Tuyến Đã Triển Khai (Cloud Production Deployment)**:
+    - **Cổng Giao Diện Người Dùng (Frontend SPA Vercel)**: [https://htqllh-frontend.vercel.app](https://htqllh-frontend.vercel.app)
+    - **Cổng Giao Tiếp API Máy Chủ (Backend RESTful API Vercel)**: [https://htqllh-backend.vercel.app](https://htqllh-backend.vercel.app)
+    - **Kiểm tra Sức Khỏe Dịch vụ Đám mây (Health Check)**: [https://htqllh-backend.vercel.app/api/health](https://htqllh-backend.vercel.app/api/health)
+    - **Cơ sở Dữ liệu Đám mây (Neon PostgreSQL Serverless)**: `ep-wispy-rain-be6an41h-pooler.c-9.us-east-2.aws.neon.tech` (AWS Ohio us-east-2)
 
 ---
 

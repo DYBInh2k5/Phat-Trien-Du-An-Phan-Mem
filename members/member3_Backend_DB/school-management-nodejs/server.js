@@ -94,19 +94,34 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middlewares: Cấu hình CORS cho phép các cổng Frontend phát triển và xem trước (Dev & Preview)
+// Middlewares: Cấu hình CORS cho phép các cổng Frontend phát triển và môi trường Production Vercel
+const allowedOrigins = [
+  'http://localhost:5173',  // Vite dev mặc định
+  'http://localhost:5174',  // Vite dev dự phòng
+  'http://localhost:4173',  // Vite preview mặc định (khi chạy npm start)
+  'http://localhost:3000',  // React CRA mặc định
+  'http://localhost:3001',
+  'http://localhost:8080',  // Nginx reverse proxy
+  'http://127.0.0.1:5173',  // Vite dev qua IP loopback
+  'http://127.0.0.1:5174',
+  'http://127.0.0.1:4173',  // Vite preview qua IP loopback
+  'https://htqllh-frontend.vercel.app', // Domain Production chính thức trên Vercel
+];
+
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(cors({
-  origin: [
-    'http://localhost:5173',  // Vite dev mặc định
-    'http://localhost:5174',  // Vite dev dự phòng
-    'http://localhost:4173',  // Vite preview mặc định (khi chạy npm start)
-    'http://localhost:3000',  // React CRA mặc định
-    'http://localhost:3001',
-    'http://localhost:8080',  // Nginx reverse proxy
-    'http://127.0.0.1:5173',  // Vite dev qua IP loopback
-    'http://127.0.0.1:5174',
-    'http://127.0.0.1:4173',  // Vite preview qua IP loopback
-  ],
+  origin: (origin, callback) => {
+    // Cho phép các yêu cầu không có header origin (ví dụ curl, Postman, kiểm thử server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    // Mở CORS cho môi trường kiểm thử và phân phối cloud
+    return callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -271,20 +286,26 @@ app.use((err, req, res, next) => {
 
 // ------------------------------------------------------------------------------
 // 5. KHỞI CHẠY MÁY CHỦ VÀ KHỞI TẠO CƠ SỞ DỮ LIỆU TỰ ĐỘNG
+// Hỗ trợ cả chế độ Server truyền thống (Node.js/Docker) và Serverless (Vercel)
 // ------------------------------------------------------------------------------
-app.listen(PORT, async () => {
-  console.log(`====================================================`);
-  console.log(`  HTQLLH Node.js Express Backend Server Running!`);
-  console.log(`  URL: http://localhost:${PORT}/api/health`);
-  console.log(`====================================================`);
+if (!process.env.VERCEL) {
+  app.listen(PORT, async () => {
+    console.log(`====================================================`);
+    console.log(`  HTQLLH Node.js Express Backend Server Running!`);
+    console.log(`  URL: http://localhost:${PORT}/api/health`);
+    console.log(`====================================================`);
 
-  try {
-    await initDatabaseSchema();
-    await seedDemoData();
-    console.log('[SERVER] PostgreSQL connected and schema initialized successfully.');
-  } catch (err) {
-    console.error('[SERVER ERROR] Không thể kết nối PostgreSQL:', err.message);
-    console.error('[SERVER ERROR] Kiểm tra cấu hình DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD trong .env');
-    console.error('[SERVER ERROR] Server tiếp tục chạy nhưng chức năng đăng nhập sẽ không hoạt động cho đến khi DB sẵn sàng.');
-  }
-});
+    try {
+      await initDatabaseSchema();
+      await seedDemoData();
+      console.log('[SERVER] PostgreSQL connected and schema initialized successfully.');
+    } catch (err) {
+      console.error('[SERVER ERROR] Không thể kết nối PostgreSQL:', err.message);
+      console.error('[SERVER ERROR] Kiểm tra cấu hình DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD hoặc DATABASE_URL trong .env');
+      console.error('[SERVER ERROR] Server tiếp tục chạy nhưng chức năng đăng nhập sẽ không hoạt động cho đến khi DB sẵn sàng.');
+    }
+  });
+}
+
+// Xuất mặc định cá thể Express app cho môi trường Serverless Function (Vercel API Handler)
+export default app;

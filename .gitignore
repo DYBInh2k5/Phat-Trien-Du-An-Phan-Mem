@@ -29,3 +29,6 @@ postman/
 # OS
 .DS_Store
 Thumbs.db
+.neon
+.vercel
+

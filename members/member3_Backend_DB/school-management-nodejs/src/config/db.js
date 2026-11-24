@@ -27,17 +27,26 @@ const { Pool } = pg;
  * Sử dụng hồ chứa giúp tái sử dụng các kết nối TCP đã mở, loại bỏ chi phí
  * thiết lập kết nối tốn kém trong mỗi yêu cầu HTTP.
  */
-export const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  // Cổng 5434 được ánh xạ từ cổng 5432 của Container để tránh xung đột với PostgreSQL cục bộ
-  port: parseInt(process.env.DB_PORT || '5434', 10),
-  database: process.env.DB_NAME || 'school_management',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
-  max: 10,                      // Tối đa 10 kết nối đồng thời trong hồ chứa
-  idleTimeoutMillis: 10000,     // Thu hồi kết nối sau 10 giây không có hoạt động
-  connectionTimeoutMillis: 2000 // Hủy yêu cầu nếu quá 2 giây không mượn được kết nối
-});
+export const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+        max: 10,
+        idleTimeoutMillis: 10000,
+        connectionTimeoutMillis: 5000
+      }
+    : {
+        host: process.env.DB_HOST || 'localhost',
+        port: parseInt(process.env.DB_PORT || '5434', 10),
+        database: process.env.DB_NAME || 'school_management',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'postgres',
+        max: 10,
+        idleTimeoutMillis: 10000,
+        connectionTimeoutMillis: 2000
+      }
+);
 
 /**
  * query() - Strict: throws nếu có lỗi DB. Dùng cho authentication (UserRepository).
