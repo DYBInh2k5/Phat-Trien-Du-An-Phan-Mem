@@ -190,3 +190,26 @@ Lệnh đồng bộ 1 chạm:
 git push origin main
 ```
 Lệnh trên sẽ tự động đẩy toàn bộ commit và nhánh `main` mới nhất lên đồng thời cả 2 máy chủ GitHub và Bitbucket.
+
+---
+
+## 7. TRIỂN KHAI ĐÁM MÂY PRODUCTION (VERCEL & NEON CLOUD DATABASE)
+
+Hệ thống đã được đóng gói và triển khai vận hành trực tuyến 24/7 trên hạ tầng đám mây Serverless:
+
+### 7.1. Địa chỉ dịch vụ trực tuyến (Production URLs)
+- **Frontend Single Page Application (Vercel)**: **[https://htqllh-frontend.vercel.app](https://htqllh-frontend.vercel.app)**  
+  *(Tự động cấp chứng chỉ bảo mật SSL/TLS HTTPS, tối ưu hóa Code-Splitting bundle khởi tạo chỉ 37.14 kB)*.
+- **Backend RESTful API (Vercel Serverless Function)**: **[https://htqllh-backend.vercel.app](https://htqllh-backend.vercel.app)**  
+  *(Kiểm tra trạng thái sức khỏe hệ thống: [https://htqllh-backend.vercel.app/api/health](https://htqllh-backend.vercel.app/api/health))*.
+
+### 7.2. Cơ sở dữ liệu đám mây Neon PostgreSQL Serverless
+- **Host**: `ep-wispy-rain-be6an41h-pooler.c-9.us-east-2.aws.neon.tech`
+- **Database**: `neondb` (PostgreSQL 18.7, AWS US East 2)
+- **Hiện trạng dữ liệu**: Đã nạp đầy đủ 100% dữ liệu mẫu 18/18 bảng CSDL 3NF (48 tài khoản người dùng 5 vai trò RBAC, 16 hồ sơ học sinh, 192 bản ghi sổ điểm 2 năm học 2024-2025 và 2025-2026, 125 slot thời khóa biểu, 80 bản ghi điểm danh, 16 hóa đơn học phí, 4 giao dịch VietQR).
+
+### 7.3. Bộ 3 Công cụ Quản lý Dự án Agile Chuẩn Quốc Tế
+- **Trello Kanban Board**: **[https://trello.com/b/gkdRNT57/htqllh-hệ-thống-quản-lý-lớp-học-học-vụ-edumanage-pro](https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro)** (30/30 PBIs đã hoàn thành 100% trong cột `✅ Done / Released`).
+- **Jira Cloud Project & Kanban**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN)
+- **ClickUp Workspace**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
+

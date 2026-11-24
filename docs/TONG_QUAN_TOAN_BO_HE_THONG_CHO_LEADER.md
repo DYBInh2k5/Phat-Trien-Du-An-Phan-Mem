@@ -30,10 +30,15 @@ NGÀY PHÁT HÀNH: 15/11/2026
 - **Kho lưu trữ kép (Dual-Remote Repositories)**:
   - **GitHub chính thức**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
   - **Bitbucket song song**: [https://bitbucket.org/codyisme27205/pt_da_pm](https://bitbucket.org/codyisme27205/pt_da_pm)
-- **Hệ thống Quản lý Tiến độ Trực tuyến**:
+- **Hệ thống Quản lý Tiến độ Trực tuyến (Bộ 3 Công cụ Agile Quốc tế)**:
+  - **Trello Kanban Board**: [https://trello.com/b/gkdRNT57/htqllh-hệ-thống-quản-lý-lớp-học-học-vụ-edumanage-pro](https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro) (30 PBIs đã Done).
   - **Jira Cloud Kanban Board**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
   - **ClickUp Workspace**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
   - **Bản Slide Thuyết Trình Canva (16 Trang Chuyên Nghiệp)**: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)
+- **Hạ tầng Đám mây Production Trực tuyến 24/7**:
+  - **Frontend Web SPA (Vercel)**: [https://htqllh-frontend.vercel.app](https://htqllh-frontend.vercel.app)
+  - **Backend API RESTful (Vercel)**: [https://htqllh-backend.vercel.app](https://htqllh-backend.vercel.app)
+  - **CSDL Đám mây Neon Serverless**: `ep-wispy-rain-be6an41h-pooler.c-9.us-east-2.aws.neon.tech/neondb` (18/18 bảng, 100% dữ liệu).
 
 ### 1.2 Chỉ Số Sức Khỏe Dự Án Hiện Tại (Tuần 10: 19/11/2026 - Sau Khi Nạp Đủ Dữ Liệu 18 Bảng CSDL, Tối Ưu Hóa & Đạt 400/400 Tests Xanh Tuyệt Đối)
 ```text

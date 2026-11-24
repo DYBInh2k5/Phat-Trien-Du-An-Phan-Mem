@@ -6,6 +6,9 @@ DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC & HỌC VỤ THPT (HTQLLH - THPT H
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 NGƯỜI LẬP: VÕ DUY BÌNH (PROJECT MANAGER & LEAD BA / LEAD REVIEWER)
 VỊ TRÍ TÀI LIỆU: docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md
+BẢNG TRELLO KANBAN: https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro
+BẢNG JIRA KANBAN: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
+KHÔNG GIAN CLICKUP: https://app.clickup.com/1100320000025585/v/s/1100320000109903
 NGÀY HOÀN THÀNH: 24/11/2026 (TUẦN 11 / 15 TUẦN HỌC KỲ 2631 - PHIÊN BẢN V4.0 TOÀN DIỆN)
 MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, THEO DÕI, REVIEW
           VÀ TRẢ LỜI CHÍNH XÁC TỪNG TASK: AI LÀM, LÀM GÌ, TỆP CODE NÀO, HÀM NÀO!
@@ -23,7 +26,7 @@ MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, T
 | **3** | **HUỲNH TRUNG TÍNH** | **Dev Backend & DBA Lead** | `Huỳnh Trung Tính` / `trungtinhh284` | **6 Tasks** (`PBI-03, 04, 06, 13, 17a, 29`) | **30 SP** | **20.0%** |
 | **4** | **TRẦN QUANG VINH** | **Core Logic & Security Lead** | `tqvcontacts` / `tqvcontacts` | **6 Tasks** (`PBI-01, 02, 07, 09, 20, 30`) | **30 SP** | **20.0%** |
 | **5** | **NGUYỄN MINH QUỐC BẢO** | **QA/QC Testing Lead & Export** | `Bảo Nguyễn` / `119437050` | **6 Tasks** (`PBI-21, 17c, 22, 17b, 16, 15`) | **30 SP** | **20.0%** |
-| **TỔNG** | **CẢ NHÓM (5 Người)** | **Đồ Án Phần Mềm HTQLLH** | **2 Nền tảng (Jira & ClickUp)** | **30 Tasks (PBIs)** | **150 SP** | **100% CÂN BẰNG** |
+| **TỔNG** | **CẢ NHÓM (5 Người)** | **Đồ Án Phần Mềm HTQLLH** | **3 Nền tảng (Trello, Jira & ClickUp)** | **30 Tasks (PBIs)** | **150 SP** | **100% CÂN BẰNG** |
 
 ---
 

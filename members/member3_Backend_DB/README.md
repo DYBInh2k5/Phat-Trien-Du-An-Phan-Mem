@@ -6,6 +6,9 @@ DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC THPT HSU (HTQLLH / SCHOOL MANAGEME
 THÀNH VIÊN: HUỲNH TRUNG TÍNH
 VAI TRÒ: BACKEND DEVELOPER (DEV BACKEND & DBA)
 TÀI KHOẢN JIRA CLOUD: Huỳnh Trung Tính
+BẢNG TRELLO KANBAN: https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro
+BACKEND PRODUCTION (VERCEL): https://htqllh-backend.vercel.app
+NEON CLOUD DATABASE: ep-wispy-rain-be6an41h-pooler.c-9.us-east-2.aws.neon.tech/neondb
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 VỊ TRÍ TÀI LIỆU: members/member3_Backend_DB/README.md
 NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - TUITION VIETQR & 79 TESTS PASS)
