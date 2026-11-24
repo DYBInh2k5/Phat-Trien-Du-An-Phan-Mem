@@ -234,6 +234,16 @@ Hệ thống đã hoàn tất và kiểm chứng toàn diện trước Hội đ�
 | **Frontend Production Build** | Võ Hoàng Sơn (Member 2) | **Bundle 37 kB** | ✅ **0 Lỗi, 0 Warning** | `npm run build --prefix members/member2_Frontend` |
 | **TỔNG CỘNG HỆ THỐNG** | **Toàn đội ngũ 5 người** | **400 / 400** | 🏆 **PASS 100%** | `npm test` (Chạy 387 tests root + 13 vitest) |
 
+### 9.2 Hiện Trạng Triển Khai Đám Mây Trực Tuyến & Hệ Sinh Thái Plugin / Extension:
+Hệ thống đã được đóng gói và vận hành chính thức trên nền tảng Cloud Production:
+- **Cổng Giao diện Trực tuyến (Frontend SPA)**: [https://htqllh-frontend.vercel.app](https://htqllh-frontend.vercel.app) (Vercel Serverless Hosting)
+- **Cổng Máy chủ API (Backend RESTful API)**: [https://htqllh-backend.vercel.app](https://htqllh-backend.vercel.app) (Node.js Express Clean Architecture)
+- **Cơ sở Dữ liệu Đám mây (Cloud Database)**: Neon PostgreSQL Serverless (PostgreSQL 18.7, 18 bảng chuẩn 3NF, 53 tài khoản RBAC, điểm TT22)
+- **Hệ sinh thái Plugin & Extension hỗ trợ**:
+  - *VS Code Extensions*: PostgreSQL Client (`ckolkman.vscode-postgres`), Thunder Client (`rangav.vscode-thunder-client`), Docker Extension, Tailwind CSS IntelliSense.
+  - *AI MCP Plugins*: Vercel CLI, Neon Cloud Database, Canva MCP (đồng bộ Slide `DAHZQ9j_ouU`), Chrome DevTools MCP (audit UI).
+- **Tài liệu hướng dẫn chi tiết**: Tham khảo [docs/HUONG_DAN_KET_NOI_PLUGIN_VA_EXTENSION.md](../docs/HUONG_DAN_KET_NOI_PLUGIN_VA_EXTENSION.md).
+
 ---
 
 ## CHƯƠNG X: TỔNG KẾT TIẾN ĐỘ TOÀN KHÓA HỌC (15 TUẦN HOÀN TẤT 100%)

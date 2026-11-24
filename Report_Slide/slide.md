@@ -291,6 +291,11 @@ timeline
 
 ### Kính Mời Quý Thầy Cô và Các Bạn Đặt Câu Hỏi (Q&A)!
 
+- **Hệ Thống Trực Tuyến Đã Triển Khai (Cloud Production)**:
+  + Cổng Giao diện Web (Frontend Vercel): [https://htqllh-frontend.vercel.app](https://htqllh-frontend.vercel.app)
+  + Máy chủ RESTful API (Backend Vercel): [https://htqllh-backend.vercel.app](https://htqllh-backend.vercel.app)
+  + Cơ sở Dữ liệu Đám mây (Neon PostgreSQL): `ep-wispy-rain-be6an41h-pooler.c-9.us-east-2.aws.neon.tech`
+- **Hướng dẫn Kết nối Plugin & Extension**: [docs/HUONG_DAN_KET_NOI_PLUGIN_VA_EXTENSION.md](../docs/HUONG_DAN_KET_NOI_PLUGIN_VA_EXTENSION.md)
 - **Kho lưu trữ GitHub**: [https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem](https://github.com/DYBInh2k5/Phat-Trien-Du-An-Phan-Mem)
 - **Kho lưu trữ Bitbucket**: [https://bitbucket.org/codyisme27205/pt_da_pm](https://bitbucket.org/codyisme27205/pt_da_pm)
 - **Tài liệu Báo cáo chi tiết**: [Report_Slide/report.md](file:///d:/HSU/2631Semester%201%282026-2027%29/PT_DA_PM/Report_Slide/report.md)

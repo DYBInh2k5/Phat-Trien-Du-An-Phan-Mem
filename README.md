@@ -35,6 +35,7 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 24/11/2026 (TUẦN 11 / 15 TUẦN HỌ
 - **Nền tảng Quản trị & Trình chiếu Trực tuyến**:
   - **Bản Tổng Quan Toàn Bộ Hệ Thống Dành Cho Leader**: [docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md](docs/TONG_QUAN_TOAN_BO_HE_THONG_CHO_LEADER.md)
   - **Bản Đồ Chi Tiết 27 Tasks (Jira / ClickUp / Code / Function Mapping)**: [docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md](docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md)
+  - **Cẩm nang Kết Nối Plugin, Extension & Nền Tảng Đám Mây**: [docs/HUONG_DAN_KET_NOI_PLUGIN_VA_EXTENSION.md](docs/HUONG_DAN_KET_NOI_PLUGIN_VA_EXTENSION.md)
   - **Cẩm nang Kiểm thử API bằng Thunder Client (⚡ Trong IDE)**: [docs/HUONG_DAN_THUNDER_CLIENT.md](docs/HUONG_DAN_THUNDER_CLIENT.md)
   - **Cẩm nang Lập trình & Sửa mã nguồn (Developer Handbook)**: [docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md](docs/HUONG_DAN_LAP_TRINH_VA_SUA_CODE.md)
   - **Jira Cloud (Kanban Board 2)**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
