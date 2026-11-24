@@ -108,7 +108,7 @@ export async function getCachedSubjectList() {
   - Thực thi kiểm thử trực tiếp hệ thống (Live System Testing): **19 / 19 kịch bản PASS (100%)**.
 
 ### 2. Tổng kết nghiệm thu kỹ thuật Tuần 11
-- **Rà soát 100% hồ sơ SRS (43 Use Cases & 27 PBIs)**: Hoàn tất tích hợp đầy đủ mọi yêu cầu còn thiếu, đưa 27/27 PBIs đạt trạng thái `DONE`.
+- **Rà soát 100% hồ sơ SRS (43 Use Cases & 30 PBIs)**: Hoàn tất tích hợp đầy đủ mọi yêu cầu còn thiếu, đưa 30/30 PBIs đạt trạng thái `DONE`.
 - **Tối ưu hóa phản hồi API**: Tốc độ phản hồi API danh mục giảm từ 180ms xuống dưới 15ms.
 - **Nâng cấp hình ảnh & UX/UI**: Loại bỏ hoàn toàn hình ảnh AI giả tạo; thay thế bằng nhiếp ảnh trường học chân thực và hệ thống ảnh thẻ học sinh chuyên nghiệp.
 - **Quản lý Hạnh kiểm & Báo cáo Thông tư 22**: Bổ sung trường `conduct_rank` trong CSDL PostgreSQL, nạp dữ liệu mẫu 16 học sinh và hiển thị đồng bộ trên Cổng Phụ huynh, Học sinh và Dashboard GVCN.
@@ -135,4 +135,12 @@ export async function getCachedSubjectList() {
 - **Cảnh báo Build Vite**: **0 cảnh báo** (Loại bỏ triệt để cảnh báo vượt ngưỡng 500 kB).
 - **Cảnh báo Kiểm thử Vitest**: **0 cảnh báo** (13/13 tests sạch sẽ hoàn toàn).
 - **Tổng số Unit/Integration Tests**: **400 / 400 Tests PASS (100% Xanh)**.
+
+### 3. Chuẩn hóa Danh mục 30 Tasks (150 Story Points) Cân Bằng Tuyệt Đối 100% Cho 5 Thành Viên
+Nhằm phục vụ báo cáo đồ án trước Hội đồng chấm thi HSU và đối chiếu chính xác giữa mã nguồn với Jira/ClickUp, toàn bộ các hạng mục mới nhất đã được Leader chuẩn hóa thành **30 PBIs (150 Story Points)** chia đều chính xác **30 SP (20.0%)** cho mỗi thành viên:
+1. **Võ Duy Bình (PM & Lead BA)**: 6 Tasks (`PBI-25, 14, 24, 23, 19, 29`) = **30 SP (20%)**.
+2. **Võ Hoàng Sơn (Dev Frontend)**: 6 Tasks (`PBI-05, 08, 10, 11, 18, 28`) = **30 SP (20%)**.
+3. **Huỳnh Trung Tính (Dev Backend & DBA)**: 6 Tasks (`PBI-03, 04, 06, 13, 17a, 29`) = **30 SP (20%)**.
+4. **Trần Quang Vinh (Logic Security)**: 6 Tasks (`PBI-01, 02, 07, 09, 20, 30`) = **30 SP (20%)**.
+5. **Nguyễn Minh Quốc Bảo (Tester)**: 6 Tasks (`PBI-21, 17c, 22, 17b, 16, 15`) = **30 SP (20%)**.
 

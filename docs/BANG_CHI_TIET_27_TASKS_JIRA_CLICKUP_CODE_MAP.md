@@ -1,12 +1,12 @@
-# BẢN ĐỒ CHI TIẾT 27 TASKS (JIRA / CLICKUP / CODE MAPPING) CHO LEADER
+# BẢN ĐỒ CHI TIẾT 30 TASKS (JIRA / CLICKUP / CODE MAPPING) CHO LEADER
 
 ```
 ================================================================================
-DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC & HỌC VỤ THCS (HTQLLH - THPT HSU)
+DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC & HỌC VỤ THPT (HTQLLH - THPT HSU)
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
 NGƯỜI LẬP: VÕ DUY BÌNH (PROJECT MANAGER & LEAD BA / LEAD REVIEWER)
 VỊ TRÍ TÀI LIỆU: docs/BANG_CHI_TIET_27_TASKS_JIRA_CLICKUP_CODE_MAP.md
-NGÀY HOÀN THÀNH: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631)
+NGÀY HOÀN THÀNH: 24/11/2026 (TUẦN 11 / 15 TUẦN HỌC KỲ 2631 - PHIÊN BẢN V4.0 TOÀN DIỆN)
 MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, THEO DÕI, REVIEW
           VÀ TRẢ LỜI CHÍNH XÁC TỪNG TASK: AI LÀM, LÀM GÌ, TỆP CODE NÀO, HÀM NÀO!
 ================================================================================
@@ -14,16 +14,16 @@ MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, T
 
 ---
 
-## 1. BẢNG TỔNG HỢP NHANH PHÂN CÔNG 5 THÀNH VIÊN
+## 1. BẢNG TỔNG HỢP NHANH PHÂN CÔNG 5 THÀNH VIÊN (CHUẨN HÓA CÂN BẰNG 100% — 30 SP / NGƯỜI)
 
 | STT | Thành Viên | Vai Trò Chuyên Trách | Tài Khoản Jira / ClickUp | Số Tasks Phụ Trách | Story Points | Tỷ Lệ Đóng Góp |
 | :---: | :--- | :--- | :--- | :---: | :---: | :---: |
-| **1** | **VÕ DUY BÌNH** | **Lead PM & BA, Lead Reviewer** | `Duy Bình` / `binh.vd01500` | **5 Tasks** (`PBI-25, 14, 24, 23, 19`) | 25 SP | ~20% |
-| **2** | **VÕ HOÀNG SƠN** | **Dev Frontend Lead** | `Sonvohoang` / `sonvohoang58` | **6 Tasks** (`PBI-05, 08, 10, 11, 18, 15`) | 28 SP | ~20% |
-| **3** | **HUỲNH TRUNG TÍNH** | **Dev Backend & DBA Lead** | `Huỳnh Trung Tính` / `trungtinhh284` | **5 Tasks** (`PBI-03, 04, 06, 13, 17a`) | 26 SP | ~20% |
-| **4** | **TRẦN QUANG VINH** | **Core Logic & Security Lead** | `tqvcontacts` / `tqvcontacts` | **6 Tasks** (`PBI-01, 02, 07, 09, 20, 12`) | 28 SP | ~20% |
-| **5** | **NGUYỄN MINH QUỐC BẢO** | **QA/QC Testing Lead & Export** | `Bảo Nguyễn` / `119437050` | **5 Tasks** (`PBI-21, 17c, 22, 17b, 16`) | 28 SP | ~20% |
-| **TỔNG** | **CẢ NHÓM (5 Người)** | **Đồ Án Phần Mềm HTQLLH** | **2 Nền tảng (Jira & ClickUp)** | **27 Tasks (PBIs)** | **135 SP** | **100%** |
+| **1** | **VÕ DUY BÌNH** | **Lead PM & BA, Lead Reviewer** | `Duy Bình` / `binh.vd01500` | **6 Tasks** (`PBI-25, 14, 24, 23, 19, 29`) | **30 SP** | **20.0%** |
+| **2** | **VÕ HOÀNG SƠN** | **Dev Frontend Lead** | `Sonvohoang` / `sonvohoang58` | **6 Tasks** (`PBI-05, 08, 10, 11, 18, 28`) | **30 SP** | **20.0%** |
+| **3** | **HUỲNH TRUNG TÍNH** | **Dev Backend & DBA Lead** | `Huỳnh Trung Tính` / `trungtinhh284` | **6 Tasks** (`PBI-03, 04, 06, 13, 17a, 29`) | **30 SP** | **20.0%** |
+| **4** | **TRẦN QUANG VINH** | **Core Logic & Security Lead** | `tqvcontacts` / `tqvcontacts` | **6 Tasks** (`PBI-01, 02, 07, 09, 20, 30`) | **30 SP** | **20.0%** |
+| **5** | **NGUYỄN MINH QUỐC BẢO** | **QA/QC Testing Lead & Export** | `Bảo Nguyễn` / `119437050` | **6 Tasks** (`PBI-21, 17c, 22, 17b, 16, 15`) | **30 SP** | **20.0%** |
+| **TỔNG** | **CẢ NHÓM (5 Người)** | **Đồ Án Phần Mềm HTQLLH** | **2 Nền tảng (Jira & ClickUp)** | **30 Tasks (PBIs)** | **150 SP** | **100% CÂN BẰNG** |
 
 ---
 
@@ -446,11 +446,66 @@ MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, T
 
 ---
 
+### 🔹 MODULE 10: TỐI ƯU HÓA HIỆU NĂNG, CONTAINER HÓA & NHẬN DIỆN THƯƠNG HIỆU SỐ
+
+#### Task 28: `PBI-28` | Jira: `KAN-139` | ClickUp: `z8qgvcdgbr`
+* **Tên Task**: Tối ưu hóa hiệu năng Frontend: Phân tách mã nguồn Lazy Loading (Code-Splitting), giảm 95.5% bundle & Chuẩn hóa React Router v7.
+* **Người thực hiện**: **Võ Hoàng Sơn** (Dev Frontend Lead) & **Võ Duy Bình** (Lead Reviewer).
+* **Story Points**: **5 SP**
+* **Nghiệp vụ / Làm gì**:
+  - Tái cấu trúc bộ định tuyến với `React.lazy()` và `Suspense` cho toàn bộ 25 phân hệ học vụ.
+  - Phân tách vendor chunks (`vendor-react`, `vendor-xlsx`) trong cấu hình Vite.
+  - Giảm dung lượng tệp khởi tạo `index.js` từ 821 kB xuống 37.14 kB (giảm 95.5%), loại bỏ hoàn toàn cảnh báo 500 kB.
+  - Bật cờ `future={{ v7_startTransition: true, v7_relativeSplatPath: true }}` triệt tiêu 100% cảnh báo trên console trình duyệt và kiểm thử Vitest.
+  - Dọn sạch 1.6 MB tệp ảnh tĩnh tồn dư trong thư mục `public/`.
+* **Tệp mã nguồn tương ứng**:
+  - `members/member2_Frontend/src/routes/AppRouter.jsx`
+  - `members/member2_Frontend/vite.config.js`
+  - `members/member2_Frontend/src/App.jsx`
+* **Hàm / Component / Chức năng code cụ thể**:
+  - `PageLoadingFallback`: Component hiển thị spinner mượt mà trong quá trình nạp module con theo yêu cầu.
+  - `manualChunks(id)`: Hàm phân loại thư viện vendor phục vụ bộ nhớ đệm trình duyệt tối ưu.
+
+#### Task 29: `PBI-29` | Jira: `KAN-140` | ClickUp: `z8qgvcdgbs`
+* **Tên Task**: Đóng gói Docker Compose Fullstack 3 Phân tầng (Nginx SPA, Node.js Express, PostgreSQL 16) phục vụ Triển khai 1-Click Production.
+* **Người thực hiện**: **Huỳnh Trung Tính** (Dev Backend & DBA Lead) & **Võ Duy Bình** (Lead PM & BA).
+* **Story Points**: **5 SP**
+* **Nghiệp vụ / Làm gì**:
+  - Xây dựng Multi-stage Dockerfile cho Frontend React SPA (Node.js 20 Alpine builder -> Nginx Alpine phục vụ tệp tĩnh).
+  - Cấu hình Nginx reverse proxy `/api/` tự động định tuyến sang Backend container và SPA fallback routing (`try_files $uri $uri/ /index.html`).
+  - Cập nhật tệp `docker-compose.yml` điều phối mạng cầu nối (Bridge Network) kết nối thông suốt 3 phân tầng.
+* **Tệp mã nguồn tương ứng**:
+  - `members/member2_Frontend/Dockerfile`
+  - `members/member2_Frontend/nginx.conf`
+  - `docker-compose.yml`
+* **Hàm / Component / Chức năng code cụ thể**:
+  - `docker compose up -d --build`: Khởi chạy tự động 1-click cả 3 dịch vụ `postgres-db`, `backend-api`, `frontend-spa`.
+
+#### Task 30: `PBI-30` | Jira: `KAN-141` | ClickUp: `z8qgvcdgbt`
+* **Tên Task**: Thiết kế Bộ nhận diện Thương hiệu Trường học Số HSU Digital Campus, Vector Emblem & Cổng Đăng nhập Enterprise SSO.
+* **Người thực hiện**: **Trần Quang Vinh** (Security Lead) & **Võ Hoàng Sơn** (Frontend UI/UX).
+* **Story Points**: **5 SP**
+* **Nghiệp vụ / Làm gì**:
+  - Thiết kế vector emblem chính thức `logo-hsu.svg` (Hoa Sen vàng HSU, Mũ cử nhân, Khiên xanh hoàng gia), đồng bộ Favicon, Header Avatar trực quan, Sidebar Header.
+  - Tái thiết kế Cổng Đăng Nhập chuẩn Enterprise Single Sign-On: Tự động nhận diện vai trò từ CSDL PostgreSQL (không bắt người dùng chọn vai trò thủ công), loại bỏ hoàn toàn các nhãn thử nghiệm prototype/vibe-coding, tích hợp ngăn kéo tài khoản kiểm thử bảo mật.
+* **Tệp mã nguồn tương ứng**:
+  - `members/member2_Frontend/public/logo-hsu.svg`
+  - `members/member2_Frontend/src/pages/auth/LoginPage.jsx`
+  - `members/member2_Frontend/src/components/layout/Sidebar.jsx`
+  - `members/member2_Frontend/src/components/layout/Header.jsx`
+* **Hàm / Component / Chức năng code cụ thể**:
+  - `AuthController.login`: Tự động truy vấn vai trò thực tế từ bảng `users` khi không nhận được tham số `role`.
+  - `LoginPage.jsx`: Giao diện SSO bảo mật SSL 256-bit chuẩn cổng thông tin giáo dục chính thống.
+
+---
+
 ## 3. HƯỚNG DẪN DÀNH CHO LEADER KHI CẦN TRA CỨU HOẶC TRẢ LỜI CÔ
 
 1. **Khi Cô hỏi bất kỳ chức năng nào (Ví dụ: "Ai làm tính năng thanh toán học phí VietQR?")**:
    - Mở ngay tài liệu này $\rightarrow$ Tìm `VietQR` $\rightarrow$ Thấy ngay: **Task `PBI-17a` (`KAN-132`) do Trần Quang Vinh & Huỳnh Trung Tính phụ trách Backend (`TuitionController.js`, `vietQrHelper.js`), Võ Hoàng Sơn làm Frontend (`VietQrPaymentModal.jsx`), và em (Võ Duy Bình) làm màn hình báo cáo BGH (`PBI-24`)**.
 2. **Khi Cô hỏi: "Code hàm tính điểm Thông tư 22 nằm ở đâu?"**:
    - Chỉ ngay: **Task `PBI-09` (`KAN-124`) nằm tại file `members/member4_Logic_Security/gpaCalculationLogic.js`, hàm `calculateAverageSubjectScore` chia đúng mẫu số 9**.
-3. **Khi Cô hỏi: "Làm sao em biết được các bạn có làm thật hay không?"**:
-   - Trình bày: **"Toàn bộ 27 tasks này đều đã được đồng bộ lên Jira Cloud (`KAN-112` đến `KAN-138`) và ClickUp, có đầy đủ commit ID, phân bổ Story Points, người phụ trách và đã được em trực tiếp review mã nguồn trước khi merge vào nhánh `main`"**.
+3. **Khi Cô hỏi: "Hệ thống tối ưu hiệu năng và đóng gói thế nào?"**:
+   - Trả lời ngay: **"Dạ hệ thống đã được nhóm tối ưu hóa trong Task `PBI-28` (Code-Splitting giảm 95.5% bundle còn 37KB) và `PBI-29` (Docker Compose Fullstack 3 phân tầng do bạn Huỳnh Trung Tính và em phụ trách)"**.
+4. **Khi Cô hỏi: "Làm sao em biết được các bạn có làm thật hay không?"**:
+   - Trình bày: **"Toàn bộ 30 tasks này đều đã được đồng bộ lên Jira Cloud (`KAN-112` đến `KAN-141`) và ClickUp, có đầy đủ commit ID, phân bổ Story Points cân bằng tuyệt đối 30 SP mỗi bạn (20%), người phụ trách rõ ràng và đã được em trực tiếp review mã nguồn trước khi merge vào nhánh `main`"**.

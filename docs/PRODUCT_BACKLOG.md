@@ -11,8 +11,8 @@ THÀNH VIÊN: Võ Duy Bình · Võ Hoàng Sơn · Huỳnh Trung Tính · Trần 
 BẢNG JIRA KANBAN BOARD: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
 KHÔNG GIAN DỰ ÁN CLICKUP: https://app.clickup.com/1100320000025585/v/s/1100320000109903
 BẢN SLIDE TRÌNH CHIẾU CANVA: https://www.canva.com/d/75iOEEpReWqgOuN
-NGÀY LẬP: 27/10/2026 | CẬP NHẬT: 12/11/2026
-PHIÊN BẢN: 3.1 (Đồng bộ Jira Kanban Board, ClickUp Workspace & Slide Canva)
+NGÀY LẬP: 27/10/2026 | CẬP NHẬT: 24/11/2026
+PHIÊN BẢN: 4.0 (Đồng bộ Toàn diện 30 PBIs - 150 Story Points Cân bằng 100% Jira Kanban, ClickUp & Dual-Remote)
 ================================================================================
 ```
 
@@ -107,6 +107,11 @@ Toàn bộ hệ thống HTQLLH được cấu trúc thành **8 Sử thi (Epics)*
 | **PBI-23** | EPIC-04 | Là **Ban Giám Hiệu**, tôi muốn xem báo cáo thống kê phổ điểm và danh sách xét khen thưởng toàn trường, để lập kế hoạch trao học bổng và xét học sinh rèn luyện hè. | 5 | Should Have | - Biểu đồ phổ điểm từng môn: tỷ lệ % học sinh ở mỗi mức xếp loại (Tốt/Khá/Đạt/Chưa đạt).<br>- Danh sách học sinh đạt danh hiệu Học sinh Xuất sắc (tất cả môn Tốt, hạnh kiểm Tốt).<br>- Danh sách học sinh cần rèn luyện hè (có môn Chưa đạt hoặc hạnh kiểm Yếu).<br>- Lọc theo lớp, khối, toàn trường. | UC-ADM-06 | **Võ Duy Bình** & **Nguyễn Minh Quốc Bảo** | **DONE** |
 | **PBI-24** | EPIC-08 | Là **Phụ huynh**, tôi muốn xem thông báo học phí và thanh toán trực tuyến qua mã VietQR, để nộp học phí nhanh chóng mà không cần đến trường nộp tiền mặt. | 5 | Must Have | - Hiển thị danh mục học phí: Số tiền phải nộp, Hạn nộp, Trạng thái (UNPAID / PARTIAL / PAID).<br>- Hiển thị mã VietQR tự động với số tiền và nội dung chuyển khoản đúng định dạng.<br>- Sau khi thanh toán: Trạng thái cập nhật sang `PAID`, sinh biên lai điện tử có số biên lai duy nhất.<br>- Phụ huynh tải biên lai PDF với đầy đủ: Tên học sinh, Số tiền, Ngày nộp, Số biên lai.<br>- Kiểm thử: Thanh toán thành công → `GET /api/tuition` trả về status=PAID. | UC-PAR-07, UC-PAR-08, UC-PAR-09 | **Võ Duy Bình** & **Nguyễn Minh Quốc Bảo** | **DONE** |
 | **PBI-25** | EPIC-01 | Là **Ban Giám Hiệu**, tôi muốn quản lý tài khoản người dùng trong hệ thống (tạo mới, khóa, đặt lại mật khẩu), để kiểm soát ai được phép truy cập vào hệ thống trường. | 5 | Must Have | - Tạo mới tài khoản với vai trò: BGH / GVCN / GVBM / HS / PH.<br>- Khóa tài khoản vi phạm (trạng thái INACTIVE) → tài khoản bị khóa không thể đăng nhập.<br>- Đặt lại mật khẩu mặc định `123456` kèm yêu cầu đổi mật khẩu khi đăng nhập lần đầu.<br>- Kiểm thử: Tạo tài khoản mới `gv.test` vai trò GVBM → đăng nhập thành công với mật khẩu mặc định. | UC-ADM-02 | **Huỳnh Trung Tính** & **Trần Quang Vinh** | **DONE** |
+| **PBI-26** | EPIC-08 | Là **Phụ huynh / Ban Giám Hiệu**, tôi muốn quét mã VietQR chuẩn EMVCo động để thanh toán học phí tức thì với thời gian đếm ngược 15 phút và gạch nợ tự động trong 3 giây. | 5 | Must Have | - Tạo chuỗi chuẩn EMVCo TLV có mã định danh ngân hàng và mã kiểm tra CRC16-CCITT.<br>- Modal thanh toán VietQR hiển thị đồng hồ đếm ngược 15 phút và tự động kiểm tra trạng thái thanh toán mỗi 3 giây.<br>- Nút mô phỏng thanh toán thử nghiệm (Dev Test) phục vụ chấm bài và nghiệm thu.<br>- Tích hợp trên cả trang Cổng Phụ huynh (`ParentPortalPage`) và Quản lý Học phí BGH (`BGHTuitionPage`). | UC-PAR-07, UC-PAR-08 | **Trần Quang Vinh** & **Võ Hoàng Sơn** | **DONE** |
+| **PBI-27** | EPIC-06 | Là **Ban Giám Hiệu**, tôi muốn tra cứu và lọc nhật ký kiểm toán hệ thống từ CSDL quan hệ PostgreSQL (`audit_logs`), để giám sát an ninh học vụ và phát hiện các hành vi bất thường. | 5 | Must Have | - API `GET /api/audit-logs` hỗ trợ lọc theo người thực hiện (`username`), hành động (`action`) và thời gian.<br>- Lưu trữ lịch sử bất biến (Append-only) vào CSDL PostgreSQL.<br>- Giao diện hiển thị nhật ký rõ ràng với nhãn thời gian và chi tiết sửa đổi. | UC-ADM-04 | **Huỳnh Trung Tính** & **Trần Quang Vinh** | **DONE** |
+| **PBI-28** | EPIC-08 | Là **Toàn bộ Người dùng**, tôi muốn hệ thống tải trang cực nhanh và mượt mà trên thiết bị di động, để tiết kiệm dữ liệu mạng và không phải chờ đợi.<br>*(Ghi chú kỹ thuật: Code-Splitting React.lazy + Suspense, manualChunks trong Vite, dọn dẹp asset dư thừa)* | 5 | Must Have | - Tái cấu trúc 25 trang học vụ với `React.lazy()` và `Suspense`.<br>- Tách vendor chunks: `vendor-react` (166 kB) và `vendor-xlsx` (283 kB).<br>- Giảm bundle khởi tạo `index.js` từ 821 kB xuống 37.14 kB (giảm 95.5%).<br>- Dọn dẹp 1.6 MB ảnh cũ tồn dư; 0 cảnh báo React Router v7 future flags. | — | **Võ Hoàng Sơn** & **Võ Duy Bình** | **DONE** |
+| **PBI-29** | EPIC-05 | Là **DevOps / Triển khai**, tôi muốn hệ thống được đóng gói thành các Docker Container độc lập và kết nối qua Docker Compose, để có thể triển khai môi trường sản xuất bằng 1 câu lệnh duy nhất.<br>*(Ghi chú kỹ thuật: Multi-stage Dockerfile cho Frontend, Nginx Alpine reverse proxy, Bridge Network)* | 5 | Must Have | - Dockerfile đa tầng cho Frontend (Node.js 20 builder -> Nginx Alpine serve static).<br>- Tệp `nginx.conf` với reverse proxy `/api/` và SPA routing fallback (`try_files $uri /index.html`).<br>- Tệp `docker-compose.yml` tích hợp 3 services: `postgres-db`, `backend-api`, `frontend-spa`. | — | **Huỳnh Trung Tính** & **Võ Duy Bình** | **DONE** |
+| **PBI-30** | EPIC-01 | Là **Người dùng**, tôi muốn đăng nhập qua Cổng xác thực định danh số chuẩn Enterprise Single Sign-On (tự động nhận diện vai trò từ CSDL) với nhận diện thương hiệu học đường chuyên nghiệp. | 5 | Must Have | - Bộ nhận diện thương hiệu vector `logo-hsu.svg` (Hoa Sen vàng HSU, Mũ cử nhân, Khiên xanh hoàng gia) tích hợp Favicon, Header Avatar và Sidebar.<br>- Backend tự động tra cứu vai trò từ CSDL khi không nhận được tham số `role`, bảo mật mật khẩu bcrypt.<br>- Giao diện đăng nhập chuẩn SSO không còn thanh chọn vai trò thô sơ hay nhãn prototype/vibe-coding. | UC-ADM-01, UC-GVCN-01 | **Trần Quang Vinh** & **Võ Hoàng Sơn** | **DONE** |
 
 ---
 
@@ -116,38 +121,38 @@ Dự án được triển khai qua **5 Sprint phát triển** (tương ứng v�
 
 ```mermaid
 gantt
-    title LỘ TRÌNH PHÁT TRIỂN 5 SPRINTS — HỆ THỐNG HTQLLH THPT HSU
+    title LỘ TRÌNH PHÁT TRIỂN 5 SPRINTS — HỆ THỐNG HTQLLH THPT HSU (30 PBIs)
     dateFormat  YYYY-MM-DD
     section Sprint 1
-    Khảo sát SRS, CSDL PostgreSQL 3NF & Auth JWT (PBI-01, 02, 25) :done, s1, 2026-09-01, 2026-09-21
+    Khảo sát SRS, CSDL PostgreSQL 3NF & Auth JWT (PBI-01, 02, 25, 30) :done, s1, 2026-09-01, 2026-09-21
     section Sprint 2
     Giao diện React SPA, Hồ sơ Học sinh & Phân công (PBI-03, 04, 05, 21) :done, s2, 2026-09-22, 2026-10-05
     section Sprint 3
     Sổ điểm Thông tư 22, ACID, Repository & Unit of Work (PBI-08, 09, 10, 11, 12, 20) :done, s3, 2026-10-06, 2026-10-19
     section Sprint 4
-    Điểm danh, Audit Trail, Cổng Phụ huynh & TKB (PBI-06, 07, 13, 14, 17a, 17b, 17c) :done, s4, 2026-10-20, 2026-11-02
+    Điểm danh, Audit Trail, Cổng Phụ huynh & TKB (PBI-06, 07, 13, 14, 17a, 17b, 17c, 27) :done, s4, 2026-10-20, 2026-11-02
     section Sprint 5
-    Export Excel/PDF, Học phí, Hạnh kiểm, Khen thưởng, QA (PBI-15, 16, 18, 19, 22, 23, 24) :active, s5, 2026-11-03, 2026-11-16
+    Export Excel/PDF, VietQR, Hạnh kiểm, Tối ưu Bundle & Docker Compose (PBI-15, 16, 18, 19, 22, 23, 24, 26, 28, 29) :done, s5, 2026-11-03, 2026-11-24
 ```
 
 ### Chi Tiết Phân Bổ PBIs Vào Từng Sprint:
-- **Sprint 1 (Tuần 1–3)**: Hoàn thành nền tảng kiến trúc, khảo sát yêu cầu SRS 43 Use Cases, thiết kế CSDL PostgreSQL 8 bảng chuẩn 3NF, xác thực JWT, phân quyền RBAC và quản lý tài khoản (`PBI-01, PBI-02, PBI-25`).
+- **Sprint 1 (Tuần 1–3)**: Hoàn thành nền tảng kiến trúc, khảo sát yêu cầu SRS 43 Use Cases, thiết kế CSDL PostgreSQL 8 bảng chuẩn 3NF, xác thực JWT, phân quyền RBAC và quản lý tài khoản, Cổng SSO (`PBI-01, PBI-02, PBI-25, PBI-30`).
 - **Sprint 2 (Tuần 4–6)**: Triển khai giao diện React SPA 5 Roles, phân hệ quản lý hồ sơ học sinh, lớp học, phân công giảng dạy, điểm danh đầu giờ và thời khóa biểu (`PBI-03, PBI-04, PBI-05, PBI-21`).
 - **Sprint 3 (Tuần 7–9)**: Phát triển Sổ điểm điện tử Thông tư 22, tính GPA, Unit of Work ACID, Repository Pattern, cổng học sinh xem điểm (`PBI-08, PBI-09, PBI-10, PBI-11, PBI-12, PBI-20`).
-- **Sprint 4 (Tuần 10–12)**: Phát triển điểm danh tiết, cảnh báo vắng > 20%, Audit Trail, thuật toán TKB chống xung đột, cổng Phụ huynh 3 tính năng (`PBI-06, PBI-07, PBI-13, PBI-14, PBI-17a, PBI-17b, PBI-17c`).
-- **Sprint 5 (Tuần 13–15)**: Engine xuất báo cáo Excel/PDF, học phí VietQR, hạnh kiểm, thống kê phổ điểm, Connection Pool, bộ QA Unit Testing (`PBI-15, PBI-16, PBI-18, PBI-19, PBI-22, PBI-23, PBI-24`).
+- **Sprint 4 (Tuần 10–12)**: Phát triển điểm danh tiết, cảnh báo vắng > 20%, Audit Trail CSDL, thuật toán TKB chống xung đột, cổng Phụ huynh 3 tính năng (`PBI-06, PBI-07, PBI-13, PBI-14, PBI-17a, PBI-17b, PBI-17c, PBI-27`).
+- **Sprint 5 (Tuần 13–15)**: Engine xuất báo cáo Excel/PDF, cổng thanh toán VietQR Napas 24/7, hạnh kiểm, thống kê phổ điểm, Connection Pool, bộ QA Unit Testing, tối ưu hóa bundle Code-Splitting và đóng gói Docker Compose Fullstack (`PBI-15, PBI-16, PBI-18, PBI-19, PBI-22, PBI-23, PBI-24, PBI-26, PBI-28, PBI-29`).
 
 ---
 
-## PHẦN 5: BẢNG THEO DÕI KHỐI LƯỢNG STORY POINTS CỦA 5 THÀNH VIÊN
+## PHẦN 5: BẢNG THEO DÕI KHỐI LƯỢNG STORY POINTS CỦA 5 THÀNH VIÊN (CHUẨN HÓA CÂN BẰNG 100%)
 
-Tổng khối lượng công việc toàn bộ dự án đạt: **112 Story Points** (bao gồm các PBI bổ sung phiên bản 3.0):
+Tổng khối lượng công việc toàn bộ dự án đạt: **150 Story Points** (Phân bổ chuẩn hóa cân bằng 30 SP mỗi thành viên, tỷ lệ đóng góp chính xác 20.0% mỗi người):
 
 | Thành Viên | Vai Trò Chính | Các PBIs Tham Gia Phụ Trách | Tổng Story Points | Tỷ Lệ Đóng Góp |
 | :--- | :--- | :--- | :---: | :---: |
-| **Võ Duy Bình** | Project Manager & Lead BA | PBI-03 (Lớp & HS), PBI-14 (TKB), PBI-17a (Cổng PH xem điểm), PBI-17b (Cổng PH gửi đơn), PBI-21 (TKB HS), PBI-23 (Khen thưởng), PBI-24 (Học phí), Tài liệu SRS IEEE 830, Ma trận RTM, Điều phối Sprint | **22 SP** | **~20%** |
-| **Võ Hoàng Sơn** | Dev Frontend (Frontend Developer) | PBI-01 (Login UI), PBI-05 (Điểm danh đầu giờ), PBI-06 (Điểm danh tiết), PBI-07 (Cảnh báo vắng), PBI-08 (Sổ điểm lưới), PBI-16 (In PDF), PBI-17a (UI PH xem điểm), PBI-17b (UI gửi đơn), PBI-17c (Duyệt đơn), PBI-20 (HS xem điểm), PBI-22 (Hạnh kiểm), 8 Wireframes UI/UX | **23 SP** | **~21%** |
-| **Huỳnh Trung Tính** | Dev Backend (Backend Developer & DBA) | PBI-03 (Lớp & HS API), PBI-04 (Phân công GV), PBI-10 (Khóa sổ điểm API), PBI-11 (Repository Pattern), PBI-14 (Chống trùng TKB), PBI-15 (Export Excel API), PBI-18 (Connection Pool), PBI-25 (Quản lý tài khoản), RESTful API Clean Architecture & DDL Schema 3NF | **22 SP** | **~20%** |
-| **Trần Quang Vinh** | Logic Security (Core Logic & Security Specialist) | PBI-01 (JWT Auth), PBI-02 (RBAC Middleware), PBI-08 (Logic Sổ điểm), PBI-09 (ĐTBmhk Thông tư 22), PBI-10 (Quy trình khóa sổ), PBI-12 (Unit of Work ACID), PBI-13 (Audit Trail), PBI-20 (Logic GPA), PBI-25 (Bảo mật tài khoản) | **22 SP** | **~20%** |
-| **Nguyễn Minh Quốc Bảo** | Tester (QA/QC Testing Lead) | PBI-05 (QA Điểm danh), PBI-07 (QA Cảnh báo vắng), PBI-13 (QA Audit Trail), PBI-15 (Xuất Excel SheetJS), PBI-16 (Xuất PDF), PBI-19 (Bộ kiểm thử tự động), PBI-23 (QA Khen thưởng), PBI-24 (QA Học phí), Kịch bản UAT Plan | **23 SP** | **~21%** |
-| **TỔNG CỘNG TOÀN DỰ ÁN** | **Toàn thể 5 thành viên nhóm** | **25 Product Backlog Items (PBI-01 → PBI-25, bao gồm PBI-17a/17b/17c thay thế PBI-17)** | **112 SP** | **100%** |
+| **Võ Duy Bình** | Project Manager & Lead BA (Trưởng nhóm) | PBI-03 (Lớp & HS), PBI-14 (TKB), PBI-17a (Cổng PH xem điểm), PBI-17b (Cổng PH gửi đơn), PBI-21 (TKB HS), PBI-23 (Khen thưởng), PBI-24 (Học phí BGH), PBI-28 (Lead Review Tối ưu), PBI-29 (Đóng gói Docker), Hồ sơ SRS IEEE 830, Ma trận RTM, Điều phối Sprint | **30 SP** | **20.0%** |
+| **Võ Hoàng Sơn** | Dev Frontend (Frontend Developer) | PBI-01 (Login UI), PBI-05 (Điểm danh đầu giờ), PBI-06 (Điểm danh tiết), PBI-07 (Cảnh báo vắng), PBI-08 (Sổ điểm lưới), PBI-16 (In PDF), PBI-17a (UI PH xem điểm), PBI-17b (UI gửi đơn), PBI-17c (Duyệt đơn), PBI-20 (HS xem điểm), PBI-22 (Hạnh kiểm), PBI-26 (Modal VietQR), PBI-28 (Code-Splitting), PBI-30 (Branding Logo) | **30 SP** | **20.0%** |
+| **Huỳnh Trung Tính** | Dev Backend (Backend Developer & DBA) | PBI-03 (Lớp & HS API), PBI-04 (Phân công GV), PBI-10 (Khóa sổ điểm API), PBI-11 (Repository Pattern), PBI-14 (Chống trùng TKB), PBI-15 (Export Excel API), PBI-18 (Connection Pool), PBI-25 (Quản lý tài khoản), PBI-27 (Audit Logs API), PBI-29 (Docker Multi-stage & Compose) | **30 SP** | **20.0%** |
+| **Trần Quang Vinh** | Logic Security (Core Logic & Security Specialist) | PBI-01 (JWT Auth), PBI-02 (RBAC Middleware), PBI-08 (Logic Sổ điểm), PBI-09 (ĐTBmhk Thông tư 22), PBI-10 (Quy trình khóa sổ), PBI-12 (Unit of Work ACID), PBI-13 (Audit Trail), PBI-20 (Logic GPA), PBI-25 (Bảo mật tài khoản), PBI-26 (Helper VietQR EMVCo), PBI-30 (Xác thực SSO) | **30 SP** | **20.0%** |
+| **Nguyễn Minh Quốc Bảo** | Tester (QA/QC Testing Lead) | PBI-05 (QA Điểm danh), PBI-07 (QA Cảnh báo vắng), PBI-13 (QA Audit Trail), PBI-15 (Xuất Excel SheetJS), PBI-16 (Xuất PDF), PBI-19 (Bộ kiểm thử tự động 400 tests), PBI-23 (QA Khen thưởng), PBI-24 (QA Học phí), PBI-26 (QA VietQR CRC16), Kịch bản UAT Plan | **30 SP** | **20.0%** |
+| **TỔNG CỘNG TOÀN DỰ ÁN** | **Toàn thể 5 thành viên nhóm** | **30 Product Backlog Items (PBI-01 → PBI-30 hoàn chỉnh 100%)** | **150 SP** | **100% CÂN BẰNG** |
