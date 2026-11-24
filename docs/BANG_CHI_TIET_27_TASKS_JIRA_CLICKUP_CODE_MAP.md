@@ -446,12 +446,14 @@ MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, T
 
 ---
 
-### 🔹 MODULE 10: TỐI ƯU HÓA HIỆU NĂNG, CONTAINER HÓA & NHẬN DIỆN THƯƠNG HIỆU SỐ
+### 🔹 MODULE 11: TỐI ƯU HÓA HIỆU NĂNG, CONTAINER HÓA & NHẬN DIỆN THƯƠNG HIỆU SỐ
+*(Danh sách ClickUp: [Module 11](https://app.clickup.com/1100320000025585/v/l/li/1100320000181297) - ID: `1100320000181297`)*
 
-#### Task 28: `PBI-28` | Jira: `KAN-139` | ClickUp: `z8qgvcdgbr`
+#### Task 28: `PBI-28` | Jira: `KAN-139` | ClickUp: `z8qgvcjdqc` ([Xem Task](https://app.clickup.com/t/z8qgvcjdqc))
 * **Tên Task**: Tối ưu hóa hiệu năng Frontend: Phân tách mã nguồn Lazy Loading (Code-Splitting), giảm 95.5% bundle & Chuẩn hóa React Router v7.
 * **Người thực hiện**: **Võ Hoàng Sơn** (Dev Frontend Lead) & **Võ Duy Bình** (Lead Reviewer).
 * **Story Points**: **5 SP**
+* **Trạng thái**: **COMPLETE (ĐÃ HOÀN THÀNH)**
 * **Nghiệp vụ / Làm gì**:
   - Tái cấu trúc bộ định tuyến với `React.lazy()` và `Suspense` cho toàn bộ 25 phân hệ học vụ.
   - Phân tách vendor chunks (`vendor-react`, `vendor-xlsx`) trong cấu hình Vite.
@@ -466,10 +468,11 @@ MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, T
   - `PageLoadingFallback`: Component hiển thị spinner mượt mà trong quá trình nạp module con theo yêu cầu.
   - `manualChunks(id)`: Hàm phân loại thư viện vendor phục vụ bộ nhớ đệm trình duyệt tối ưu.
 
-#### Task 29: `PBI-29` | Jira: `KAN-140` | ClickUp: `z8qgvcdgbs`
+#### Task 29: `PBI-29` | Jira: `KAN-140` | ClickUp: `z8qgvcjdqy` ([Xem Task](https://app.clickup.com/t/z8qgvcjdqy))
 * **Tên Task**: Đóng gói Docker Compose Fullstack 3 Phân tầng (Nginx SPA, Node.js Express, PostgreSQL 16) phục vụ Triển khai 1-Click Production.
 * **Người thực hiện**: **Huỳnh Trung Tính** (Dev Backend & DBA Lead) & **Võ Duy Bình** (Lead PM & BA).
 * **Story Points**: **5 SP**
+* **Trạng thái**: **COMPLETE (ĐÃ HOÀN THÀNH)**
 * **Nghiệp vụ / Làm gì**:
   - Xây dựng Multi-stage Dockerfile cho Frontend React SPA (Node.js 20 Alpine builder -> Nginx Alpine phục vụ tệp tĩnh).
   - Cấu hình Nginx reverse proxy `/api/` tự động định tuyến sang Backend container và SPA fallback routing (`try_files $uri $uri/ /index.html`).
@@ -481,10 +484,11 @@ MỤC ĐÍCH: BẢNG TRA CỨU NHANH DÀNH RIÊNG CHO LEADER ĐỂ QUẢN LÝ, T
 * **Hàm / Component / Chức năng code cụ thể**:
   - `docker compose up -d --build`: Khởi chạy tự động 1-click cả 3 dịch vụ `postgres-db`, `backend-api`, `frontend-spa`.
 
-#### Task 30: `PBI-30` | Jira: `KAN-141` | ClickUp: `z8qgvcdgbt`
+#### Task 30: `PBI-30` | Jira: `KAN-141` | ClickUp: `z8qgvcjdqz` ([Xem Task](https://app.clickup.com/t/z8qgvcjdqz))
 * **Tên Task**: Thiết kế Bộ nhận diện Thương hiệu Trường học Số HSU Digital Campus, Vector Emblem & Cổng Đăng nhập Enterprise SSO.
 * **Người thực hiện**: **Trần Quang Vinh** (Security Lead) & **Võ Hoàng Sơn** (Frontend UI/UX).
 * **Story Points**: **5 SP**
+* **Trạng thái**: **COMPLETE (ĐÃ HOÀN THÀNH)**
 * **Nghiệp vụ / Làm gì**:
   - Thiết kế vector emblem chính thức `logo-hsu.svg` (Hoa Sen vàng HSU, Mũ cử nhân, Khiên xanh hoàng gia), đồng bộ Favicon, Header Avatar trực quan, Sidebar Header.
   - Tái thiết kế Cổng Đăng Nhập chuẩn Enterprise Single Sign-On: Tự động nhận diện vai trò từ CSDL PostgreSQL (không bắt người dùng chọn vai trò thủ công), loại bỏ hoàn toàn các nhãn thử nghiệm prototype/vibe-coding, tích hợp ngăn kéo tài khoản kiểm thử bảo mật.
