@@ -40,6 +40,7 @@ import { CommunicationController } from './src/controllers/CommunicationControll
 import { SettingsController } from './src/controllers/SettingsController.js';
 import { ClosureController } from './src/controllers/ClosureController.js';
 import { NotificationController } from './src/controllers/NotificationController.js';
+import { AuditLogger } from './src/utils/AuditLogger.js';
 import { authenticateToken } from './src/middleware/authMiddleware.js';
 import { resolveGvcnClass } from './src/middleware/dataAccessMiddleware.js';
 import { forgotPasswordLimiter, resetPasswordLimiter } from './src/middleware/rateLimiters.js';
@@ -231,6 +232,17 @@ app.delete('/api/users/:id',            authenticateToken, requireBGH, UserContr
 // PUT: chỉ BGH mới được thay đổi
 app.get('/api/settings/permissions', authenticateToken, SettingsController.getPermissions);
 app.put('/api/settings/permissions', authenticateToken, requireBGH, SettingsController.savePermissions);
+
+// Phân hệ Nhật ký Kiểm toán Tập trung (Audit Trail - Table 18 PostgreSQL)
+// Dành riêng cho Ban Giám Hiệu phục vụ thanh tra và giám sát học vụ
+app.get('/api/audit-logs', authenticateToken, requireBGH, async (req, res) => {
+  try {
+    const logs = await AuditLogger.getAuditLogsFromDB(req.query);
+    return res.json({ success: true, count: logs.length, data: logs });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
 
 // Communication Routes (Sổ liên lạc)
 app.get('/api/communication/contacts',     authenticateToken, CommunicationController.getContacts);

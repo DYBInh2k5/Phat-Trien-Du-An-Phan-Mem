@@ -106,6 +106,7 @@ export async function seedDemoData() {
         INSERT INTO users (username, password, full_name, role, email)
         VALUES ($1, $2, $3, $4, $5)
         ON CONFLICT (username) DO UPDATE SET
+          password = EXCLUDED.password,
           full_name = EXCLUDED.full_name,
           role = EXCLUDED.role,
           email = EXCLUDED.email

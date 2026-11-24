@@ -99,4 +99,21 @@ export class AuditLogger {
     if (filter.user) result = result.filter(l => l.user === filter.user);
     return result;
   }
+
+  /**
+   * Truy vấn nhật ký kiểm toán từ PostgreSQL (Table 18) có fallback sang mảng bộ nhớ
+   * @param {Object} [filter={}] - Bộ lọc
+   * @returns {Promise<Array<Object>>}
+   */
+  static async getAuditLogsFromDB(filter = {}) {
+    try {
+      const res = await querySafe('SELECT * FROM audit_logs ORDER BY timestamp DESC LIMIT 100');
+      if (res && res.rows && res.rows.length > 0) {
+        return res.rows;
+      }
+    } catch {
+      // Fallback khi DB offline
+    }
+    return this.getAuditLogs(filter);
+  }
 }
