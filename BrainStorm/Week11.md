@@ -113,3 +113,26 @@ export async function getCachedSubjectList() {
 - **Nâng cấp hình ảnh & UX/UI**: Loại bỏ hoàn toàn hình ảnh AI giả tạo; thay thế bằng nhiếp ảnh trường học chân thực và hệ thống ảnh thẻ học sinh chuyên nghiệp.
 - **Quản lý Hạnh kiểm & Báo cáo Thông tư 22**: Bổ sung trường `conduct_rank` trong CSDL PostgreSQL, nạp dữ liệu mẫu 16 học sinh và hiển thị đồng bộ trên Cổng Phụ huynh, Học sinh và Dashboard GVCN.
 - **Tình trạng kiểm thử**: **400/400 Unit Tests PASS** + **19/19 Live E2E Tests PASS (100%)**.
+
+---
+
+## CHƯƠNG IV. PHÂN TÍCH HẠN CHẾ HỆ THỐNG & KẾT QUẢ TỐI ƯU HÓA THỰC TẾ
+
+### 1. Bảng Kiểm toán Kỹ thuật (Technical & Architectural Audit)
+
+| Phân hệ / Tầng | Hạn chế nhận diện | Tác động / Rủi ro | Giải pháp & Trạng thái Thực thi |
+| :--- | :--- | :--- | :--- |
+| **Frontend Bundle Size** | Gói `index.js` ban đầu nặng **821 kB**, vượt ngưỡng 500 kB của Vite. | Tốc độ tải lần đầu chậm trên thiết bị di động hoặc mạng yếu. | **ĐÃ HOÀN TẤT**: Áp dụng `React.lazy()` + `Suspense` và tách `manualChunks` (`vendor-react`, `vendor-xlsx`). Gói `index.js` giảm **95.5%** còn **37.14 kB**. |
+| **Console Warnings** | Cảnh báo React Router v7 `v7_startTransition` & `v7_relativeSplatPath` trong console test. | Khó bảo trì khi nâng cấp thư viện lên các phiên bản React Router tương lai. | **ĐÃ HOÀN TẤT**: Bật cờ tương thích `future` trên cả `BrowserRouter` (`App.jsx`) và `MemoryRouter` trong toàn bộ tệp test Vitest. |
+| **Tài nguyên ảnh tồn dư** | Thư mục `public/` chứa 2 ảnh AI cũ (`edumanage-hero.jpg` 645KB, `edumanage-light-hero.jpg` 953KB). | Tốn gần **1.6 MB** dung lượng lưu trữ tĩnh và băng thông khi deploy. | **ĐÃ HOÀN TẤT**: Đã xóa bỏ hoàn toàn 2 tệp ảnh tồn dư, chỉ giữ lại ảnh nhiếp ảnh thực tế tối ưu. |
+| **Đóng gói Docker Fullstack** | Trước đây chỉ có `postgres-db` và `backend-api` trong `docker-compose.yml`, thiếu Frontend. | Khó triển khai môi trường staging/production bằng 1 lệnh duy nhất. | **ĐÃ HOÀN TẤT**: Tạo `Dockerfile` đa tầng (Multi-stage Node + Nginx Alpine) cho Frontend, cấu hình `nginx.conf` với reverse proxy `/api/` và tích hợp `frontend-spa` vào `docker-compose.yml`. |
+| **Bộ nhớ đệm phân tán** | Backend truy vấn trực tiếp vào PostgreSQL cho mọi request danh mục tĩnh. | Nguy cơ nghẽn kết nối DB trong đợt cao điểm chốt điểm học kỳ. | **KẾ HOẠCH NÂNG CAO**: Đã xây dựng Module Service Cache-Aside cho Redis; sẵn sàng kích hoạt container Redis production. |
+| **Giao tiếp Real-time** | Thông báo và tin nhắn phụ huynh dùng cơ chế tải lại hoặc polling định kỳ. | Tin nhắn phụ huynh gửi cho giáo viên và thông báo điểm danh chưa gửi tức thời dạng push. | **KẾ HOẠCH NÂNG CAO**: Kiến trúc sẵn sàng nâng cấp lên WebSocket (Socket.io) hoặc Server-Sent Events (SSE). |
+| **Bảo mật JWT Token** | Token lưu trữ ở `localStorage` trên trình duyệt. | Nguy cơ XSS token theft nếu có mã độc JavaScript từ bên thứ ba. | **KẾ HOẠCH NÂNG CAO**: Đề xuất chuyển sang cơ chế HttpOnly Secure Cookie với Refresh Token Rotation. |
+
+### 2. Số liệu Hiệu năng Sau Tối Ưu (Performance Benchmark)
+- **Kích thước JavaScript Khởi tạo**: Giảm từ `821.00 kB` xuống **`37.14 kB`** (Giảm hơn 95%).
+- **Cảnh báo Build Vite**: **0 cảnh báo** (Loại bỏ triệt để cảnh báo vượt ngưỡng 500 kB).
+- **Cảnh báo Kiểm thử Vitest**: **0 cảnh báo** (13/13 tests sạch sẽ hoàn toàn).
+- **Tổng số Unit/Integration Tests**: **400 / 400 Tests PASS (100% Xanh)**.
+

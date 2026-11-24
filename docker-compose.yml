@@ -39,5 +39,16 @@ services:
       postgres-db:
         condition: service_healthy
 
+  frontend-spa:
+    build:
+      context: ./members/member2_Frontend
+      dockerfile: Dockerfile
+    container_name: htqllh_frontend
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend-api
+
 volumes:
   postgres_data:

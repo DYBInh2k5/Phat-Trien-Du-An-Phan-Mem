@@ -186,6 +186,16 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 24/11/2026 (TUẦN 11 / 15 TUẦN HỌ
 
 ### 7.1 Cách Khởi Chạy Hệ Thống
 
+#### Cách 1: Khởi Chạy 1-Click Toàn Hệ Thống Bằng Docker Compose (Khuyến nghị)
+Chỉ với 1 câu lệnh duy nhất để build và khởi chạy đồng thời cả 3 phân tầng hệ thống:
+```bash
+docker compose up -d --build
+```
+- **Frontend SPA (Nginx Alpine)**: `http://localhost:5173` (Tối ưu hóa Code-Splitting, bundle khởi tạo siêu nhẹ chỉ 37 KB).
+- **Backend API (Node.js Clean Architecture)**: `http://localhost:8081` (HealthCheck: `http://localhost:8081/api/health`).
+- **Cơ sở dữ liệu (PostgreSQL 16)**: `localhost:5434` (Database: `school_management`).
+
+#### Cách 2: Khởi Chạy Từng Phân Hệ Bằng Terminal Môi Trường Phát Triển (Dev Mode)
 1. **Bước 1: Khởi động Cơ sở Dữ liệu PostgreSQL (Docker)**:
    ```bash
    docker start htqllh_postgres
