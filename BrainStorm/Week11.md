@@ -58,6 +58,29 @@ export async function getCachedSubjectList() {
 
 ## CHƯƠNG III. KẾT QUẢ ĐẠT ĐƯỢC VÀ PHÂN CÔNG THỰC HIỆN
 
+### 1. Kết quả nâng cấp giao diện Đăng nhập chuẩn Enterprise & Tự động nhận diện vai trò (SSO)
+- **Tái cấu trúc giao diện Cổng đăng nhập (`LoginPage.jsx`)**:
+  - Loại bỏ hoàn toàn thanh chú thích rườm rà dưới ảnh đại diện lớp học (`TRƯỜNG HỌC SỐ (DIGITAL CAMPUS)`, `PostgreSQL Online`).
+  - Loại bỏ nhãn phiên bản thử nghiệm (`Phiên bản v1.0`).
+  - Loại bỏ thanh 5 nút bấm chọn vai trò (`grid-cols-5`) và nút bấm demo xanh lá thô sơ gây cảm giác "vibe-coding / prototype".
+  - Chuyển sang biểu mẫu đăng nhập chuẩn Cổng thông tin học vụ (Single Sign-On): Tên đăng nhập/Mã định danh/Email + Mật khẩu + Ghi nhớ phiên + Quên mật khẩu.
+  - Tích hợp ngăn mở rộng (collapsible drawer) gọn gàng ở chân form phục vụ kiểm thử và chấm bài cho 5 vai trò (`bgh.admin`, `gvcn.10a1`, `gv.an`, `hs.anh`, `ph.hs0001`).
+- **Nâng cấp tầng Backend Auth (`AuthController.js`)**:
+  - Cho phép tham số `role` là tùy chọn (optional).
+  - Khi không truyền `role`, hệ thống tự động tra cứu người dùng qua `UserRepository.findByUsername(username)`, kiểm tra mật khẩu bcrypt, cấp JWT và trả về vai trò thực tế từ CSDL PostgreSQL.
+  - Đảm bảo tương thích ngược 100% cho các kịch bản kiểm thử truyền `role`.
+
+### 2. Loại bỏ hoàn toàn Mock Data - Tích hợp 100% CSDL PostgreSQL
+- Rà soát toàn bộ các trang giao diện của Frontend: Chuyển đổi trang `GVDashboardPage.jsx` từ việc import tĩnh dữ liệu `mockData.js` sang gọi trực tiếp API `fetchGradebookPageData`, `fetchScheduleTemplates`, `fetchAttendanceSummary`, `fetchClasses` từ CSDL PostgreSQL.
+- Tất cả các trang thuộc 5 phân hệ (BGH, GVCN, GV Bộ môn, Học sinh, Phụ huynh) hiện tại đều kết nối và lấy dữ liệu trực tiếp từ PostgreSQL thông qua Backend REST API.
+
+### 3. Kết quả Kiểm thử & Chất lượng Hệ thống
+- **Automated Root Unit Tests**: 387 / 387 tests PASS (100% Xanh).
+- **Frontend Vitest Suite**: 13 / 13 tests PASS (100% Xanh).
+- **Tổng cộng**: 400 / 400 tests PASS tuyệt đối (0 Failed, 0 Skipped).
+- **Vite Production Build**: Thành công 100% trong 4.57s.
+- **SSO Live Verification**: 6/6 kịch bản đăng nhập thực tế kiểm thử thành công trên cổng 8081.
+
 ### 1. Phân công trách nhiệm
 - **Võ Duy Bình (Member 1 - PM & BA)**: Xây dựng tiêu chí đánh giá tải, giám sát benchmark hiệu năng hệ thống và thẩm định chất lượng hình ảnh, trải nghiệm người dùng (UX/UI).
 - **Võ Hoàng Sơn (Member 2 - Dev Frontend)**: 

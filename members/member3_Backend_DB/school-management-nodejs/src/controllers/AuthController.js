@@ -19,32 +19,39 @@ const JWT_EXPIRES_IN = '24h';
 export class AuthController {
   /**
    * POST /api/auth/login
-   * Body: { username, password, role }
+   * Body: { username, password, role? }
    * Response 200: { success, message, token, user: { id, username, name, role } }
-   * Response 400: thiếu trường
+   * Response 400: thiếu trường username / password
    * Response 401: sai mật khẩu / tài khoản không tồn tại
    * Response 500: lỗi server / DB
    */
   static async login(req, res) {
     const { username, password, role } = req.body;
 
-    // 1. Kiểm tra đầu vào
-    if (!username || !password || !role) {
+    // 1. Kiểm tra đầu vào: username và password là bắt buộc; role là tùy chọn (hỗ trợ SSO tự động nhận diện vai trò)
+    if (!username || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Vui lòng cung cấp đầy đủ: username, password và role.',
+        message: 'Vui lòng cung cấp đầy đủ: username và password.',
       });
     }
 
     try {
-      // 2. Tra cứu user theo username và role từ PostgreSQL
-      const user = await UserRepository.findByUsernameAndRole(username, role);
+      // 2. Tra cứu user: nếu có role thì khớp theo role, nếu không thì tự nhận diện theo username từ PostgreSQL
+      let user;
+      if (role) {
+        user = await UserRepository.findByUsernameAndRole(username, role);
+      } else {
+        user = await UserRepository.findByUsername(username);
+      }
 
       // 3. Kiểm tra tài khoản tồn tại
       if (!user) {
         return res.status(401).json({
           success: false,
-          message: 'Tài khoản không tồn tại hoặc vai trò không khớp.',
+          message: role
+            ? 'Tài khoản không tồn tại hoặc vai trò không khớp.'
+            : 'Tài khoản hoặc tên đăng nhập không tồn tại.',
           code: 'USER_NOT_FOUND',
         });
       }
@@ -59,7 +66,7 @@ export class AuthController {
         });
       }
 
-      // 5. Tạo JWT Token
+      // 5. Tạo JWT Token chứa vai trò thực tế của người dùng từ CSDL
       const payload = {
         id: user.id,
         username: user.username,
@@ -75,7 +82,7 @@ export class AuthController {
         className = homeroomClass?.class_name ?? null;
       }
 
-      // 6. Trả kết quả thành công
+      // 6. Trả kết quả thành công kèm thông tin vai trò thực tế
       return res.status(200).json({
         success: true,
         message: 'Đăng nhập hệ thống HTQLLH thành công!',
