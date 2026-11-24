@@ -18,8 +18,9 @@ Hệ thống HTQLLH được thiết kế để vận hành linh hoạt trên c�
 |  [VS Code Extensions]    |  [Cloud Platforms]       |  [AI MCP Plugins]          |
 |  - PostgreSQL Client     |  - Vercel (Frontend SPA) |  - Vercel CLI Plugin       |
 |  - Thunder Client        |  - Vercel (Backend API)  |  - Neon PostgreSQL Plugin  |
-|  - Docker Desktop Ext    |  - Neon PostgreSQL Cloud |  - Canva Design Plugin     |
-|  - ESLint & Tailwind CSS |  - GitHub & Bitbucket    |  - Chrome DevTools Plugin  |
+|  - Docker Desktop Ext    |  - Neon PostgreSQL Cloud |  - Trello MCP Plugin       |
+|  - ESLint & Tailwind CSS |  - GitHub & Bitbucket    |  - Canva Design Plugin     |
+|                          |  - Jira, ClickUp, Trello |  - Chrome DevTools Plugin  |
 +-----------------------------------------------------------------------------------+
 ```
 
@@ -112,11 +113,12 @@ Hệ thống hỗ trợ các Model Context Protocol (MCP) Plugins cho phép tr�
 | :--- | :---: | :--- |
 | **Vercel CLI / MCP** | 🟢 Đang hoạt động | Quản lý triển khai đám mây, nạp biến môi trường và alias domain production. |
 | **Neon Cloud Database** | 🟢 Đang hoạt động | Kết nối, khởi tạo cấu trúc DDL, nạp dữ liệu mẫu và chạy truy vấn tham số hóa. |
+| **Trello MCP (`trello_trello`)** | 🟢 Đang hoạt động | Đồng bộ toàn diện 30 thẻ PBI (150 SP) lên Trello Kanban Board: [https://trello.com/b/gkdRNT57](https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro). |
 | **Canva MCP (`canva_canva`)** | 🟢 Đã tích hợp | Đồng bộ và chỉnh sửa trực tiếp nội dung bộ slide thuyết trình cuối kỳ (`DAHZQ9j_ouU`). |
 | **Chrome DevTools MCP** | 🟢 Đang hoạt động | Tự động hóa kiểm thử trình duyệt, chụp ảnh màn hình giao diện, audit Lighthouse. |
 | **Stitch MCP** | 🟢 Đang hoạt động | Sinh mã bố cục giao diện và xuất tài liệu thiết kế. |
-| **ClickUp Plugin (`clickup_clickup`)** | 🟡 Tùy chọn | Đồng bộ và cập nhật trạng thái 30 tasks / PBIs trên không gian dự án ClickUp. |
-| **Jira Cloud Plugin** | 🟡 Tùy chọn | Đồng bộ thẻ công việc trên Jira Kanban Board (KAN-112 -> KAN-141). |
+| **ClickUp Plugin (`clickup_clickup`)** | 🟢 Đã đồng bộ | Quản lý 30 tasks / PBIs trên không gian dự án ClickUp (Space Group 2_PTDAPM). |
+| **Jira Cloud Plugin** | 🟢 Đã đồng bộ | Quản lý thẻ công việc trên Jira Kanban Board (KAN-112 -> KAN-141). |
 | **Postman MCP (`postman_postman`)** | 🟡 Tùy chọn | Chạy kiểm thử tự động toàn bộ API Collection và kiểm tra tính tuân thủ hợp đồng giao tiếp. |
 
 ---

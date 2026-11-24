@@ -144,3 +144,13 @@ Nhằm phục vụ báo cáo đồ án trước Hội đồng chấm thi HSU và
 4. **Trần Quang Vinh (Logic Security)**: 6 Tasks (`PBI-01, 02, 07, 09, 20, 30`) = **30 SP (20%)**.
 5. **Nguyễn Minh Quốc Bảo (Tester)**: 6 Tasks (`PBI-21, 17c, 22, 17b, 16, 15`) = **30 SP (20%)**.
 
+### 4. Tích Hợp Bộ 3 Công Cụ Quản Lý Dự Án Agile (Trello Kanban, Jira Cloud & ClickUp)
+Để tối ưu hóa năng lực quản trị dự án phần mềm theo chuẩn Agile/Scrum quốc tế, nhóm đã tích hợp và đồng bộ song song **3 công cụ quản lý dự án hàng đầu**:
+1. **Trello Kanban Board**: [https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro](https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro)
+   - Tích hợp qua giao thức Trello MCP (`trello_trello`).
+   - Thiết lập 5 cột Kanban: `📋 Backlog`, `📌 To Do`, `⚡ In Progress`, `🔍 Code Review & QA`, `✅ Done / Released (100% Hoàn Thành)`.
+   - Toàn bộ **30 thẻ PBI (150 Story Points)** đã được tạo lập với đầy đủ Metadata: Người đảm nhận, Story Points (5 SP), Jira Ticket ID (`KAN-xx`), ClickUp Task ID (`#z8qgvcxx`), Mô tả nghiệp vụ và Tiêu chuẩn nghiệm thu (DoD).
+2. **Jira Cloud Project & Kanban**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN)
+3. **ClickUp Workspace**: [Space Group 2_PTDAPM](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
+
+

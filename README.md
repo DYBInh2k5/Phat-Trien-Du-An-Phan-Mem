@@ -179,11 +179,12 @@ THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 24/11/2026 (TUẦN 11 / 15 TUẦN HỌ
   git push origin main
   ```
 - **Branch chính**: `main`
-- **Bảng Jira Cloud Kanban Board**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2)
-- **Dự Án Jira Cloud Project**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN)
-- **Không Gian Dự Án ClickUp (Space Group 2_PTDAPM)**: [https://app.clickup.com/1100320000025585/v/s/1100320000109903](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
-- **Thư Mục Dự Án ClickUp (Folder HTQLLH)**: [https://app.clickup.com/1100320000025585/v/f/1100320000138169](https://app.clickup.com/1100320000025585/v/f/1100320000138169)
-- **Cẩm nang Ánh xạ Jira, ClickUp & GitHub**: [docs/JIRA_KANBAN_MAPPING.md](docs/JIRA_KANBAN_MAPPING.md)
+- **Bộ 3 Công Cụ Quản Lý Dự Án Chuẩn Agile / Scrum (Đồng bộ 30 PBIs - 150 Story Points)**:
+  1. **Trello Kanban Board**: [https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro](https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro) (30/30 thẻ PBI hoàn thành 100% trong cột `✅ Done / Released`).
+  2. **Jira Cloud Kanban Board**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2) (Dự án: [KAN](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN)).
+  3. **Không Gian ClickUp Workspace**: [Space Group 2_PTDAPM](https://app.clickup.com/1100320000025585/v/s/1100320000109903) & [Folder HTQLLH](https://app.clickup.com/1100320000025585/v/f/1100320000138169).
+- **Cẩm nang Ánh xạ Jira, ClickUp, Trello & GitHub**: [docs/JIRA_KANBAN_MAPPING.md](docs/JIRA_KANBAN_MAPPING.md)
+- **Cẩm nang Hướng dẫn Kết nối Plugin & Extension**: [docs/HUONG_DAN_KET_NOI_PLUGIN_VA_EXTENSION.md](docs/HUONG_DAN_KET_NOI_PLUGIN_VA_EXTENSION.md)
 - **Bản Slide Trình Chiếu Trực Tuyến Trên Canva**: [https://www.canva.com/d/75iOEEpReWqgOuN](https://www.canva.com/d/75iOEEpReWqgOuN)
 
 ---
