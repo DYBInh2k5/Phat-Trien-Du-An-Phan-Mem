@@ -218,10 +218,12 @@ export default function Sidebar({ isCollapsed, onToggle }) {
       style={{ width: isCollapsed ? '68px' : '260px' }}
     >
       {/* Brand header */}
-      <div className="h-16 flex items-center border-b border-[#e2e8f0] px-4 gap-3 shrink-0 bg-[#f8fafc]">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#004ac6] to-[#1e40af] flex items-center justify-center text-white font-bold shrink-0 shadow-md">
-          <span className="material-symbols-outlined text-2xl">school</span>
-        </div>
+      <div className="h-16 flex items-center border-b border-[#e2e8f0] px-3.5 gap-3 shrink-0 bg-white">
+        <img
+          src="/logo-hsu.svg"
+          alt="THPT HSU Logo"
+          className="w-10 h-10 rounded-xl shadow-xs shrink-0 object-contain"
+        />
         {!isCollapsed && (
           <div className="flex flex-col overflow-hidden min-w-0">
             <div className="flex items-center gap-1.5">

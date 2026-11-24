@@ -254,13 +254,13 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Bottom Metadata */}
+        {/* Bottom Metadata - Chuẩn thông tin cổng giáo dục chính thống */}
         <div className="relative z-10 pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500">
           <div className="flex items-center gap-2 text-slate-600 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>Cơ sở dữ liệu: PostgreSQL 16 • Đồng bộ thời gian thực</span>
+            <span className="material-symbols-outlined text-[16px] text-blue-600">verified_user</span>
+            <span>Cổng thông tin giáo dục chính thức • Bảo mật SSL 256-bit</span>
           </div>
-          <span className="font-medium text-slate-500">Học kỳ 1 • 2025–2026</span>
+          <span className="font-medium text-slate-500">Năm học 2025–2026</span>
         </div>
       </div>
 
@@ -271,13 +271,18 @@ export default function LoginPage() {
         <div className="w-full max-w-[460px] bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 space-y-6">
           {/* Header Title & Subtitle - Bỏ nhãn 'Phiên bản v1.0' */}
           <div className="space-y-1.5 pb-1">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-xs">
-                <span className="material-symbols-outlined text-[20px]">school</span>
+            <div className="flex items-center gap-2.5">
+              <img
+                src="/logo-hsu.svg"
+                alt="THPT HSU Logo"
+                className="w-9 h-9 rounded-xl shadow-xs shrink-0 object-contain"
+              />
+              <div>
+                <span className="text-xs font-bold tracking-wider uppercase text-blue-700 block">
+                  CỔNG ĐĂNG NHẬP HỌC VỤ
+                </span>
+                <span className="text-[10px] text-slate-500 font-medium">THPT HOA SEN • DIGITAL CAMPUS</span>
               </div>
-              <span className="text-xs font-bold tracking-wider uppercase text-blue-700">
-                CỔNG ĐĂNG NHẬP HỌC VỤ
-              </span>
             </div>
 
             <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 pt-1">
@@ -448,9 +453,14 @@ export default function LoginPage() {
         </div>
 
         {/* Global Footer Info */}
-        <p className="mt-6 text-[11px] text-slate-500 text-center font-medium">
-          Dự án Phát triển Dự án Phần mềm © 2026 • THPT Hoa Sen &amp; Nhóm 6 Sinh viên HSU.
-        </p>
+        <div className="mt-6 text-center space-y-1">
+          <p className="text-[11px] text-slate-500 font-medium">
+            © 2025–2026 Trường THPT Hoa Sen • Cổng Thông Tin Quản Lý Lớp Học &amp; Học Vụ Số
+          </p>
+          <p className="text-[10px] text-slate-400">
+            Hỗ trợ kỹ thuật: hotro@thpthoasen.edu.vn | Hotline: (028) 7300 2266
+          </p>
+        </div>
       </div>
     </div>
   );

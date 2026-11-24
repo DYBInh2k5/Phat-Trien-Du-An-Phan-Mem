@@ -62,9 +62,17 @@ export async function getCachedSubjectList() {
 - **Tái cấu trúc giao diện Cổng đăng nhập (`LoginPage.jsx`)**:
   - Loại bỏ hoàn toàn thanh chú thích rườm rà dưới ảnh đại diện lớp học (`TRƯỜNG HỌC SỐ (DIGITAL CAMPUS)`, `PostgreSQL Online`).
   - Loại bỏ nhãn phiên bản thử nghiệm (`Phiên bản v1.0`).
+  - Thay thế dòng thông tin kỹ thuật cơ sở dữ liệu ở chân trang bằng chuẩn thông tin an toàn học đường: `Cổng thông tin giáo dục chính thức • Bảo mật SSL 256-bit`.
+  - Thay thế thông tin copyright chân trang thành: `© 2025–2026 Trường THPT Hoa Sen • Cổng Thông Tin Quản Lý Lớp Học & Học Vụ Số`.
   - Loại bỏ thanh 5 nút bấm chọn vai trò (`grid-cols-5`) và nút bấm demo xanh lá thô sơ gây cảm giác "vibe-coding / prototype".
   - Chuyển sang biểu mẫu đăng nhập chuẩn Cổng thông tin học vụ (Single Sign-On): Tên đăng nhập/Mã định danh/Email + Mật khẩu + Ghi nhớ phiên + Quên mật khẩu.
   - Tích hợp ngăn mở rộng (collapsible drawer) gọn gàng ở chân form phục vụ kiểm thử và chấm bài cho 5 vai trò (`bgh.admin`, `gvcn.10a1`, `gv.an`, `hs.anh`, `ph.hs0001`).
+- **Thiết kế Logo & Bộ nhận diện Thương hiệu THPT Hoa Sen (`logo-hsu.svg`)**:
+  - Thiết kế logo vector biểu tượng học đường: Khiên xanh thẫm hoàng gia `#004ac6`, vòng bảo mật ánh kim viền vàng, biểu tượng Mũ cử nhân và Búp sen vàng Hoa Sen HSU.
+  - Tích hợp đồng bộ làm Favicon trình duyệt (`public/favicon.svg`), Header Cổng đăng nhập (`LoginPage.jsx`), Sidebar điều hướng (`Sidebar.jsx`) và Avatar vai trò trên thanh Header (`Header.jsx`).
+- **Tích hợp Cổng thanh toán VietQR Napas 24/7 trực quan trên trang Quản lý Học phí BGH (`BGHTuitionPage.jsx`)**:
+  - Bổ sung banner showcase công nghệ VietQR Napas 24/7 kèm nút "Trải nghiệm Quét Mã VietQR" tương tác 1-click.
+  - Thêm cột thao tác mở VietQR trực tiếp trên từng hàng học phí của học sinh, tạo mã chuẩn EMVCo động và mô phỏng gạch nợ tự động trong 3 giây.
 - **Nâng cấp tầng Backend Auth (`AuthController.js`)**:
   - Cho phép tham số `role` là tùy chọn (optional).
   - Khi không truyền `role`, hệ thống tự động tra cứu người dùng qua `UserRepository.findByUsername(username)`, kiểm tra mật khẩu bcrypt, cấp JWT và trả về vai trò thực tế từ CSDL PostgreSQL.
