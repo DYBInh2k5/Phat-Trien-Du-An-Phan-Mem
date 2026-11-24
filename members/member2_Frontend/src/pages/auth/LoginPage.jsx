@@ -167,9 +167,9 @@ export default function LoginPage() {
             {/* Main Visual Frame */}
             <div className="relative rounded-2xl overflow-hidden border border-slate-200/90 bg-white shadow-xl shadow-blue-500/10">
               <img
-                src="/edumanage-light-hero.jpg"
-                alt="EduManage Pro Bright Digital Campus Architecture"
-                className="w-full h-auto max-h-[360px] sm:max-h-[410px] object-cover object-top transition duration-500 group-hover:scale-[1.01]"
+                src="/school-classroom-hero.jpg"
+                alt="EduManage Pro Modern Classroom Environment"
+                className="w-full h-auto max-h-[360px] sm:max-h-[410px] object-cover object-center transition duration-500 group-hover:scale-[1.01]"
               />
 
               {/* Bottom Caption Bar */}
@@ -178,7 +178,7 @@ export default function LoginPage() {
                   <p className="text-[11px] font-bold tracking-wider uppercase text-blue-600">
                     TRƯỜNG HỌC SỐ (DIGITAL CAMPUS)
                   </p>
-                  <p className="text-xs font-bold text-slate-900">Hệ Sinh Thái Quản Lý Học Vụ Chuẩn Hóa</p>
+                  <p className="text-xs font-bold text-slate-900">Không Gian Lớp Học Thông Minh Hiện Đại</p>
                 </div>
                 <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-700">
                   PostgreSQL Online

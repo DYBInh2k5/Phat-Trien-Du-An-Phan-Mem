@@ -58,9 +58,24 @@ export async function getCachedSubjectList() {
 
 ## CHƯƠNG III. KẾT QUẢ ĐẠT ĐƯỢC VÀ PHÂN CÔNG THỰC HIỆN
 
-- **Võ Duy Bình (Member 1 - PM & BA)**: Xây dựng tiêu chí đánh giá tải và giám sát benchmark hiệu năng hệ thống.
-- **Võ Hoàng Sơn (Member 2 - Dev Frontend)**: Tối ưu hóa render React SPA, lazy loading component và đo lường thời gian phản hồi giao diện.
-- **Huỳnh Trung Tính (Member 3 - Dev Backend)**: Phân tích Query Execution Plan (`EXPLAIN ANALYZE`), thiết lập Composite Indexes và tối ưu Connection Pool PostgreSQL.
-- **Trần Quang Vinh (Member 4 - Logic Security)**: Cấu hình phân tầng bộ nhớ đệm Redis (Cache-Aside Pattern) an toàn và tối ưu hóa xử lý bất đồng bộ.
-- **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**: Thực hiện kiểm thử tải (Load Testing), đo lường chỉ số Latency/Throughput và thẩm định kết quả.
-- **Trạng thái tuần 11**: Tốc độ phản hồi API danh mục giảm từ 180ms xuống dưới 15ms.
+### 1. Phân công trách nhiệm
+- **Võ Duy Bình (Member 1 - PM & BA)**: Xây dựng tiêu chí đánh giá tải, giám sát benchmark hiệu năng hệ thống và thẩm định chất lượng hình ảnh, trải nghiệm người dùng (UX/UI).
+- **Võ Hoàng Sơn (Member 2 - Dev Frontend)**: 
+  - Thay thế hình ảnh AI 3D bằng bộ ảnh nhiếp ảnh học đường thực tế, sắc nét (`school-classroom-hero.jpg` 123KB, giảm 87% dung lượng so với ảnh AI 953KB cũ).
+  - Nâng cấp giao diện Danh sách học sinh (`StudentListPage.jsx`): Hỗ trợ hiển thị ảnh thẻ học sinh chân dung chất lượng cao ở cả 2 chế độ (Dạng Thẻ và Dạng Khung Ảnh Thẻ) kèm cơ chế Fallback tự động khi mất mạng.
+- **Huỳnh Trung Tính (Member 3 - Dev Backend)**: 
+  - Phân tích Query Execution Plan (`EXPLAIN ANALYZE`), thiết lập Composite Indexes và tối ưu Connection Pool PostgreSQL.
+  - Di chuyển lược đồ CSDL: Bổ sung cột `avatar VARCHAR(255)` trong bảng `students` và nạp dữ liệu mẫu 16 ảnh chân dung học sinh thực tế.
+  - Bổ sung API `GET /api/audit-logs` phục vụ Ban Giám Hiệu tra cứu lịch sử kiểm toán bảo mật.
+- **Trần Quang Vinh (Member 4 - Logic Security)**: 
+  - Cấu hình phân tầng bộ nhớ đệm Redis (Cache-Aside Pattern) an toàn và tối ưu hóa xử lý bất đồng bộ.
+  - Củng cố cơ chế phòng thủ OWASP Top 10 Headers (nosniff, SAMEORIGIN, XSS-Protection).
+- **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**: 
+  - Thực hiện kiểm thử tải (Load Testing), đo lường chỉ số Latency/Throughput.
+  - Duy trì kiểm thử tự động đạt chuẩn tuyệt đối: **400 / 400 tests PASS (100% Xanh)**.
+  - Thực thi kiểm thử trực tiếp hệ thống (Live System Testing): **19 / 19 kịch bản PASS (100%)**.
+
+### 2. Tổng kết nghiệm thu kỹ thuật Tuần 11
+- **Tối ưu hóa phản hồi API**: Tốc độ phản hồi API danh mục giảm từ 180ms xuống dưới 15ms.
+- **Nâng cấp hình ảnh & UX/UI**: Loại bỏ hoàn toàn hình ảnh AI giả tạo; thay thế bằng nhiếp ảnh trường học chân thực và hệ thống ảnh thẻ học sinh chuyên nghiệp.
+- **Tình trạng kiểm thử**: **400/400 Unit Tests PASS** + **19/19 Live E2E Tests PASS (100%)**.

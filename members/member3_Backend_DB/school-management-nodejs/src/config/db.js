@@ -241,6 +241,9 @@ export async function initDatabaseSchema() {
       CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_user_id
         ON password_reset_tokens (user_id);
 
+      -- Bổ sung trường ảnh đại diện (avatar) cho hồ sơ học sinh phục vụ giao diện thẻ học sinh
+      ALTER TABLE students ADD COLUMN IF NOT EXISTS avatar VARCHAR(255);
+
       ALTER TABLE school_classes ADD COLUMN IF NOT EXISTS homeroom_teacher_id INTEGER REFERENCES users(id);
 
       -- UNIQUE constraint để UPSERT grade_books hoạt động đúng (tránh duplicate rows)
