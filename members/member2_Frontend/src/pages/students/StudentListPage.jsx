@@ -73,6 +73,9 @@ function StudentCard({ student, idx }) {
             {student.academicRank && (
               <span className="ml-1.5 text-[#64748b]">· {student.academicRank}</span>
             )}
+            {student.conductRank && (
+              <span className="ml-1.5 font-medium text-[#15803d]">· HK: {student.conductRank}</span>
+            )}
           </p>
         )}
       </div>

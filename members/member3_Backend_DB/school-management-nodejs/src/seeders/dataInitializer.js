@@ -169,34 +169,34 @@ export async function seedDemoData() {
     // --------------------------------------------------------------------------
     const students = [
       // Khối 10 - Lớp 10A1
-      { code: 'HS001', name: 'Nguyễn Thị Ánh', gender: 'Nữ', dob: '2008-05-12', class: '10A1', parent: 'Nguyễn Thị Hương', phone: '0901234567', gpa: 9.2, rank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS002', name: 'Trần Văn Bảo', gender: 'Nam', dob: '2008-03-22', class: '10A1', parent: 'Trần Văn Hùng', phone: '0907654321', gpa: 7.2, rank: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS003', name: 'Lê Thị Cẩm', gender: 'Nữ', dob: '2008-11-10', class: '10A1', parent: 'Lê Văn Tâm', phone: '0912345678', gpa: 5.6, rank: 'Đạt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS004', name: 'Phạm Hữu Dũng', gender: 'Nam', dob: '2008-01-15', class: '10A1', parent: 'Phạm Thị Lan', phone: '0922334455', gpa: 8.5, rank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS001', name: 'Nguyễn Thị Ánh', gender: 'Nữ', dob: '2008-05-12', class: '10A1', parent: 'Nguyễn Thị Hương', phone: '0901234567', gpa: 9.2, rank: 'Tốt', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS002', name: 'Trần Văn Bảo', gender: 'Nam', dob: '2008-03-22', class: '10A1', parent: 'Trần Văn Hùng', phone: '0907654321', gpa: 7.2, rank: 'Khá', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS003', name: 'Lê Thị Cẩm', gender: 'Nữ', dob: '2008-11-10', class: '10A1', parent: 'Lê Văn Tâm', phone: '0912345678', gpa: 5.6, rank: 'Đạt', conduct: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS004', name: 'Phạm Hữu Dũng', gender: 'Nam', dob: '2008-01-15', class: '10A1', parent: 'Phạm Thị Lan', phone: '0922334455', gpa: 8.5, rank: 'Tốt', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80' },
 
       // Khối 10 - Lớp 10A2
-      { code: 'HS005', name: 'Đặng Thị Giang', gender: 'Nữ', dob: '2008-07-08', class: '10A2', parent: 'Đặng Văn Nam', phone: '0933445566', gpa: 7.8, rank: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS006', name: 'Vũ Hoàng Hải', gender: 'Nam', dob: '2008-09-30', class: '10A2', parent: 'Vũ Quốc Khánh', phone: '0944556677', gpa: 9.3, rank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS007', name: 'Bùi Thị Kim', gender: 'Nữ', dob: '2008-12-04', class: '10A2', parent: 'Bùi Văn Long', phone: '0955667788', gpa: 6.9, rank: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS008', name: 'Ngô Minh Khôi', gender: 'Nam', dob: '2008-04-18', class: '10A2', parent: 'Ngô Thanh Sơn', phone: '0966778899', gpa: 8.2, rank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS005', name: 'Đặng Thị Giang', gender: 'Nữ', dob: '2008-07-08', class: '10A2', parent: 'Đặng Văn Nam', phone: '0933445566', gpa: 7.8, rank: 'Khá', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS006', name: 'Vũ Hoàng Hải', gender: 'Nam', dob: '2008-09-30', class: '10A2', parent: 'Vũ Quốc Khánh', phone: '0944556677', gpa: 9.3, rank: 'Tốt', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS007', name: 'Bùi Thị Kim', gender: 'Nữ', dob: '2008-12-04', class: '10A2', parent: 'Bùi Văn Long', phone: '0955667788', gpa: 6.9, rank: 'Khá', conduct: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS008', name: 'Ngô Minh Khôi', gender: 'Nam', dob: '2008-04-18', class: '10A2', parent: 'Ngô Thanh Sơn', phone: '0966778899', gpa: 8.2, rank: 'Tốt', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=256&q=80' },
 
       // Khối 11 - Lớp 11B1
-      { code: 'HS009', name: 'Lý Quốc Luân', gender: 'Nam', dob: '2007-08-25', class: '11B1', parent: 'Lý Văn Hải', phone: '0977889900', gpa: 7.5, rank: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS010', name: 'Dương Thảo My', gender: 'Nữ', dob: '2007-02-14', class: '11B1', parent: 'Dương Văn Toàn', phone: '0988990011', gpa: 8.6, rank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS011', name: 'Hồ Quang Nam', gender: 'Nam', dob: '2007-06-19', class: '11B1', parent: 'Hồ Văn Định', phone: '0911223344', gpa: 4.8, rank: 'Chưa đạt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS012', name: 'Mai Phương Oanh', gender: 'Nữ', dob: '2007-10-05', class: '11B1', parent: 'Mai Văn Quân', phone: '0922446688', gpa: 8.9, rank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS009', name: 'Lý Quốc Luân', gender: 'Nam', dob: '2007-08-25', class: '11B1', parent: 'Lý Văn Hải', phone: '0977889900', gpa: 7.5, rank: 'Khá', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS010', name: 'Dương Thảo My', gender: 'Nữ', dob: '2007-02-14', class: '11B1', parent: 'Dương Văn Toàn', phone: '0988990011', gpa: 8.6, rank: 'Tốt', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS011', name: 'Hồ Quang Nam', gender: 'Nam', dob: '2007-06-19', class: '11B1', parent: 'Hồ Văn Định', phone: '0911223344', gpa: 4.8, rank: 'Chưa đạt', conduct: 'Đạt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS012', name: 'Mai Phương Oanh', gender: 'Nữ', dob: '2007-10-05', class: '11B1', parent: 'Mai Văn Quân', phone: '0922446688', gpa: 8.9, rank: 'Tốt', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=256&q=80' },
 
       // Khối 12 - Lớp 12A1
-      { code: 'HS013', name: 'Đỗ Hữu Phát', gender: 'Nam', dob: '2006-03-11', class: '12A1', parent: 'Đỗ Hữu Trọng', phone: '0933669911', gpa: 9.4, rank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS014', name: 'Lê Thùy Quyên', gender: 'Nữ', dob: '2006-08-20', class: '12A1', parent: 'Lê Văn Bình', phone: '0944770022', gpa: 8.1, rank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS015', name: 'Phan Tấn Tài', gender: 'Nam', dob: '2006-11-28', class: '12A1', parent: 'Phan Văn Đức', phone: '0955881133', gpa: 7.4, rank: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=256&q=80' },
-      { code: 'HS016', name: 'Vũ Thanh Uyên', gender: 'Nữ', dob: '2006-04-09', class: '12A1', parent: 'Vũ Văn Hậu', phone: '0966992244', gpa: 6.2, rank: 'Đạt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?auto=format&fit=crop&w=256&q=80' }
+      { code: 'HS013', name: 'Đỗ Hữu Phát', gender: 'Nam', dob: '2006-03-11', class: '12A1', parent: 'Đỗ Hữu Trọng', phone: '0933669911', gpa: 9.4, rank: 'Tốt', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS014', name: 'Lê Thùy Quyên', gender: 'Nữ', dob: '2006-08-20', class: '12A1', parent: 'Lê Văn Bình', phone: '0944770022', gpa: 8.1, rank: 'Tốt', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS015', name: 'Phan Tấn Tài', gender: 'Nam', dob: '2006-11-28', class: '12A1', parent: 'Phan Văn Đức', phone: '0955881133', gpa: 7.4, rank: 'Khá', conduct: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=256&q=80' },
+      { code: 'HS016', name: 'Vũ Thanh Uyên', gender: 'Nữ', dob: '2006-04-09', class: '12A1', parent: 'Vũ Văn Hậu', phone: '0966992244', gpa: 6.2, rank: 'Đạt', conduct: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?auto=format&fit=crop&w=256&q=80' }
     ];
 
     for (const st of students) {
       await query(`
-        INSERT INTO students (student_code, full_name, gender, dob, class_name, parent_name, parent_phone, gpa, academic_rank, status, avatar)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        INSERT INTO students (student_code, full_name, gender, dob, class_name, parent_name, parent_phone, gpa, academic_rank, conduct_rank, status, avatar)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         ON CONFLICT (student_code) DO UPDATE SET
           full_name = EXCLUDED.full_name,
           gender = EXCLUDED.gender,
@@ -206,9 +206,10 @@ export async function seedDemoData() {
           parent_phone = EXCLUDED.parent_phone,
           gpa = EXCLUDED.gpa,
           academic_rank = EXCLUDED.academic_rank,
+          conduct_rank = EXCLUDED.conduct_rank,
           status = EXCLUDED.status,
           avatar = EXCLUDED.avatar
-      `, [st.code, st.name, st.gender, st.dob, st.class, st.parent, st.phone, st.gpa, st.rank, st.status, st.avatar]);
+      `, [st.code, st.name, st.gender, st.dob, st.class, st.parent, st.phone, st.gpa, st.rank, st.conduct, st.status, st.avatar]);
     }
 
     // --------------------------------------------------------------------------

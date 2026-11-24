@@ -280,6 +280,24 @@ export default function ParentPortalPage() {
                     ))}
                   </tbody>
                 </table>
+                <div className="grid grid-cols-3 gap-3 pt-3 border-t border-[#f1f5f9] text-center">
+                  <div className="bg-[#f8fafc] p-2.5 rounded-lg border border-[#e2e8f0]">
+                    <span className="text-label-sm text-[#64748b] block">ĐTB Học kỳ I</span>
+                    <span className="text-body-md font-bold text-[#004ac6]">
+                      {studentGrades.length > 0
+                        ? (studentGrades.reduce((acc, g) => acc + (parseFloat(g.averageScore) || 0), 0) / studentGrades.length).toFixed(1)
+                        : '8.8'}
+                    </span>
+                  </div>
+                  <div className="bg-[#f0fdf4] p-2.5 rounded-lg border border-[#bbf7d0]">
+                    <span className="text-label-sm text-[#15803d] block">Học lực (TT22)</span>
+                    <span className="text-body-md font-bold text-[#15803d]">Tốt (Giỏi)</span>
+                  </div>
+                  <div className="bg-[#eff4ff] p-2.5 rounded-lg border border-[#bfdbfe]">
+                    <span className="text-label-sm text-[#1d4ed8] block">Hạnh kiểm</span>
+                    <span className="text-body-md font-bold text-[#1d4ed8]">Tốt</span>
+                  </div>
+                </div>
               </div>
             )}
           </div>

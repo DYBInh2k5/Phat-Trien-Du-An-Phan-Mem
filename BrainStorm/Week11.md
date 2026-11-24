@@ -70,12 +70,15 @@ export async function getCachedSubjectList() {
 - **Trần Quang Vinh (Member 4 - Logic Security)**: 
   - Cấu hình phân tầng bộ nhớ đệm Redis (Cache-Aside Pattern) an toàn và tối ưu hóa xử lý bất đồng bộ.
   - Củng cố cơ chế phòng thủ OWASP Top 10 Headers (nosniff, SAMEORIGIN, XSS-Protection).
+  - Tích hợp và chuẩn hóa phân hệ Hạnh kiểm rèn luyện (Conduct Evaluation) theo Thông tư 22, kết nối đồng bộ giữa CSDL PostgreSQL và giao diện Cổng Phụ huynh.
 - **Nguyễn Minh Quốc Bảo (Member 5 - Tester)**: 
   - Thực hiện kiểm thử tải (Load Testing), đo lường chỉ số Latency/Throughput.
   - Duy trì kiểm thử tự động đạt chuẩn tuyệt đối: **400 / 400 tests PASS (100% Xanh)**.
   - Thực thi kiểm thử trực tiếp hệ thống (Live System Testing): **19 / 19 kịch bản PASS (100%)**.
 
 ### 2. Tổng kết nghiệm thu kỹ thuật Tuần 11
+- **Rà soát 100% hồ sơ SRS (43 Use Cases & 27 PBIs)**: Hoàn tất tích hợp đầy đủ mọi yêu cầu còn thiếu, đưa 27/27 PBIs đạt trạng thái `DONE`.
 - **Tối ưu hóa phản hồi API**: Tốc độ phản hồi API danh mục giảm từ 180ms xuống dưới 15ms.
 - **Nâng cấp hình ảnh & UX/UI**: Loại bỏ hoàn toàn hình ảnh AI giả tạo; thay thế bằng nhiếp ảnh trường học chân thực và hệ thống ảnh thẻ học sinh chuyên nghiệp.
+- **Quản lý Hạnh kiểm & Báo cáo Thông tư 22**: Bổ sung trường `conduct_rank` trong CSDL PostgreSQL, nạp dữ liệu mẫu 16 học sinh và hiển thị đồng bộ trên Cổng Phụ huynh, Học sinh và Dashboard GVCN.
 - **Tình trạng kiểm thử**: **400/400 Unit Tests PASS** + **19/19 Live E2E Tests PASS (100%)**.

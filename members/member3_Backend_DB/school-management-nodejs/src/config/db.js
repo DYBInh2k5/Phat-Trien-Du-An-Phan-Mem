@@ -243,6 +243,8 @@ export async function initDatabaseSchema() {
 
       -- Bổ sung trường ảnh đại diện (avatar) cho hồ sơ học sinh phục vụ giao diện thẻ học sinh
       ALTER TABLE students ADD COLUMN IF NOT EXISTS avatar VARCHAR(255);
+      -- Bổ sung trường đánh giá hạnh kiểm rèn luyện (conduct_rank) theo Thông tư 22
+      ALTER TABLE students ADD COLUMN IF NOT EXISTS conduct_rank VARCHAR(30) DEFAULT 'Tốt';
 
       ALTER TABLE school_classes ADD COLUMN IF NOT EXISTS homeroom_teacher_id INTEGER REFERENCES users(id);
 

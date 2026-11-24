@@ -20,11 +20,11 @@ import { querySafe as query } from '../config/db.js';
  * Đảm bảo hệ thống vẫn chạy thử nghiệm bình thường ngay cả khi chưa khởi động Docker PostgreSQL.
  */
 let memStudents = [
-  { id: 1, student_code: 'HS001', studentCode: 'HS001', full_name: 'Nguyễn Thị Ánh', fullName: 'Nguyễn Thị Ánh', gender: 'Nữ', dob: '2008-05-12', class_name: '10A1', className: '10A1', parent_name: 'Nguyễn Thị Hương', parentName: 'Nguyễn Thị Hương', parent_phone: '0901234567', parentPhone: '0901234567', gpa: 8.7, academic_rank: 'Giỏi', academicRank: 'Giỏi', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80' },
-  { id: 2, student_code: 'HS002', studentCode: 'HS002', full_name: 'Trần Văn Bảo', fullName: 'Trần Văn Bảo', gender: 'Nam', dob: '2008-03-22', class_name: '10A1', className: '10A1', parent_name: 'Trần Văn Hùng', parentName: 'Trần Văn Hùng', parent_phone: '0907654321', parentPhone: '0907654321', gpa: 6.8, academic_rank: 'Khá', academicRank: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=256&q=80' },
-  { id: 3, student_code: 'HS003', studentCode: 'HS003', full_name: 'Lê Thị Cẩm', fullName: 'Lê Thị Cẩm', gender: 'Nữ', dob: '2008-11-10', class_name: '10A1', className: '10A1', parent_name: 'Lê Văn Tâm', parentName: 'Lê Văn Tâm', parent_phone: '0912345678', parentPhone: '0912345678', gpa: 4.5, academic_rank: 'Yếu', academicRank: 'Yếu', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=256&q=80' },
-  { id: 4, student_code: 'HS004', studentCode: 'HS004', full_name: 'Phạm Hữu Dũng', fullName: 'Phạm Hữu Dũng', gender: 'Nam', dob: '2008-01-15', class_name: '10A1', className: '10A1', parent_name: 'Phạm Thị Lan', parentName: 'Phạm Thị Lan', parent_phone: '0922334455', parentPhone: '0922334455', gpa: 8.5, academic_rank: 'Giỏi', academicRank: 'Giỏi', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80' },
-  { id: 5, student_code: 'HS005', studentCode: 'HS005', full_name: 'Đặng Thị Giang', fullName: 'Đặng Thị Giang', gender: 'Nữ', dob: '2008-07-08', class_name: '10A2', className: '10A2', parent_name: 'Đặng Văn Nam', parentName: 'Đặng Văn Nam', parent_phone: '0933445566', parentPhone: '0933445566', gpa: 7.2, academic_rank: 'Khá', academicRank: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=256&q=80' }
+  { id: 1, student_code: 'HS001', studentCode: 'HS001', full_name: 'Nguyễn Thị Ánh', fullName: 'Nguyễn Thị Ánh', gender: 'Nữ', dob: '2008-05-12', class_name: '10A1', className: '10A1', parent_name: 'Nguyễn Thị Hương', parentName: 'Nguyễn Thị Hương', parent_phone: '0901234567', parentPhone: '0901234567', gpa: 8.7, academic_rank: 'Giỏi', academicRank: 'Giỏi', conduct_rank: 'Tốt', conductRank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80' },
+  { id: 2, student_code: 'HS002', studentCode: 'HS002', full_name: 'Trần Văn Bảo', fullName: 'Trần Văn Bảo', gender: 'Nam', dob: '2008-03-22', class_name: '10A1', className: '10A1', parent_name: 'Trần Văn Hùng', parentName: 'Trần Văn Hùng', parent_phone: '0907654321', parentPhone: '0907654321', gpa: 6.8, academic_rank: 'Khá', academicRank: 'Khá', conduct_rank: 'Tốt', conductRank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=256&q=80' },
+  { id: 3, student_code: 'HS003', studentCode: 'HS003', full_name: 'Lê Thị Cẩm', fullName: 'Lê Thị Cẩm', gender: 'Nữ', dob: '2008-11-10', class_name: '10A1', className: '10A1', parent_name: 'Lê Văn Tâm', parentName: 'Lê Văn Tâm', parent_phone: '0912345678', parentPhone: '0912345678', gpa: 4.5, academic_rank: 'Yếu', academicRank: 'Yếu', conduct_rank: 'Khá', conductRank: 'Khá', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=256&q=80' },
+  { id: 4, student_code: 'HS004', studentCode: 'HS004', full_name: 'Phạm Hữu Dũng', fullName: 'Phạm Hữu Dũng', gender: 'Nam', dob: '2008-01-15', class_name: '10A1', className: '10A1', parent_name: 'Phạm Thị Lan', parentName: 'Phạm Thị Lan', parent_phone: '0922334455', parentPhone: '0922334455', gpa: 8.5, academic_rank: 'Giỏi', academicRank: 'Giỏi', conduct_rank: 'Tốt', conductRank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80' },
+  { id: 5, student_code: 'HS005', studentCode: 'HS005', full_name: 'Đặng Thị Giang', fullName: 'Đặng Thị Giang', gender: 'Nữ', dob: '2008-07-08', class_name: '10A2', className: '10A2', parent_name: 'Đặng Văn Nam', parentName: 'Đặng Văn Nam', parent_phone: '0933445566', parentPhone: '0933445566', gpa: 7.2, academic_rank: 'Khá', academicRank: 'Khá', conduct_rank: 'Tốt', conductRank: 'Tốt', status: 'ACTIVE', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=256&q=80' }
 ];
 
 /**
@@ -87,9 +87,9 @@ export class StudentRepository {
    */
   static async create(s) {
     const res = await query(
-      `INSERT INTO students (student_code, full_name, gender, dob, class_name, parent_name, parent_phone, gpa, academic_rank, status, avatar)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
-      [s.studentCode, s.fullName, s.gender, s.dob || s.dateOfBirth, s.className, s.parentName, s.parentPhone, s.gpa, s.academicRank, s.status || 'ACTIVE', s.avatar || null]
+      `INSERT INTO students (student_code, full_name, gender, dob, class_name, parent_name, parent_phone, gpa, academic_rank, conduct_rank, status, avatar)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
+      [s.studentCode, s.fullName, s.gender, s.dob || s.dateOfBirth, s.className, s.parentName, s.parentPhone, s.gpa, s.academicRank, s.conductRank || s.conduct_rank || 'Tốt', s.status || 'ACTIVE', s.avatar || null]
     );
     if (res && res.rows && res.rows.length > 0) return res.rows[0];
 
@@ -111,6 +111,8 @@ export class StudentRepository {
       gpa: s.gpa,
       academic_rank: s.academicRank,
       academicRank: s.academicRank,
+      conduct_rank: s.conductRank || s.conduct_rank || 'Tốt',
+      conductRank: s.conductRank || s.conduct_rank || 'Tốt',
       status: s.status || 'ACTIVE',
       avatar: s.avatar || null
     };
@@ -127,9 +129,22 @@ export class StudentRepository {
    */
   static async update(id, s) {
     const res = await query(
-      `UPDATE students SET full_name = $1, gender = $2, dob = $3, class_name = $4, parent_name = $5, parent_phone = $6, gpa = $7, academic_rank = $8, status = $9
-       WHERE id = $10 RETURNING *`,
-      [s.fullName || s.full_name, s.gender, s.dob || s.dateOfBirth, s.className || s.class_name, s.parentName || s.parent_name, s.parentPhone || s.parent_phone, s.gpa, s.academicRank || s.academic_rank, s.status, id]
+      `UPDATE students SET full_name = $1, gender = $2, dob = $3, class_name = $4, parent_name = $5, parent_phone = $6, gpa = $7, academic_rank = $8, conduct_rank = $9, status = $10, avatar = $11
+       WHERE id = $12 RETURNING *`,
+      [
+        s.fullName || s.full_name,
+        s.gender,
+        s.dob || s.dateOfBirth,
+        s.className || s.class_name,
+        s.parentName || s.parent_name,
+        s.parentPhone || s.parent_phone,
+        s.gpa,
+        s.academicRank || s.academic_rank,
+        s.conductRank || s.conduct_rank || 'Tốt',
+        s.status,
+        s.avatar || null,
+        id
+      ]
     );
     if (res && res.rows && res.rows.length > 0) return res.rows[0];
 

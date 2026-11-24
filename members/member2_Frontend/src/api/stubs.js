@@ -166,6 +166,8 @@ export const fetchStudentListData = async (className = null) => {
     parentPhone: s.parent_phone || s.parentPhone || '',
     gpa:         s.gpa          != null ? parseFloat(s.gpa) : null,
     academicRank: s.academic_rank || s.academicRank || '',
+    conductRank:  s.conduct_rank  || s.conductRank  || 'Tốt',
+    avatar:       s.avatar        || null,
     status:    (s.status || 'ACTIVE').toLowerCase() === 'active' ? 'active' : 'inactive',
   }));
 
