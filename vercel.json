@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "name": "edumanage-pro-htqllh",
+  "builds": [
+    {
+      "src": "members/member2_Frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "members/member3_Backend_DB/school-management-nodejs/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "members/member3_Backend_DB/school-management-nodejs/server.js"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "members/member2_Frontend/dist/assets/$1"
+    },
+    {
+      "src": "/(.*\\.(?:png|jpg|jpeg|svg|ico|json|webp|pdf))",
+      "dest": "members/member2_Frontend/dist/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "members/member2_Frontend/dist/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "8081"
+  }
+}
