@@ -189,9 +189,10 @@ app.get('/api/attendance/summary', authenticateToken, AttendanceController.getAt
 app.post('/api/attendance/save', authenticateToken, resolveGvcnClass, AttendanceController.saveAttendance);
 
 // Phân hệ 5: Sổ liên lạc & Duyệt đơn xin nghỉ phép (Leave Requests & Portal)
-app.get('/api/leave-requests', LeaveRequestController.getLeaveRequests);
+// PBI-31: Bắt buộc xác thực JWT và phân quyền chặt chẽ cho quản lý đơn xin nghỉ phép
+app.get('/api/leave-requests', authenticateToken, LeaveRequestController.getLeaveRequests);
 app.post('/api/leave-requests', authenticateToken, LeaveRequestController.submitLeaveRequest);
-app.put('/api/leave-requests/:id/approve', LeaveRequestController.approveLeaveRequest);
+app.put('/api/leave-requests/:id/approve', authenticateToken, authorizeRoles('BGH', 'GVCN'), LeaveRequestController.approveLeaveRequest);
 
 // Tuition & VietQR Payment Routes (Phân hệ Đóng học phí trực tuyến SD-04)
 app.get('/api/tuition',                            authenticateToken, TuitionController.getTuitions);
@@ -206,12 +207,13 @@ app.get('/api/tuition/receipt/:paymentId',          authenticateToken, TuitionCo
 app.post('/api/tuition/webhook',                    TuitionController.handleWebhook);
 
 // Phân hệ 7 & 8: Danh mục Lớp học & Môn học (Classes & Subjects)
+// PBI-31: Chỉ Ban Giám Hiệu (BGH) đã xác thực mới được phép tạo mới lớp học và môn học
 app.get('/api/classes', ClassController.getClasses);
-app.post('/api/classes', ClassController.createClass);
+app.post('/api/classes', authenticateToken, requireBGH, ClassController.createClass);
 app.put('/api/classes/:className/homeroom',    authenticateToken, requireBGH, ClassController.assignHomeroom);
 app.delete('/api/classes/:className/homeroom', authenticateToken, requireBGH, ClassController.removeHomeroom);
 app.get('/api/subjects', SubjectController.getSubjects);
-app.post('/api/subjects', SubjectController.createSubject);
+app.post('/api/subjects', authenticateToken, requireBGH, SubjectController.createSubject);
 
 // Dashboard Routes
 app.get('/api/dashboard/bgh',  authenticateToken, DashboardController.getBGHDashboard);

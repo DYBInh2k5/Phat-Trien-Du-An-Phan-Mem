@@ -67,3 +67,4 @@ Trưởng nhóm & Quản lý: **Võ Duy Bình (PM / Lead BA)**
 - [docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md](docs/GIAI_THICH_TOAN_DIEN_API_LAYOUT_DOCKER.md): Cẩm nang kỹ thuật toàn diện giải thích tường tận RESTful API, Layout Components, Docker và mối liên kết mã nguồn.
 - [docs/CHI_TIET_CONG_NGHE_HE_THONG.md](docs/CHI_TIET_CONG_NGHE_HE_THONG.md): Báo cáo kỹ thuật chi tiết toàn bộ công nghệ, thư viện, kiến trúc và mẫu thiết kế của hệ thống.
 - [docs/API_SPECIFICATION.md](docs/API_SPECIFICATION.md): Đặc tả chi tiết các RESTful API Endpoints cho toàn hệ thống.
+- [docs/KIEM_TOAN_HAN_CHE_VA_LO_TRINH_NANG_CAP.md](docs/KIEM_TOAN_HAN_CHE_VA_LO_TRINH_NANG_CAP.md): Báo cáo kiểm toán 10 hạn chế hệ thống & lộ trình nâng cấp PBI-31 -> PBI-36.

@@ -18,6 +18,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { AuditLogger } from '../utils/AuditLogger.js';
 import { UnitOfWork } from '../utils/UnitOfWork.js';
+import { GradeBookService } from '../services/GradeBookService.js';
 
 // ============================================================
 // Inline resolveEffectiveClassName logic
@@ -274,5 +275,45 @@ describe('D. UnitOfWork transaction & AuditLogger recording (SD-02)', () => {
     assert.equal(uow.inTransaction, true);
     await uow.rollback();
     assert.equal(uow.inTransaction, false);
+  });
+});
+
+// ============================================================
+// TESTS – F. GradeBookService.calculateTBM (PBI-32 Score Range Validation)
+// ============================================================
+describe('F. GradeBookService.calculateTBM – PBI-32 Kiểm tra biên điểm [0.0, 10.0]', () => {
+  it('Điểm hợp lệ trong biên [0.0, 10.0] và giá trị null đều tính ĐTBmhk thành công', () => {
+    const result = GradeBookService.calculateTBM({
+      scoreOral: 0,
+      scoreOral2: null,
+      score15m: 10,
+      score15m2: '',
+      score1Hour: 8.5,
+      scoreMidTerm: 7.5,
+      scoreFinalTerm: 9,
+    });
+    assert.equal(result.averageScore, 7.7);
+    assert.equal(result.gradeLetter, 'Khá');
+  });
+
+  it('Chặn điểm âm (< 0.0) bằng lỗi rõ ràng', () => {
+    assert.throws(
+      () => GradeBookService.calculateTBM({ scoreOral: -0.5, score15m: 8 }),
+      /không hợp lệ/
+    );
+  });
+
+  it('Chặn điểm vượt quá 10.0 bằng lỗi rõ ràng', () => {
+    assert.throws(
+      () => GradeBookService.calculateTBM({ scoreFinalTerm: 10.5 }),
+      /không hợp lệ/
+    );
+  });
+
+  it('Chặn giá trị không phải số (NaN) bằng lỗi rõ ràng', () => {
+    assert.throws(
+      () => GradeBookService.calculateTBM({ scoreMidTerm: 'abc' }),
+      /không hợp lệ/
+    );
   });
 });

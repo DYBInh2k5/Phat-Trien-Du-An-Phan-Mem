@@ -308,7 +308,26 @@ export class GradeBookService {
   }
 
   /**
+   * Kiểm tra tính hợp lệ của một cột điểm thành phần (PBI-32).
+   * Cho phép giá trị rỗng (null/undefined/'') nếu giáo viên chưa nhập,
+   * nhưng nếu có giá trị thì bắt buộc phải là số thực nằm trong đoạn [0.0, 10.0].
+   * @param {number|string|null|undefined} score - Giá trị điểm cần kiểm tra
+   * @param {string} fieldName - Tên hiển thị của cột điểm để báo lỗi rõ ràng
+   * @throws {Error} Nếu điểm không phải số hợp lệ hoặc nằm ngoài phạm vi 0.0 - 10.0
+   */
+  static validateScoreRange(score, fieldName) {
+    if (score === null || score === undefined || score === '') {
+      return;
+    }
+    const num = Number(score);
+    if (Number.isNaN(num) || num < 0 || num > 10) {
+      throw new Error(`Điểm ${fieldName} không hợp lệ (${score}). Điểm phải nằm trong khoảng từ 0.0 đến 10.0.`);
+    }
+  }
+
+  /**
    * Thuật toán tính Điểm trung bình môn học kỳ (ĐTBmhk) theo Quy chế Thông tư 22/2021/TT-BGDĐT:
+   *   - Kiểm tra biên điểm [0.0, 10.0] cho toàn bộ cột điểm trước khi tính toán.
    *   - Đánh giá thường xuyên (ĐĐGtx): Miệng (hệ số 1), 15 phút (hệ số 1).
    *   - Đánh giá giữa kỳ (ĐĐGgk): 1 tiết (hệ số 2), Giữa kỳ (hệ số 2).
    *   - Đánh giá cuối kỳ (ĐĐGck): Cuối kỳ (hệ số 3).
@@ -316,20 +335,30 @@ export class GradeBookService {
    *   - Kết quả làm tròn đến 1 chữ số thập phân.
    * @param {Object} gb - Bản ghi điểm học sinh
    * @returns {Object} Bản ghi đã bổ sung averageScore và gradeLetter
+   * @throws {Error} Nếu có cột điểm nào vượt ngoài phạm vi [0.0, 10.0]
    */
   static calculateTBM(gb) {
+    // Kiểm tra biên điểm 0.0 - 10.0 cho toàn bộ các cột điểm thành phần (PBI-32)
+    this.validateScoreRange(gb.scoreOral ?? gb.score_oral, 'Miệng (lần 1)');
+    this.validateScoreRange(gb.scoreOral2 ?? gb.score_oral_2, 'Miệng (lần 2)');
+    this.validateScoreRange(gb.score15m ?? gb.score_15m, '15 phút (lần 1)');
+    this.validateScoreRange(gb.score15m2 ?? gb.score_15m_2, '15 phút (lần 2)');
+    this.validateScoreRange(gb.score1Hour ?? gb.score_1hour, '1 tiết');
+    this.validateScoreRange(gb.scoreMidTerm ?? gb.score_mid_term, 'Giữa kỳ');
+    this.validateScoreRange(gb.scoreFinalTerm ?? gb.score_final_term, 'Cuối kỳ');
+
     // Hướng A: NULL = 0, mẫu số cố định = 9 (theo BR-01)
     // TBM = (oral×1 + oral2×1 + 15'×1 + 15'_2×1 + 1tiết×2 + giữaHK×2 + cuốiHK×3) / 9
     // Ô nào chưa nhập (null/undefined) được coi là 0.
     const toNum = (v) => (v != null && !isNaN(parseFloat(v))) ? parseFloat(v) : 0;
 
-    const oral  = toNum(gb.scoreOral);
-    const oral2 = toNum(gb.scoreOral2);
-    const m15   = toNum(gb.score15m);
-    const m15_2 = toNum(gb.score15m2);
-    const h1    = toNum(gb.score1Hour);
-    const mid   = toNum(gb.scoreMidTerm);
-    const fin   = toNum(gb.scoreFinalTerm);
+    const oral  = toNum(gb.scoreOral ?? gb.score_oral);
+    const oral2 = toNum(gb.scoreOral2 ?? gb.score_oral_2);
+    const m15   = toNum(gb.score15m ?? gb.score_15m);
+    const m15_2 = toNum(gb.score15m2 ?? gb.score_15m_2);
+    const h1    = toNum(gb.score1Hour ?? gb.score_1hour);
+    const mid   = toNum(gb.scoreMidTerm ?? gb.score_mid_term);
+    const fin   = toNum(gb.scoreFinalTerm ?? gb.score_final_term);
 
     const DENOMINATOR = 9;
     const sum = oral * 1 + oral2 * 1 + m15 * 1 + m15_2 * 1 + h1 * 2 + mid * 2 + fin * 3;

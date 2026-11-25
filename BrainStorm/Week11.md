@@ -179,5 +179,11 @@ Nhằm phục vụ báo cáo đồ án trước Hội đồng chấm thi HSU và
 - Màn hình lỗi `404_NOT_FOUND` với ID cạnh Singapore (`sin1::zbdgc-1795518872926`) là do trình duyệt lưu bộ nhớ đệm (cache) từ phiên truy cập trước thời điểm hoàn tất cấu hình bí danh tên miền (domain alias).
 - Hiện tại hệ thống đã trực tuyến 100% tại `https://htqllh-frontend.vercel.app` (HTTP 200 OK). Người dùng chỉ cần nhấn tổ hợp phím **`Ctrl + F5`** (hoặc mở Cửa sổ Ẩn danh - Incognito) để tải phiên bản giao diện mới nhất.
 
+### 6. Kiểm Toán Hạn Chế Hệ Thống & Vá Lỗi Bảo Mật / Nghiệp Vụ (PBI-31 đến PBI-36)
+- Lập báo cáo rà soát toàn diện 10 điểm hạn chế cốt lõi tại [docs/KIEM_TOAN_HAN_CHE_VA_LO_TRINH_NANG_CAP.md](../docs/KIEM_TOAN_HAN_CHE_VA_LO_TRINH_NANG_CAP.md) và lập danh mục 6 nhiệm vụ cải tiến (`PBI-31` -> `PBI-36`) trên ClickUp (Module 11) & CSV Jira (`Module 12`).
+- **Đã triển khai & kiểm thử ngay trong Tuần 11**:
+  1. **PBI-31 (P0 - Bảo mật tuyến đường `server.js`)**: Bổ sung `authenticateToken` cho `GET /api/leave-requests`, `authorizeRoles('BGH', 'GVCN')` cho `PUT /api/leave-requests/:id/approve`, và `authenticateToken, requireBGH` cho `POST /api/classes` và `POST /api/subjects`.
+  2. **PBI-32 (P1 - Kiểm tra biên độ điểm số 0.0 - 10.0)**: Bổ sung `GradeBookService.validateScoreRange()` vào `GradeBookService.calculateTBM()` để chặn mọi giá trị điểm âm, điểm > 10.0 hoặc NaN ở tầng Service Backend, kèm 4 unit tests xác minh tại `gradebook.test.js` (83/83 Backend tests PASS, 214/214 QA tests PASS, 13/13 Frontend Vitest PASS).
+
 
 
