@@ -19,6 +19,8 @@
 
 import { TuitionRepository } from '../repositories/TuitionRepository.js';
 import { PaymentRepository } from '../repositories/PaymentRepository.js';
+import { UserRepository } from '../repositories/UserRepository.js';
+import { EmailService } from './EmailService.js';
 import { buildVietQrData } from '../utils/vietQrHelper.js';
 import { UnitOfWork } from '../utils/UnitOfWork.js';
 import { AuditLogger } from '../utils/AuditLogger.js';
@@ -219,7 +221,7 @@ export class TuitionService {
    */
   static async processSuccessfulPayment({ orderCode, bankTransactionId = null, note = '', approverUser = null }) {
     const uow = new UnitOfWork();
-    return await uow.execute(async (client) => {
+    const result = await uow.execute(async (client) => {
       const payment = await PaymentRepository.findByOrderCode(orderCode);
       if (!payment) {
         throw new Error(`Không tìm thấy phiên giao dịch: ${orderCode}`);
@@ -285,6 +287,31 @@ export class TuitionService {
         tuition
       };
     });
+
+    // Gửi email biên lai điện tử cho Phụ huynh (không chặn luồng thanh toán nếu thiếu SMTP/email)
+    if (result && !result.alreadyProcessed && result.tuition) {
+      const studentCode = result.tuition.student_code || result.payment?.student_code;
+      UserRepository.findParentEmailByStudentCode(studentCode)
+        .then((parent) => {
+          if (!parent?.email) return null;
+          return EmailService.sendTuitionReceiptEmail({
+            to: parent.email,
+            parentName: parent.full_name,
+            studentCode,
+            studentName: result.tuition.student_name,
+            itemName: result.tuition.item_name || `Học phí ${result.tuition.semester || 'HK1'}`,
+            amount: result.payment?.amount,
+            receiptNo: result.receiptNo,
+            orderCode,
+            paidAt: result.payment?.paid_at,
+          });
+        })
+        .catch((emailErr) => {
+          console.warn('[TuitionService] Không thể gửi email biên lai:', emailErr?.message);
+        });
+    }
+
+    return result;
   }
 
   /**

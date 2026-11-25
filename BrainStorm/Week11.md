@@ -183,7 +183,8 @@ Nhằm phục vụ báo cáo đồ án trước Hội đồng chấm thi HSU và
 - Lập báo cáo rà soát toàn diện 10 điểm hạn chế cốt lõi tại [docs/KIEM_TOAN_HAN_CHE_VA_LO_TRINH_NANG_CAP.md](../docs/KIEM_TOAN_HAN_CHE_VA_LO_TRINH_NANG_CAP.md) và lập danh mục 6 nhiệm vụ cải tiến (`PBI-31` -> `PBI-36`) trên ClickUp (Module 11) & CSV Jira (`Module 12`).
 - **Đã triển khai & kiểm thử ngay trong Tuần 11**:
   1. **PBI-31 (P0 - Bảo mật tuyến đường `server.js`)**: Bổ sung `authenticateToken` cho `GET /api/leave-requests`, `authorizeRoles('BGH', 'GVCN')` cho `PUT /api/leave-requests/:id/approve`, và `authenticateToken, requireBGH` cho `POST /api/classes` và `POST /api/subjects`.
-  2. **PBI-32 (P1 - Kiểm tra biên độ điểm số 0.0 - 10.0)**: Bổ sung `GradeBookService.validateScoreRange()` vào `GradeBookService.calculateTBM()` để chặn mọi giá trị điểm âm, điểm > 10.0 hoặc NaN ở tầng Service Backend, kèm 4 unit tests xác minh tại `gradebook.test.js` (83/83 Backend tests PASS, 214/214 QA tests PASS, 13/13 Frontend Vitest PASS).
+  2. **PBI-32 (P1 - Kiểm tra biên độ điểm số 0.0 - 10.0)**: Bổ sung `GradeBookService.validateScoreRange()` vào `GradeBookService.calculateTBM()` để chặn mọi giá trị điểm âm, điểm > 10.0 hoặc NaN ở tầng Service Backend, kèm 4 unit tests xác minh tại `gradebook.test.js`.
+  3. **PBI-37 (Tích hợp Gmail SMTP / Nodemailer)**: Mở rộng `EmailService.js` hỗ trợ `GMAIL_USER` + `GMAIL_APP_PASSWORD` cho 3 luồng nghiệp vụ: đặt lại mật khẩu (`forgot-password`), tự động gửi biên lai học phí VietQR (`TuitionService.processSuccessfulPayment`), và gửi phiếu báo điểm Thông tư 22 (`POST /api/gradebook/send-report-email`), kèm 4 unit tests tại `email-service.test.js` (87/87 Backend tests PASS, 214/214 QA tests PASS, 13/13 Frontend Vitest PASS).
 
 
 

@@ -182,6 +182,7 @@ app.post('/api/gradebook/save',         authenticateToken, resolveGvcnClass, Gra
 app.post('/api/gradebook/save-spreadsheet', authenticateToken, resolveGvcnClass, GradeBookController.saveSpreadsheet);
 app.post('/api/gradebook/lock',         authenticateToken, GradeBookController.lockGradeSheet);
 app.post('/api/gradebook/unlock',       authenticateToken, GradeBookController.unlockGradeSheet);
+app.post('/api/gradebook/send-report-email', authenticateToken, authorizeRoles('BGH', 'GVCN'), GradeBookController.sendReportEmail);
 
 // Attendance Routes
 app.get('/api/attendance', authenticateToken, resolveGvcnClass, AttendanceController.getAttendance);

@@ -120,6 +120,17 @@ Hệ thống hỗ trợ các Model Context Protocol (MCP) Plugins cho phép tr�
 | **ClickUp Plugin (`clickup_clickup`)** | 🟢 Đã đồng bộ | Quản lý 30 tasks / PBIs trên không gian dự án ClickUp (Space Group 2_PTDAPM). |
 | **Jira Cloud Plugin** | 🟢 Đã đồng bộ | Quản lý thẻ công việc trên Jira Kanban Board (KAN-112 -> KAN-141). |
 | **Postman MCP (`postman_postman`)** | 🟡 Tùy chọn | Chạy kiểm thử tự động toàn bộ API Collection và kiểm tra tính tuân thủ hợp đồng giao tiếp. |
+| **Gmail SMTP (`Nodemailer`)** | 🟢 Đã tích hợp | Gửi email thật qua Gmail App Password cho 3 luồng: Đặt lại mật khẩu, Biên lai học phí VietQR & Phiếu báo điểm TT22 (`EmailService.js`). |
+| **Clerk / Cloudflare / Supabase / Railway** | ⚪ Không cần | Hệ thống đã tự chủ Auth JWT + RBAC 5 vai trò và triển khai trên Vercel + Neon PostgreSQL. |
+
+### 4.1. Cấu Hình Gửi Email Thật Bằng Gmail SMTP (`EmailService.js`)
+Để hệ thống gửi email thật ở môi trường Local hoặc Vercel Production, cấu hình các biến môi trường sau:
+```env
+GMAIL_USER=your_school_email@gmail.com
+GMAIL_APP_PASSWORD=xxxx_xxxx_xxxx_xxxx
+MAIL_FROM="HTQLLH - THPT HSU <your_school_email@gmail.com>"
+```
+*(Lưu ý: Dùng **App Password** 16 ký tự trong Google Account → Security → 2-Step Verification → App passwords, không dùng mật khẩu đăng nhập Gmail thông thường).*
 
 ---
 
