@@ -123,6 +123,7 @@ CREATE TABLE IF NOT EXISTS tuitions (
   class_name VARCHAR(30),
   semester VARCHAR(10) DEFAULT 'HK1',
   school_year VARCHAR(20) DEFAULT '2024-2025',
+  item_name VARCHAR(150),
   amount_due NUMERIC(12, 2) DEFAULT 0.00,
   amount_paid NUMERIC(12, 2) DEFAULT 0.00,
   status VARCHAR(20) DEFAULT 'UNPAID',

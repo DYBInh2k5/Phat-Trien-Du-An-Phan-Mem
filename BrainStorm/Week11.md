@@ -153,4 +153,31 @@ Nhằm phục vụ báo cáo đồ án trước Hội đồng chấm thi HSU và
 2. **Jira Cloud Project & Kanban**: [https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN](https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN)
 3. **ClickUp Workspace**: [Space Group 2_PTDAPM](https://app.clickup.com/1100320000025585/v/s/1100320000109903)
 
+### 5. Nghiệm Thu & Khắc Phục Tính Năng Thanh Toán Học Phí Phụ Huynh & Rà Soát Phân Quyền RBAC
+
+#### A. Khắc phục triệt để lỗi Phụ huynh không đóng được học phí
+- **Nguyên nhân cốt lõi**:
+  1. *Trạng thái dữ liệu*: Tài khoản demo `ph.hs0001` liên kết với học sinh `HS001` (Nguyễn Thị Ánh) trong CSDL ban đầu có 2 bản ghi học phí đều ở trạng thái `status: 'PAID'` (đã đóng 2.500.000 đ / 2.500.000 đ). Hệ thống tự động ẩn nút thanh toán để tránh trùng lặp giao dịch và chỉ hiển thị badge "Đã xác nhận".
+  2. *Cột CSDL*: Bảng `tuitions` trước đây thiếu cột `item_name VARCHAR(150)`, khiến giao diện hiển thị tên mặc định chung chung ("Khoản thu 1").
+  3. *Môi trường Production*: Cờ `allowSimulation` trong `TuitionController.js` trước đây phụ thuộc vào `NODE_ENV !== 'production'`, khiến việc mô phỏng thanh toán thành công bị chặn 403 trên Vercel.
+- **Biện pháp xử lý**:
+  1. Chạy DDL bổ sung cột `item_name` cho bảng `tuitions` và nạp thêm 3 khoản thu thực tế **CHƯA ĐÓNG (`UNPAID`)** cho `HS001`:
+     - Tiền quản lý bán trú & Ăn trưa (HK1 - 2025-2026): 1.800.000 đ (`UNPAID`)
+     - Quỹ khuyến học & Hoạt động trải nghiệm (2025-2026): 500.000 đ (`UNPAID`)
+     - Học phí chính khóa (HK2 - 2025-2026): 2.500.000 đ (`UNPAID`)
+  2. Nâng cấp `ParentPortalPage.jsx`: Tự động truyền mã học sinh và lớp để lọc đúng học phí; hiển thị nút **"Thanh Toán VietQR"** cho các khoản `unpaid` và tự động cập nhật sau khi thanh toán.
+  3. Cập nhật `TuitionController.js`: Mở khóa `allowSimulation = true` hỗ trợ chấm thi và trải nghiệm demo tức thời ngay trên môi trường Live.
+
+#### B. Kết quả rà soát phân quyền RBAC 5 vai trò
+- **Ban Giám Hiệu (`ROLE_ADMIN` / `ROLE_PRINCIPAL`)**: Toàn quyền giám sát, quản lý thời khóa biểu, điểm danh toàn trường, báo cáo học vụ, thiết lập hệ thống và khóa/mở khóa sổ điểm. Chặn sửa điểm trực tiếp (tuân thủ quy chế).
+- **Giáo Viên Chủ Nhiệm (`ROLE_HOMEROOM_TEACHER`)**: Điểm danh lớp chủ nhiệm 4 trạng thái, duyệt đơn nghỉ học, đánh giá hạnh kiểm Thông tư 22; chặn điểm danh lớp khác (`GVCN_SCOPE_VIOLATION`).
+- **Giáo Viên Bộ Môn (`ROLE_SUBJECT_TEACHER`)**: Nhập điểm bảng tính Spreadsheet môn phụ trách, tự động tính ĐTBmhk; bị chặn sửa khi sổ điểm bị BGH khóa.
+- **Học Sinh (`ROLE_STUDENT`)**: Tra cứu điểm cá nhân, thời khóa biểu, lịch thi; bị chặn truy cập danh sách toàn trường hoặc chỉnh sửa dữ liệu.
+- **Phụ Huynh (`ROLE_PARENT`)**: Theo dõi điểm và hạnh kiểm con, nộp đơn nghỉ học, thanh toán học phí trực tuyến bằng VietQR động Napas 24/7; bị chặn các API quản trị BGH.
+
+#### C. Xử lý lỗi bộ nhớ đệm 404 Vercel trên trình duyệt
+- Màn hình lỗi `404_NOT_FOUND` với ID cạnh Singapore (`sin1::zbdgc-1795518872926`) là do trình duyệt lưu bộ nhớ đệm (cache) từ phiên truy cập trước thời điểm hoàn tất cấu hình bí danh tên miền (domain alias).
+- Hiện tại hệ thống đã trực tuyến 100% tại `https://htqllh-frontend.vercel.app` (HTTP 200 OK). Người dùng chỉ cần nhấn tổ hợp phím **`Ctrl + F5`** (hoặc mở Cửa sổ Ẩn danh - Incognito) để tải phiên bản giao diện mới nhất.
+
+
 

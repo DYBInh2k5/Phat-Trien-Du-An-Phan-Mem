@@ -290,8 +290,8 @@ async function populateFullNeonData() {
     const recNo = isPaid ? `BL-${st.code}-2025-01` : null;
 
     const tuiRes = await client.query(`
-      INSERT INTO tuitions (student_code, student_name, class_name, semester, school_year, amount_due, amount_paid, status, receipt_no)
-      VALUES ($1, $2, $3, 'HK1', '2025-2026', 2500000, $4, $5, $6)
+      INSERT INTO tuitions (student_code, student_name, class_name, semester, school_year, item_name, amount_due, amount_paid, status, receipt_no)
+      VALUES ($1, $2, $3, 'HK1', '2025-2026', 'Học phí chính khóa (HK1 - 2025-2026)', 2500000, $4, $5, $6)
       RETURNING id
     `, [st.code, st.name, st.class, amtPaid, stt, recNo]);
 
@@ -310,7 +310,16 @@ async function populateFullNeonData() {
       `, [tId, `HP_ORDER_${st.code}_01`, st.code, `TXN_MB_${st.code}_9988`, recNo, st.parent, st.phone]);
     }
   }
-  console.log('✅ Đã nạp 16 bản ghi học phí & giao dịch thanh toán VietQR.');
+
+  // Bổ sung các khoản thu chưa đóng cho HS001 (em Ánh) để Phụ huynh demo có thể trải nghiệm đóng học phí qua VietQR
+  await client.query(`
+    INSERT INTO tuitions (student_code, student_name, class_name, semester, school_year, item_name, amount_due, amount_paid, status, receipt_no)
+    VALUES 
+    ('HS001', 'Nguyễn Thị Ánh', '10A1', 'HK1', '2025-2026', 'Tiền quản lý bán trú & Ăn trưa (HK1 - 2025-2026)', 1800000.00, 0.00, 'UNPAID', NULL),
+    ('HS001', 'Nguyễn Thị Ánh', '10A1', 'HK1', '2025-2026', 'Quỹ khuyến học & Hoạt động trải nghiệm (2025-2026)', 500000.00, 0.00, 'UNPAID', NULL),
+    ('HS001', 'Nguyễn Thị Ánh', '10A1', 'HK2', '2025-2026', 'Học phí chính khóa (HK2 - 2025-2026)', 2500000.00, 0.00, 'UNPAID', NULL);
+  `);
+  console.log('✅ Đã nạp đầy đủ học phí đa dạng (đã đóng & chưa đóng) kèm giao dịch VietQR.');
 
   // 12. Thông báo nhà trường
   const notifs = [

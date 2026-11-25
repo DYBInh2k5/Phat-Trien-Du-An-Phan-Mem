@@ -107,10 +107,13 @@ export default function ParentPortalPage() {
       .finally(() => setGradesLoading(false));
   }, []);
 
-  // UC-PAR-07: Fetch tuitions
+  /**
+   * Tải danh sách học phí của học sinh từ Backend API (UC-PAR-07)
+   * Tự động truyền mã học sinh và lớp học của con để phân giải chính xác khoản thu
+   */
   const loadTuitions = () => {
     setTuitionLoading(true);
-    fetchTuitions()
+    fetchTuitions(studentClass, studentCode)
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           const mapped = data.map((item, idx) => {
@@ -120,9 +123,15 @@ export default function ParentPortalPage() {
             // Nếu số tiền đã đóng >= số tiền phải nộp thì chắc chắn trạng thái là 'paid'
             const isPaid = rawStatus === 'paid' || (amountDue > 0 && amountPaid >= amountDue);
 
+            // Ưu tiên hiển thị item_name có nghĩa, fallback theo kỳ/năm hoặc tên khoản thu
+            const resolvedName = item.item_name 
+              || item.description 
+              || item.name 
+              || (item.semester && item.school_year ? `Học phí chính khóa (${item.semester} - ${item.school_year})` : `Khoản thu ${idx + 1}`);
+
             return {
               id: item.id ?? item.tuition_id ?? String(idx + 1),
-              name: item.item_name ?? item.description ?? item.name ?? `Khoản thu ${idx + 1}`,
+              name: resolvedName,
               amount: amountDue,
               amountPaid: amountPaid,
               status: isPaid ? 'paid' : (amountPaid > 0 ? 'partial' : 'unpaid'),
