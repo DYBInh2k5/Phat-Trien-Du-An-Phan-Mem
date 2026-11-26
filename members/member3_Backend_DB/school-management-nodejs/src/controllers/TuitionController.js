@@ -155,16 +155,72 @@ export class TuitionController {
   }
 
   /**
-   * Webhook xử lý thông báo tiền về từ cổng thanh toán đối tác (payOS/SePay/Casso/Ngân hàng)
-   * Có xác thực HMAC-SHA256 với timingSafeEqual
+   * Trích xuất thông tin đơn hàng từ payload Webhook của SePay, payOS hoặc chuẩn nội bộ.
+   * Hỗ trợ tách tự động mã giao dịch dạng HP<số> từ nội dung chuyển khoản ngân hàng.
+   * @param {Object} body - Nội dung JSON từ Webhook đối tác gửi về
+   * @returns {{ orderCode: string|null, bankTransactionId: string|null, transferType: string|null, note: string|null }}
+   */
+  static parseWebhookPayload(body = {}) {
+    // 1) Định dạng chuẩn SePay (sepay.vn): { id, gateway, content, transferType, transferAmount, code, referenceCode, description }
+    const isSePay = body.transferType !== undefined || body.gateway !== undefined || body.referenceCode !== undefined;
+    if (isSePay) {
+      const contentText = `${body.code || ''} ${body.content || ''} ${body.description || ''}`;
+      const match = contentText.match(/\b(HP\d+)\b/i);
+      const orderCode = match ? match[1].toUpperCase() : (body.orderCode || null);
+      const bankTransactionId = body.referenceCode || (body.id ? `SEPAY_${body.id}` : null);
+      return {
+        orderCode,
+        bankTransactionId,
+        transferType: body.transferType || 'in',
+        note: body.content || body.description || `Thanh toán tự động qua SePay (${body.gateway || 'Bank'})`,
+      };
+    }
+
+    // 2) Định dạng chuẩn payOS (payos.vn): { code: '00', data: { orderCode, reference, description, amount } }
+    if (body.data && typeof body.data === 'object') {
+      const desc = `${body.data.description || ''}`;
+      const match = desc.match(/\b(HP\d+)\b/i);
+      const orderCode = match ? match[1].toUpperCase() : (body.data.orderCode ? String(body.data.orderCode) : null);
+      return {
+        orderCode,
+        bankTransactionId: body.data.reference || null,
+        transferType: 'in',
+        note: body.data.description || 'Thanh toán tự động qua payOS VietQR',
+      };
+    }
+
+    // 3) Định dạng trực tiếp nội bộ
+    return {
+      orderCode: body.orderCode || body.reference || null,
+      bankTransactionId: body.bankTransactionId || null,
+      transferType: 'in',
+      note: body.note || 'Thanh toán tự động qua Webhook đối tác',
+    };
+  }
+
+  /**
+   * Webhook xử lý thông báo tiền về từ cổng thanh toán đối tác (SePay / payOS / Casso / Ngân hàng)
+   * Có xác thực SePay Apikey (Authorization: Apikey <key>) và HMAC-SHA256 với timingSafeEqual.
    * @route POST /api/tuition/webhook
    */
   static async handleWebhook(req, res) {
     try {
+      // 1) Xác thực API Key của SePay nếu hệ thống đã cấu hình SEPAY_API_KEY
+      const sepayApiKey = process.env.SEPAY_API_KEY;
+      const authHeader = req.headers['authorization'];
+      if (sepayApiKey) {
+        const expectedAuth = `Apikey ${sepayApiKey}`;
+        const authBuf = Buffer.from(authHeader || '', 'utf8');
+        const expBuf = Buffer.from(expectedAuth, 'utf8');
+        if (authBuf.length !== expBuf.length || !crypto.timingSafeEqual(authBuf, expBuf)) {
+          return res.status(401).json({ success: false, message: 'SePay API Key không hợp lệ.' });
+        }
+      }
+
+      // 2) Xác thực chữ ký HMAC-SHA256 (payOS / đối tác khác) nếu header x-signature được gửi kèm
       const webhookSecret = process.env.PAYMENT_WEBHOOK_SECRET || 'htqllh-payment-webhook-secret-2026';
       const signature = req.headers['x-signature'] || req.headers['x-webhook-signature'];
 
-      // Kiểm tra chữ ký bảo mật nếu có cấu hình bí mật webhook
       if (signature && req.rawBody) {
         const computedSignature = crypto
           .createHmac('sha256', webhookSecret)
@@ -179,17 +235,25 @@ export class TuitionController {
         }
       }
 
-      const { orderCode, reference, bankTransactionId, note } = req.body;
-      const targetOrderCode = orderCode || reference;
+      // 3) Phân tích payload theo chuẩn SePay / payOS / nội bộ
+      const parsed = TuitionController.parseWebhookPayload(req.body);
 
-      if (!targetOrderCode) {
-        return res.status(400).json({ success: false, message: 'Webhook thiếu thông tin orderCode.' });
+      // SePay có thể bắn webhook cho cả giao dịch tiền ra (transferType === 'out') -> bỏ qua an toàn
+      if (parsed.transferType === 'out') {
+        return res.json({ success: true, ignored: true, message: 'Bỏ qua giao dịch tiền ra (transferType=out).' });
+      }
+
+      if (!parsed.orderCode) {
+        return res.status(400).json({
+          success: false,
+          message: 'Webhook thiếu hoặc không tìm thấy mã đơn hàng (HP...) trong nội dung chuyển khoản.',
+        });
       }
 
       const result = await TuitionService.processSuccessfulPayment({
-        orderCode: targetOrderCode,
-        bankTransactionId,
-        note: note || 'Thanh toán tự động qua Webhook đối tác',
+        orderCode: parsed.orderCode,
+        bankTransactionId: parsed.bankTransactionId,
+        note: parsed.note,
         approverUser: { username: 'webhook_system', role: 'SYSTEM' }
       });
 

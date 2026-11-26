@@ -196,15 +196,16 @@ app.post('/api/leave-requests', authenticateToken, LeaveRequestController.submit
 app.put('/api/leave-requests/:id/approve', authenticateToken, authorizeRoles('BGH', 'GVCN'), LeaveRequestController.approveLeaveRequest);
 
 // Tuition & VietQR Payment Routes (Phân hệ Đóng học phí trực tuyến SD-04)
-app.get('/api/tuition',                            authenticateToken, TuitionController.getTuitions);
-app.post('/api/tuition/:id/checkout',               authenticateToken, TuitionController.checkout);
-app.post('/api/tuition/payments/claim',             authenticateToken, TuitionController.claimPayment);
-app.get('/api/tuition/payments/pending',           authenticateToken, TuitionController.getPendingPayments);
-app.get('/api/tuition/payments/:orderCode/status',  authenticateToken, TuitionController.getPaymentStatus);
-app.post('/api/tuition/payments/:id/approve',       authenticateToken, TuitionController.approvePayment);
-app.post('/api/tuition/payments/:id/reject',        authenticateToken, TuitionController.rejectPayment);
-app.post('/api/tuition/payments/simulate-success',  authenticateToken, TuitionController.simulateSuccess);
-app.get('/api/tuition/receipt/:paymentId',          authenticateToken, TuitionController.getReceipt);
+// Phân quyền RBAC chặt chẽ: BGH (toàn trường/duyệt), PH (xem & quét QR đóng cho con), HS (chỉ xem/biên lai); chặn GV/GVCN
+app.get('/api/tuition',                            authenticateToken, authorizeRoles('BGH', 'PH', 'HS'), TuitionController.getTuitions);
+app.post('/api/tuition/:id/checkout',               authenticateToken, authorizeRoles('BGH', 'PH'), TuitionController.checkout);
+app.post('/api/tuition/payments/claim',             authenticateToken, authorizeRoles('BGH', 'PH'), TuitionController.claimPayment);
+app.get('/api/tuition/payments/pending',           authenticateToken, authorizeRoles('BGH'), TuitionController.getPendingPayments);
+app.get('/api/tuition/payments/:orderCode/status',  authenticateToken, authorizeRoles('BGH', 'PH', 'HS'), TuitionController.getPaymentStatus);
+app.post('/api/tuition/payments/:id/approve',       authenticateToken, authorizeRoles('BGH'), TuitionController.approvePayment);
+app.post('/api/tuition/payments/:id/reject',        authenticateToken, authorizeRoles('BGH'), TuitionController.rejectPayment);
+app.post('/api/tuition/payments/simulate-success',  authenticateToken, authorizeRoles('BGH', 'PH'), TuitionController.simulateSuccess);
+app.get('/api/tuition/receipt/:paymentId',          authenticateToken, authorizeRoles('BGH', 'PH', 'HS'), TuitionController.getReceipt);
 app.post('/api/tuition/webhook',                    TuitionController.handleWebhook);
 
 // Phân hệ 7 & 8: Danh mục Lớp học & Môn học (Classes & Subjects)

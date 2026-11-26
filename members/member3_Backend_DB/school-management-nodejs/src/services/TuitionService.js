@@ -70,8 +70,9 @@ export class TuitionService {
     // Kiểm tra xem đã có phiên OPEN hoặc PENDING nào còn hạn (TTL 15 phút) chưa
     let activeSession = await PaymentRepository.findActiveSessionByTuitionId(tuitionId);
     
-    // Cấu hình ngân hàng thụ hưởng của Nhà trường từ biến môi trường
-    const bankBin = process.env.VIETQR_BANK_BIN || '970422'; // 970422: MBBank
+    // Cấu hình ngân hàng thụ hưởng của Nhà trường từ biến môi trường (hỗ trợ SePay/VietQR thật)
+    const bankBin = process.env.VIETQR_BANK_BIN || '970422'; // Mặc định 970422: MBBank
+    const bankName = process.env.VIETQR_BANK_NAME || 'MBBank';
     const bankAccountNo = process.env.VIETQR_ACCOUNT_NO || '0388888888';
     const bankAccountName = process.env.VIETQR_ACCOUNT_NAME || 'TRUONG THPT CHUYEN HTQLLH';
 
@@ -92,7 +93,7 @@ export class TuitionService {
         status: activeSession.status,
         expiresAt: activeSession.expires_at || activeSession.expiresAt,
         bankInfo: {
-          bankName: 'MBBank',
+          bankName,
           bin: bankBin,
           accountNo: bankAccountNo,
           accountName: bankAccountName
@@ -139,7 +140,7 @@ export class TuitionService {
       status: 'OPEN',
       expiresAt,
       bankInfo: {
-        bankName: 'MBBank',
+        bankName,
         bin: bankBin,
         accountNo: bankAccountNo,
         accountName: bankAccountName

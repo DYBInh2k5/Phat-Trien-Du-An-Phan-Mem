@@ -184,7 +184,12 @@ Nhằm phục vụ báo cáo đồ án trước Hội đồng chấm thi HSU và
 - **Đã triển khai & kiểm thử ngay trong Tuần 11**:
   1. **PBI-31 (P0 - Bảo mật tuyến đường `server.js`)**: Bổ sung `authenticateToken` cho `GET /api/leave-requests`, `authorizeRoles('BGH', 'GVCN')` cho `PUT /api/leave-requests/:id/approve`, và `authenticateToken, requireBGH` cho `POST /api/classes` và `POST /api/subjects`.
   2. **PBI-32 (P1 - Kiểm tra biên độ điểm số 0.0 - 10.0)**: Bổ sung `GradeBookService.validateScoreRange()` vào `GradeBookService.calculateTBM()` để chặn mọi giá trị điểm âm, điểm > 10.0 hoặc NaN ở tầng Service Backend, kèm 4 unit tests xác minh tại `gradebook.test.js`.
-  3. **PBI-37 (Tích hợp Gmail SMTP / Nodemailer)**: Mở rộng `EmailService.js` hỗ trợ `GMAIL_USER` + `GMAIL_APP_PASSWORD` cho 3 luồng nghiệp vụ: đặt lại mật khẩu (`forgot-password`), tự động gửi biên lai học phí VietQR (`TuitionService.processSuccessfulPayment`), và gửi phiếu báo điểm Thông tư 22 (`POST /api/gradebook/send-report-email`), kèm 4 unit tests tại `email-service.test.js` (87/87 Backend tests PASS, 214/214 QA tests PASS, 13/13 Frontend Vitest PASS).
+  3. **PBI-37 (Tích hợp Gmail SMTP / Nodemailer)**: Mở rộng `EmailService.js` hỗ trợ `GMAIL_USER` + `GMAIL_APP_PASSWORD` cho 3 luồng nghiệp vụ: đặt lại mật khẩu (`forgot-password`), tự động gửi biên lai học phí VietQR (`TuitionService.processSuccessfulPayment`), và gửi phiếu báo điểm Thông tư 22 (`POST /api/gradebook/send-report-email`), kèm 4 unit tests tại `email-service.test.js`.
+  4. **Thanh toán VietQR thật qua SePay / payOS & Siết chặt RBAC Học phí**:
+     - Nâng cấp `TuitionController.js` (`parseWebhookPayload`, `handleWebhook`) hỗ trợ nhận webhook tự động từ **SePay** (`Authorization: Apikey <SEPAY_API_KEY>` + bóc tách mã `HP<orderCode>` từ `content`/`description`, tự động bỏ qua giao dịch tiền ra `transferType === 'out'`) và **payOS** (`data.orderCode` / `data.description` + chữ ký HMAC-SHA256 `x-signature`).
+     - Nâng cấp `TuitionService.js` hỗ trợ biến môi trường ngân hàng thật: `VIETQR_BANK_BIN`, `VIETQR_BANK_NAME`, `VIETQR_ACCOUNT_NO`, `VIETQR_ACCOUNT_NAME`.
+     - Siết chặt phân quyền RBAC trên các route `/api/tuition*` trong `server.js`: `BGH` & `PH` được phép checkout/quét QR; `HS` chỉ được xem học phí và biên lai; `GV` và `GVCN` bị chặn (`403 Forbidden`); chỉ `BGH` được xem danh sách chờ duyệt và duyệt/từ chối giao dịch thủ công.
+     - Bổ sung 3 unit tests SePay/payOS tại `tuition-payment.test.js` (Tổng cộng: **90/90** Backend tests PASS, **214/214** QA tests PASS, **13/13** Frontend Vitest PASS).
 
 
 

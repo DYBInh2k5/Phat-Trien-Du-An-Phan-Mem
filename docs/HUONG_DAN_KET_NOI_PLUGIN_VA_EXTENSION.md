@@ -132,6 +132,19 @@ MAIL_FROM="HTQLLH - THPT HSU <your_school_email@gmail.com>"
 ```
 *(Lưu ý: Dùng **App Password** 16 ký tự trong Google Account → Security → 2-Step Verification → App passwords, không dùng mật khẩu đăng nhập Gmail thông thường).*
 
+### 4.2. Cấu Hình Thanh Toán VietQR Ngân Hàng Thật Qua SePay / payOS (`TuitionController.js`)
+Hệ thống hỗ trợ quét mã VietQR bằng app ngân hàng thật (MBBank, VCB, TPBank, ACB, Techcombank...) và tự động gạch nợ `PAID` qua Webhook tại `POST https://htqllh-backend.vercel.app/api/tuition/webhook`:
+1. Đăng ký tài khoản miễn phí trên [sepay.vn](https://sepay.vn) (hoặc [payos.vn](https://payos.vn)), liên kết tài khoản ngân hàng nhận tiền.
+2. Cấu hình Webhook URL trên SePay trỏ về `https://htqllh-backend.vercel.app/api/tuition/webhook`, chọn kiểu xác thực `API Key`.
+3. Thêm các biến môi trường sau vào Vercel (`htqllh-backend`) hoặc `.env`:
+```env
+VIETQR_BANK_BIN=970422
+VIETQR_BANK_NAME=MBBank
+VIETQR_ACCOUNT_NO=SO_TAI_KHOAN_CUA_BAN
+VIETQR_ACCOUNT_NAME=TEN_CHU_TAI_KHOAN_KHONG_DAU
+SEPAY_API_KEY=api_key_tao_tu_sepay
+```
+
 ---
 
 ## 5. TẠI SAO CÁC PLUGIN OAUTH YÊU CẦU ĐĂNG NHẬP LẠI VÀ CÁCH XỬ LÝ

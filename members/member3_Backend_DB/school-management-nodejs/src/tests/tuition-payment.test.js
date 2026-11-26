@@ -20,6 +20,7 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert';
 import { crc16Ccitt, generateVietQrPayload, formatTlv } from '../utils/vietQrHelper.js';
 import { TuitionService } from '../services/TuitionService.js';
+import { TuitionController } from '../controllers/TuitionController.js';
 import { TuitionRepository } from '../repositories/TuitionRepository.js';
 import { PaymentRepository } from '../repositories/PaymentRepository.js';
 
@@ -183,5 +184,50 @@ describe('C. Process Successful Payment & Idempotency Tests', () => {
 
     assert.strictEqual(result.alreadyProcessed, true);
     assert.strictEqual(result.receiptNo, 'BL-20261114-1234');
+  });
+});
+
+describe('D. SePay & payOS Webhook Payload Parsing Tests', () => {
+  test('Tách chính xác mã đơn hàng HP... từ nội dung chuyển khoản SePay (transferType=in)', () => {
+    const parsed = TuitionController.parseWebhookPayload({
+      id: 92704,
+      gateway: 'MBBank',
+      transferType: 'in',
+      transferAmount: 2000,
+      content: 'NGUYEN VAN A chuyen tien HP1795578967900 hoc phi HK1',
+      referenceCode: 'MBVCB.3278907687',
+    });
+
+    assert.strictEqual(parsed.orderCode, 'HP1795578967900');
+    assert.strictEqual(parsed.bankTransactionId, 'MBVCB.3278907687');
+    assert.strictEqual(parsed.transferType, 'in');
+  });
+
+  test('Nhận diện đúng giao dịch tiền ra SePay (transferType=out) để bỏ qua', () => {
+    const parsed = TuitionController.parseWebhookPayload({
+      id: 92705,
+      gateway: 'MBBank',
+      transferType: 'out',
+      transferAmount: 50000,
+      content: 'Rut tien ATM',
+    });
+
+    assert.strictEqual(parsed.transferType, 'out');
+  });
+
+  test('Tách chính xác mã đơn hàng HP... từ payload chuẩn payOS', () => {
+    const parsed = TuitionController.parseWebhookPayload({
+      code: '00',
+      success: true,
+      data: {
+        orderCode: 123456,
+        reference: 'TF230204212323',
+        description: 'Thanh toan HP1795578967999',
+        amount: 2000,
+      },
+    });
+
+    assert.strictEqual(parsed.orderCode, 'HP1795578967999');
+    assert.strictEqual(parsed.bankTransactionId, 'TF230204212323');
   });
 });
