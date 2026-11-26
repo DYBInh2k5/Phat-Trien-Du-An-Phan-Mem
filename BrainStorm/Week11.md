@@ -189,7 +189,8 @@ Nhằm phục vụ báo cáo đồ án trước Hội đồng chấm thi HSU và
      - Nâng cấp `TuitionController.js` (`parseWebhookPayload`, `handleWebhook`) hỗ trợ nhận webhook tự động từ **SePay** (`Authorization: Apikey <SEPAY_API_KEY>` + bóc tách mã `HP<orderCode>` từ `content`/`description`, tự động bỏ qua giao dịch tiền ra `transferType === 'out'`) và **payOS** (`data.orderCode` / `data.description` + chữ ký HMAC-SHA256 `x-signature`).
      - Nâng cấp `TuitionService.js` hỗ trợ biến môi trường ngân hàng thật: `VIETQR_BANK_BIN`, `VIETQR_BANK_NAME`, `VIETQR_ACCOUNT_NO`, `VIETQR_ACCOUNT_NAME`.
      - Siết chặt phân quyền RBAC trên các route `/api/tuition*` trong `server.js`: `BGH` & `PH` được phép checkout/quét QR; `HS` chỉ được xem học phí và biên lai; `GV` và `GVCN` bị chặn (`403 Forbidden`); chỉ `BGH` được xem danh sách chờ duyệt và duyệt/từ chối giao dịch thủ công.
-     - Bổ sung 3 unit tests SePay/payOS tại `tuition-payment.test.js` (Tổng cộng: **90/90** Backend tests PASS, **214/214** QA tests PASS, **13/13** Frontend Vitest PASS).
+     - Bổ sung chế độ **QR Demo Sandbox (Quét bằng Camera điện thoại)**: `TuitionService.buildSandboxScanData()` sinh link ký HMAC-SHA256 `/api/tuition/sandbox-scan?orderCode=...&sig=...`; khi quét bằng Camera thường/Zalo QR, `TuitionController.handleSandboxScan` tự động gạch nợ `PAID`, gửi biên lai Gmail và hiển thị trang xác nhận trên điện thoại; `VietQrPaymentModal.jsx` hỗ trợ chuyển đổi 1-click giữa **QR Demo (Quét Camera)** và **VietQR Ngân Hàng**.
+     - Bổ sung 5 unit tests SePay/payOS & Sandbox QR tại `tuition-payment.test.js` (Tổng cộng: **92/92** Backend tests PASS, **214/214** QA tests PASS, **13/13** Frontend Vitest PASS).
 
 
 

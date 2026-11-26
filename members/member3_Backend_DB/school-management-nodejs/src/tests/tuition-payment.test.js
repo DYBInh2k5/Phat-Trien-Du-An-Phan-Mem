@@ -231,3 +231,26 @@ describe('D. SePay & payOS Webhook Payload Parsing Tests', () => {
     assert.strictEqual(parsed.bankTransactionId, 'TF230204212323');
   });
 });
+
+describe('E. QR Demo Sandbox (Camera Scan) Signature Tests', () => {
+  test('Sinh URL QR Demo Sandbox có chữ ký HMAC hợp lệ và xác thực thành công', () => {
+    const orderCode = 'HP1795580000123';
+    const { sandboxScanUrl, sandboxQrImageUrl } = TuitionService.buildSandboxScanData(orderCode);
+
+    const parsedUrl = new URL(sandboxScanUrl);
+    const sig = parsedUrl.searchParams.get('sig');
+
+    assert.ok(sandboxScanUrl.includes(`/api/tuition/sandbox-scan?orderCode=${orderCode}`));
+    assert.ok(sandboxQrImageUrl.includes('api.qrserver.com/v1/create-qr-code'));
+    assert.strictEqual(TuitionController.verifySandboxSignature(orderCode, sig), true);
+  });
+
+  test('Từ chối chữ ký Sandbox nếu orderCode bị sửa hoặc sig sai', () => {
+    const { sandboxScanUrl } = TuitionService.buildSandboxScanData('HP1795580000123');
+    const sig = new URL(sandboxScanUrl).searchParams.get('sig');
+
+    assert.strictEqual(TuitionController.verifySandboxSignature('HP9999999999999', sig), false);
+    assert.strictEqual(TuitionController.verifySandboxSignature('HP1795580000123', 'tampered_sig_0000000000000000000'), false);
+    assert.strictEqual(TuitionController.verifySandboxSignature('', sig), false);
+  });
+});

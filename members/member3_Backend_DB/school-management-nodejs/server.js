@@ -207,6 +207,7 @@ app.post('/api/tuition/payments/:id/reject',        authenticateToken, authorize
 app.post('/api/tuition/payments/simulate-success',  authenticateToken, authorizeRoles('BGH', 'PH'), TuitionController.simulateSuccess);
 app.get('/api/tuition/receipt/:paymentId',          authenticateToken, authorizeRoles('BGH', 'PH', 'HS'), TuitionController.getReceipt);
 app.post('/api/tuition/webhook',                    TuitionController.handleWebhook);
+app.get('/api/tuition/sandbox-scan',                TuitionController.handleSandboxScan);
 
 // Phân hệ 7 & 8: Danh mục Lớp học & Môn học (Classes & Subjects)
 // PBI-31: Chỉ Ban Giám Hiệu (BGH) đã xác thực mới được phép tạo mới lớp học và môn học

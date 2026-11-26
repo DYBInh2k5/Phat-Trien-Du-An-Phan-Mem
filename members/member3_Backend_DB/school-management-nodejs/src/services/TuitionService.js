@@ -17,6 +17,7 @@
  * ==============================================================================
  */
 
+import crypto from 'crypto';
 import { TuitionRepository } from '../repositories/TuitionRepository.js';
 import { PaymentRepository } from '../repositories/PaymentRepository.js';
 import { UserRepository } from '../repositories/UserRepository.js';
@@ -26,6 +27,27 @@ import { UnitOfWork } from '../utils/UnitOfWork.js';
 import { AuditLogger } from '../utils/AuditLogger.js';
 
 export class TuitionService {
+  /**
+   * Tạo liên kết và ảnh QR cho chế độ Demo Sandbox (quét bằng Camera điện thoại bất kỳ).
+   * Đường dẫn được ký bằng HMAC-SHA256 để chống giả mạo mã đơn hàng.
+   * @param {string} orderCode - Mã đơn hàng học phí (ví dụ: HP176414...)
+   * @returns {{ sandboxScanUrl: string, sandboxQrImageUrl: string }}
+   */
+  static buildSandboxScanData(orderCode) {
+    const webhookSecret = process.env.PAYMENT_WEBHOOK_SECRET || 'htqllh-payment-webhook-secret-2026';
+    const sig = crypto
+      .createHmac('sha256', webhookSecret)
+      .update(String(orderCode))
+      .digest('hex')
+      .slice(0, 32);
+
+    const backendBaseUrl = (process.env.BACKEND_PUBLIC_URL || 'https://htqllh-backend.vercel.app').replace(/\/+$/, '');
+    const sandboxScanUrl = `${backendBaseUrl}/api/tuition/sandbox-scan?orderCode=${encodeURIComponent(orderCode)}&sig=${sig}`;
+    const sandboxQrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(sandboxScanUrl)}`;
+
+    return { sandboxScanUrl, sandboxQrImageUrl };
+  }
+
   /**
    * Lấy danh sách học phí theo mã học sinh hoặc tên lớp
    * @param {Object} filter - { className, studentCode }
@@ -78,16 +100,18 @@ export class TuitionService {
 
     if (activeSession) {
       // Tái sử dụng phiên thanh toán đang mở để chống tạo đơn dư thừa
+      const currentOrderCode = activeSession.order_code || activeSession.orderCode;
       const qrData = buildVietQrData({
         bin: bankBin,
         accountNo: bankAccountNo,
         accountName: bankAccountName,
         amount: parseFloat(activeSession.amount),
-        orderCode: activeSession.order_code || activeSession.orderCode
+        orderCode: currentOrderCode
       });
+      const sandboxData = TuitionService.buildSandboxScanData(currentOrderCode);
 
       return {
-        orderCode: activeSession.order_code || activeSession.orderCode,
+        orderCode: currentOrderCode,
         paymentId: activeSession.id,
         amount: parseFloat(activeSession.amount),
         status: activeSession.status,
@@ -98,7 +122,8 @@ export class TuitionService {
           accountNo: bankAccountNo,
           accountName: bankAccountName
         },
-        ...qrData
+        ...qrData,
+        ...sandboxData
       };
     }
 
@@ -127,6 +152,7 @@ export class TuitionService {
       amount: remainingAmount,
       orderCode
     });
+    const sandboxData = TuitionService.buildSandboxScanData(orderCode);
 
     AuditLogger.log(currentUser || { username: 'system', role: 'PH' }, 'CHECKOUT_TUITION', 'payments', orderCode, {
       tuitionId: tuition.id,
@@ -145,7 +171,8 @@ export class TuitionService {
         accountNo: bankAccountNo,
         accountName: bankAccountName
       },
-      ...qrData
+      ...qrData,
+      ...sandboxData
     };
   }
 

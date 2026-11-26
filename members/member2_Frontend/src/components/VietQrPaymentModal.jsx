@@ -29,9 +29,13 @@ export default function VietQrPaymentModal({ isOpen, onClose, checkoutData, onSu
     expiresAt,
     qrImageUrl,
     qrDataUrl,
+    sandboxScanUrl,
+    sandboxQrImageUrl,
     bankInfo = {}
   } = checkoutData;
 
+  // Chế độ hiển thị QR: 'sandbox' (quét bằng Camera điện thoại tự gạch nợ, 0đ) hoặc 'vietqr' (App Ngân hàng thật / SePay)
+  const [qrMode, setQrMode] = useState(sandboxQrImageUrl ? 'sandbox' : 'vietqr');
   const [timeLeft, setTimeLeft] = useState(15 * 60);
   const [isClaimed, setIsClaimed] = useState(checkoutData.status === 'PENDING');
   const [isPaid, setIsPaid] = useState(checkoutData.status === 'PAID');
@@ -194,12 +198,42 @@ export default function VietQrPaymentModal({ isOpen, onClose, checkoutData, onSu
                 </span>
               </div>
 
+              {/* Bộ chuyển đổi chế độ QR: QR Demo Sandbox (Camera) ↔ VietQR Ngân Hàng (SePay) */}
+              {sandboxQrImageUrl && (
+                <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setQrMode('sandbox')}
+                    className={`py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      qrMode === 'sandbox'
+                        ? 'bg-white text-indigo-700 shadow-xs border border-indigo-100'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-base">photo_camera</span>
+                    QR Demo (Quét Camera)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setQrMode('vietqr')}
+                    className={`py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      qrMode === 'vietqr'
+                        ? 'bg-white text-blue-700 shadow-xs border border-blue-100'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-base">account_balance</span>
+                    VietQR Ngân Hàng
+                  </button>
+                </div>
+              )}
+
               {/* Khung hiển thị QR */}
               <div className="flex flex-col items-center bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
                 <div className="relative bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
                   <img
-                    src={qrDataUrl || qrImageUrl}
-                    alt="VietQR Học Phí"
+                    src={qrMode === 'sandbox' && sandboxQrImageUrl ? sandboxQrImageUrl : (qrDataUrl || qrImageUrl)}
+                    alt={qrMode === 'sandbox' ? 'QR Demo Sandbox' : 'VietQR Học Phí'}
                     className="w-56 h-56 object-contain"
                   />
                   {timeLeft <= 0 && (
@@ -211,16 +245,37 @@ export default function VietQrPaymentModal({ isOpen, onClose, checkoutData, onSu
                   )}
                 </div>
 
-                <div className="text-center">
-                  <p className="text-xs text-slate-500">Mở app Smart Banking hoặc MoMo / VNPay để quét mã</p>
-                  <a
-                    href={qrDataUrl || qrImageUrl}
-                    download={`VietQR_HocPhi_${orderCode}.png`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-800 mt-1"
-                  >
-                    <span className="material-symbols-outlined text-base">download</span>
-                    Tải ảnh mã QR về máy
-                  </a>
+                <div className="text-center space-y-1">
+                  {qrMode === 'sandbox' && sandboxQrImageUrl ? (
+                    <>
+                      <p className="text-xs font-semibold text-indigo-700">
+                        Mở Camera điện thoại hoặc Zalo QR để quét — Tự động PAID sau 1–2 giây (0đ)
+                      </p>
+                      {sandboxScanUrl && (
+                        <a
+                          href={sandboxScanUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800"
+                        >
+                          <span className="material-symbols-outlined text-base">open_in_new</span>
+                          Hoặc bấm mở trang xác nhận trực tiếp
+                        </a>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-xs text-slate-500">Mở app Smart Banking hoặc MoMo / VNPay để quét mã</p>
+                      <a
+                        href={qrDataUrl || qrImageUrl}
+                        download={`VietQR_HocPhi_${orderCode}.png`}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-800 mt-1"
+                      >
+                        <span className="material-symbols-outlined text-base">download</span>
+                        Tải ảnh mã QR về máy
+                      </a>
+                    </>
+                  )}
                 </div>
               </div>
 

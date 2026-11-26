@@ -409,4 +409,91 @@ export class TuitionController {
       return res.status(400).json({ success: false, message: err.message });
     }
   }
+
+  /**
+   * Kiểm tra chữ ký HMAC-SHA256 cho liên kết QR Demo Sandbox.
+   * @param {string} orderCode - Mã đơn hàng học phí
+   * @param {string} sig - Chữ ký 32 ký tự hex từ query string
+   * @returns {boolean} True nếu chữ ký hợp lệ
+   */
+  static verifySandboxSignature(orderCode, sig) {
+    if (!orderCode || !sig) return false;
+    const webhookSecret = process.env.PAYMENT_WEBHOOK_SECRET || 'htqllh-payment-webhook-secret-2026';
+    const expected = crypto
+      .createHmac('sha256', webhookSecret)
+      .update(String(orderCode))
+      .digest('hex')
+      .slice(0, 32);
+
+    const sigBuf = Buffer.from(String(sig), 'utf8');
+    const expBuf = Buffer.from(expected, 'utf8');
+    if (sigBuf.length !== expBuf.length) return false;
+    return crypto.timingSafeEqual(sigBuf, expBuf);
+  }
+
+  /**
+   * Xử lý khi người dùng dùng Camera điện thoại quét mã QR Demo Sandbox.
+   * Tự động đối soát thành công (PAID), sinh biên lai, gửi Gmail và trả trang xác nhận HTML trên điện thoại.
+   * @route GET /api/tuition/sandbox-scan
+   */
+  static async handleSandboxScan(req, res) {
+    const escapeHtml = (val) => String(val ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+
+    const { orderCode, sig } = req.query;
+
+    if (!TuitionController.verifySandboxSignature(orderCode, sig)) {
+      return res.status(401).type('text/html; charset=utf-8').send(`<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR Không Hợp Lệ</title></head>
+<body style="font-family:system-ui,-apple-system,sans-serif;background:#fef2f2;color:#991b1b;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:16px">
+<div style="background:#fff;padding:28px;border-radius:16px;max-width:400px;width:100%;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.08)">
+<h2 style="margin:0 0 8px">Liên kết QR không hợp lệ</h2>
+<p style="margin:0;font-size:14px;color:#4b5563">Chữ ký bảo mật không khớp hoặc mã QR đã bị chỉnh sửa.</p>
+</div></body></html>`);
+    }
+
+    try {
+      const result = await TuitionService.processSuccessfulPayment({
+        orderCode: String(orderCode),
+        bankTransactionId: `SANDBOX_QR_${Date.now()}`,
+        note: 'Thanh toán qua QR Demo Sandbox (Quét Camera điện thoại)',
+        approverUser: { username: 'sandbox_qr_scanner', role: 'SYSTEM' }
+      });
+
+      const receiptNo = escapeHtml(result.receiptNo || result.payment?.receipt_no || 'Đang cập nhật');
+      const safeOrder = escapeHtml(orderCode);
+
+      return res.status(200).type('text/html; charset=utf-8').send(`<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thanh Toán Thành Công - HTQLLH</title></head>
+<body style="font-family:system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,#eff6ff,#ecfdf5);color:#1e293b;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:16px">
+<div style="background:#fff;padding:32px 24px;border-radius:20px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 40px rgba(15,23,42,.1);border:1px solid #e2e8f0">
+  <div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;font-weight:bold">&#10003;</div>
+  <span style="display:inline-block;background:#dbeafe;color:#1d4ed8;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em">QR Demo Sandbox</span>
+  <h1 style="margin:12px 0 8px;font-size:22px;color:#0f172a">Thanh Toán Thành Công!</h1>
+  <p style="margin:0 0 20px;font-size:14px;color:#475569;line-height:1.5">
+    Hệ thống đã tự động gạch nợ <strong>PAID</strong> và gửi biên lai điện tử về Gmail phụ huynh. Màn hình máy tính sẽ tự cập nhật sau 1–2 giây.
+  </p>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px;text-align:left;font-size:13px;line-height:1.8">
+    <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Mã đơn hàng:</span><strong style="font-family:monospace">${safeOrder}</strong></div>
+    <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Số biên lai:</span><strong style="font-family:monospace;color:#1d4ed8">${receiptNo}</strong></div>
+    <div style="display:flex;justify-content:space-between"><span style="color:#64748b">Trạng thái:</span><strong style="color:#16a34a">ĐÃ THANH TOÁN (PAID)</strong></div>
+  </div>
+  <p style="margin:20px 0 0;font-size:12px;color:#94a3b8">Bạn có thể đóng trang này trên điện thoại.</p>
+</div></body></html>`);
+    } catch (err) {
+      return res.status(400).type('text/html; charset=utf-8').send(`<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Không Thể Xác Nhận</title></head>
+<body style="font-family:system-ui,-apple-system,sans-serif;background:#fffbeb;color:#92400e;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:16px">
+<div style="background:#fff;padding:28px;border-radius:16px;max-width:400px;width:100%;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.08)">
+<h2 style="margin:0 0 8px">Không thể xử lý giao dịch</h2>
+<p style="margin:0;font-size:14px;color:#4b5563">${escapeHtml(err.message)}</p>
+</div></body></html>`);
+    }
+  }
 }
