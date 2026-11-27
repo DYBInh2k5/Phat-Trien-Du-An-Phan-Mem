@@ -15,7 +15,7 @@ CƠ CHẾ ĐỒNG BỘ: DUAL-REMOTE PUSH (1 LỆNH PUSH CẬP NHẬT CẢ GITHUB
 BẢNG JIRA KANBAN BOARD: https://reputyze-team-vx3aseym.atlassian.net/jira/software/projects/KAN/boards/2
 KHÔNG GIAN DỰ ÁN CLICKUP: https://app.clickup.com/1100320000025585/v/s/1100320000109903
 BẢN SLIDE TRỰC TUYẾN CANVA: https://www.canva.com/d/75iOEEpReWqgOuN
-THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 25/11/2026 (TUẦN 11 / 15 TUẦN HỌC PHẦN - KIỂM TOÁN TOÀN DIỆN 10 HẠN CHẾ & LẬP LỘ TRÌNH PBI-31 ĐẾN PBI-36, VÁ BẢO MẬT P0 ROUTE `server.js` & VALIDATION BIÊN ĐIỂM 0-10 TẦNG SERVICE, ĐỒNG BỘ CLICKUP/JIRA CSV, TOÀN BỘ TEST SUITES PASS 100%)
+THỜI ĐIỂM TIẾN ĐỘ HIỆN TẠI: 27/11/2026 (TUẦN 12 / 15 TUẦN HỌC PHẦN - KIỂM TOÁN LIVE API PHÁT HIỆN 7 LỖ HỔNG BOLA/RBAC, TÍCH HỢP GMAIL SMTP PBI-37, VIETQR SANDBOX PBI-38, TẠO PBI-40→44 TRÊN JIRA+CLICKUP+TRELLO, 319/319 UNIT TESTS PASS 100%)
 ================================================================================
 ```
 
@@ -232,11 +232,11 @@ docker compose up -d --build
 
 | STT | Vai Trò (Role) | Tên Đăng Nhập (Username) | Mật Khẩu (Password) | Người Đại Diện Mẫu | Ghi Chú Quyền Hạn |
 | :---: | :--- | :--- | :--- | :--- | :--- |
-| 1 | **Ban Giám Hiệu** (`ROLE_ADMIN`) | `admin` | `admin123` | Thầy Hiệu Trưởng | Quản trị học sinh, phân công lớp, duyệt khóa sổ, xem thống kê toàn trường |
-| 2 | **Giáo Viên Chủ Nhiệm** (`ROLE_HOMEROOM_TEACHER`) | `gvcn01` | `gvcn123` | Cô Trần Thị Mai | Chủ nhiệm lớp 10A1, điểm danh đầu giờ, duyệt đơn nghỉ phép, sổ liên lạc |
-| 3 | **Giáo Viên Bộ Môn** (`ROLE_SUBJECT_TEACHER`) | `gv01` | `gv123` | Thầy Nguyễn Văn An | Phụ trách môn Toán, nhập điểm thành phần TT22, điểm danh tiết dạy |
-| 4 | **Học Sinh** (`ROLE_STUDENT`) | `hs001` | `hs123` | Nguyễn Thị Ánh (10A1) | Tra cứu bảng điểm cá nhân, thời khóa biểu tuần, lịch thi học kỳ |
-| 5 | **Phụ Huynh** (`ROLE_PARENT`) | `ph001` | `ph123` | Phụ huynh em Ánh | Sổ liên lạc điện tử, theo dõi chuyên cần, nộp đơn nghỉ phép, tra cứu học phí |
+| 1 | **Ban Giám Hiệu** (`BGH`) | `bgh.admin` | `123456` | Thầy Hiệu Trưởng | Quản trị học sinh, phân công lớp, duyệt khóa sổ, xem thống kê toàn trường |
+| 2 | **Giáo Viên Chủ Nhiệm** (`GVCN`) | `gvcn.10a1` | `123456` | Cô Trần Thị Mai | Chủ nhiệm lớp 10A1, điểm danh đầu giờ, duyệt đơn nghỉ phép, sổ liên lạc |
+| 3 | **Giáo Viên Bộ Môn** (`GV`) | `gv.an` | `123456` | Thầy Nguyễn Văn An | Phụ trách môn Toán, nhập điểm thành phần TT22, điểm danh tiết dạy |
+| 4 | **Học Sinh** (`HS`) | `hs.anh` | `123456` | Nguyễn Thị Ánh (10A1) | Tra cứu bảng điểm cá nhân, thời khóa biểu tuần, lịch thi học kỳ |
+| 5 | **Phụ Huynh** (`PH`) | `ph.hs0001` | `123456` | Phụ huynh em Ánh | Sổ liên lạc điện tử, theo dõi chuyên cần, nộp đơn nghỉ phép, tra cứu học phí |
 
 > *Gợi ý: Người dùng có thể nhấn nút **"1-Click Demo Login"** ngay trên giao diện đăng nhập để tự động điền thông tin và đăng nhập tức thời vào vai trò mong muốn.*
 
