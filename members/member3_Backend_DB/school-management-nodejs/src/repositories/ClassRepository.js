@@ -1,27 +1,52 @@
 ﻿import { query, querySafe, withTransaction } from '../config/db.js';
 
+/**
+ * Dữ liệu lớp học dự phòng trong bộ nhớ (In-Memory Fallback).
+ * Dùng khi PostgreSQL chưa kết nối — đảm bảo StudentListPage và các trang
+ * lọc theo lớp vẫn hoạt động bình thường ở môi trường dev local.
+ */
+const memClasses = [
+  { id: 1, class_name: '10A1', className: '10A1', grade_level: 10, gvcn_name: null, homeroom_teacher_id: null },
+  { id: 2, class_name: '10A2', className: '10A2', grade_level: 10, gvcn_name: null, homeroom_teacher_id: null },
+  { id: 3, class_name: '10A3', className: '10A3', grade_level: 10, gvcn_name: null, homeroom_teacher_id: null },
+  { id: 4, class_name: '11A1', className: '11A1', grade_level: 11, gvcn_name: null, homeroom_teacher_id: null },
+  { id: 5, class_name: '11A2', className: '11A2', grade_level: 11, gvcn_name: null, homeroom_teacher_id: null },
+  { id: 6, class_name: '11B1', className: '11B1', grade_level: 11, gvcn_name: null, homeroom_teacher_id: null },
+  { id: 7, class_name: '12A1', className: '12A1', grade_level: 12, gvcn_name: null, homeroom_teacher_id: null },
+  { id: 8, class_name: '12A2', className: '12A2', grade_level: 12, gvcn_name: null, homeroom_teacher_id: null },
+  { id: 9, class_name: '12B1', className: '12B1', grade_level: 12, gvcn_name: null, homeroom_teacher_id: null },
+];
+
 export class ClassRepository {
+  /**
+   * Lấy toàn bộ danh sách lớp học, sắp xếp theo tên lớp.
+   * Fallback sang memClasses khi PostgreSQL chưa sẵn sàng.
+   * @returns {Promise<Array>}
+   */
   static async findAll() {
-    const res = await query('SELECT * FROM school_classes ORDER BY class_name ASC');
-    return res.rows;
+    const res = await querySafe('SELECT * FROM school_classes ORDER BY class_name ASC');
+    if (res && res.rows && res.rows.length > 0) return res.rows;
+    return memClasses;
   }
 
   /** Tìm lớp theo tên GVCN — dùng cho phân quyền dữ liệu GVCN. */
   static async findByGvcnName(gvcnName) {
-    const res = await query(
+    const res = await querySafe(
       'SELECT * FROM school_classes WHERE gvcn_name = $1 LIMIT 1',
       [gvcnName]
     );
-    return res?.rows[0] ?? null;
+    if (res && res.rows) return res.rows[0] ?? null;
+    return memClasses.find(c => c.gvcn_name === gvcnName) ?? null;
   }
 
   /** Tìm lớp theo homeroom_teacher_id FK — dùng cho phân quyền GVCN an toàn. */
   static async findByHomeroomTeacherId(userId) {
-    const res = await query(
+    const res = await querySafe(
       'SELECT * FROM school_classes WHERE homeroom_teacher_id = $1 LIMIT 1',
       [userId]
     );
-    return res?.rows[0] ?? null;
+    if (res && res.rows) return res.rows[0] ?? null;
+    return memClasses.find(c => c.homeroom_teacher_id === userId) ?? null;
   }
 
   static async create(sc) {
