@@ -89,16 +89,23 @@ CREATE TABLE IF NOT EXISTS grade_books (
 );
 
 -- 7. Bảng Điểm Danh Chuyên Cần (attendances)
+-- Nâng cấp UAT-06: hỗ trợ điểm danh 2 cấp (GVCN đầu giờ period=0 & GVBM theo tiết period=1..10)
 CREATE TABLE IF NOT EXISTS attendances (
-  id SERIAL PRIMARY KEY,
-  student_id INT REFERENCES students(id) ON DELETE CASCADE,
-  student_code VARCHAR(30) NOT NULL,
+  id           SERIAL PRIMARY KEY,
+  student_id   INT REFERENCES students(id) ON DELETE CASCADE,
+  student_code VARCHAR(30)  NOT NULL,
   student_name VARCHAR(100),
-  class_name VARCHAR(30),
-  att_date VARCHAR(20) NOT NULL,
-  status VARCHAR(30) NOT NULL,
-  note TEXT,
-  CONSTRAINT uq_attendance_student_date UNIQUE (student_code, class_name, att_date)
+  class_name   VARCHAR(30),
+  att_date     VARCHAR(20)  NOT NULL,
+  -- period: 0 = điểm danh đầu giờ GVCN, 1..10 = tiết học GVBM
+  period       INT          NOT NULL DEFAULT 0,
+  subject_name VARCHAR(100) DEFAULT NULL,  -- tên môn học (NULL nếu period=0)
+  recorded_by  VARCHAR(100) DEFAULT NULL,  -- username người điểm danh
+  late_minutes INT          DEFAULT 0,     -- số phút đi trễ (chỉ dùng khi status=LATE)
+  status       VARCHAR(30)  NOT NULL,
+  note         TEXT,
+  -- UNIQUE theo (student_code, class_name, att_date, period): GVCN và GVBM không ghi đè nhau
+  CONSTRAINT uq_attendance_student_date_period UNIQUE (student_code, class_name, att_date, period)
 );
 
 -- 8. Bảng Đơn Xin Nghỉ Học (leave_requests)

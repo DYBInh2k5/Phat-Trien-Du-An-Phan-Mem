@@ -69,12 +69,13 @@ export const fetchGradeBook = async (studentCode, className, subjectName) => {
   return null;
 };
 
-export const fetchAttendance = async (className, attDate) => {
+export const fetchAttendance = async (className, attDate, period) => {
   try {
-    let query = [];
-    if (className) query.push(`className=${encodeURIComponent(className)}`);
-    if (attDate) query.push(`attDate=${encodeURIComponent(attDate)}`);
-    const qStr = query.length > 0 ? `?${query.join('&')}` : '';
+    const qParts = [];
+    if (className) qParts.push(`className=${encodeURIComponent(className)}`);
+    if (attDate)   qParts.push(`attDate=${encodeURIComponent(attDate)}`);
+    if (period != null && period !== '') qParts.push(`period=${encodeURIComponent(period)}`);
+    const qStr = qParts.length > 0 ? `?${qParts.join('&')}` : '';
     const data = await apiClient(`/attendance${qStr}`);
     if (Array.isArray(data) && data.length > 0) return data;
   } catch {
