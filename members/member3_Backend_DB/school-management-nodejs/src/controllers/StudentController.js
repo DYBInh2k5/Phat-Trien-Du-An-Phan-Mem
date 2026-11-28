@@ -125,6 +125,48 @@ export class StudentController {
   }
 
   /**
+   * API GET /api/students?page=1&limit=20&search=&className=&status=
+   * Lấy danh sách học sinh có phân trang server-side.
+   * Tương thích ngược: không truyền page/limit → trả toàn bộ (hành vi cũ).
+   *
+   * Response envelope khi có phân trang: { data, total, page, totalPages }
+   * Response khi không có phân trang (tương thích ngược): Array[]
+   *
+   * @async
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   */
+  static async getStudentsPaginated(req, res) {
+    try {
+      const { page, limit, search = '', className, status = '' } = req.query;
+
+      // Nếu không truyền page/limit → fallback sang hành vi cũ (trả mảng thuần)
+      if (!page && !limit) {
+        return StudentController.getStudents(req, res);
+      }
+
+      const pageNum  = Math.max(1, parseInt(page, 10)  || 1);
+      const limitNum = Math.min(100, Math.max(1, parseInt(limit, 10) || 20)); // tối đa 100/trang
+
+      const result = await StudentService.getAllStudentsPaginated({
+        page: pageNum,
+        limit: limitNum,
+        search: search.trim(),
+        className: className || '',
+        status,
+        restrictClassName: req.gvcnClassName ?? null,
+      });
+
+      return res.json({ success: true, ...result });
+    } catch (err) {
+      if (err.code === 'GVCN_NOT_ASSIGNED') {
+        return res.status(403).json({ success: false, message: err.message, code: err.code });
+      }
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  }
+
+  /**
    * API GET /api/students
    * Lấy danh sách học sinh (hỗ trợ lọc theo query param ?className=10A1)
    * @async

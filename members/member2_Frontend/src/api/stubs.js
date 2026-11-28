@@ -19,6 +19,30 @@ const createStub = (name, endpoint) => async (payload) => {
 
 // ── GET Data Fetchers from PostgreSQL ──────────────────────────────────────────
 
+/**
+ * Lấy danh sách học sinh có phân trang server-side.
+ * Truyền page/limit/search/className/status để kích hoạt phân trang.
+ * Nếu server cũ không hỗ trợ envelope, tự wrap về dạng chuẩn.
+ *
+ * @param {{ page?, limit?, search?, className?, status? }} opts
+ * @returns {Promise<{ data: Array, total: number, page: number, totalPages: number }>}
+ */
+export const fetchStudentsPaginated = async ({ page = 1, limit = 20, search = '', className = '', status = '' } = {}) => {
+  const params = new URLSearchParams({ page, limit });
+  if (search)    params.set('search', search);
+  if (className) params.set('className', className);
+  if (status)    params.set('status', status);
+  const data = await apiClient(`/students?${params.toString()}`);
+  // Hỗ trợ cả envelope mới { success, data, total, page, totalPages }
+  // lẫn mảng thuần (tương thích ngược khi server chưa cập nhật)
+  if (data && typeof data === 'object' && !Array.isArray(data) && Array.isArray(data.data)) {
+    return { data: data.data, total: data.total, page: data.page, totalPages: data.totalPages };
+  }
+  // Fallback: server trả mảng thuần
+  const arr = Array.isArray(data) ? data : [];
+  return { data: arr, total: arr.length, page: 1, totalPages: 1 };
+};
+
 export const fetchStudents = async (className) => {
   try {
     const url = className ? `/students?className=${encodeURIComponent(className)}` : '/students';

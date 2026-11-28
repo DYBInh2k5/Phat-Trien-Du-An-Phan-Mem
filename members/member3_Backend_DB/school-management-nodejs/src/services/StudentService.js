@@ -90,6 +90,35 @@ export class StudentService {
   }
 
   /**
+   * Lấy danh sách học sinh có phân trang server-side.
+   * Tương thích ngược: caller cũ không truyền page/limit → trả toàn bộ.
+   * GVCN chỉ thấy dữ liệu lớp mình (restrictClassName override className).
+   *
+   * @async
+   * @param {Object} opts
+   * @param {number}  [opts.page=1]
+   * @param {number}  [opts.limit=0]        0 = không phân trang
+   * @param {string}  [opts.search='']
+   * @param {string}  [opts.className='']
+   * @param {string}  [opts.status='']
+   * @param {string|null} [opts.restrictClassName=null]  lớp bắt buộc theo GVCN
+   * @returns {Promise<{ data, total, page, totalPages }>}
+   */
+  static async getAllStudentsPaginated({
+    page = 1, limit = 0, search = '', className = '', status = '',
+    restrictClassName = null,
+  } = {}) {
+    if (restrictClassName === '__NO_CLASS__') {
+      const err = new Error('GVCN chưa được phân công lớp chủ nhiệm.');
+      err.code = 'GVCN_NOT_ASSIGNED';
+      throw err;
+    }
+    // GVCN: ghi đè className bằng lớp được phân công
+    const effectiveClass = restrictClassName ?? className;
+    return StudentRepository.findPaginated({ page, limit, search, className: effectiveClass, status });
+  }
+
+  /**
    * Lấy danh sách học sinh (có thể lọc theo lớp học)
    * @async
    * @param {string} [className] - Tên lớp cần lọc (ví dụ: '10A1'). Nếu bỏ trống sẽ lấy toàn bộ trường.

@@ -159,7 +159,7 @@ app.post('/api/auth/reset-password', resetPasswordLimiter, AuthController.resetP
 app.get('/api/auth/me', authenticateToken, AuthController.me);
 
 // Students Routes
-app.get('/api/students',           authenticateToken, resolveGvcnClass, StudentController.getStudents);
+app.get('/api/students',           authenticateToken, resolveGvcnClass, StudentController.getStudentsPaginated);
 app.get('/api/students/:id',       authenticateToken, resolveGvcnClass, StudentController.getStudentById);
 // import PHẢI đứng trước POST /api/students/:id/... để Express không nhầm 'import' là :id
 app.post('/api/students/import',   authenticateToken, requireBGH,       StudentController.importStudents);
@@ -180,7 +180,7 @@ app.post('/api/gradebook/review-request',  authenticateToken, GradeBookControlle
 app.get('/api/gradebook/review-requests',  authenticateToken, GradeBookController.getReviewRequests);
 
 // GradeBook Routes
-app.get('/api/gradebook',               authenticateToken, resolveGvcnClass, GradeBookController.getGradeBook);
+app.get('/api/gradebook',               authenticateToken, resolveGvcnClass, GradeBookController.getGradeBookPaginated);
 app.get('/api/gradebook/page-data',     authenticateToken, resolveGvcnClass, GradeBookController.getPageData);
 app.post('/api/gradebook/save',         authenticateToken, resolveGvcnClass, GradeBookController.saveGrades);
 app.post('/api/gradebook/save-spreadsheet', authenticateToken, resolveGvcnClass, GradeBookController.saveSpreadsheet);

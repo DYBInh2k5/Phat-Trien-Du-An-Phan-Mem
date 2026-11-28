@@ -43,6 +43,89 @@ export class StudentRepository {
   }
 
   /**
+   * Lấy danh sách học sinh có phân trang và tìm kiếm server-side.
+   * Tương thích ngược: nếu không truyền page/limit → trả toàn bộ dưới dạng { data, total, page:1, totalPages:1 }.
+   *
+   * @async
+   * @param {Object} opts - Tùy chọn phân trang và lọc
+   * @param {number}  [opts.page=1]      - Trang hiện tại (bắt đầu từ 1)
+   * @param {number}  [opts.limit=0]     - Số bản ghi mỗi trang (0 = không phân trang)
+   * @param {string}  [opts.search='']   - Từ khóa tìm kiếm theo tên hoặc mã học sinh
+   * @param {string}  [opts.className=''] - Lọc theo lớp ('' = tất cả)
+   * @param {string}  [opts.status='']   - Lọc theo trạng thái ACTIVE/INACTIVE ('' = tất cả)
+   * @returns {Promise<{ data: Array, total: number, page: number, totalPages: number }>}
+   */
+  static async findPaginated({ page = 1, limit = 0, search = '', className = '', status = '' } = {}) {
+    // ── Thử truy vấn PostgreSQL ──────────────────────────────────────────────
+    const params = [];
+    const conditions = [];
+
+    // Điều kiện lọc theo lớp
+    if (className) {
+      params.push(className);
+      conditions.push(`class_name = $${params.length}`);
+    }
+    // Điều kiện lọc theo trạng thái
+    if (status) {
+      params.push(status.toUpperCase());
+      conditions.push(`status = $${params.length}`);
+    }
+    // Điều kiện tìm kiếm full-text (họ tên ILIKE hoặc mã HS ILIKE)
+    if (search) {
+      params.push(`%${search}%`);
+      const p = params.length;
+      conditions.push(`(full_name ILIKE $${p} OR student_code ILIKE $${p})`);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    // Đếm tổng số bản ghi thỏa điều kiện
+    const countRes = await query(
+      `SELECT COUNT(*) AS total FROM students ${whereClause}`,
+      params
+    );
+
+    if (countRes && countRes.rows) {
+      const total = parseInt(countRes.rows[0].total, 10);
+
+      // Xây câu lệnh lấy dữ liệu với LIMIT / OFFSET
+      let dataQuery = `SELECT * FROM students ${whereClause} ORDER BY full_name ASC`;
+      const dataParams = [...params];
+      if (limit > 0) {
+        dataParams.push(limit);
+        dataQuery += ` LIMIT $${dataParams.length}`;
+        dataParams.push((page - 1) * limit);
+        dataQuery += ` OFFSET $${dataParams.length}`;
+      }
+
+      const dataRes = await query(dataQuery, dataParams);
+      if (dataRes && dataRes.rows) {
+        const totalPages = limit > 0 ? Math.ceil(total / limit) : 1;
+        return { data: dataRes.rows, total, page, totalPages };
+      }
+    }
+
+    // ── Fallback in-memory khi DB chưa sẵn sàng ─────────────────────────────
+    let filtered = [...memStudents];
+    if (className) filtered = filtered.filter(s => s.class_name === className || s.className === className);
+    if (status)    filtered = filtered.filter(s => (s.status || '').toUpperCase() === status.toUpperCase());
+    if (search) {
+      const q = search.toLowerCase();
+      filtered = filtered.filter(s =>
+        (s.full_name  || s.fullName  || '').toLowerCase().includes(q) ||
+        (s.student_code || s.studentCode || '').toLowerCase().includes(q)
+      );
+    }
+    // Sắp xếp theo họ tên
+    filtered.sort((a, b) => (a.full_name || a.fullName || '').localeCompare(b.full_name || b.fullName || '', 'vi'));
+
+    const total = filtered.length;
+    const totalPages = limit > 0 ? Math.ceil(total / limit) : 1;
+    const data = limit > 0 ? filtered.slice((page - 1) * limit, page * limit) : filtered;
+    return { data, total, page, totalPages };
+  }
+
+  /**
    * Tìm kiếm thông tin học sinh theo khóa chính ID
    * @async
    * @param {number|string} id - Khóa chính học sinh

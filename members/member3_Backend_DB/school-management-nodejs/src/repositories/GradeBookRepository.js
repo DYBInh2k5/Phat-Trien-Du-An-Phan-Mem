@@ -45,6 +45,87 @@ export class GradeBookRepository {
   }
 
   /**
+   * Lấy sổ điểm có phân trang và tìm kiếm server-side.
+   * Tương thích ngược: nếu không truyền page/limit → trả toàn bộ dưới dạng { data, total, page:1, totalPages:1 }.
+   *
+   * @async
+   * @param {Object} opts
+   * @param {number}  [opts.page=1]
+   * @param {number}  [opts.limit=0]        - 0 = không phân trang
+   * @param {string}  [opts.search='']      - Tìm theo tên học sinh hoặc mã HS
+   * @param {string}  [opts.className='']   - Lọc theo lớp
+   * @param {string}  [opts.subjectName=''] - Lọc theo môn học
+   * @param {string}  [opts.semester='']    - Lọc theo học kỳ
+   * @param {string}  [opts.schoolYear='']  - Lọc theo năm học
+   * @param {string}  [opts.studentCode=''] - Lọc theo mã học sinh
+   * @returns {Promise<{ data: Array, total: number, page: number, totalPages: number }>}
+   */
+  static async findPaginated({
+    page = 1, limit = 0, search = '',
+    className = '', subjectName = '', semester = '', schoolYear = '', studentCode = ''
+  } = {}) {
+    // ── PostgreSQL ────────────────────────────────────────────────────────────
+    const params = [];
+    const conditions = [];
+
+    if (className)   { params.push(className);   conditions.push(`class_name = $${params.length}`); }
+    if (subjectName) { params.push(subjectName);  conditions.push(`subject_name = $${params.length}`); }
+    if (semester)    { params.push(semester);     conditions.push(`semester = $${params.length}`); }
+    if (schoolYear)  { params.push(schoolYear);   conditions.push(`school_year = $${params.length}`); }
+    if (studentCode) { params.push(studentCode);  conditions.push(`student_code = $${params.length}`); }
+    if (search) {
+      params.push(`%${search}%`);
+      const p = params.length;
+      conditions.push(`(student_name ILIKE $${p} OR student_code ILIKE $${p})`);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const countRes = await query(
+      `SELECT COUNT(*) AS total FROM grade_books ${whereClause}`, params
+    );
+
+    if (countRes && countRes.rows) {
+      const total = parseInt(countRes.rows[0].total, 10);
+      let dataQuery = `SELECT * FROM grade_books ${whereClause} ORDER BY student_name ASC, subject_name ASC`;
+      const dataParams = [...params];
+      if (limit > 0) {
+        dataParams.push(limit);
+        dataQuery += ` LIMIT $${dataParams.length}`;
+        dataParams.push((page - 1) * limit);
+        dataQuery += ` OFFSET $${dataParams.length}`;
+      }
+      const dataRes = await query(dataQuery, dataParams);
+      if (dataRes && dataRes.rows) {
+        const totalPages = limit > 0 ? Math.ceil(total / limit) : 1;
+        return { data: dataRes.rows, total, page, totalPages };
+      }
+    }
+
+    // ── Fallback in-memory ────────────────────────────────────────────────────
+    let filtered = [...memGrades];
+    if (className)   filtered = filtered.filter(g => g.class_name === className   || g.className === className);
+    if (subjectName) filtered = filtered.filter(g => g.subject_name === subjectName || g.subjectName === subjectName);
+    if (semester)    filtered = filtered.filter(g => g.semester === semester);
+    if (schoolYear)  filtered = filtered.filter(g => g.school_year === schoolYear || g.schoolYear === schoolYear);
+    if (studentCode) filtered = filtered.filter(g => g.student_code === studentCode || g.studentCode === studentCode);
+    if (search) {
+      const q = search.toLowerCase();
+      filtered = filtered.filter(g =>
+        (g.student_name || g.studentName || '').toLowerCase().includes(q) ||
+        (g.student_code || g.studentCode || '').toLowerCase().includes(q)
+      );
+    }
+    filtered.sort((a, b) =>
+      (a.student_name || a.studentName || '').localeCompare(b.student_name || b.studentName || '', 'vi')
+    );
+    const total = filtered.length;
+    const totalPages = limit > 0 ? Math.ceil(total / limit) : 1;
+    const data = limit > 0 ? filtered.slice((page - 1) * limit, page * limit) : filtered;
+    return { data, total, page, totalPages };
+  }
+
+  /**
    * Lấy toàn bộ grades theo lớp + học kỳ, kèm semester filter.
    * @async
    * @param {string} className

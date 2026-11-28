@@ -30,6 +30,26 @@ import { AuditLogger } from '../utils/AuditLogger.js';
  */
 export class GradeBookService {
   /**
+   * Lấy sổ điểm có phân trang server-side.
+   * Tương thích ngược: caller không truyền page/limit → trả toàn bộ.
+   *
+   * @async
+   * @param {Object} opts
+   * @param {number}  [opts.page=1]
+   * @param {number}  [opts.limit=0]
+   * @param {string}  [opts.search='']
+   * @param {string}  [opts.className='']
+   * @param {string}  [opts.subjectName='']
+   * @param {string}  [opts.semester='']
+   * @param {string}  [opts.schoolYear='']
+   * @param {string}  [opts.studentCode='']
+   * @returns {Promise<{ data, total, page, totalPages }>}
+   */
+  static async getGradeBookPaginated(opts = {}) {
+    return GradeBookRepository.findPaginated(opts);
+  }
+
+  /**
    * Lấy toàn bộ dữ liệu cần thiết cho trang GradebookPage:
    *   - classes, subjects, students trong lớp, gradeRows
    * @param {string} className

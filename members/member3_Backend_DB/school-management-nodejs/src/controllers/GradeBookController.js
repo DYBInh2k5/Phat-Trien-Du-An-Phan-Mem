@@ -52,6 +52,54 @@ export class GradeBookController {
   }
 
   /**
+   * API GET /api/gradebook?page=1&limit=20&search=&className=&subjectName=&semester=&schoolYear=&studentCode=
+   * Lấy sổ điểm có phân trang server-side.
+   * Tương thích ngược: không truyền page/limit → gọi lại getGradeBook() (hành vi cũ).
+   *
+   * Response envelope: { success, data, total, page, totalPages }
+   *
+   * @async
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   */
+  static async getGradeBookPaginated(req, res) {
+    try {
+      const { page, limit, search = '', className, subjectName, semester, schoolYear, studentCode } = req.query;
+
+      // Không có page/limit → fallback sang hành vi cũ
+      if (!page && !limit) {
+        return GradeBookController.getGradeBook(req, res);
+      }
+
+      let effectiveClass = className || '';
+      // GVCN scope
+      if (req.user?.role === 'GVCN') {
+        if (req.gvcnClassName === '__NO_CLASS__') {
+          return res.status(403).json({ success: false, message: 'GVCN chưa được phân công lớp chủ nhiệm.', code: 'GVCN_NOT_ASSIGNED' });
+        }
+        effectiveClass = req.gvcnClassName;
+      }
+
+      const pageNum  = Math.max(1, parseInt(page, 10)  || 1);
+      const limitNum = Math.min(200, Math.max(1, parseInt(limit, 10) || 20));
+
+      const result = await GradeBookService.getGradeBookPaginated({
+        page: pageNum, limit: limitNum,
+        search: search.trim(),
+        className: effectiveClass,
+        subjectName: subjectName || '',
+        semester:    semester    || '',
+        schoolYear:  schoolYear  || '',
+        studentCode: studentCode || '',
+      });
+
+      return res.json({ success: true, ...result });
+    } catch (err) {
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  }
+
+  /**
    * API GET /api/gradebook
    * Lấy dữ liệu sổ điểm theo các tham số truy vấn trên URL (?className=10A1&subjectName=Toán)
    * @async
