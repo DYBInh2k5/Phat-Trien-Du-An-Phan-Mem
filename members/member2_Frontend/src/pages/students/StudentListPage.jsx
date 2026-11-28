@@ -664,11 +664,16 @@ export default function StudentListPage() {
       setTotal(result.total);
       setTotalPages(result.totalPages);
 
-      // Nếu tất cả kết quả cùng 1 lớp (GVCN role) → khóa dropdown
-      const classNamesInResult = [...new Set(normalized.map(s => s.className).filter(Boolean))];
-      if (classNamesInResult.length === 1 && !selectedClass) {
-        setRestrictedClassName(classNamesInResult[0]);
-        setSelectedClass(classNamesInResult[0]);
+      // Detect GVCN role: CHỈ set restrictedClassName một lần khi mount
+      // (khi chưa có filter nào và tất cả kết quả cùng 1 lớp).
+      // KHÔNG set khi đang search/filter vì kết quả lọc ra 1 lớp là bình thường.
+      if (!restrictedClassName && !searchDebounced && !selectedClass && !selectedStatus) {
+        const classNamesInResult = [...new Set(normalized.map(s => s.className).filter(Boolean))];
+        if (classNamesInResult.length === 1 && result.total <= 45) {
+          // Chỉ lock nếu tổng số học sinh ≤ 45 (1 lớp) — tránh nhầm khi DB ít data
+          setRestrictedClassName(classNamesInResult[0]);
+          setSelectedClass(classNamesInResult[0]);
+        }
       }
     } catch (err) {
       setError(err.message || 'Không thể tải danh sách học sinh.');
@@ -846,8 +851,7 @@ export default function StudentListPage() {
           <p className="text-body-sm mt-1">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</p>
           <button type="button"
             onClick={() => { setSearchInput(''); setSelectedClass(''); setSelectedStatus(''); setPage(1); }}
-            className="mt-4 inline-flex items-center gap-1.5 text-label-sm font-medium text-[#2563eb] hover:text-[#1d4ed8] transition-colors">
-            <span className="material-symbols-outlined text-[16px]" aria-hidden="true">refresh</span>Xóa bộ lọc
+            className="mt-4 inline-flex items-center gap-1.5 text-label-sm font-medium text-[#2563eb] hover:text-[#1d4ed8] transition-colors">            <span className="material-symbols-outlined text-[16px]" aria-hidden="true">refresh</span>Xóa bộ lọc
           </button>
         </div>
       ) : viewMode === 'card' ? (
