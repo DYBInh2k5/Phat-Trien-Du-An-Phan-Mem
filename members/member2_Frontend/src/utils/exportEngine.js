@@ -273,3 +273,205 @@ export function exportToPDF(title = 'BÁO CÁO TỔNG HỢP', subtitle = 'Trư�
     return false;
   }
 }
+
+// ── Student Excel Export / Import Template (UC-QLHS) ─────────────────────────
+
+/**
+ * Xuất danh sách học sinh ra file Excel (.xlsx) có định dạng.
+ * Sử dụng thư viện SheetJS (xlsx) để tạo workbook, sheet và tự động điều chỉnh độ rộng cột.
+ *
+ * @param {Array<{ id, name, className, gender, dob, parentName, parentPhone, gpa, academicRank, conductRank, status }>} students
+ *        Danh sách học sinh đã được chuẩn hóa từ fetchStudentListData
+ * @param {Object} [meta] - Thông tin phụ đề của file xuất
+ * @param {string} [meta.className] - Lớp đang lọc (nếu có)
+ * @returns {boolean} true nếu xuất thành công
+ */
+export function exportStudentsToExcel(students = [], meta = {}) {
+  try {
+    // 1. Chuẩn bị dữ liệu từng dòng (row) theo thứ tự cột hiển thị
+    const rows = students.map((s, idx) => ({
+      'STT': idx + 1,
+      'Mã học sinh': s.id ?? '',
+      'Họ và tên': s.name ?? '',
+      'Giới tính': s.gender ?? '',
+      'Ngày sinh': s.dob ?? '',
+      'Lớp': s.className ?? '',
+      'Họ tên phụ huynh': s.parentName ?? '',
+      'SĐT phụ huynh': s.parentPhone ?? '',
+      'GPA': s.gpa ?? '',
+      'Học lực': s.academicRank ?? '',
+      'Hạnh kiểm': s.conductRank ?? '',
+      'Trạng thái': s.status === 'active' ? 'Đang học' : 'Nghỉ học',
+    }));
+
+    // 2. Tạo worksheet từ mảng object keys
+    const ws = XLSX.utils.json_to_sheet(rows);
+
+    // 3. Tự động thiết lập độ rộng cột dựa trên nội dung dài nhất
+    ws['!cols'] = Object.keys(rows[0] || { 'STT': '' }).map((key) => {
+      const maxLen = Math.max(
+        key.length,
+        ...rows.map((r) => String(r[key] ?? '').length),
+      );
+      return { wch: Math.min(Math.max(maxLen + 2, 8), 32) };
+    });
+
+    // 4. Tạo workbook và thêm worksheet
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Danh sách học sinh');
+
+    // 5. Tạo tên file có dấu thời gian + bộ lọc lớp (nếu có)
+    const now = new Date();
+    const ts = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+    const suffix = meta.className && meta.className !== 'all' ? `_${meta.className}` : '';
+    const filename = `DanhSachHocSinh${suffix}_${ts}.xlsx`;
+
+    // 6. Ghi file và kích hoạt tải xuống trình duyệt
+    XLSX.writeFile(wb, filename);
+    return true;
+  } catch (err) {
+    console.error('Lỗi khi xuất Excel danh sách học sinh:', err);
+    alert('Không thể xuất file Excel. Vui lòng thử lại.');
+    return false;
+  }
+}
+
+/**
+ * Tải file Excel mẫu (.xlsx) dùng cho việc import học sinh.
+ * File mẫu chứa 2 sheet:
+ *   - "HuongDan": hướng dẫn điền dữ liệu và quy tắc bắt buộc
+ *   - "DuLieuMau": bảng dữ liệu mẫu đúng cú pháp để người dùng copy/sửa
+ *
+ * @returns {boolean} true nếu tải thành công
+ */
+export function downloadStudentImportTemplate() {
+  try {
+    // Sheet 1: Hướng dẫn
+    const guideRows = [
+      { 'A': 'HƯỚNG DẪN ĐIỀN DỮ LIỆU IMPORT HỌC SINH' },
+      { 'A': '' },
+      { 'A': '1. Chỉ điền dữ liệu vào sheet "DuLieuMau", bắt đầu từ dòng 1 (không thêm tiêu đề trang).' },
+      { 'A': '2. Các cột bắt buộc: MaHocSinh, HoTen, Lop, GioiTinh. Cột khác có thể để trống.' },
+      { 'A': '3. Định dạng cột: MaHocSinh (VD: HS001), HoTen (text), Lop (VD: 10A1), GioiTinh (Nam/Nữ),' },
+      { 'A': '   NgaySinh (YYYY-MM-DD), HoTenPhuHuynh, SDTPhuHuynh, TrangThai (DangHoc/NghiHoc).' },
+      { 'A': '4. Mã học sinh phải là duy nhất, chưa tồn tại trong hệ thống.' },
+      { 'A': '5. Lớp phải là tên lớp hợp lệ đã có trong hệ thống (ví dụ: 10A1, 11B2, 12A3).' },
+      { 'A': '6. Ngày sinh phải đúng định dạng YYYY-MM-DD (VD: 2008-05-15).' },
+      { 'A': '7. Sau khi điền xong, lưu file và tải lên bằng nút "Import từ Excel".' },
+      { 'A': '8. Hệ thống sẽ bỏ qua các dòng thiếu trường bắt buộc và hiển thị cảnh báo.' },
+    ];
+    const wsGuide = XLSX.utils.json_to_sheet(guideRows, { skipHeader: true });
+    wsGuide['!cols'] = [{ wch: 110 }];
+
+    // Sheet 2: Dữ liệu mẫu (2 dòng mẫu đúng cú pháp)
+    const sampleRows = [
+      {
+        'MaHocSinh': 'HS001',
+        'HoTen': 'Nguyễn Văn An',
+        'Lop': '10A1',
+        'GioiTinh': 'Nam',
+        'NgaySinh': '2008-05-15',
+        'HoTenPhuHuynh': 'Nguyễn Văn Bình',
+        'SDTPhuHuynh': '0912345678',
+        'TrangThai': 'DangHoc',
+      },
+      {
+        'MaHocSinh': 'HS002',
+        'HoTen': 'Trần Thị Bích',
+        'Lop': '10A1',
+        'GioiTinh': 'Nữ',
+        'NgaySinh': '2008-09-20',
+        'HoTenPhuHuynh': 'Trần Văn Cường',
+        'SDTPhuHuynh': '0987654321',
+        'TrangThai': 'DangHoc',
+      },
+    ];
+    const wsData = XLSX.utils.json_to_sheet(sampleRows);
+    wsData['!cols'] = [
+      { wch: 12 }, { wch: 22 }, { wch: 8 }, { wch: 10 }, { wch: 12 },
+      { wch: 22 }, { wch: 14 }, { wch: 12 },
+    ];
+
+    // Gộp 2 sheet vào workbook và tải về
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, wsGuide, 'HuongDan');
+    XLSX.utils.book_append_sheet(wb, wsData, 'DuLieuMau');
+    XLSX.writeFile(wb, 'Mau_Import_HocSinh.xlsx');
+    return true;
+  } catch (err) {
+    console.error('Lỗi khi tạo file mẫu import:', err);
+    alert('Không thể tạo file mẫu. Vui lòng thử lại.');
+    return false;
+  }
+}
+
+/**
+ * Đọc và parse file Excel import học sinh, chuyển thành mảng object chuẩn backend.
+ *
+ * @param {File} file - File Excel người dùng chọn (input type="file")
+ * @returns {Promise<Array<{ studentCode, fullName, gender, dob, className, parentName, parentPhone, status }>>}
+ * @throws {Error} khi file không đọc được hoặc sai định dạng cột bắt buộc
+ */
+export function parseStudentImportFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    // Callback khi đọc file lỗi
+    reader.onerror = () => reject(new Error('Không thể đọc file Excel.'));
+
+    // Callback khi đọc file thành công
+    reader.onload = (e) => {
+      try {
+        const wb = XLSX.read(e.target.result, { type: 'array' });
+
+        // Ưu tiên sheet "DuLieuMau", nếu không có thì lấy sheet đầu tiên
+        const sheetName = wb.SheetNames.includes('DuLieuMau')
+          ? 'DuLieuMau'
+          : wb.SheetNames[0];
+        const ws = wb.Sheets[sheetName];
+        if (!ws) throw new Error('Không tìm thấy sheet dữ liệu trong file.');
+
+        // Parse tất cả dòng thành object với key theo hàng đầu
+        const raw = XLSX.utils.sheet_to_json(ws, { defval: '' });
+        if (raw.length === 0) throw new Error('File không chứa dòng dữ liệu nào.');
+
+        // Chuẩn hóa key (bỏ dấu cách, thống nhất tên field gửi lên backend)
+        const students = raw.map((r, i) => {
+          const get = (...keys) => {
+            for (const k of keys) {
+              const found = Object.keys(r).find(
+                (rk) => rk.toLowerCase().replace(/[\s_]/g, '') === k.toLowerCase().replace(/[\s_]/g, ''),
+              );
+              if (found && r[found] !== '' && r[found] != null) return r[found];
+            }
+            return '';
+          };
+
+          const row = {
+            studentCode: String(get('MaHocSinh', 'studentCode')).trim(),
+            fullName:    String(get('HoTen', 'fullName')).trim(),
+            gender:      String(get('GioiTinh', 'gender')).trim(),
+            dob:         String(get('NgaySinh', 'dob')).trim(),
+            className:   String(get('Lop', 'className')).trim(),
+            parentName:  String(get('HoTenPhuHuynh', 'parentName')).trim(),
+            parentPhone: String(get('SDTPhuHuynh', 'parentPhone')).trim(),
+            status:      String(get('TrangThai', 'status')).trim() || 'DangHoc',
+            _row: i + 2, // +2 vì sheet_to_json bỏ header (dòng 1)
+          };
+
+          // Kiểm tra trường bắt buộc
+          if (!row.studentCode || !row.fullName || !row.className) {
+            row._error = 'Thiếu mã học sinh, họ tên hoặc lớp';
+          }
+          return row;
+        });
+
+        resolve(students);
+      } catch (err) {
+        reject(err);
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+}

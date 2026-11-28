@@ -719,3 +719,57 @@ export const fetchTuitionReceipt = async (paymentId) => {
   return data.data;
 };
 
+
+// ── Student CRUD API (UC-QLHS: Thêm/Sửa/Xóa học sinh) ───────────────────────
+
+/**
+ * Thêm mới học sinh vào hệ thống (POST /api/students).
+ * @param {{ studentCode, fullName, gender, dob, className, parentName, parentPhone, status }} payload
+ * @returns DTO học sinh sau khi tạo (server trả về student object đầy đủ)
+ * @throws {Error} khi backend phản hồi lỗi (mã HS trùng, thiếu trường, ...)
+ */
+export const createStudent = async (payload) => {
+  const data = await apiClient('/students', { method: 'POST', body: payload });
+  if (!data?.success) throw new Error(data?.message || 'Thêm học sinh thất bại');
+  return data.data ?? data;
+};
+
+/**
+ * Cập nhật thông tin học sinh (PUT /api/students/:studentCode).
+ * @param {string} studentCode - mã học sinh cần sửa
+ * @param {Object} payload - các trường cần cập nhật (fullName, gender, dob, className, parentName, parentPhone, status)
+ * @returns DTO học sinh sau khi cập nhật
+ * @throws {Error} khi backend phản hồi lỗi
+ */
+export const updateStudent = async (studentCode, payload) => {
+  const data = await apiClient(`/students/${encodeURIComponent(studentCode)}`, {
+    method: 'PUT',
+    body: payload,
+  });
+  if (!data?.success) throw new Error(data?.message || 'Cập nhật học sinh thất bại');
+  return data.data ?? data;
+};
+
+/**
+ * Xóa học sinh khỏi hệ thống (DELETE /api/students/:studentCode).
+ * @param {string} studentCode - mã học sinh cần xóa
+ * @returns {Promise<Object>} kết quả xóa
+ * @throws {Error} khi backend phản hồi lỗi (ràng buộc khóa ngoại do có điểm danh/điểm...)
+ */
+export const deleteStudent = async (studentCode) => {
+  const data = await apiClient(`/students/${encodeURIComponent(studentCode)}`, { method: 'DELETE' });
+  if (!data?.success) throw new Error(data?.message || 'Xóa học sinh thất bại');
+  return data;
+};
+
+/**
+ * Import hàng loạt học sinh từ file Excel (POST /api/students/import).
+ * @param {Array<{ studentCode, fullName, gender, dob, className, parentName, parentPhone, status }>} rows
+ * @returns {{ inserted: number, skipped: Array<{ row: number, reason: string }> }}
+ * @throws {Error} khi backend phản hồi lỗi
+ */
+export const importStudents = async (rows) => {
+  const data = await apiClient('/students/import', { method: 'POST', body: { students: rows } });
+  if (!data?.success) throw new Error(data?.message || 'Import học sinh thất bại');
+  return data.data ?? { inserted: 0, skipped: [] };
+};
