@@ -210,6 +210,8 @@ function GlobalSearch() {
 
 /**
  * Bell Notifications — chuông với badge + dropdown thông báo mới nhất.
+ * Nguồn dữ liệu DUY NHẤT: fetchNotifications() — tính unread từ list,
+ * không dùng fetchUnreadCount() riêng để tránh xung đột 2 nguồn.
  */
 function BellDropdown() {
   const [open, setOpen]       = useState(false);
@@ -221,32 +223,41 @@ function BellDropdown() {
   const navigate = useNavigate();
 
   /**
-   * Tải danh sách thông báo mới nhất.
+   * Tải danh sách thông báo + tính unread từ cùng 1 nguồn.
+   * isRead: check cả readAt (camelCase từ Service DTO) lẫn read_at (snake_case fallback).
    */
   const loadNotifs = useCallback(async () => {
     setLoading(true);
     try {
       const data = await fetchNotifications();
       const list = Array.isArray(data) ? data : [];
-      setNotifs(list.slice(0, 8)); // hiện tối đa 8 mục
-      setUnread(list.filter(n => !n.isRead && !n.read_at).length);
+      setNotifs(list.slice(0, 8));
+      // Dùng readAt (camelCase DTO) hoặc read_at (fallback snake_case)
+      setUnread(list.filter(n => !n.readAt && !n.read_at).length);
     } catch { /* silent */ }
     finally { setLoading(false); }
   }, []);
 
-  // Polling số chưa đọc mỗi 30s
+  // Polling mỗi 30s — CHỈ dùng loadNotifs, không gọi fetchUnreadCount() riêng
   useEffect(() => {
     let cancelled = false;
     async function tick() {
+      if (cancelled) return;
       try {
-        const count = await fetchUnreadCount();
-        if (!cancelled) setUnread(count ?? 0);
+        const data = await fetchNotifications();
+        if (cancelled) return;
+        const list = Array.isArray(data) ? data : [];
+        // Chỉ cập nhật badge khi dropdown đang đóng (tránh giật khi đang xem)
+        if (!cancelled) {
+          setNotifs(prev => open ? prev : list.slice(0, 8));
+          setUnread(list.filter(n => !n.readAt && !n.read_at).length);
+        }
       } catch { /* silent */ }
     }
     tick();
     const t = setInterval(tick, 30_000);
     return () => { cancelled = true; clearInterval(t); };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Tải thông báo khi mở dropdown
   useEffect(() => { if (open) loadNotifs(); }, [open, loadNotifs]);
@@ -263,14 +274,28 @@ function BellDropdown() {
   }, []);
 
   /**
-   * Click vào thông báo: đánh dấu đã đọc → điều hướng trang thông báo.
+   * Click vào thông báo: đánh dấu đã đọc (optimistic) → điều hướng.
+   * Dùng readAt (camelCase) thống nhất để check trạng thái.
    */
   async function handleNotifClick(notif) {
     setOpen(false);
-    if (!notif.isRead && !notif.read_at) {
-      try { await markNotificationRead(notif.id); } catch { /* silent */ }
-      setNotifs(prev => prev.map(n => n.id === notif.id ? { ...n, isRead: true } : n));
+    // Kiểm tra cả 2 key để tương thích DTO camelCase và fallback snake_case
+    const alreadyRead = notif.readAt || notif.read_at;
+    if (!alreadyRead) {
+      // Optimistic: giảm badge ngay lập tức
+      const now = new Date().toISOString();
+      setNotifs(prev => prev.map(n =>
+        n.id === notif.id ? { ...n, readAt: now, read_at: now } : n
+      ));
       setUnread(prev => Math.max(0, prev - 1));
+      // Gọi API async (không block UX)
+      markNotificationRead(notif.id).catch(() => {
+        // Rollback nếu API lỗi
+        setNotifs(prev => prev.map(n =>
+          n.id === notif.id ? { ...n, readAt: undefined, read_at: undefined } : n
+        ));
+        setUnread(prev => prev + 1);
+      });
     }
     navigate(ROUTES.NOTIFICATIONS);
   }

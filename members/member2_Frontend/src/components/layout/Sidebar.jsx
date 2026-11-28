@@ -20,7 +20,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth, hasPermission } from '../../context/AuthContext.jsx';
 import { ROLES, ROLE_LABELS } from '../../constants/roles.js';
 import { ROUTES } from '../../constants/routes.js';
-import { fetchUnreadCount } from '../../api/stubs.js';
+import { fetchUnreadCount, fetchNotifications } from '../../api/stubs.js';
 
 // ─── Navigation tree ─────────────────────────────────────────────────────────
 
@@ -212,13 +212,16 @@ export default function Sidebar({ isCollapsed, onToggle }) {
     setOpenGroups((prev) => ({ ...prev, [title]: !prev[title] }));
   }
 
-  // Polling số thông báo chưa đọc mỗi 30s
+  // Polling số thông báo chưa đọc mỗi 30s — dùng fetchNotifications để đồng nhất nguồn
   useEffect(() => {
     let cancelled = false;
     async function update() {
       try {
-        const count = await fetchUnreadCount();
-        if (!cancelled) setUnreadCount(count ?? 0);
+        const data = await fetchNotifications();
+        if (!cancelled) {
+          const list = Array.isArray(data) ? data : [];
+          setUnreadCount(list.filter(n => !n.readAt && !n.read_at).length);
+        }
       } catch { /* silent */ }
     }
     update();
