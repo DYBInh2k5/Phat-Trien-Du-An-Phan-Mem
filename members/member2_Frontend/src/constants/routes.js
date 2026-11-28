@@ -25,6 +25,7 @@ export const ROUTES = {
   NOTIFICATIONS: '/notifications',
   BGH_TUITION: '/bgh/tuition',
   BGH_AUDIT_LOGS: '/bgh/audit-logs',
+  PROFILE: '/profile',
 };
 
 export const ROLE_DASHBOARD = {

@@ -156,7 +156,8 @@ app.post('/api/auth/login', AuthController.login);
 app.post('/api/auth/forgot-password', forgotPasswordLimiter, AuthController.forgotPassword);
 app.post('/api/auth/reset-password', resetPasswordLimiter, AuthController.resetPassword);
 // Auth - restore session (protected)
-app.get('/api/auth/me', authenticateToken, AuthController.me);
+app.get('/api/auth/me',      authenticateToken, AuthController.me);
+app.put('/api/auth/profile', authenticateToken, AuthController.updateProfile);
 
 // Students Routes
 app.get('/api/students',           authenticateToken, resolveGvcnClass, StudentController.getStudentsPaginated);

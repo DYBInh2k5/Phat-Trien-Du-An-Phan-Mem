@@ -185,6 +185,47 @@ export class UserRepository {
     return null;
   }
 
+  /**
+   * Cập nhật hồ sơ cá nhân (full_name, email, phone).
+   * Chỉ cập nhật các trường được truyền, bỏ qua trường không truyền.
+   * Fallback in-memory khi DB offline.
+   *
+   * @async
+   * @param {number} userId - ID người dùng (từ JWT)
+   * @param {{ fullName?, email?, phone? }} fields - Các trường cần cập nhật
+   * @returns {Promise<{ id, username, name, role, email, phone }>}
+   */
+  static async updateProfile(userId, { fullName, email, phone }) {
+    // ── PostgreSQL ────────────────────────────────────────────────────────────
+    const setClauses = [];
+    const params     = [];
+
+    if (fullName !== undefined) { params.push(fullName); setClauses.push(`full_name = $${params.length}`); }
+    if (email    !== undefined) { params.push(email);    setClauses.push(`email = $${params.length}`); }
+    if (phone    !== undefined) { params.push(phone);    setClauses.push(`phone = $${params.length}`); }
+
+    if (setClauses.length > 0) {
+      params.push(userId);
+      const res = await query(
+        `UPDATE users SET ${setClauses.join(', ')} WHERE id = $${params.length} RETURNING id, username, full_name, role, email, phone`,
+        params
+      );
+      if (res && res.rows && res.rows.length > 0) {
+        const u = res.rows[0];
+        return { id: u.id, username: u.username, name: u.full_name, role: u.role, email: u.email, phone: u.phone };
+      }
+    }
+
+    // ── Fallback in-memory ────────────────────────────────────────────────────
+    const idx = memUsers.findIndex(u => Number(u.id) === Number(userId));
+    if (idx === -1) throw new Error('Không tìm thấy tài khoản.');
+    if (fullName !== undefined) memUsers[idx].full_name = fullName;
+    if (email    !== undefined) memUsers[idx].email     = email;
+    if (phone    !== undefined) memUsers[idx].phone     = phone;
+    const u = memUsers[idx];
+    return { id: u.id, username: u.username, name: u.full_name, role: u.role, email: u.email, phone: u.phone };
+  }
+
   /** Dùng cho authMiddleware: lấy phiên bản token hiện tại của tài khoản. */
   static async findAuthStateById(id) {
     const res = await query('SELECT id, token_version, is_active FROM users WHERE id = $1', [id]);

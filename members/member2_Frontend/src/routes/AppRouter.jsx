@@ -38,6 +38,7 @@ const BGHReportCenterPage = lazy(() => import('../pages/bgh/BGHReportCenterPage.
 const BGHTuitionPage = lazy(() => import('../pages/bgh/BGHTuitionPage.jsx'));
 const SystemSettingsPage = lazy(() => import('../pages/bgh/SystemSettingsPage.jsx'));
 const AuditLogsPage = lazy(() => import('../pages/bgh/AuditLogsPage.jsx'));
+const ProfilePage   = lazy(() => import('../pages/profile/ProfilePage.jsx'));
 
 // Student portal pages
 const StudentGradebookPage = lazy(() => import('../pages/student/StudentGradebookPage.jsx'));
@@ -129,6 +130,11 @@ export default function AppRouter() {
             <Route path={ROUTES.BGH_TUITION} element={<BGHTuitionPage />} />
             <Route path={ROUTES.BGH_SETTINGS} element={<SystemSettingsPage />} />
             <Route path={ROUTES.BGH_AUDIT_LOGS} element={<AuditLogsPage />} />
+          </Route>
+
+          {/* /profile — tất cả 5 vai trò */}
+          <Route element={<ProtectedRoute roles={[ROLES.BGH, ROLES.GVCN, ROLES.GV, ROLES.HS, ROLES.PH]} />}>
+            <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
           </Route>
 
           {/* HS / PH routes */}

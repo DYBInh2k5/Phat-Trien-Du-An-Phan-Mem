@@ -433,6 +433,101 @@ function SemesterSelector() {
 // ─── Main Header component ────────────────────────────────────────────────────
 
 /**
+ * UserMenu — Avatar + dropdown Hồ sơ / Đổi mật khẩu / Đăng xuất.
+ */
+function UserMenu({ user, role, onLogout }) {
+  const [open, setOpen] = useState(false);
+  const panelRef = useRef(null);
+  const btnRef   = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    function onClickOutside(e) {
+      if (!panelRef.current?.contains(e.target) && !btnRef.current?.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, []);
+
+  const displayName  = user?.name || user?.fullName || user?.username || 'Người dùng';
+  const avatarLetter = displayName[0]?.toUpperCase() ?? 'U';
+  const badgeStyle   = ROLE_BADGE_STYLES[role] || 'bg-[#f1f5f9] text-[#334155] border-[#e2e8f0]';
+
+  const menuItems = [
+    { label: 'Hồ sơ cá nhân',  icon: 'account_circle', action: () => { setOpen(false); navigate('/profile'); } },
+    { label: 'Đổi mật khẩu',   icon: 'key',             action: () => { setOpen(false); navigate('/forgot-password'); } },
+    { divider: true },
+    { label: 'Đăng xuất',      icon: 'logout',          action: () => { setOpen(false); onLogout(); }, danger: true },
+  ];
+
+  return (
+    <div className="relative">
+      {/* Avatar button */}
+      <button
+        ref={btnRef}
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-2 pl-1 rounded-lg hover:bg-[#f1f5f9] px-2 py-1.5 transition-colors"
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-label="Menu tài khoản"
+      >
+        <div className="relative">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2563eb] to-[#4f46e5] flex items-center justify-center text-white font-bold text-sm shadow-sm overflow-hidden">
+            {user?.avatar
+              ? <img src={user.avatar} alt={displayName} className="w-full h-full object-cover" />
+              : avatarLetter}
+          </div>
+          <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#22c55e] border-2 border-white" />
+        </div>
+        <div className="hidden md:flex flex-col text-left">
+          <span className="text-[12px] font-semibold text-[#0f172a] leading-tight truncate max-w-[130px]">
+            {displayName}
+          </span>
+          <span className={`inline-flex items-center px-1.5 py-0 rounded text-[10px] font-bold border ${badgeStyle} leading-tight`}>
+            {ROLE_LABELS[role] ?? role}
+          </span>
+        </div>
+        <span className="material-symbols-outlined text-[16px] text-[#94a3b8] hidden md:block" aria-hidden="true">
+          {open ? 'expand_less' : 'expand_more'}
+        </span>
+      </button>
+
+      {/* Dropdown menu */}
+      {open && (
+        <div ref={panelRef}
+          className="absolute top-full right-0 mt-1.5 w-52 bg-white rounded-xl border border-[#e2e8f0] shadow-xl z-50 overflow-hidden py-1"
+          role="menu">
+          {/* User info mini header */}
+          <div className="px-4 py-3 border-b border-[#f1f5f9]">
+            <p className="text-[13px] font-semibold text-[#0f172a] truncate">{displayName}</p>
+            <p className="text-[11px] text-[#64748b] truncate">@{user?.username}</p>
+          </div>
+
+          {/* Menu items */}
+          {menuItems.map((item, i) => {
+            if (item.divider) return <div key={`div-${i}`} className="my-1 h-px bg-[#f1f5f9]" />;
+            return (
+              <button key={item.label} type="button"
+                onClick={item.action}
+                className={`w-full flex items-center gap-3 px-4 py-2.5 text-left text-[13px] font-medium transition-colors ${
+                  item.danger
+                    ? 'text-[#dc2626] hover:bg-[#fef2f2]'
+                    : 'text-[#334155] hover:bg-[#f8fafc]'
+                }`}
+                role="menuitem">
+                <span className="material-symbols-outlined text-[17px]" aria-hidden="true">{item.icon}</span>
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
  * Header Enterprise — HSU Digital Campus
  * @param {{ title: string }} props
  */
@@ -444,10 +539,6 @@ export default function Header({ title }) {
     logout();
     navigate(ROUTES.LOGIN, { replace: true });
   }
-
-  const badgeStyle = ROLE_BADGE_STYLES[role] || 'bg-[#f1f5f9] text-[#334155] border-[#e2e8f0]';
-  const displayName = user?.name || user?.fullName || user?.username || 'Người dùng';
-  const avatarLetter = displayName[0]?.toUpperCase() ?? 'U';
 
   return (
     <header className="print:hidden shrink-0 h-16 bg-white border-b border-[#e2e8f0] flex items-center justify-between px-4 md:px-6 z-30 gap-3">
@@ -464,49 +555,12 @@ export default function Header({ title }) {
         <GlobalSearch />
       </div>
 
-      {/* ── Phải: Học kỳ + Bell + User ── */}
+      {/* ── Phải: Học kỳ + Bell + User dropdown ── */}
       <div className="flex items-center gap-2 flex-shrink-0">
-
-        {/* Semester selector */}
         <SemesterSelector />
-
-        {/* Bell notifications */}
         <BellDropdown />
-
-        {/* Divider */}
         <div className="h-8 w-px bg-[#e2e8f0] hidden sm:block" />
-
-        {/* User avatar + name */}
-        <div className="flex items-center gap-2 pl-1">
-          <div className="relative">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2563eb] to-[#4f46e5] flex items-center justify-center text-white font-bold text-sm shadow-sm overflow-hidden">
-              {user?.avatar ? (
-                <img src={user.avatar} alt={displayName} className="w-full h-full object-cover" />
-              ) : avatarLetter}
-            </div>
-            {/* Online dot */}
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#22c55e] border-2 border-white" />
-          </div>
-          <div className="hidden md:flex flex-col">
-            <span className="text-[12px] font-semibold text-[#0f172a] leading-tight truncate max-w-[130px]">
-              {displayName}
-            </span>
-            <span className={`inline-flex items-center px-1.5 py-0 rounded text-[10px] font-bold border ${badgeStyle} leading-tight`}>
-              {ROLE_LABELS[role] ?? role}
-            </span>
-          </div>
-        </div>
-
-        {/* Nút đăng xuất */}
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium text-[#475569] hover:bg-[#fef2f2] hover:text-[#dc2626] border border-[#e2e8f0] transition-colors active:scale-95"
-          title="Đăng xuất"
-        >
-          <span className="material-symbols-outlined text-[18px]">logout</span>
-          <span className="hidden sm:inline">Đăng xuất</span>
-        </button>
+        <UserMenu user={user} role={role} onLogout={handleLogout} />
       </div>
     </header>
   );

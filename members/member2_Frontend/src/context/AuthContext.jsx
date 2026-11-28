@@ -206,6 +206,19 @@ export function AuthProvider({ children }) {
   }, []);
 
   /**
+   * Cập nhật thông tin user trong context + localStorage sau khi sửa hồ sơ.
+   * @param {{ name?, email?, phone? }} patch - Các trường cần cập nhật
+   */
+  const updateUser = useCallback((patch) => {
+    setAuthState(prev => {
+      if (!prev.user) return prev;
+      const updated = { ...prev, user: { ...prev.user, ...patch } };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
+  /**
    * Giá trị Context được cung cấp cho toàn bộ cây Component
    */
   const value = {
@@ -217,6 +230,7 @@ export function AuthProvider({ children }) {
     isRestoringSession,
     permissions,
     updatePermissions,
+    updateUser,
     login,
     logout,
   };

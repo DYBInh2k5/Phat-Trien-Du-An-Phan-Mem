@@ -109,6 +109,61 @@ export class AuthController {
   }
 
   /**
+   * PUT /api/auth/profile
+   * Cập nhật hồ sơ cá nhân: full_name, email, phone.
+   * Yêu cầu token xác thực — tất cả 5 vai trò đều dùng được.
+   * Validate email format, độ dài tên, không cho phép đổi username/role.
+   *
+   * Response 200: { success, message, user: { id, username, name, role, email, phone } }
+   * Response 400: dữ liệu không hợp lệ
+   * Response 500: lỗi server
+   */
+  static async updateProfile(req, res) {
+    const { fullName, email, phone } = req.body ?? {};
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Chưa xác thực.' });
+    }
+
+    // Validate các trường
+    if (fullName !== undefined) {
+      const name = String(fullName).trim();
+      if (!name || name.length > 100) {
+        return res.status(400).json({ success: false, message: 'Họ tên không hợp lệ (1–100 ký tự).' });
+      }
+    }
+    if (email !== undefined) {
+      const emailTrimmed = String(email).trim();
+      if (emailTrimmed && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed)) {
+        return res.status(400).json({ success: false, message: 'Địa chỉ email không hợp lệ.' });
+      }
+    }
+    if (phone !== undefined) {
+      const phoneTrimmed = String(phone).trim();
+      if (phoneTrimmed && !/^[0-9+\s\-]{7,20}$/.test(phoneTrimmed)) {
+        return res.status(400).json({ success: false, message: 'Số điện thoại không hợp lệ.' });
+      }
+    }
+
+    try {
+      const updated = await UserRepository.updateProfile(userId, {
+        fullName: fullName !== undefined ? String(fullName).trim() : undefined,
+        email:    email    !== undefined ? String(email).trim()    : undefined,
+        phone:    phone    !== undefined ? String(phone).trim()    : undefined,
+      });
+      return res.json({
+        success: true,
+        message: 'Cập nhật hồ sơ thành công.',
+        user: updated,
+      });
+    } catch (err) {
+      console.error('[AuthController.updateProfile]', err);
+      return res.status(500).json({ success: false, message: err.message || 'Lỗi server.' });
+    }
+  }
+
+  /**
    * GET /api/auth/me
    * Trả thông tin user đang đăng nhập (từ JWT token đã decode bởi middleware)
    */
