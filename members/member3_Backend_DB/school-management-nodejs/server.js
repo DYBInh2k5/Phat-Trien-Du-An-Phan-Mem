@@ -241,8 +241,11 @@ app.post('/api/reports/bgh/lock-all',   authenticateToken, ReportController.lock
 app.post('/api/reports/bgh/approve-unlock', authenticateToken, requireBGH, ReportController.approveBGHUnlock);
 
 // Notification Routes (unread-count BEFORE :id to avoid route conflict)
-app.get('/api/notifications/unread-count', authenticateToken, NotificationController.getUnreadCount);
+app.get('/api/notifications/unread-count',  authenticateToken, NotificationController.getUnreadCount);
 app.get('/api/notifications',              authenticateToken, NotificationController.getNotifications);
+// read-all và broadcast PHẢI đứng trước /:id/read để Express không nhầm 'read-all'/'broadcast' là :id
+app.patch('/api/notifications/read-all',   authenticateToken, NotificationController.markAllRead);
+app.post('/api/notifications/broadcast',   authenticateToken, requireBGH, NotificationController.broadcast);
 app.patch('/api/notifications/:id/read',   authenticateToken, NotificationController.markRead);
 
 // User Management Routes (Settings)

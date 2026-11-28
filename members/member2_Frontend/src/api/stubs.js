@@ -512,6 +512,26 @@ export const markNotificationRead = async (id) => {
 };
 
 /**
+ * Đánh dấu tất cả thông báo chưa đọc của user hiện tại là đã đọc.
+ * @returns {{ updatedCount: number }}
+ */
+export const markAllNotificationsRead = async () => {
+  const data = await apiClient('/notifications/read-all', { method: 'PATCH' });
+  return data ?? { updatedCount: 0 };
+};
+
+/**
+ * BGH gửi thông báo broadcast theo nhóm đối tượng.
+ * @param {{ title, content, targetGrade?, targetRole?, specificClass?, relatedSemester? }} payload
+ * @returns {Promise<Object>} notification vừa tạo
+ */
+export const broadcastNotification = async (payload) => {
+  const data = await apiClient('/notifications/broadcast', { method: 'POST', body: payload });
+  if (!data?.success) throw new Error(data?.message || 'Gửi thông báo thất bại.');
+  return data.data;
+};
+
+/**
  * BGH duyệt mở khóa sổ điểm.
  * @param {{ notificationId, classId, className, gvcnUsername, semester, schoolYear }}
  */
