@@ -564,12 +564,14 @@ function ImportModal({ isOpen, classes, onClose, onImported }) {
       const seen = new Set();
       const validClassNames = new Set(classes.map((c) => c.name));
       const checked = parsed.map((r) => {
+        // parseStudentImportFile trả về _error (string), tổng hợp vào mảng _errors để UI dùng
         const errors = [];
         if (r._error) errors.push(r._error);
-        if (seen.has(r.studentCode)) errors.push('Mã học sinh bị trùng trong file');
-        seen.add(r.studentCode);
-        if (r.className && !validClassNames.has(r.className))
-          errors.push(`Lớp "${r.className}" không tồn tại trong hệ thống`);
+        if (r.studentCode && seen.has(r.studentCode)) errors.push('Mã học sinh bị trùng trong file');
+        if (r.studentCode) seen.add(r.studentCode);
+        // Chỉ báo lỗi lớp nếu lớp đã được điền VÀ có danh sách lớp hợp lệ từ server
+        if (r.className && validClassNames.size > 0 && !validClassNames.has(r.className))
+          errors.push(`Lớp "${r.className}" chưa có trong hệ thống`);
         return { ...r, _errors: errors };
       });
 

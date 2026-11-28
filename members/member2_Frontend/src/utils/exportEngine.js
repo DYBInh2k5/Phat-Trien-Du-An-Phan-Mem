@@ -406,63 +406,141 @@ export function downloadStudentImportTemplate() {
 }
 
 /**
+ * Chuẩn hóa chuỗi để so sánh tên cột Excel một cách linh hoạt:
+ *   - Chuyển về chữ thường
+ *   - Bỏ dấu tiếng Việt (NFD + loại tổ hợp dấu)
+ *   - Xóa toàn bộ khoảng trắng, gạch dưới, gạch ngang, BOM (ký tự ẩn đầu dòng)
+ *
+ * Ví dụ: "Mã Học Sinh" → "mahocsinh", "MaHocSinh" → "mahocsinh"
+ *
+ * @param {string} str - Chuỗi đầu vào
+ * @returns {string} Chuỗi đã chuẩn hóa
+ */
+function normalizeKey(str) {
+  return String(str)
+    .normalize('NFD')                        // tách ký tự + dấu tổ hợp
+    .replace(/[\u0300-\u036f]/g, '')         // bỏ dấu tổ hợp (sắc, huyền, hỏi, ngã, nặng,...)
+    .replace(/đ/gi, 'd')                     // đ/Đ → d
+    .toLowerCase()
+    .replace(/[\s\-_\u00ad\ufeff\u200b]/g, ''); // bỏ space, gạch ngang/dưới, BOM, ký tự ẩn
+}
+
+/**
+ * Bảng ánh xạ tên cột Excel → tên field backend.
+ * Mỗi field gồm nhiều alias (tên cột phổ biến người dùng hay đặt),
+ * tất cả đều đã được normalize qua normalizeKey.
+ * Thêm alias vào đây nếu muốn hỗ trợ thêm biến thể tên cột.
+ */
+const COLUMN_ALIASES = {
+  // Thứ tự khai báo quan trọng: parentName PHẢI đứng trước fullName
+  // để 'hotenphuhu ynh' không bị nhầm sang fullName khi so sánh prefix.
+  studentCode: ['mahocsinh', 'masohocsinh', 'mahoc', 'maso', 'studentcode', 'ma', 'id'],
+  parentName:  ['hotenphuhu ynh', 'hotenphuhu', 'hotenchame', 'tengd', 'phuhuynh', 'hotenphhuynh', 'parentname', 'hotenphhuyennh', 'tengiamdiem'],
+  parentPhone: ['sdtphuhuynh', 'sdtph', 'sodienthoaiphuhuynh', 'sodienthoai', 'dienthoaiphuhuynh', 'parentphone', 'phone', 'sdt'],
+  fullName:    ['hoten', 'hovaten', 'ten', 'fullname', 'name', 'hoto'],
+  gender:      ['gioitinh', 'gioi', 'gender', 'sex'],
+  dob:         ['ngaysinh', 'namsinh', 'dob', 'dateofbirth', 'birthday', 'ns'],
+  className:   ['lop', 'tenlop', 'malop', 'lophoc', 'classname', 'class'],
+  status:      ['trangthai', 'status', 'tinhtrang'],
+};
+
+/**
  * Đọc và parse file Excel import học sinh, chuyển thành mảng object chuẩn backend.
+ * Hỗ trợ cả file do hệ thống tạo (sheet "DuLieuMau") lẫn file tự làm bất kỳ.
+ * Tên cột được so sánh mềm (normalize dấu tiếng Việt, bỏ space, không phân biệt hoa/thường).
  *
  * @param {File} file - File Excel người dùng chọn (input type="file")
- * @returns {Promise<Array<{ studentCode, fullName, gender, dob, className, parentName, parentPhone, status }>>}
- * @throws {Error} khi file không đọc được hoặc sai định dạng cột bắt buộc
+ * @returns {Promise<Array<{ studentCode, fullName, gender, dob, className, parentName, parentPhone, status, _row, _errors }>>}
+ * @throws {Error} khi file không đọc được hoặc không có dòng dữ liệu
  */
 export function parseStudentImportFile(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-
-    // Callback khi đọc file lỗi
     reader.onerror = () => reject(new Error('Không thể đọc file Excel.'));
 
-    // Callback khi đọc file thành công
     reader.onload = (e) => {
       try {
         const wb = XLSX.read(e.target.result, { type: 'array' });
 
-        // Ưu tiên sheet "DuLieuMau", nếu không có thì lấy sheet đầu tiên
-        const sheetName = wb.SheetNames.includes('DuLieuMau')
-          ? 'DuLieuMau'
-          : wb.SheetNames[0];
+        // Ưu tiên sheet "DuLieuMau" (file mẫu hệ thống), fallback sheet đầu tiên không phải HuongDan
+        const preferredSheet = wb.SheetNames.find((n) => normalizeKey(n) === 'duliuumau' || normalizeKey(n) === 'dulieumaau' || normalizeKey(n).includes('dulieu') || normalizeKey(n).includes('data'));
+        const sheetName = preferredSheet
+          ?? wb.SheetNames.find((n) => !normalizeKey(n).includes('huongdan') && !normalizeKey(n).includes('guide'))
+          ?? wb.SheetNames[0];
+
         const ws = wb.Sheets[sheetName];
         if (!ws) throw new Error('Không tìm thấy sheet dữ liệu trong file.');
 
-        // Parse tất cả dòng thành object với key theo hàng đầu
+        // Parse tất cả dòng (SheetJS dùng hàng 1 làm header key tự động)
         const raw = XLSX.utils.sheet_to_json(ws, { defval: '' });
-        if (raw.length === 0) throw new Error('File không chứa dòng dữ liệu nào.');
+        if (raw.length === 0) throw new Error('File không chứa dòng dữ liệu nào (hoặc sheet trống).');
 
-        // Chuẩn hóa key (bỏ dấu cách, thống nhất tên field gửi lên backend)
-        const students = raw.map((r, i) => {
-          const get = (...keys) => {
-            for (const k of keys) {
-              const found = Object.keys(r).find(
-                (rk) => rk.toLowerCase().replace(/[\s_]/g, '') === k.toLowerCase().replace(/[\s_]/g, ''),
-              );
-              if (found && r[found] !== '' && r[found] != null) return r[found];
+        // Xây dựng bảng tra ngược: normalizeKey(tên cột trong file) → field name
+        // Lấy từ dòng đầu tiên để biết có những cột nào
+        const sampleRow = raw[0];
+        const colMap = {}; // { excelKey → fieldName }
+
+        // Pass 1: Exact match (ưu tiên cao nhất, không bị nhầm prefix)
+        for (const excelKey of Object.keys(sampleRow)) {
+          if (colMap[excelKey]) continue;
+          const nk = normalizeKey(excelKey);
+          for (const [fieldName, aliases] of Object.entries(COLUMN_ALIASES)) {
+            if (aliases.includes(nk)) {
+              colMap[excelKey] = fieldName;
+              break;
             }
-            return '';
+          }
+        }
+
+        // Pass 2: Prefix/contains match (fallback cho tên cột lạ)
+        for (const excelKey of Object.keys(sampleRow)) {
+          if (colMap[excelKey]) continue; // đã map ở pass 1
+          const nk = normalizeKey(excelKey);
+          for (const [fieldName, aliases] of Object.entries(COLUMN_ALIASES)) {
+            // Bỏ qua field đã được map bởi key khác
+            const alreadyMapped = Object.values(colMap).includes(fieldName);
+            if (alreadyMapped) continue;
+            if (aliases.some((alias) => nk.startsWith(alias) || alias.startsWith(nk))) {
+              colMap[excelKey] = fieldName;
+              break;
+            }
+          }
+        }
+
+        // Parse từng dòng dữ liệu dùng colMap vừa xây dựng
+        const students = raw.map((r, i) => {
+          /**
+           * Lấy giá trị của field từ dòng r dựa trên colMap.
+           * @param {string} fieldName - Tên field backend cần lấy
+           * @returns {string} Giá trị hoặc chuỗi rỗng
+           */
+          const getField = (fieldName) => {
+            // Tìm key gốc trong object dòng dựa trên colMap đã xây từ header
+            const excelKey = Object.keys(colMap).find((k) => colMap[k] === fieldName);
+            if (!excelKey) return '';
+            const val = r[excelKey];
+            return val !== '' && val != null ? String(val).trim() : '';
           };
 
           const row = {
-            studentCode: String(get('MaHocSinh', 'studentCode')).trim(),
-            fullName:    String(get('HoTen', 'fullName')).trim(),
-            gender:      String(get('GioiTinh', 'gender')).trim(),
-            dob:         String(get('NgaySinh', 'dob')).trim(),
-            className:   String(get('Lop', 'className')).trim(),
-            parentName:  String(get('HoTenPhuHuynh', 'parentName')).trim(),
-            parentPhone: String(get('SDTPhuHuynh', 'parentPhone')).trim(),
-            status:      String(get('TrangThai', 'status')).trim() || 'DangHoc',
-            _row: i + 2, // +2 vì sheet_to_json bỏ header (dòng 1)
+            studentCode: getField('studentCode'),
+            fullName:    getField('fullName'),
+            gender:      getField('gender'),
+            dob:         getField('dob'),
+            className:   getField('className'),
+            parentName:  getField('parentName'),
+            parentPhone: getField('parentPhone'),
+            status:      getField('status') || 'DangHoc',
+            _row: i + 2, // +2: dòng 1 là header trong Excel
           };
 
-          // Kiểm tra trường bắt buộc
-          if (!row.studentCode || !row.fullName || !row.className) {
-            row._error = 'Thiếu mã học sinh, họ tên hoặc lớp';
-          }
+          // Kiểm tra các trường bắt buộc
+          const missing = [];
+          if (!row.studentCode) missing.push('mã học sinh');
+          if (!row.fullName)    missing.push('họ tên');
+          if (!row.className)   missing.push('lớp');
+          row._error = missing.length > 0 ? `Thiếu: ${missing.join(', ')}` : '';
+
           return row;
         });
 
