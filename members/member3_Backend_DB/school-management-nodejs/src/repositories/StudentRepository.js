@@ -48,10 +48,23 @@ export class StudentRepository {
    * @param {number|string} id - Khóa chính học sinh
    * @returns {Promise<Object|null>} Bản ghi học sinh hoặc null nếu không thấy
    */
+  /**
+   * Tìm học sinh theo ID số nguyên hoặc student_code (mã HS dạng "HS001").
+   * Frontend truyền student.id = student_code, nên cần hỗ trợ cả hai dạng.
+   * @param {number|string} id - Số nguyên id hoặc chuỗi student_code
+   * @returns {Promise<Object|null>}
+   */
   static async findById(id) {
-    const res = await query('SELECT * FROM students WHERE id = $1', [id]);
-    if (res && res.rows) return res.rows[0] || null;
-    return memStudents.find(s => s.id === parseInt(id, 10)) || null;
+    const isNumeric = /^\d+$/.test(String(id));
+    if (isNumeric) {
+      const res = await query('SELECT * FROM students WHERE id = $1', [id]);
+      if (res && res.rows) return res.rows[0] || null;
+      return memStudents.find(s => s.id === parseInt(id, 10)) || null;
+    } else {
+      const res = await query('SELECT * FROM students WHERE student_code = $1', [id]);
+      if (res && res.rows) return res.rows[0] || null;
+      return memStudents.find(s => s.student_code === id || s.studentCode === id) || null;
+    }
   }
 
   /**
@@ -213,18 +226,17 @@ export class StudentRepository {
    * @throws {Error} PostgreSQL FK violation khi còn dữ liệu liên quan (điểm danh, điểm số, học phí...)
    */
   static async deleteById(id) {
-    // Thực thi câu lệnh DELETE với RETURNING * để lấy lại bản ghi vừa xóa
-    const res = await query(
-      'DELETE FROM students WHERE id = $1 RETURNING *',
-      [id]
-    );
-    if (res && res.rows) {
-      // rows rỗng nghĩa là không tìm thấy học sinh với id này
-      return res.rows[0] || null;
-    }
+    const isNumeric = /^\d+$/.test(String(id));
+    const sql = isNumeric
+      ? 'DELETE FROM students WHERE id = $1 RETURNING *'
+      : 'DELETE FROM students WHERE student_code = $1 RETURNING *';
 
-    // ── Fallback: Xóa khỏi kho nhớ tạm khi PostgreSQL chưa sẵn sàng ──
-    const idx = memStudents.findIndex(s => s.id === parseInt(id, 10));
+    const res = await query(sql, [id]);
+    if (res && res.rows) return res.rows[0] || null;
+
+    const idx = isNumeric
+      ? memStudents.findIndex(s => s.id === parseInt(id, 10))
+      : memStudents.findIndex(s => s.student_code === id || s.studentCode === id);
     if (idx === -1) return null;
     const [removed] = memStudents.splice(idx, 1);
     return removed;
@@ -238,9 +250,12 @@ export class StudentRepository {
    * @returns {Promise<Object>} Bản ghi học sinh sau khi cập nhật
    */
   static async update(id, s) {
+    const isNumeric = /^\d+$/.test(String(id));
+    const whereCol = isNumeric ? 'id' : 'student_code';
+
     const res = await query(
       `UPDATE students SET full_name = $1, gender = $2, dob = $3, class_name = $4, parent_name = $5, parent_phone = $6, gpa = $7, academic_rank = $8, conduct_rank = $9, status = $10, avatar = $11
-       WHERE id = $12 RETURNING *`,
+       WHERE ${whereCol} = $12 RETURNING *`,
       [
         s.fullName || s.full_name,
         s.gender,
@@ -258,8 +273,9 @@ export class StudentRepository {
     );
     if (res && res.rows && res.rows.length > 0) return res.rows[0];
 
-    // Cập nhật kho nhớ tạm
-    const idx = memStudents.findIndex(item => item.id === parseInt(id, 10));
+    const idx = isNumeric
+      ? memStudents.findIndex(item => item.id === parseInt(id, 10))
+      : memStudents.findIndex(item => item.student_code === id || item.studentCode === id);
     if (idx !== -1) {
       memStudents[idx] = { ...memStudents[idx], ...s };
       return memStudents[idx];
