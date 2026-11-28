@@ -22,6 +22,48 @@ import { GradeBookRepository } from '../repositories/GradeBookRepository.js';
  */
 export class StudentService {
   /**
+   * Xóa học sinh khỏi hệ thống theo ID (chỉ BGH mới được gọi).
+   * Nghiệp vụ:
+   *   1. Kiểm tra học sinh tồn tại (ném 404 nếu không thấy).
+   *   2. Gọi StudentRepository.deleteById → PostgreSQL xóa và trả lại bản ghi vừa xóa.
+   *   3. Nếu DB ném lỗi FK violation (còn điểm danh / điểm số / học phí liên quan),
+   *      bọc lại thành thông báo tiếng Việt rõ ràng để frontend hiển thị.
+   *
+   * @async
+   * @param {number|string} id - Khóa chính học sinh cần xóa
+   * @returns {Promise<Object>} Bản ghi học sinh vừa bị xóa
+   * @throws {Error} 'NOT_FOUND' khi ID không tồn tại
+   * @throws {Error} 'FK_VIOLATION' khi còn dữ liệu ràng buộc
+   */
+  static async deleteStudent(id) {
+    // Bước 1: Kiểm tra học sinh tồn tại trước khi xóa
+    const existing = await StudentRepository.findById(id);
+    if (!existing) {
+      const err = new Error(`Không tìm thấy học sinh với ID: ${id}`);
+      err.code = 'NOT_FOUND';
+      throw err;
+    }
+
+    try {
+      // Bước 2: Thực hiện xóa qua Repository
+      const deleted = await StudentRepository.deleteById(id);
+      return deleted ?? existing; // trả về bản ghi cũ nếu DB không RETURNING (mem fallback)
+    } catch (dbErr) {
+      // Bước 3: Phân loại lỗi DB — FK violation xảy ra khi còn bản ghi liên quan
+      // PostgreSQL error code 23503 = foreign_key_violation
+      if (dbErr.code === '23503') {
+        const fkErr = new Error(
+          `Không thể xóa học sinh "${existing.full_name || existing.fullName}" vì còn dữ liệu liên quan ` +
+          `(điểm danh, điểm số, học phí hoặc đơn xin nghỉ). Vui lòng xóa dữ liệu liên quan trước.`
+        );
+        fkErr.code = 'FK_VIOLATION';
+        throw fkErr;
+      }
+      throw dbErr; // Các lỗi DB khác: ném lại để Controller xử lý 500
+    }
+  }
+
+  /**
    * Lấy danh sách học sinh (có thể lọc theo lớp học)
    * @async
    * @param {string} [className] - Tên lớp cần lọc (ví dụ: '10A1'). Nếu bỏ trống sẽ lấy toàn bộ trường.

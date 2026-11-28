@@ -20,6 +20,7 @@
  */
 
 import { StudentService } from '../services/StudentService.js';
+import { AuditLogger } from '../utils/AuditLogger.js';
 
 const SENTINEL = '__NO_CLASS__';
 
@@ -27,6 +28,61 @@ const SENTINEL = '__NO_CLASS__';
  * Lớp StudentController - Xử lý các yêu cầu HTTP liên quan đến học sinh
  */
 export class StudentController {
+  /**
+   * API DELETE /api/students/:id
+   * Xóa vĩnh viễn học sinh khỏi hệ thống.
+   * Chỉ dành cho Ban Giám Hiệu (BGH) — middleware requireBGH kiểm tra trước khi vào đây.
+   * Ghi nhật ký hành động xóa vào AuditLogger để truy vết sau này.
+   *
+   * @async
+   * @param {import('express').Request} req - Yêu cầu HTTP (req.params.id: mã học sinh)
+   * @param {import('express').Response} res - Phản hồi HTTP
+   * @returns {Promise<void>}
+   *
+   * Response codes:
+   *   200 OK           — xóa thành công, trả về bản ghi vừa xóa
+   *   404 Not Found    — không tìm thấy học sinh với ID tương ứng
+   *   409 Conflict     — còn dữ liệu ràng buộc khóa ngoại (điểm danh, điểm số...)
+   *   500 Server Error — lỗi hệ thống ngoài tầm kiểm soát
+   */
+  static async deleteStudent(req, res) {
+    try {
+      const { id } = req.params;
+
+      // Gọi Service xóa học sinh (kiểm tra tồn tại + xử lý FK violation bên trong)
+      const deleted = await StudentService.deleteStudent(id);
+
+      // Ghi nhật ký hành động xóa để BGH có thể truy vết sau
+      AuditLogger.log({
+        action: 'DELETE_STUDENT',
+        user:   req.user?.username ?? 'unknown',
+        role:   req.user?.role     ?? 'BGH',
+        entity: 'students',
+        entityId: id,
+        newValue: null,
+        previousValue: { id: deleted.id, name: deleted.full_name || deleted.fullName },
+      });
+
+      return res.json({
+        success: true,
+        message: `Đã xóa học sinh thành công.`,
+        data: deleted,
+      });
+    } catch (err) {
+      // Phân loại lỗi → trả về HTTP status code phù hợp
+      if (err.code === 'NOT_FOUND') {
+        return res.status(404).json({ success: false, message: err.message, code: err.code });
+      }
+      if (err.code === 'FK_VIOLATION') {
+        // 409 Conflict: không thể xóa do ràng buộc dữ liệu
+        return res.status(409).json({ success: false, message: err.message, code: err.code });
+      }
+      // Lỗi hệ thống không xác định
+      console.error('[StudentController.deleteStudent]', err);
+      return res.status(500).json({ success: false, message: 'Lỗi hệ thống khi xóa học sinh.' });
+    }
+  }
+
   /**
    * API GET /api/students
    * Lấy danh sách học sinh (hỗ trợ lọc theo query param ?className=10A1)

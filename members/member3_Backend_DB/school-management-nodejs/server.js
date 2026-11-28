@@ -165,6 +165,8 @@ app.post('/api/students',     authenticateToken, resolveGvcnClass, StudentContro
 app.put('/api/students/:id',  authenticateToken, resolveGvcnClass, StudentController.updateStudent);
 app.put('/api/students/:id/conduct', authenticateToken, resolveGvcnClass, StudentController.updateConduct);
 app.post('/api/students/:id/calculate-gpa', authenticateToken, StudentController.calculateGPA);
+// DELETE /api/students/:id — chỉ BGH (requireBGH kiểm tra role trước khi vào controller)
+app.delete('/api/students/:id', authenticateToken, requireBGH, StudentController.deleteStudent);
 
 // GradeBook Closure & Unlock Routes (MUST be before generic /api/gradebook routes)
 app.get('/api/gradebook/closure',                authenticateToken, ClosureController.getStatus);

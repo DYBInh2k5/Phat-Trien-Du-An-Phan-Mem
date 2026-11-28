@@ -121,6 +121,35 @@ export class StudentRepository {
   }
 
   /**
+   * Xóa một học sinh khỏi cơ sở dữ liệu theo ID.
+   * Nếu bảng có ràng buộc khóa ngoại (attendance, gradebook, tuition, leave_requests),
+   * PostgreSQL sẽ ném lỗi FK violation — tầng Service bắt và chuyển thành thông báo rõ ràng.
+   * Fallback: xóa khỏi kho nhớ tạm khi không có CSDL thật.
+   *
+   * @async
+   * @param {number|string} id - Khóa chính (id) của học sinh cần xóa
+   * @returns {Promise<Object|null>} Bản ghi học sinh vừa bị xóa (RETURNING *), hoặc null nếu không tìm thấy
+   * @throws {Error} PostgreSQL FK violation khi còn dữ liệu liên quan (điểm danh, điểm số, học phí...)
+   */
+  static async deleteById(id) {
+    // Thực thi câu lệnh DELETE với RETURNING * để lấy lại bản ghi vừa xóa
+    const res = await query(
+      'DELETE FROM students WHERE id = $1 RETURNING *',
+      [id]
+    );
+    if (res && res.rows) {
+      // rows rỗng nghĩa là không tìm thấy học sinh với id này
+      return res.rows[0] || null;
+    }
+
+    // ── Fallback: Xóa khỏi kho nhớ tạm khi PostgreSQL chưa sẵn sàng ──
+    const idx = memStudents.findIndex(s => s.id === parseInt(id, 10));
+    if (idx === -1) return null;
+    const [removed] = memStudents.splice(idx, 1);
+    return removed;
+  }
+
+  /**
    * Cập nhật thông tin hồ sơ học sinh theo ID
    * @async
    * @param {number|string} id - Khóa chính học sinh cần sửa
