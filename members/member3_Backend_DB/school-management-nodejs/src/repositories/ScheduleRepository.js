@@ -4,6 +4,12 @@ import { querySafe as query } from '../config/db.js';
  * ScheduleRepository — Tầng truy cập dữ liệu cho thời khóa biểu.
  * Chỉ chứa SQL thuần, không có business logic.
  */
+
+/**
+ * Kho nhớ tạm thời cho schedules (in-memory fallback khi DB offline).
+ * Export để ScheduleRepository.findConflicts() dùng được khi DB lỗi.
+ */
+export const memSchedules = [];
 export class ScheduleRepository {
   /**
    * Lấy toàn bộ slot của một lớp trong một tuần.
@@ -19,6 +25,65 @@ export class ScheduleRepository {
     );
     if (!res) return [];
     return res.rows;
+  }
+
+  /**
+   * Kiểm tra xung đột giáo viên hoặc phòng học tại cùng (week_start, day_of_week, period).
+   * Loại trừ chính lớp đang lưu (class_id != currentClassId) để tránh false-positive khi upsert.
+   *
+   * Trả về mảng các slot bị xung đột (rỗng = không có xung đột).
+   *
+   * @param {Object} opts
+   * @param {string}      opts.weekStart      - 'YYYY-MM-DD'
+   * @param {number}      opts.dayOfWeek      - 1-7
+   * @param {number}      opts.period         - Tiết học (1-10)
+   * @param {string}      opts.teacherName    - Tên giáo viên
+   * @param {string}      opts.room           - Phòng học ('' = không kiểm tra)
+   * @param {string}      opts.currentClassId - Lớp đang được lưu (loại trừ khỏi kết quả)
+   * @returns {Promise<Array<{ class_id, teacher_name, room, subject_name }>>}
+   */
+  static async findConflicts({ weekStart, dayOfWeek, period, teacherName, room, currentClassId }) {
+    // ── PostgreSQL: truy vấn tìm xung đột giáo viên hoặc phòng học ──────────
+    const params = [weekStart, dayOfWeek, period, currentClassId];
+    const orConditions = [];
+
+    // Luôn kiểm tra giáo viên trùng (teacher_name không rỗng)
+    if (teacherName) {
+      params.push(teacherName);
+      orConditions.push(`teacher_name = $${params.length}`);
+    }
+    // Chỉ kiểm tra phòng trùng khi phòng được điền (tránh null = null)
+    if (room && room.trim()) {
+      params.push(room.trim());
+      orConditions.push(`room = $${params.length}`);
+    }
+
+    if (orConditions.length === 0) return [];
+
+    const res = await query(
+      `SELECT class_id, teacher_name, room, subject_name
+       FROM schedules
+       WHERE week_start = $1
+         AND day_of_week = $2
+         AND period = $3
+         AND class_id != $4
+         AND (${orConditions.join(' OR ')})`,
+      params
+    );
+
+    if (res && res.rows) return res.rows;
+
+    // ── Fallback in-memory khi DB chưa sẵn sàng ─────────────────────────────
+    return memSchedules.filter(s =>
+      s.week_start  === weekStart &&
+      s.day_of_week === dayOfWeek &&
+      s.period      === period &&
+      s.class_id    !== currentClassId &&
+      (
+        (teacherName && s.teacher_name === teacherName) ||
+        (room && room.trim() && s.room === room.trim())
+      )
+    );
   }
 
   /**
@@ -60,7 +125,29 @@ export class ScheduleRepository {
         slot.timeRange || '',
       ]
     );
-    if (!res) return null;
+    if (!res) {
+      // ── Fallback in-memory upsert ──
+      const idx = memSchedules.findIndex(s =>
+        s.class_id    === slot.classId &&
+        s.week_start  === slot.weekStart &&
+        s.day_of_week === slot.dayOfWeek &&
+        s.period      === slot.period
+      );
+      const newRow = {
+        id:           idx >= 0 ? memSchedules[idx].id : memSchedules.length + 1,
+        class_id:     slot.classId,
+        week_start:   slot.weekStart,
+        day_of_week:  slot.dayOfWeek,
+        period:       slot.period,
+        subject_name: slot.subjectName,
+        teacher_name: slot.teacherName,
+        room:         slot.room,
+        time_range:   slot.timeRange || '',
+      };
+      if (idx >= 0) memSchedules[idx] = newRow;
+      else memSchedules.push(newRow);
+      return newRow;
+    }
     return res.rows[0];
   }
 

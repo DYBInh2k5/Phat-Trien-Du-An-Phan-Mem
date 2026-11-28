@@ -43,6 +43,15 @@ export class ScheduleController {
       const saved = await ScheduleService.saveSlot(req.body);
       return res.json({ success: true, data: saved });
     } catch (err) {
+      // 409 Conflict: giáo viên hoặc phòng học bị trùng
+      if (err.code === 'CONFLICT_409') {
+        return res.status(409).json({
+          success:   false,
+          message:   err.message,
+          code:      'CONFLICT_409',
+          conflicts: err.conflicts ?? [],
+        });
+      }
       console.error('[ScheduleController] saveSlot error:', err);
       return res.status(500).json({ success: false, message: err.message });
     }

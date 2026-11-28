@@ -37,6 +37,7 @@ const ScheduleAdminPage = lazy(() => import('../pages/bgh/ScheduleAdminPage.jsx'
 const BGHReportCenterPage = lazy(() => import('../pages/bgh/BGHReportCenterPage.jsx'));
 const BGHTuitionPage = lazy(() => import('../pages/bgh/BGHTuitionPage.jsx'));
 const SystemSettingsPage = lazy(() => import('../pages/bgh/SystemSettingsPage.jsx'));
+const AuditLogsPage = lazy(() => import('../pages/bgh/AuditLogsPage.jsx'));
 
 // Student portal pages
 const StudentGradebookPage = lazy(() => import('../pages/student/StudentGradebookPage.jsx'));
@@ -127,6 +128,7 @@ export default function AppRouter() {
             <Route path={ROUTES.BGH_REPORTS} element={<BGHReportCenterPage />} />
             <Route path={ROUTES.BGH_TUITION} element={<BGHTuitionPage />} />
             <Route path={ROUTES.BGH_SETTINGS} element={<SystemSettingsPage />} />
+            <Route path={ROUTES.BGH_AUDIT_LOGS} element={<AuditLogsPage />} />
           </Route>
 
           {/* HS / PH routes */}

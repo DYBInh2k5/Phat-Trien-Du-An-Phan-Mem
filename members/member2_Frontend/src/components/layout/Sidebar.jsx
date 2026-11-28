@@ -60,6 +60,7 @@ const ROLE_NAV_GROUPS = {
     {
       title: 'HỆ THỐNG',
       items: [
+        { label: 'Nhật ký Kiểm toán',       icon: 'policy',          path: ROUTES.BGH_AUDIT_LOGS },
         { label: 'Cài đặt & Phân quyền',     icon: 'settings',        path: ROUTES.BGH_SETTINGS,       moduleId: 'settings' },
       ]
     }

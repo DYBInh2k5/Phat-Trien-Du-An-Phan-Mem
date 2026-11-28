@@ -60,11 +60,45 @@ export class ScheduleService {
   }
 
   /**
-   * Lưu (upsert) một slot. Trả về slot đã lưu dưới dạng DTO.
+   * Lưu (upsert) một slot. Kiểm tra xung đột giáo viên / phòng học trước khi lưu.
+   * Ném lỗi với code 'CONFLICT_409' nếu phát hiện trùng, trả chi tiết lớp bị xung đột.
    * Đồng thời sync vào schedule_templates (lịch cố định hàng tuần).
+   *
    * @param {object} slot
+   * @throws {{ message, code:'CONFLICT_409', conflicts: Array }} khi xung đột
    */
   static async saveSlot(slot) {
+    // ── Kiểm tra xung đột giáo viên / phòng học ─────────────────────────────
+    const conflicts = await ScheduleRepository.findConflicts({
+      weekStart:      slot.weekStart,
+      dayOfWeek:      slot.dayOfWeek,
+      period:         slot.period,
+      teacherName:    slot.teacherName || '',
+      room:           slot.room        || '',
+      currentClassId: slot.classId,
+    });
+
+    if (conflicts.length > 0) {
+      // Xây thông báo chi tiết: liệt kê từng lớp bị trùng và lý do
+      const details = conflicts.map(c => {
+        const reasons = [];
+        if (slot.teacherName && c.teacher_name === slot.teacherName)
+          reasons.push(`giáo viên "${c.teacher_name}" đang dạy lớp ${c.class_id}`);
+        if (slot.room && slot.room.trim() && c.room === slot.room.trim())
+          reasons.push(`phòng học "${c.room}" đang được lớp ${c.class_id} sử dụng`);
+        return reasons.join(' và ');
+      });
+
+      const err = new Error(
+        `Xung đột thời khóa biểu: ${details.join('; ')}. ` +
+        `Vui lòng chọn giáo viên hoặc phòng học khác.`
+      );
+      err.code = 'CONFLICT_409';
+      err.conflicts = conflicts;
+      throw err;
+    }
+
+    // ── Lưu slot sau khi đã qua kiểm tra ─────────────────────────────────────
     const saved = await ScheduleRepository.upsert(slot);
     if (!saved) throw new Error('Không thể lưu tiết học. Vui lòng kiểm tra kết nối DB.');
 

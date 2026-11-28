@@ -24,6 +24,7 @@ export const ROUTES = {
   STUDENT_EXAMS: '/student/exams',
   NOTIFICATIONS: '/notifications',
   BGH_TUITION: '/bgh/tuition',
+  BGH_AUDIT_LOGS: '/bgh/audit-logs',
 };
 
 export const ROLE_DASHBOARD = {
