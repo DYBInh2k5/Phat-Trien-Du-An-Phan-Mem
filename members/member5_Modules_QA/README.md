@@ -6,6 +6,7 @@ DỰ ÁN: HỆ THỐNG QUẢN LÝ LỚP HỌC THPT HSU (HTQLLH / SCHOOL MANAGEME
 THÀNH VIÊN: NGUYỄN MINH QUỐC BẢO
 VAI TRÒ: QA/QC TESTER (TESTER LEAD) & FUNCTIONAL MODULES DEVELOPER
 MÔN HỌC: SW320DV01 — PHÁT TRIỂN DỰ ÁN PHẦN MỀM (ĐẠI HỌC HOA SEN)
+BẢNG TRELLO KANBAN: https://trello.com/b/gkdRNT57/htqllh-h%E1%BB%87-th%E1%BB%91ng-qu%E1%BA%A3n-l%C3%BD-l%E1%BB%9Bp-h%E1%BB%8Dc-h%E1%BB%8Dc-v%E1%BB%A5-edumanage-pro
 VỊ TRÍ TÀI LIỆU: members/member5_Modules_QA/README.md
 NGÀY CẬP NHẬT: 17/11/2026 (TUẦN 10 / 15 TUẦN HỌC KỲ 2631 - 214 CA, 0 FAIL)
 ================================================================================

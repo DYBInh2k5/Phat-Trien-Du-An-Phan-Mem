@@ -1,276 +1,389 @@
+/**
+ * ==============================================================================
+ * DỰ ÁN HỆ THỐNG QUẢN LÝ LỚP HỌC (HTQLLH) - THPT HSU
+ * ==============================================================================
+ * Tệp: members/member2_Frontend/src/pages/auth/LoginPage.jsx
+ * Vai trò: Trang Đăng Nhập Tập Trung (Enterprise Single Sign-On Portal)
+ * Kiến trúc: Clean Architecture - UI Presentation Layer
+ * Tác giả: Nhóm 6 Sinh viên HSU & Võ Duy Bình (Reviewer)
+ * Ngày cập nhật: 28/11/2026
+ * Mô tả:
+ *   - Giao diện đăng nhập chia đôi màn hình (Split-Screen) chuẩn HSU Digital Campus:
+ *     + Cột trái: Logo Hoa Sen University | Beyond Boundaries, ảnh tòa nhà cơ sở
+ *       hiện đại full-bleed kèm lớp phủ chuyển sắc bầu trời và dải sóng xanh-vàng.
+ *     + Cột phải: Thẻ đăng nhập nổi trên nền sáng tối giản với form định danh,
+ *       nút đăng nhập xanh navy và ngăn tài khoản kiểm thử 5 vai trò.
+ *   - Tự động nhận diện vai trò (BGH, GVCN, GV, HS, PH) dựa trên CSDL PostgreSQL.
+ * ==============================================================================
+ */
+
 import { useState } from 'react';
 import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { ROLES } from '../../constants/roles.js';
 import { ROLE_DASHBOARD, ROUTES } from '../../constants/routes.js';
 
-const ROLE_CONFIGS = [
+/**
+ * Danh sách tài khoản thử nghiệm chuẩn mực cho 5 vai trò hệ thống
+ */
+const DEMO_ACCOUNTS = [
   {
     role: ROLES.BGH,
-    shortLabel: 'BGH',
     label: 'Ban Giám Hiệu',
     subTitle: 'Hiệu Trưởng / Quản Trị Hệ Thống',
-    icon: 'admin_panel_settings',
-    badgeColor: 'bg-amber-100 text-amber-800 border-amber-300',
     username: 'bgh.admin',
-    defaultPass: '123456',
-    desc: 'Quản trị điều hành, phê duyệt khóa/mở sổ điểm toàn trường, giám sát chuyên cần và thống kê học lực vĩ mô.',
-    avatarTitle: 'Thầy Trần Quốc Bảo (Hiệu trưởng)',
+    password: '123456',
+    name: 'Thầy Trần Quốc Bảo',
+    icon: 'admin_panel_settings',
   },
   {
     role: ROLES.GVCN,
-    shortLabel: 'GVCN',
     label: 'GV Chủ Nhiệm',
-    subTitle: 'Giáo Viên Lớp 10A1',
-    icon: 'supervisor_account',
-    badgeColor: 'bg-purple-100 text-purple-800 border-purple-300',
+    subTitle: 'Lớp 10A1',
     username: 'gvcn.10a1',
-    defaultPass: '123456',
-    desc: 'Điểm danh chuyên cần học sinh 10A1 hằng ngày, duyệt đơn xin nghỉ phép của phụ huynh và quản lý hồ sơ lớp.',
-    avatarTitle: 'Cô Lê Minh Châu (GVCN 10A1)',
+    password: '123456',
+    name: 'Cô Lê Minh Châu',
+    icon: 'supervisor_account',
   },
   {
     role: ROLES.GV,
-    shortLabel: 'GV Bộ Môn',
     label: 'GV Bộ Môn',
-    subTitle: 'Giáo Viên Môn Toán',
-    icon: 'school',
-    badgeColor: 'bg-blue-100 text-blue-800 border-blue-300',
+    subTitle: 'Giáo Viên Toán',
     username: 'gv.an',
-    defaultPass: '123456',
-    desc: 'Nhập điểm thành phần (Miệng, 15 phút, 1 tiết, Giữa kỳ, Cuối kỳ), tự động tính GPA và gửi khóa sổ điểm.',
-    avatarTitle: 'Thầy Nguyễn Văn An (GV Toán)',
+    password: '123456',
+    name: 'Thầy Nguyễn Văn An',
+    icon: 'school',
   },
   {
     role: ROLES.HS,
-    shortLabel: 'Học Sinh',
     label: 'Học Sinh',
-    subTitle: 'Cổng Thông Tin Học Sinh',
-    icon: 'person',
-    badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+    subTitle: 'Lớp 10A1',
     username: 'hs.anh',
-    defaultPass: '123456',
-    desc: 'Tra cứu bảng điểm điện tử cá nhân, xem thời khóa biểu, lịch thi và theo dõi kết quả chuyên cần tích lũy.',
-    avatarTitle: 'Em Nguyễn Thị Ánh (HS 10A1)',
+    password: '123456',
+    name: 'Em Nguyễn Thị Ánh',
+    icon: 'person',
   },
   {
     role: ROLES.PH,
-    shortLabel: 'Phụ Huynh',
     label: 'Phụ Huynh',
-    subTitle: 'Sổ Liên Lạc Điện Tử',
-    icon: 'family_restroom',
-    badgeColor: 'bg-rose-100 text-rose-800 border-rose-300',
+    subTitle: 'PH Em Ánh',
     username: 'ph.hs0001',
-    defaultPass: '123456',
-    desc: 'Theo dõi học lực và chuyên cần của con, nộp đơn xin nghỉ học trực tuyến, tra cứu và thanh toán học phí kèm biên lai.',
-    avatarTitle: 'Chị Nguyễn Thị Hương (PH HS001)',
+    password: '123456',
+    name: 'Chị Nguyễn Thị Hương',
+    icon: 'family_restroom',
   },
 ];
 
+/**
+ * Biểu tượng chữ lồng thương hiệu Hoa Sen University (SVG chuẩn vector)
+ * @returns {JSX.Element}
+ */
+function HSUWordmarkLogo() {
+  return (
+    <div className="inline-flex items-center gap-3.5 select-none">
+      {/* Geometric Lotus / M-A Monogram */}
+      <svg
+        width="44"
+        height="36"
+        viewBox="0 0 64 52"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="shrink-0"
+        aria-hidden="true"
+      >
+        <path
+          d="M6 44L20 10L32 34L44 10L58 44"
+          stroke="#0A3B8E"
+          strokeWidth="4.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M15 44L26 22L32 34L38 22L49 44"
+          stroke="#0A3B8E"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M25 44L32 29L39 44"
+          stroke="#0A3B8E"
+          strokeWidth="2.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="32" cy="8" r="3" fill="#0A3B8E" />
+      </svg>
+
+      <div className="leading-[1.08] tracking-tight text-[#0A3B8E]">
+        <div className="text-[15px] sm:text-[16px] font-bold uppercase tracking-wide">HOA SEN</div>
+        <div className="text-[15px] sm:text-[16px] font-bold uppercase tracking-wide">UNIVERSITY</div>
+      </div>
+
+      <div className="h-8 w-[1.5px] bg-[#0A3B8E]/40 mx-0.5" />
+
+      <div className="leading-[1.15] text-[#0A3B8E]/90">
+        <div className="text-[11px] font-semibold uppercase tracking-wider">BEYOND</div>
+        <div className="text-[11px] font-semibold uppercase tracking-wider">BOUNDARIES</div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Trang Đăng Nhập Tập Trung (LoginPage)
+ * @returns {JSX.Element}
+ */
 export default function LoginPage() {
   const { isAuthenticated, role, login } = useAuth();
   const navigate = useNavigate();
 
-  const [activeRole, setActiveRole] = useState(ROLES.BGH);
-  const [formData, setFormData] = useState({ username: 'bgh.admin', password: '123456' });
+  // Trạng thái dữ liệu form, hiển thị mật khẩu, lỗi xác thực và ngăn demo
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
+  const [showDemoAccounts, setShowDemoAccounts] = useState(false);
 
-  if (isAuthenticated) {
-    return <Navigate to={ROLE_DASHBOARD[role]} replace />;
+  // Nếu người dùng đã đăng nhập, tự động chuyển về Dashboard tương ứng
+  if (isAuthenticated && role) {
+    return <Navigate to={ROLE_DASHBOARD[role] || ROUTES.HOME} replace />;
   }
 
-  const activeConfig = ROLE_CONFIGS.find((t) => t.role === activeRole) || ROLE_CONFIGS[0];
-
-  const handleRoleSelect = (selectedRole) => {
-    setActiveRole(selectedRole);
-    const cfg = ROLE_CONFIGS.find((t) => t.role === selectedRole);
-    setFormData({
-      username: cfg?.username || '',
-      password: cfg?.defaultPass || '123456',
-    });
-    setError('');
-  };
-
+  /**
+   * Cập nhật state khi người dùng nhập liệu và xóa thông báo lỗi cũ
+   * @param {React.ChangeEvent<HTMLInputElement>} e
+   */
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (error) setError('');
   };
 
-  const handleLoginExecute = async (targetRole, usernameVal, passwordVal) => {
+  /**
+   * Đăng nhập thông qua tài khoản và mật khẩu nhập vào form
+   * @param {React.FormEvent} e
+   */
+  const handleLoginSubmit = async (e) => {
+    if (e) e.preventDefault();
+    const cleanUsername = formData.username.trim();
+    if (!cleanUsername || !formData.password) {
+      setError('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.');
+      return;
+    }
+
     setIsLoading(true);
     setError('');
     try {
-      await login({ username: usernameVal, password: passwordVal, role: targetRole });
-      navigate(ROLE_DASHBOARD[targetRole], { replace: true });
+      // Gọi API đăng nhập tự động nhận diện vai trò (SSO) từ CSDL PostgreSQL
+      const res = await login({
+        username: cleanUsername,
+        password: formData.password,
+      });
+
+      const userRole = res?.user?.role;
+      const targetDashboard = ROLE_DASHBOARD[userRole] || ROUTES.HOME;
+      navigate(targetDashboard, { replace: true });
     } catch (err) {
-      // Ưu tiên thông báo từ backend, fallback về thông báo lỗi kết nối
       if (err?.status === 401) {
-        setError(err.message || 'Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại.');
+        setError(err.message || 'Mã định danh hoặc mật khẩu không chính xác.');
       } else if (err?.status === 400) {
-        setError(err.message || 'Vui lòng nhập đầy đủ thông tin đăng nhập.');
+        setError(err.message || 'Vui lòng cung cấp đầy đủ thông tin đăng nhập.');
       } else if (err?.status === 500) {
         setError('Lỗi kết nối cơ sở dữ liệu. Vui lòng liên hệ Quản trị viên.');
-      } else if (err?.message?.includes('fetch') || err?.message?.includes('Failed to fetch') || err?.message?.includes('NetworkError')) {
-        setError('Không thể kết nối đến server (cổng 8081). Kiểm tra backend có đang chạy không.');
+      } else if (
+        err?.message?.includes('fetch') ||
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('NetworkError')
+      ) {
+        setError('Không thể kết nối đến máy chủ API (cổng 8081). Vui lòng thử lại.');
       } else {
-        setError(err?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
+        setError(err?.message || 'Đăng nhập không thành công. Vui lòng thử lại.');
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleLoginExecute(activeRole, formData.username, formData.password);
+  /**
+   * Điền thông tin tài khoản mẫu vào form để kiểm tra thủ công
+   * @param {object} account
+   */
+  const handleSelectDemoAccount = (account) => {
+    setFormData({
+      username: account.username,
+      password: account.password,
+    });
+    setError('');
+  };
+
+  /**
+   * Đăng nhập nhanh bằng 1 click từ ngăn tài khoản kiểm thử
+   * @param {object} account
+   */
+  const handleQuickDemoLogin = async (account) => {
+    setFormData({
+      username: account.username,
+      password: account.password,
+    });
+    setIsLoading(true);
+    setError('');
+    try {
+      const res = await login({
+        username: account.username,
+        password: account.password,
+        role: account.role,
+      });
+      const userRole = res?.user?.role || account.role;
+      navigate(ROLE_DASHBOARD[userRole] || ROUTES.HOME, { replace: true });
+    } catch (err) {
+      setError(err?.message || 'Đăng nhập thử nghiệm thất bại.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-50 flex flex-col lg:flex-row antialiased select-none font-sans text-slate-800">
+    <div className="min-h-screen w-full flex flex-col lg:flex-row antialiased select-none font-sans text-slate-800 bg-[#f8fafd]">
       {/* ========================================================================= */}
-      {/* LEFT PANEL: BRIGHT HERO SHOWCASE WITH DAYTIME 3D DIGITAL CAMPUS VISUAL     */}
+      {/* CỘT TRÁI: HERO SHOWCASE PHONG CÁCH HSU DIGITAL CAMPUS                      */}
       {/* ========================================================================= */}
-      <div className="relative w-full lg:w-[52%] xl:w-[50%] bg-gradient-to-b from-blue-50/90 via-slate-50 to-indigo-50/80 p-6 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-200/80">
-        {/* Soft Ambient Pastel Glow Orbs */}
-        <div className="absolute -top-24 -left-24 w-80 h-80 bg-blue-300/30 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 -right-24 w-80 h-80 bg-indigo-300/25 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 left-1/4 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="relative w-full lg:w-[50%] min-h-[420px] lg:min-h-screen flex flex-col justify-between overflow-hidden">
+        {/* Ảnh nền tòa nhà cơ sở Hoa Sen full-bleed */}
+        <img
+          src="/hsu-campus-bg.jpg"
+          alt="Cơ sở Trường THPT Hoa Sen (HSU)"
+          className="absolute inset-0 w-full h-full object-cover object-bottom"
+        />
 
-        {/* Top Branding Section */}
-        <div className="relative z-10 space-y-3">
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white border border-blue-200/80 shadow-xs">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold tracking-wider uppercase text-blue-700">
-              TRƯỜNG THPT HOA SEN (HSU) • SMS DIGITAL PORTAL
-            </span>
-          </div>
+        {/* Lớp phủ sáng dịu phần trên giúp chữ và logo luôn sắc nét */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(232,242,255,0.97) 0%, rgba(235,244,255,0.88) 28%, rgba(235,244,255,0.42) 52%, rgba(255,255,255,0.0) 76%)',
+          }}
+        />
 
-          <div className="space-y-1.5">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+        {/* Phần nội dung đầu trang bên trái */}
+        <div className="relative z-10 px-6 sm:px-10 lg:px-14 pt-8 sm:pt-10 lg:pt-11 pb-24 lg:pb-0 space-y-6">
+          {/* Logo Hoa Sen University | Beyond Boundaries */}
+          <HSUWordmarkLogo />
+
+          {/* Pill badge + Tiêu đề chính + Mô tả */}
+          <div className="space-y-3.5 pt-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-slate-200/80 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-[#3b82f6]" />
+              <span className="text-[11px] font-bold tracking-wider uppercase text-slate-700">
+                TRƯỜNG THPT HOA SEN (HSU) • SMS DIGITAL PORTAL
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl xl:text-[36px] font-extrabold tracking-tight text-[#0f172a] leading-[1.18]">
               Hệ Thống Quản Lý Lớp Học &amp; Học Vụ
             </h1>
-            <p className="text-sm sm:text-base text-slate-600 max-w-xl font-normal leading-relaxed">
-              Nền tảng chuyển đổi số giáo dục toàn diện, kết nối thông suốt giữa Ban Giám Hiệu, Thầy Cô, Học Sinh và Phụ Huynh.
+
+            <p className="text-sm sm:text-[15px] text-slate-700 max-w-lg leading-relaxed font-normal">
+              Nền tảng chuyển đổi số giáo dục toàn diện, kết nối thông suốt giữa
+              Ban Giám Hiệu, Thầy Cô, Học Sinh và Phụ Huynh.
             </p>
           </div>
         </div>
 
-        {/* Centerpiece: Bright Daytime 3D Digital Campus Visual */}
-        <div className="relative z-10 my-6 sm:my-8 flex flex-col items-center justify-center">
-          <div className="relative w-full max-w-[460px] group">
-            {/* Subtle card glow */}
-            <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-400/20 via-indigo-400/20 to-teal-400/20 rounded-3xl blur-lg opacity-70 group-hover:opacity-100 transition duration-500" />
+        {/* Dải sóng cong Navy & Vàng Gold ở chân cột trái */}
+        <div className="relative z-10 mt-auto w-full pt-12">
+          {/* SVG đường sóng cong vàng gold + nền xanh navy đậm */}
+          <svg
+            viewBox="0 0 1440 160"
+            preserveAspectRatio="none"
+            className="block w-full h-20 sm:h-24 lg:h-28 -mb-1"
+            aria-hidden="true"
+          >
+            {/* Dải viền vàng gold chạy dọc theo mép trên đường cong */}
+            <path
+              d="M0,12 C380,92 920,122 1440,58 L1440,160 L0,160 Z"
+              fill="#d4a024"
+            />
+            {/* Khối sóng xanh navy chính */}
+            <path
+              d="M0,26 C380,104 920,132 1440,68 L1440,160 L0,160 Z"
+              fill="#0a2d6e"
+            />
+          </svg>
 
-            {/* Main Visual Frame */}
-            <div className="relative rounded-2xl overflow-hidden border border-slate-200/90 bg-white shadow-xl shadow-blue-500/10">
-              <img
-                src="/edumanage-light-hero.jpg"
-                alt="EduManage Pro Bright Digital Campus Architecture"
-                className="w-full h-auto max-h-[360px] sm:max-h-[410px] object-cover object-top transition duration-500 group-hover:scale-[1.01]"
-              />
+          {/* Thanh giá trị cốt lõi trên nền navy đậm */}
+          <div className="bg-[#0a2d6e] px-6 sm:px-10 lg:px-12 pb-5 pt-1 text-white">
+            <div className="flex flex-wrap items-center justify-between sm:justify-start gap-y-2 gap-x-5 text-xs sm:text-[13px] font-medium text-white/95">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-blue-200">school</span>
+                <span>Giáo dục chất lượng</span>
+              </div>
 
-              {/* Bottom Caption Bar */}
-              <div className="bg-white/95 backdrop-blur-md border-t border-slate-200/80 p-3.5 flex items-center justify-between">
-                <div>
-                  <p className="text-[11px] font-bold tracking-wider uppercase text-blue-600">
-                    TRƯỜNG HỌC SỐ (DIGITAL CAMPUS)
-                  </p>
-                  <p className="text-xs font-bold text-slate-900">Hệ Sinh Thái Quản Lý Học Vụ Chuẩn Hóa</p>
-                </div>
-                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-700">
-                  PostgreSQL Online
-                </span>
+              <span className="hidden sm:inline-block h-4 w-px bg-white/25" />
+
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-blue-200">handshake</span>
+                <span>Kết nối bền vững</span>
+              </div>
+
+              <span className="hidden sm:inline-block h-4 w-px bg-white/25" />
+
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-blue-200">star</span>
+                <span>Kiến tạo tương lai</span>
               </div>
             </div>
-
-
-          </div>
-        </div>
-
-        {/* Bottom Metadata on Left */}
-        <div className="relative z-10 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-slate-500">
-          {/* <div>
-            <span className="font-medium text-slate-700">Khoa CNTT • Đại học Hoa Sen (HSU)</span>
-            <span className="mx-2 text-slate-400">•</span>
-            <span>Đồ án Phát triển Dự án Phần mềm</span>
-          </div> */}
-          <div className="flex items-center gap-2 text-slate-600 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>Học kỳ 1 • 2025–2026</span>
           </div>
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* RIGHT PANEL: PURE LIGHT THEME AUTHENTICATION & QUICK ROLE SELECTOR HUB    */}
+      {/* CỘT PHẢI: THẺ ĐĂNG NHẬP TẬP TRUNG TRÊN NỀN SÁNG TỐI GIẢN                   */}
       {/* ========================================================================= */}
-      <div className="flex-1 bg-white lg:bg-slate-50/60 flex flex-col justify-center items-center p-4 sm:p-8 lg:p-12 overflow-y-auto">
-        <div className="w-full max-w-[500px] bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 space-y-6">
-          {/* Header Title & Subtitle */}
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-xs">
-                  <span className="material-symbols-outlined text-[20px]">school</span>
-                </div>
-                <span className="text-xs font-bold tracking-wider uppercase text-blue-700">CỔNG ĐĂNG NHẬP</span>
+      <div className="relative flex-1 bg-[#f6f8fc] flex flex-col justify-center items-center p-5 sm:p-8 lg:p-12 overflow-hidden">
+        {/* Họa tiết đường cong nền nhạt đồng bộ thiết kế */}
+        <div className="absolute -top-32 -right-32 w-[460px] h-[460px] rounded-full bg-white/70 pointer-events-none" />
+        <div className="absolute -bottom-40 -left-24 w-[420px] h-[420px] rounded-full bg-blue-50/60 pointer-events-none" />
+
+        {/* Thẻ Đăng Nhập nổi */}
+        <div className="relative z-10 w-full max-w-[430px] bg-white rounded-3xl p-7 sm:p-9 shadow-[0_20px_50px_-15px_rgba(15,23,42,0.10)] border border-slate-100 space-y-5">
+          {/* Phần đầu thẻ: Logo tròn + Tên cổng */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo-hsu.svg"
+                alt="THPT HSU Logo"
+                className="w-10 h-10 rounded-full shadow-xs shrink-0 object-contain"
+              />
+              <div>
+                <span className="text-[12px] font-extrabold tracking-wide uppercase text-[#0a46a8] block">
+                  CỔNG ĐĂNG NHẬP HỌC VỤ
+                </span>
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
+                  TRƯỜNG THPT HOA SEN • DIGITAL CAMPUS
+                </span>
               </div>
-              <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
-                Phiên bản v1.0
-              </span>
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 pt-1">
-              Đăng Nhập Hệ Thống
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500">
-              Chọn vai trò bên dưới để trải nghiệm hoặc đăng nhập bằng tài khoản được cấp.
-            </p>
-          </div>
-
-          {/* Segmented Control / Role Selector Bar (5 Clean Pill Tabs) */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-slate-700">Chọn vai trò đăng nhập:</span>
-              {/* <span className="text-slate-500 text-[11px] font-medium">{activeConfig.avatarTitle}</span> */}
-            </div>
-
-            <div className="grid grid-cols-5 gap-1.5 p-1.5 bg-slate-100 rounded-xl border border-slate-200/80">
-              {ROLE_CONFIGS.map((cfg) => {
-                const isActive = activeRole === cfg.role;
-                return (
-                  <button
-                    key={cfg.role}
-                    type="button"
-                    onClick={() => handleRoleSelect(cfg.role)}
-                    className={`py-2 px-1 rounded-lg text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${isActive
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
-                      }`}
-                  >
-                    <span className="material-symbols-outlined text-[18px]">{cfg.icon}</span>
-                    <span className="text-[11px] leading-tight truncate w-full text-center">
-                      {cfg.shortLabel}
-                    </span>
-                  </button>
-                );
-              })}
+            <div>
+              <h2 className="text-2xl sm:text-[26px] font-extrabold tracking-tight text-slate-900">
+                Đăng Nhập Hệ Thống
+              </h2>
+              <p className="text-xs sm:text-[13px] text-slate-500 mt-1 leading-relaxed">
+                Sử dụng tài khoản định danh do nhà trường cấp để truy cập cổng thông tin.
+              </p>
             </div>
           </div>
 
-
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Username Input */}
+          {/* Biểu mẫu đăng nhập */}
+          <form onSubmit={handleLoginSubmit} className="space-y-4">
+            {/* Ô nhập Tên đăng nhập */}
             <div className="space-y-1.5">
               <label htmlFor="username" className="block text-xs font-bold text-slate-700">
-                Tên đăng nhập / Mã định danh
+                Tên đăng nhập / Mã định danh / Email
               </label>
               <div className="relative flex items-center">
-                <span className="absolute left-3 text-slate-400 pointer-events-none">
+                <span className="absolute left-3.5 text-slate-400 pointer-events-none">
                   <span className="material-symbols-outlined text-[18px]">person</span>
                 </span>
                 <input
@@ -280,19 +393,19 @@ export default function LoginPage() {
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  placeholder="Nhập tên đăng nhập"
-                  className="w-full bg-white border border-slate-300 rounded-xl text-slate-900 pl-10 pr-3 py-2.5 text-sm transition-all focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 focus:outline-none placeholder:text-slate-400 font-sans shadow-2xs"
+                  placeholder="Nhập tên đăng nhập, mã định danh hoặc email..."
+                  className="w-full bg-white hover:border-slate-300 border border-slate-200 rounded-xl text-slate-900 pl-10 pr-3.5 py-2.5 text-sm transition-all focus:border-[#0a46a8] focus:ring-2 focus:ring-[#0a46a8]/15 focus:outline-none placeholder:text-slate-400 font-sans"
                 />
               </div>
             </div>
 
-            {/* Password Input */}
+            {/* Ô nhập Mật khẩu */}
             <div className="space-y-1.5">
               <label htmlFor="password" className="block text-xs font-bold text-slate-700">
                 Mật khẩu
               </label>
               <div className="relative flex items-center">
-                <span className="absolute left-3 text-slate-400 pointer-events-none">
+                <span className="absolute left-3.5 text-slate-400 pointer-events-none">
                   <span className="material-symbols-outlined text-[18px]">lock</span>
                 </span>
                 <input
@@ -302,13 +415,14 @@ export default function LoginPage() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Nhập mật khẩu"
-                  className="w-full bg-white border border-slate-300 rounded-xl text-slate-900 pl-10 pr-10 py-2.5 text-sm transition-all focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 focus:outline-none placeholder:text-slate-400 font-sans shadow-2xs"
+                  placeholder="Nhập mật khẩu truy cập..."
+                  className="w-full bg-white hover:border-slate-300 border border-slate-200 rounded-xl text-slate-900 pl-10 pr-10 py-2.5 text-sm transition-all focus:border-[#0a46a8] focus:ring-2 focus:ring-[#0a46a8]/15 focus:outline-none placeholder:text-slate-400 font-sans"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((p) => !p)}
                   className="absolute right-3 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                  aria-label="Ẩn / Hiện mật khẩu"
                 >
                   <span className="material-symbols-outlined text-[18px]">
                     {showPassword ? 'visibility_off' : 'visibility'}
@@ -317,26 +431,26 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Remember Me & Forgot Password */}
+            {/* Ghi nhớ phiên & Quên mật khẩu */}
             <div className="flex items-center justify-between text-xs text-slate-600 pt-0.5">
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-3.5 h-3.5 rounded border-slate-300 bg-white text-blue-600 focus:ring-0 focus:ring-offset-0"
+                  className="w-4 h-4 rounded border-slate-300 bg-white accent-[#0a46a8] focus:ring-0 focus:ring-offset-0 cursor-pointer"
                 />
-                <span className="font-medium">Ghi nhớ phiên đăng nhập</span>
+                <span className="font-semibold text-slate-700">Ghi nhớ phiên đăng nhập</span>
               </label>
               <Link
                 to={ROUTES.FORGOT_PASSWORD}
-                className="text-blue-600 hover:text-blue-700 font-semibold transition-colors cursor-pointer"
+                className="text-[#0a46a8] hover:text-[#083888] font-semibold transition-colors cursor-pointer"
               >
                 Quên mật khẩu?
               </Link>
             </div>
 
-            {/* Error Message Alert */}
+            {/* Thông báo lỗi khi đăng nhập thất bại */}
             {error && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-semibold flex items-center gap-2">
                 <span className="material-symbols-outlined text-[18px] text-red-600 shrink-0">error</span>
@@ -344,11 +458,11 @@ export default function LoginPage() {
               </div>
             )}
 
-            {/* Main Submit Button */}
+            {/* Nút Đăng Nhập chính */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.99] disabled:opacity-60 text-white font-bold py-2.5 px-4 rounded-xl shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 transition-all duration-200 text-sm cursor-pointer"
+              className="w-full bg-[#0a46a8] hover:bg-[#083888] active:scale-[0.99] disabled:opacity-60 text-white font-bold py-3 px-4 rounded-xl shadow-md shadow-[#0a46a8]/20 flex items-center justify-center gap-2 transition-all duration-200 text-sm cursor-pointer"
             >
               {isLoading ? (
                 <>
@@ -357,30 +471,78 @@ export default function LoginPage() {
                 </>
               ) : (
                 <>
-                  <span>Đăng Nhập Với Quyền {activeConfig.shortLabel}</span>
+                  <span>Đăng Nhập</span>
                   <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </>
               )}
             </button>
           </form>
 
-          {/* Quick One-Click Demo Access Button */}
-          <div className="pt-2 border-t border-slate-200">
+          {/* Ngăn mở rộng danh mục tài khoản kiểm thử */}
+          <div className="pt-1">
             <button
               type="button"
-              onClick={() => handleLoginExecute(activeConfig.role, activeConfig.username, activeConfig.defaultPass)}
-              className="w-full py-2.5 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-300 text-emerald-800 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer shadow-2xs"
+              onClick={() => setShowDemoAccounts((prev) => !prev)}
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-slate-50/80 hover:bg-slate-100 border border-slate-200/80 text-xs font-semibold text-slate-600 transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[16px] text-amber-600">bolt</span>
-              <span>Đăng Nhập Nhanh 1-Chạm ({activeConfig.username} / {activeConfig.defaultPass})</span>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[16px] text-slate-500">help</span>
+                <span>Danh mục tài khoản kiểm thử hệ thống</span>
+              </div>
+              <span className="material-symbols-outlined text-[16px] text-slate-400">
+                {showDemoAccounts ? 'expand_less' : 'expand_more'}
+              </span>
             </button>
+
+            {showDemoAccounts && (
+              <div className="mt-2.5 space-y-1.5 bg-slate-50/90 border border-slate-200/80 rounded-xl p-2.5">
+                <p className="text-[11px] text-slate-500 px-1 font-medium">
+                  Nhấn để điền tài khoản hoặc bấm &quot;Thử ngay&quot; để đăng nhập trực tiếp:
+                </p>
+                <div className="space-y-1.5">
+                  {DEMO_ACCOUNTS.map((acc) => (
+                    <div
+                      key={acc.username}
+                      className="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-200/70 hover:border-[#0a46a8]/40 transition-colors text-xs"
+                    >
+                      <div
+                        onClick={() => handleSelectDemoAccount(acc)}
+                        className="flex items-center gap-2 cursor-pointer flex-1 min-w-0"
+                        title="Nhấn để điền vào form"
+                      >
+                        <div className="w-6 h-6 rounded-md bg-blue-50 border border-blue-200 text-[#0a46a8] flex items-center justify-center shrink-0">
+                          <span className="material-symbols-outlined text-[14px]">{acc.icon}</span>
+                        </div>
+                        <div className="truncate">
+                          <span className="font-bold text-slate-800">{acc.label}</span>
+                          <span className="text-slate-400 text-[11px] ml-1.5 font-mono">({acc.username})</span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        disabled={isLoading}
+                        onClick={() => handleQuickDemoLogin(acc)}
+                        className="px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#0a46a8] font-bold text-[11px] shrink-0 transition-all cursor-pointer"
+                      >
+                        Thử ngay
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Global Footer info */}
-        <p className="mt-6 text-[11px] text-slate-500 text-center font-medium">
-          Dự án Phát triển Dự án Phần mềm © 2026 Võ Duy Bình &amp; Nhóm Sinh viên HSU. All rights reserved.
-        </p>
+        {/* Thông tin chân trang */}
+        <div className="relative z-10 mt-6 text-center space-y-1">
+          <p className="text-[11px] text-slate-500 font-medium">
+            © 2025 – 2026 Trường THPT Hoa Sen • Cổng Thông Tin Quản Lý Lớp Học &amp; Học Vụ Số
+          </p>
+          <p className="text-[10px] text-slate-400">
+            Hỗ trợ kỹ thuật: hotro@thpthoasen.edu.vn | Hotline: (028) 7300 2266
+          </p>
+        </div>
       </div>
     </div>
   );

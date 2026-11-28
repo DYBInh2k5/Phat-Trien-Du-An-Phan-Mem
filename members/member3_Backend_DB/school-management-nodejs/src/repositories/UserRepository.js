@@ -166,6 +166,25 @@ export class UserRepository {
     return memUsers.find(u => u.email && u.email.toLowerCase() === String(email).toLowerCase()) || null;
   }
 
+  /**
+   * Tra cứu email và họ tên của Phụ huynh liên kết với một mã học sinh (qua bảng parent_students)
+   * @async
+   * @param {string} studentCode - Mã định danh học sinh (VD: HS001)
+   * @returns {Promise<{email: string, full_name: string}|null>}
+   */
+  static async findParentEmailByStudentCode(studentCode) {
+    const res = await query(
+      `SELECT u.email, u.full_name
+       FROM users u
+       JOIN parent_students ps ON ps.parent_user_id = u.id
+       WHERE ps.student_code = $1 AND u.email IS NOT NULL AND u.email <> ''
+       LIMIT 1`,
+      [studentCode]
+    );
+    if (res && res.rows) return res.rows[0] || null;
+    return null;
+  }
+
   /** Dùng cho authMiddleware: lấy phiên bản token hiện tại của tài khoản. */
   static async findAuthStateById(id) {
     const res = await query('SELECT id, token_version, is_active FROM users WHERE id = $1', [id]);

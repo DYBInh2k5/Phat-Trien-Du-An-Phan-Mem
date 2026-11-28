@@ -18,6 +18,9 @@
  */
 
 import { GradeBookService } from '../services/GradeBookService.js';
+import { EmailService } from '../services/EmailService.js';
+import { UserRepository } from '../repositories/UserRepository.js';
+import { AuditLogger } from '../utils/AuditLogger.js';
 
 /**
  * Lớp GradeBookController - Xử lý các yêu cầu HTTP liên quan đến sổ điểm
@@ -353,6 +356,69 @@ export class GradeBookController {
       return res.json({ success: true, data: pending });
     } catch (err) {
       console.error('[GradeBookController] getReviewRequests error:', err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  }
+
+  /**
+   * POST /api/gradebook/send-report-email
+   * GVCN hoặc BGH gửi Phiếu báo điểm học kỳ qua email (Gmail SMTP) cho Phụ huynh.
+   * @async
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   */
+  static async sendReportEmail(req, res) {
+    try {
+      const { studentCode, to, semester = 'HK1', schoolYear = '2025-2026' } = req.body || {};
+      if (!studentCode) {
+        return res.status(400).json({ success: false, message: 'Thiếu mã học sinh (studentCode).' });
+      }
+
+      // 1. Lấy danh sách điểm của học sinh theo mã số
+      const allGrades = await GradeBookService.getGrades({ studentCode });
+      const filteredGrades = semester
+        ? allGrades.filter((g) => !g.semester || g.semester === semester)
+        : allGrades;
+
+      // 2. Xác định email phụ huynh (ưu tiên email truyền lên, nếu không có thì tra cứu từ parent_students)
+      const parentInfo = await UserRepository.findParentEmailByStudentCode(studentCode);
+      const targetEmail = (typeof to === 'string' && to.trim()) ? to.trim() : parentInfo?.email;
+
+      if (!targetEmail) {
+        return res.status(400).json({
+          success: false,
+          message: 'Không tìm thấy email phụ huynh cho học sinh này. Vui lòng nhập địa chỉ email người nhận.',
+        });
+      }
+
+      const firstRow = filteredGrades[0] || allGrades[0] || {};
+      await EmailService.sendGradeReportEmail({
+        to: targetEmail,
+        parentName: parentInfo?.full_name,
+        studentCode,
+        studentName: firstRow.studentName || firstRow.student_name || studentCode,
+        className: firstRow.className || firstRow.class_name || '—',
+        semester,
+        schoolYear,
+        grades: filteredGrades,
+      });
+
+      AuditLogger.log({
+        action: 'SEND_GRADE_REPORT_EMAIL',
+        user: req.user?.username || 'system',
+        role: req.user?.role || 'GVCN',
+        entity: 'grade_books',
+        entityId: studentCode,
+        newValue: { to: targetEmail, semester, count: filteredGrades.length },
+        ipAddress: req.ip || '127.0.0.1',
+      });
+
+      return res.json({
+        success: true,
+        message: `Đã gửi phiếu báo điểm học kỳ ${semester} tới ${targetEmail}.`,
+      });
+    } catch (err) {
+      console.error('[GradeBookController] sendReportEmail error:', err);
       return res.status(500).json({ success: false, message: err.message });
     }
   }

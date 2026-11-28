@@ -9,7 +9,8 @@
  */
 
 import { useState, useEffect, useMemo } from 'react';
-import { fetchTuitions } from '../../api/stubs.js';
+import { fetchTuitions, checkoutTuition } from '../../api/stubs.js';
+import VietQrPaymentModal from '../../components/VietQrPaymentModal.jsx';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -55,6 +56,46 @@ export default function BGHTuitionPage() {
   // Filters
   const [filterClass,  setFilterClass]  = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
+
+  // VietQR Checkout Modal State
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [checkoutData, setCheckoutData] = useState(null);
+  const [payingRecordId, setPayingRecordId] = useState(null);
+
+  // ── Mở modal thanh toán VietQR cho một bản ghi học phí ─────────────────────
+  const handleOpenVietQr = async (record) => {
+    setPayingRecordId(record.id);
+    try {
+      const tuitionId = record.id;
+      const studentCode = record.student_code || record.studentCode || 'HS001';
+      const session = await checkoutTuition(tuitionId, studentCode);
+      setCheckoutData(session);
+      setIsPaymentModalOpen(true);
+    } catch (err) {
+      alert(err.message || 'Không thể tạo mã VietQR cho khoản học phí này.');
+    } finally {
+      setPayingRecordId(null);
+    }
+  };
+
+  // ── Nút dùng thử nhanh VietQR cho BGH/Tester ───────────────────────────────
+  const handleQuickDemoVietQr = () => {
+    const target = records.find(r => r.status !== 'paid' && (parseFloat(r.amount_paid || 0) < parseFloat(r.amount_due || 0))) || records[0];
+    if (target) {
+      handleOpenVietQr(target);
+    }
+  };
+
+  const handlePaymentSuccess = (res) => {
+    // Cập nhật trạng thái tức thì trên UI
+    setRecords((prev) =>
+      prev.map((r) =>
+        r.id === checkoutData?.tuitionId
+          ? { ...r, status: 'paid', amount_paid: r.amount_due, receipt_no: res.receiptNo }
+          : r
+      )
+    );
+  };
 
   // ── Fetch on mount ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -123,6 +164,35 @@ export default function BGHTuitionPage() {
             Tổng hợp tình trạng thu học phí toàn trường — Niên khóa 2024–2025
           </p>
         </div>
+      </div>
+
+      {/* ── Cổng Thanh Toán VietQR Napas 24/7 Showcase Banner ── */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              ● Trực Tuyến 24/7
+            </span>
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-200">
+              CỔNG THANH TOÁN VIETQR NAPAS ĐỐI SOÁT TỰ ĐỘNG
+            </span>
+          </div>
+          <h2 className="text-base sm:text-lg font-extrabold tracking-tight text-white">
+            Thanh Toán Học Phí Một Chạm &amp; Gạch Nợ Tức Thì
+          </h2>
+          <p className="text-xs text-slate-300 max-w-2xl font-normal leading-relaxed">
+            Hệ thống tự động sinh mã VietQR động chuẩn EMVCo kèm mã định danh học sinh và số tiền nợ. Polling thời gian thực 3 giây và tự động xuất biên lai điện tử ngay khi tiền về tài khoản nhà trường.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleQuickDemoVietQr}
+          className="shrink-0 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs shadow-md shadow-emerald-500/25 flex items-center gap-2 transition-all cursor-pointer active:scale-95"
+        >
+          <span className="material-symbols-outlined text-[18px]">qr_code_2</span>
+          <span>Trải Nghiệm Quét Mã VietQR</span>
+        </button>
       </div>
 
       {/* ── Error Banner ── */}
@@ -227,14 +297,15 @@ export default function BGHTuitionPage() {
                 <th className="px-4 py-2.5 text-right text-label-sm text-[#475569] font-medium uppercase tracking-wider">Đã nộp</th>
                 <th className="px-4 py-2.5 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider">Trạng thái</th>
                 <th className="px-4 py-2.5 text-left text-label-sm text-[#475569] font-medium uppercase tracking-wider">Số biên lai</th>
+                <th className="px-4 py-2.5 text-center text-label-sm text-[#475569] font-medium uppercase tracking-wider">Thao tác VietQR</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <>{[1,2,3,4,5,6].map((i) => <SkeletonRow key={i} cols={7} />)}</>
+                <>{[1,2,3,4,5,6].map((i) => <SkeletonRow key={i} cols={8} />)}</>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-[#94a3b8] text-body-sm">
+                  <td colSpan={8} className="px-4 py-10 text-center text-[#94a3b8] text-body-sm">
                     <span className="material-symbols-outlined text-[32px] block mb-2">receipt_long</span>
                     Không có dữ liệu học phí
                   </td>
@@ -265,6 +336,24 @@ export default function BGHTuitionPage() {
                         </span>
                       </td>
                       <td className="px-4 py-2 text-[#64748b] text-label-sm whitespace-nowrap">{receiptNo}</td>
+                      <td className="px-4 py-2 text-center whitespace-nowrap">
+                        {!isPaid ? (
+                          <button
+                            type="button"
+                            disabled={payingRecordId === r.id}
+                            onClick={() => handleOpenVietQr(r)}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-all cursor-pointer disabled:opacity-50"
+                          >
+                            <span className="material-symbols-outlined text-[15px]">qr_code_2</span>
+                            <span>{payingRecordId === r.id ? 'Đang tạo...' : 'Mở VietQR'}</span>
+                          </button>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md">
+                            <span className="material-symbols-outlined text-[14px]">verified</span>
+                            Đã thu đủ
+                          </span>
+                        )}
+                      </td>
                     </tr>
                   );
                 })
@@ -273,6 +362,14 @@ export default function BGHTuitionPage() {
           </table>
         </div>
       </div>
+
+      {/* ── Modal Thanh toán VietQR Động ── */}
+      <VietQrPaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        checkoutData={checkoutData}
+        onSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }

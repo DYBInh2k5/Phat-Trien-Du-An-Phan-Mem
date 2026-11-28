@@ -89,17 +89,24 @@ export default function Header({ title }) {
 
         {/* Khối hồ sơ người dùng: Ảnh Avatar đại diện + Tên + Huy hiệu vai trò */}
         <div className="flex items-center gap-2.5 pl-2 border-l border-[#e2e8f0]">
-          {/* Avatar tròn với chữ cái đầu viết hoa */}
-          <div className="w-8 h-8 rounded-full bg-[#004ac6] text-white flex items-center justify-center font-bold text-sm shrink-0">
-            {user?.name?.[0]?.toUpperCase() ?? 'U'}
+          {/* Avatar tròn với ảnh đại diện hoặc chữ cái đầu viết hoa */}
+          <div className="relative">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs border border-blue-200 overflow-hidden">
+              {user?.avatar ? (
+                <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                <span>{user?.name?.[0]?.toUpperCase() ?? 'U'}</span>
+              )}
+            </div>
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white" title="Trực tuyến" />
           </div>
           <div className="flex flex-col">
             {/* Tên người dùng */}
-            <span className="text-label-md font-semibold text-[#0f172a] leading-tight truncate max-w-[140px]">
+            <span className="text-label-md font-semibold text-[#0f172a] leading-tight truncate max-w-[150px]">
               {user?.name ?? 'Người dùng'}
             </span>
             {/* Huy hiệu vai trò có viền và màu theo định nghĩa */}
-            <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border ${badgeStyle} mt-0.5`}>
+            <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border ${badgeStyle} mt-0.5`}>
               {ROLE_LABELS[role] ?? role}
             </span>
           </div>

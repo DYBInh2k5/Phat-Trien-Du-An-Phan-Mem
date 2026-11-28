@@ -263,19 +263,19 @@ export class DashboardRepository {
   }
 
   /**
-   * Phân bố hạnh kiểm (dùng academic_rank làm proxy) của một lớp.
+   * Phân bố hạnh kiểm của một lớp học theo chuẩn Thông tư 22 (Tốt, Khá, Đạt, Chưa đạt).
    */
   static async getConductSummary(className) {
     const res = await query(
-      `SELECT academic_rank, COUNT(*) AS cnt
+      `SELECT COALESCE(conduct_rank, 'Tốt') AS rank, COUNT(*) AS cnt
        FROM students
        WHERE class_name = $1 AND status = 'ACTIVE'
-       GROUP BY academic_rank`,
+       GROUP BY COALESCE(conduct_rank, 'Tốt')`,
       [className]
     );
     if (!res) return [];
     return res.rows.map((r) => ({
-      rank:  r.academic_rank || 'Chưa xếp loại',
+      rank:  r.rank || 'Tốt',
       count: parseInt(r.cnt, 10),
     }));
   }

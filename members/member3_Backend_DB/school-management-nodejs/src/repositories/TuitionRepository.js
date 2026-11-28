@@ -104,9 +104,9 @@ export class TuitionRepository {
       }
       return t;
     } else {
-      const sql = `INSERT INTO tuitions (student_code, student_name, class_name, semester, school_year, amount_due, amount_paid, status, receipt_no)
-                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`;
-      const params = [t.studentCode, t.studentName, t.className, t.semester, t.schoolYear, t.amountDue, t.amountPaid || 0, t.status || 'UNPAID', t.receiptNo];
+      const sql = `INSERT INTO tuitions (student_code, student_name, class_name, semester, school_year, item_name, amount_due, amount_paid, status, receipt_no)
+                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`;
+      const params = [t.studentCode, t.studentName, t.className, t.semester, t.schoolYear, t.itemName || t.item_name || null, t.amountDue, t.amountPaid || 0, t.status || 'UNPAID', t.receiptNo];
       if (client) {
         const res = await client.query(sql, params);
         if (res && res.rows && res.rows[0]) return res.rows[0];

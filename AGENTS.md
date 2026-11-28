@@ -2,7 +2,8 @@
 
 - Khi làm việc theo từng tuần, luôn tạo tệp tiến độ mới trong thư mục `BrainStorm/` (`Week1.md`, `Week2.md`, `Week3.md`,..., `Week8.md`).
 - Đồng bộ thông tin hoàn thành vào `timeline.md` và `README.md`.
-- Đảm bảo commit và push code/tài liệu lên GitHub repository `DYBInh2k5/Phat-Trien-Du-An-Phan-Mem` sau mỗi tuần hoàn thành.
+- Đảm bảo commit và push code/tài liệu lên **cả 2 remote GitHub (`origin`: `DYBInh2k5/Phat-Trien-Du-An-Phan-Mem`) và Bitbucket (`bitbucket`: `codyisme27205/pt_da_pm`)** sau mỗi lần hoàn thành công việc hoặc mỗi tuần.
+- **Đồng bộ Quản lý Dự án 3 nền tảng**: Mọi task/PBI tạo mới hoặc cập nhật trạng thái/assignee BẮT BUỘC phải đồng bộ đầy đủ lên cả 3 công cụ: **Jira Cloud (`KAN`)**, **ClickUp (`Group 2_PTDAPM`)**, và **Trello (`gkdRNT57`)**, đồng thời cập nhật vào `docs/jira_import_product_backlog.csv`.
 
 # Quy định Bắt buộc Chú thích Mã nguồn (Code Commenting & Documentation Rule)
 

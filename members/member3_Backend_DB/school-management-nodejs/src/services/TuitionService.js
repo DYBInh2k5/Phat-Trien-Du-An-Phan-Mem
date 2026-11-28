@@ -17,13 +17,37 @@
  * ==============================================================================
  */
 
+import crypto from 'crypto';
 import { TuitionRepository } from '../repositories/TuitionRepository.js';
 import { PaymentRepository } from '../repositories/PaymentRepository.js';
+import { UserRepository } from '../repositories/UserRepository.js';
+import { EmailService } from './EmailService.js';
 import { buildVietQrData } from '../utils/vietQrHelper.js';
 import { UnitOfWork } from '../utils/UnitOfWork.js';
 import { AuditLogger } from '../utils/AuditLogger.js';
 
 export class TuitionService {
+  /**
+   * Tạo liên kết và ảnh QR cho chế độ Demo Sandbox (quét bằng Camera điện thoại bất kỳ).
+   * Đường dẫn được ký bằng HMAC-SHA256 để chống giả mạo mã đơn hàng.
+   * @param {string} orderCode - Mã đơn hàng học phí (ví dụ: HP176414...)
+   * @returns {{ sandboxScanUrl: string, sandboxQrImageUrl: string }}
+   */
+  static buildSandboxScanData(orderCode) {
+    const webhookSecret = process.env.PAYMENT_WEBHOOK_SECRET || 'htqllh-payment-webhook-secret-2026';
+    const sig = crypto
+      .createHmac('sha256', webhookSecret)
+      .update(String(orderCode))
+      .digest('hex')
+      .slice(0, 32);
+
+    const backendBaseUrl = (process.env.BACKEND_PUBLIC_URL || 'https://htqllh-backend.vercel.app').replace(/\/+$/, '');
+    const sandboxScanUrl = `${backendBaseUrl}/api/tuition/sandbox-scan?orderCode=${encodeURIComponent(orderCode)}&sig=${sig}`;
+    const sandboxQrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(sandboxScanUrl)}`;
+
+    return { sandboxScanUrl, sandboxQrImageUrl };
+  }
+
   /**
    * Lấy danh sách học phí theo mã học sinh hoặc tên lớp
    * @param {Object} filter - { className, studentCode }
@@ -68,34 +92,38 @@ export class TuitionService {
     // Kiểm tra xem đã có phiên OPEN hoặc PENDING nào còn hạn (TTL 15 phút) chưa
     let activeSession = await PaymentRepository.findActiveSessionByTuitionId(tuitionId);
     
-    // Cấu hình ngân hàng thụ hưởng của Nhà trường từ biến môi trường
-    const bankBin = process.env.VIETQR_BANK_BIN || '970422'; // 970422: MBBank
+    // Cấu hình ngân hàng thụ hưởng của Nhà trường từ biến môi trường (hỗ trợ SePay/VietQR thật)
+    const bankBin = process.env.VIETQR_BANK_BIN || '970422'; // Mặc định 970422: MBBank
+    const bankName = process.env.VIETQR_BANK_NAME || 'MBBank';
     const bankAccountNo = process.env.VIETQR_ACCOUNT_NO || '0388888888';
     const bankAccountName = process.env.VIETQR_ACCOUNT_NAME || 'TRUONG THPT CHUYEN HTQLLH';
 
     if (activeSession) {
       // Tái sử dụng phiên thanh toán đang mở để chống tạo đơn dư thừa
+      const currentOrderCode = activeSession.order_code || activeSession.orderCode;
       const qrData = buildVietQrData({
         bin: bankBin,
         accountNo: bankAccountNo,
         accountName: bankAccountName,
         amount: parseFloat(activeSession.amount),
-        orderCode: activeSession.order_code || activeSession.orderCode
+        orderCode: currentOrderCode
       });
+      const sandboxData = TuitionService.buildSandboxScanData(currentOrderCode);
 
       return {
-        orderCode: activeSession.order_code || activeSession.orderCode,
+        orderCode: currentOrderCode,
         paymentId: activeSession.id,
         amount: parseFloat(activeSession.amount),
         status: activeSession.status,
         expiresAt: activeSession.expires_at || activeSession.expiresAt,
         bankInfo: {
-          bankName: 'MBBank',
+          bankName,
           bin: bankBin,
           accountNo: bankAccountNo,
           accountName: bankAccountName
         },
-        ...qrData
+        ...qrData,
+        ...sandboxData
       };
     }
 
@@ -124,6 +152,7 @@ export class TuitionService {
       amount: remainingAmount,
       orderCode
     });
+    const sandboxData = TuitionService.buildSandboxScanData(orderCode);
 
     AuditLogger.log(currentUser || { username: 'system', role: 'PH' }, 'CHECKOUT_TUITION', 'payments', orderCode, {
       tuitionId: tuition.id,
@@ -137,12 +166,13 @@ export class TuitionService {
       status: 'OPEN',
       expiresAt,
       bankInfo: {
-        bankName: 'MBBank',
+        bankName,
         bin: bankBin,
         accountNo: bankAccountNo,
         accountName: bankAccountName
       },
-      ...qrData
+      ...qrData,
+      ...sandboxData
     };
   }
 
@@ -219,7 +249,7 @@ export class TuitionService {
    */
   static async processSuccessfulPayment({ orderCode, bankTransactionId = null, note = '', approverUser = null }) {
     const uow = new UnitOfWork();
-    return await uow.execute(async (client) => {
+    const result = await uow.execute(async (client) => {
       const payment = await PaymentRepository.findByOrderCode(orderCode);
       if (!payment) {
         throw new Error(`Không tìm thấy phiên giao dịch: ${orderCode}`);
@@ -285,6 +315,31 @@ export class TuitionService {
         tuition
       };
     });
+
+    // Gửi email biên lai điện tử cho Phụ huynh (không chặn luồng thanh toán nếu thiếu SMTP/email)
+    if (result && !result.alreadyProcessed && result.tuition) {
+      const studentCode = result.tuition.student_code || result.payment?.student_code;
+      UserRepository.findParentEmailByStudentCode(studentCode)
+        .then((parent) => {
+          if (!parent?.email) return null;
+          return EmailService.sendTuitionReceiptEmail({
+            to: parent.email,
+            parentName: parent.full_name,
+            studentCode,
+            studentName: result.tuition.student_name,
+            itemName: result.tuition.item_name || `Học phí ${result.tuition.semester || 'HK1'}`,
+            amount: result.payment?.amount,
+            receiptNo: result.receiptNo,
+            orderCode,
+            paidAt: result.payment?.paid_at,
+          });
+        })
+        .catch((emailErr) => {
+          console.warn('[TuitionService] Không thể gửi email biên lai:', emailErr?.message);
+        });
+    }
+
+    return result;
   }
 
   /**

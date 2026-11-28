@@ -4,6 +4,9 @@
   "description": "Node.js Express + PostgreSQL Backend for HTQLLH (School Management System)",
   "main": "server.js",
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",

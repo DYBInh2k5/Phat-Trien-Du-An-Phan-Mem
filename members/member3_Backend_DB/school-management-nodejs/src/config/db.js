@@ -27,17 +27,26 @@ const { Pool } = pg;
  * Sử dụng hồ chứa giúp tái sử dụng các kết nối TCP đã mở, loại bỏ chi phí
  * thiết lập kết nối tốn kém trong mỗi yêu cầu HTTP.
  */
-export const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  // Cổng 5434 được ánh xạ từ cổng 5432 của Container để tránh xung đột với PostgreSQL cục bộ
-  port: parseInt(process.env.DB_PORT || '5434', 10),
-  database: process.env.DB_NAME || 'school_management',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
-  max: 10,                      // Tối đa 10 kết nối đồng thời trong hồ chứa
-  idleTimeoutMillis: 10000,     // Thu hồi kết nối sau 10 giây không có hoạt động
-  connectionTimeoutMillis: 2000 // Hủy yêu cầu nếu quá 2 giây không mượn được kết nối
-});
+export const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+        max: 10,
+        idleTimeoutMillis: 10000,
+        connectionTimeoutMillis: 5000
+      }
+    : {
+        host: process.env.DB_HOST || 'localhost',
+        port: parseInt(process.env.DB_PORT || '5434', 10),
+        database: process.env.DB_NAME || 'school_management',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'postgres',
+        max: 10,
+        idleTimeoutMillis: 10000,
+        connectionTimeoutMillis: 2000
+      }
+);
 
 /**
  * query() - Strict: throws nếu có lỗi DB. Dùng cho authentication (UserRepository).
@@ -245,6 +254,11 @@ export async function initDatabaseSchema() {
       CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_user_id
         ON password_reset_tokens (user_id);
 
+      -- Bổ sung trường ảnh đại diện (avatar) cho hồ sơ học sinh phục vụ giao diện thẻ học sinh
+      ALTER TABLE students ADD COLUMN IF NOT EXISTS avatar VARCHAR(255);
+      -- Bổ sung trường đánh giá hạnh kiểm rèn luyện (conduct_rank) theo Thông tư 22
+      ALTER TABLE students ADD COLUMN IF NOT EXISTS conduct_rank VARCHAR(30) DEFAULT 'Tốt';
+
       ALTER TABLE school_classes ADD COLUMN IF NOT EXISTS homeroom_teacher_id INTEGER REFERENCES users(id);
 
       -- UNIQUE constraint để UPSERT grade_books hoạt động đúng (tránh duplicate rows)
@@ -399,6 +413,23 @@ export async function initDatabaseSchema() {
       CREATE INDEX IF NOT EXISTS idx_payments_tuition_id ON payments(tuition_id);
       CREATE INDEX IF NOT EXISTS idx_payments_order_code ON payments(order_code);
       CREATE INDEX IF NOT EXISTS idx_payments_status ON payments(status);
+
+      -- Bảng Nhật ký kiểm toán tập trung (Centralized Audit Trail - Non-Repudiation)
+      CREATE TABLE IF NOT EXISTS audit_logs (
+        id SERIAL PRIMARY KEY,
+        timestamp TIMESTAMPTZ DEFAULT NOW(),
+        action VARCHAR(50) NOT NULL,
+        username VARCHAR(50) NOT NULL,
+        role VARCHAR(50) NOT NULL,
+        entity VARCHAR(50) NOT NULL,
+        entity_id VARCHAR(100),
+        previous_value TEXT,
+        new_value TEXT,
+        ip_address VARCHAR(45)
+      );
+      CREATE INDEX IF NOT EXISTS idx_audit_logs_user_action ON audit_logs(username, action, timestamp);
+      CREATE INDEX IF NOT EXISTS idx_grade_books_class_subject_sem ON grade_books(class_name, subject_name, semester);
+      CREATE INDEX IF NOT EXISTS idx_attendances_class_date_status ON attendances(class_name, att_date, status);
 
       ALTER TABLE parent_messages ADD COLUMN IF NOT EXISTS conversation_type VARCHAR(20) NOT NULL DEFAULT 'GVCN';
       ALTER TABLE parent_messages ADD COLUMN IF NOT EXISTS sender_id INT REFERENCES users(id);

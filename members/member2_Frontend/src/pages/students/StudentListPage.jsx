@@ -47,8 +47,12 @@ function StudentCard({ student, idx }) {
   return (
     <div className="bg-white rounded-lg border border-[#e2e8f0] shadow-elevation-1 p-4 flex items-start gap-3 hover:shadow-md transition-shadow">
       {/* Avatar */}
-      <div className={`flex-none w-11 h-11 rounded-full ${bg} flex items-center justify-center`} aria-hidden="true">
-        <span className={`text-label-md font-semibold ${text}`}>{getInitials(student.name)}</span>
+      <div className={`flex-none w-11 h-11 rounded-full ${bg} flex items-center justify-center overflow-hidden`} aria-hidden="true">
+        {student.avatar ? (
+          <img src={student.avatar} alt={student.name} className="w-full h-full object-cover" />
+        ) : (
+          <span className={`text-label-md font-semibold ${text}`}>{getInitials(student.name)}</span>
+        )}
       </div>
       {/* Info */}
       <div className="flex-1 min-w-0">
@@ -68,6 +72,9 @@ function StudentCard({ student, idx }) {
             GPA: <span className="font-semibold text-[#0f172a]">{student.gpa.toFixed(1)}</span>
             {student.academicRank && (
               <span className="ml-1.5 text-[#64748b]">· {student.academicRank}</span>
+            )}
+            {student.conductRank && (
+              <span className="ml-1.5 font-medium text-[#15803d]">· HK: {student.conductRank}</span>
             )}
           </p>
         )}
@@ -90,7 +97,11 @@ function PhotoFrameCard({ student, idx }) {
         style={{ maxWidth: '90px' }}
         aria-hidden="true"
       >
-        <span className={`text-headline-md font-bold ${text}`}>{getInitials(student.name)}</span>
+        {student.avatar ? (
+          <img src={student.avatar} alt={student.name} className="w-full h-full object-cover" />
+        ) : (
+          <span className={`text-headline-md font-bold ${text}`}>{getInitials(student.name)}</span>
+        )}
         <span className={`absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full border-2 border-white ${
           student.status === 'active' ? 'bg-[#22c55e]' : 'bg-[#ef4444]'
         }`} />
