@@ -18,6 +18,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar.jsx';
 import Header from './Header.jsx';
 import { ROUTES } from '../../constants/routes.js';
+import { SemesterProvider } from '../../context/SemesterContext.jsx';
 
 /**
  * Bảng tra cứu ánh xạ đường dẫn URL (Route Path) sang Tiêu đề trang tiếng Việt.
@@ -25,16 +26,25 @@ import { ROUTES } from '../../constants/routes.js';
  */
 const PAGE_TITLES = {
   [ROUTES.GV_DASHBOARD]:         'Tổng quan Giáo viên',
+  [ROUTES.GVCN_DASHBOARD]:       'Tổng quan Chủ Nhiệm',
   [ROUTES.BGH_DASHBOARD]:        'Tổng quan Ban Giám Hiệu',
   [ROUTES.STUDENTS]:             'Danh sách học sinh',
-  [ROUTES.GRADEBOOK]:            'Sổ điểm điện tử môn học',
+  [ROUTES.GRADEBOOK]:            'Sổ điểm điện tử',
   [ROUTES.ATTENDANCE]:           'Điểm danh chuyên cần',
   [ROUTES.BGH_ATTENDANCE]:       'Giám sát chuyên cần toàn trường',
-  [ROUTES.SCHEDULE]:             'Thời khóa biểu giảng dạy',
-  [ROUTES.BGH_SCHEDULE_ADMIN]:   'Xếp thời khóa biểu học vụ',
-  [ROUTES.PARENT_COMMUNICATION]: 'Sổ liên lạc & Duyệt đơn xin phép',
+  [ROUTES.SCHEDULE]:             'Thời khóa biểu',
+  [ROUTES.BGH_SCHEDULE_ADMIN]:   'Xếp thời khóa biểu',
+  [ROUTES.PARENT_COMMUNICATION]: 'Sổ liên lạc & Duyệt đơn phép',
   [ROUTES.BGH_REPORTS]:          'Trung tâm báo cáo thống kê',
   [ROUTES.BGH_SETTINGS]:         'Cài đặt hệ thống & Phân quyền',
+  [ROUTES.BGH_TUITION]:          'Quản lý học phí',
+  [ROUTES.BGH_AUDIT_LOGS]:       'Nhật ký Kiểm toán',
+  [ROUTES.NOTIFICATIONS]:        'Thông báo nhà trường',
+  [ROUTES.STUDENT_GRADEBOOK]:    'Bảng điểm & GPA',
+  [ROUTES.STUDENT_ATTENDANCE]:   'Chuyên cần học tập',
+  [ROUTES.STUDENT_SCHEDULE]:     'Thời khóa biểu',
+  [ROUTES.STUDENT_EXAMS]:        'Lịch kiểm tra & Thi',
+  [ROUTES.PARENT_DASHBOARD]:     'Cổng Phụ Huynh',
 };
 
 /**
@@ -65,36 +75,19 @@ export default function MainLayout() {
   const pageTitle = PAGE_TITLES[location.pathname] ?? 'HTQLLH';
 
   return (
-    <div className="flex h-screen bg-[#f8fafc] overflow-hidden">
-      {/* 
-        1. THANH ĐIỀU HƯỚNG BÊN TRÁI (SIDEBAR):
-        - Cố định chiều cao 100vh.
-        - Tự động lọc danh mục menu theo vai trò người dùng (RBAC).
-        - Có nút thu gọn/mở rộng linh hoạt (68px <-> 260px).
-      */}
-      <Sidebar
-        isCollapsed={isCollapsed}
-        onToggle={() => setIsCollapsed(c => !c)}
-      />
-
-      {/* 
-        2. CỘT HIỂN THỊ NỘI DUNG BÊN PHẢI (HEADER + MAIN CONTENT):
-        - Chiếm toàn bộ không gian còn lại (flex-1).
-        - Header cố định trên cùng hiển thị tiêu đề và thông tin tài khoản đăng nhập.
-      */}
-      <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Thanh tiêu đề đỉnh trang kèm thông tin người dùng và nút đăng xuất */}
-        <Header title={pageTitle} />
-
-        {/* 
-          Vùng nội dung chính cuộn dọc độc lập:
-          Thẻ <Outlet /> là nơi các màn hình chức năng (GradebookPage, AttendancePage, ...) 
-          được React Router gắn kết (mount) vào mà KHÔNG kích hoạt cơ chế tải lại toàn trang (No Full Page Reload).
-        */}
-        <main className="flex-1 overflow-auto p-gutter-lg bg-[#f8fafc]">
-          <Outlet />
-        </main>
+    <SemesterProvider>
+      <div className="flex h-screen bg-[#f8fafc] overflow-hidden">
+        <Sidebar
+          isCollapsed={isCollapsed}
+          onToggle={() => setIsCollapsed(c => !c)}
+        />
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <Header title={pageTitle} />
+          <main className="flex-1 overflow-auto p-gutter-lg bg-[#f8fafc]">
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+    </SemesterProvider>
   );
 }
