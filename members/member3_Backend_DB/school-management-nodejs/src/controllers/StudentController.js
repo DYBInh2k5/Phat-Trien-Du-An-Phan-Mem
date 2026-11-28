@@ -29,6 +29,47 @@ const SENTINEL = '__NO_CLASS__';
  */
 export class StudentController {
   /**
+   * API POST /api/students/import
+   * Import hàng loạt học sinh từ file Excel đã được parse ở frontend.
+   * Chỉ dành cho Ban Giám Hiệu (BGH) — middleware requireBGH kiểm tra trước.
+   *
+   * Request body: { students: Array<{ studentCode, fullName, gender, dob, className, parentName, parentPhone, status }> }
+   *
+   * Response codes:
+   *   200 OK        — trả về { success, data: { inserted, skipped } }
+   *   400 Bad Request — body không hợp lệ hoặc vượt giới hạn 500 dòng
+   *   500 Server Error — lỗi hệ thống
+   *
+   * @async
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   */
+  static async importStudents(req, res) {
+    try {
+      const rows = req.body?.students;
+      const result = await StudentService.importStudents(rows);
+
+      // Ghi nhật ký: ai import, bao nhiêu dòng thành công
+      AuditLogger.log({
+        action: 'IMPORT_STUDENTS',
+        user:     req.user?.username ?? 'unknown',
+        role:     req.user?.role     ?? 'BGH',
+        entity:   'students',
+        entityId: 'bulk',
+        newValue: { inserted: result.inserted, skippedCount: result.skipped.length },
+      });
+
+      return res.json({ success: true, data: result });
+    } catch (err) {
+      if (err.code === 'INVALID_INPUT') {
+        return res.status(400).json({ success: false, message: err.message, code: err.code });
+      }
+      console.error('[StudentController.importStudents]', err);
+      return res.status(500).json({ success: false, message: 'Lỗi hệ thống khi import học sinh.' });
+    }
+  }
+
+  /**
    * API DELETE /api/students/:id
    * Xóa vĩnh viễn học sinh khỏi hệ thống.
    * Chỉ dành cho Ban Giám Hiệu (BGH) — middleware requireBGH kiểm tra trước khi vào đây.

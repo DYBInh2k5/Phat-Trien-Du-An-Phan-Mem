@@ -159,14 +159,16 @@ app.post('/api/auth/reset-password', resetPasswordLimiter, AuthController.resetP
 app.get('/api/auth/me', authenticateToken, AuthController.me);
 
 // Students Routes
-app.get('/api/students',      authenticateToken, resolveGvcnClass, StudentController.getStudents);
-app.get('/api/students/:id',  authenticateToken, resolveGvcnClass, StudentController.getStudentById);
-app.post('/api/students',     authenticateToken, resolveGvcnClass, StudentController.createStudent);
-app.put('/api/students/:id',  authenticateToken, resolveGvcnClass, StudentController.updateStudent);
+app.get('/api/students',           authenticateToken, resolveGvcnClass, StudentController.getStudents);
+app.get('/api/students/:id',       authenticateToken, resolveGvcnClass, StudentController.getStudentById);
+// import PHẢI đứng trước POST /api/students/:id/... để Express không nhầm 'import' là :id
+app.post('/api/students/import',   authenticateToken, requireBGH,       StudentController.importStudents);
+app.post('/api/students',          authenticateToken, resolveGvcnClass, StudentController.createStudent);
+app.put('/api/students/:id',       authenticateToken, resolveGvcnClass, StudentController.updateStudent);
 app.put('/api/students/:id/conduct', authenticateToken, resolveGvcnClass, StudentController.updateConduct);
 app.post('/api/students/:id/calculate-gpa', authenticateToken, StudentController.calculateGPA);
 // DELETE /api/students/:id — chỉ BGH (requireBGH kiểm tra role trước khi vào controller)
-app.delete('/api/students/:id', authenticateToken, requireBGH, StudentController.deleteStudent);
+app.delete('/api/students/:id',    authenticateToken, requireBGH,       StudentController.deleteStudent);
 
 // GradeBook Closure & Unlock Routes (MUST be before generic /api/gradebook routes)
 app.get('/api/gradebook/closure',                authenticateToken, ClosureController.getStatus);

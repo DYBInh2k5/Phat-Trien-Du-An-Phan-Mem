@@ -22,6 +22,32 @@ import { GradeBookRepository } from '../repositories/GradeBookRepository.js';
  */
 export class StudentService {
   /**
+   * Import hàng loạt học sinh từ mảng JSON (chỉ BGH mới được gọi).
+   * Nghiệp vụ:
+   *   1. Validate array không rỗng và tối đa 500 dòng/lần (giới hạn an toàn).
+   *   2. Ủy quyền cho StudentRepository.bulkCreate → xử lý từng dòng, bỏ qua dòng lỗi.
+   *   3. Trả về { inserted, skipped } để frontend hiển thị kết quả chi tiết.
+   *
+   * @async
+   * @param {Array} rows - Mảng học sinh từ req.body.students
+   * @returns {{ inserted: number, skipped: Array<{ row, studentCode, reason }> }}
+   * @throws {Error} 'INVALID_INPUT' khi body không hợp lệ hoặc vượt giới hạn
+   */
+  static async importStudents(rows) {
+    if (!Array.isArray(rows) || rows.length === 0) {
+      const err = new Error('Dữ liệu import không hợp lệ: cần mảng học sinh không rỗng.');
+      err.code = 'INVALID_INPUT';
+      throw err;
+    }
+    if (rows.length > 500) {
+      const err = new Error('Mỗi lần import tối đa 500 học sinh. Vui lòng chia nhỏ file và thử lại.');
+      err.code = 'INVALID_INPUT';
+      throw err;
+    }
+    return await StudentRepository.bulkCreate(rows);
+  }
+
+  /**
    * Xóa học sinh khỏi hệ thống theo ID (chỉ BGH mới được gọi).
    * Nghiệp vụ:
    *   1. Kiểm tra học sinh tồn tại (ném 404 nếu không thấy).

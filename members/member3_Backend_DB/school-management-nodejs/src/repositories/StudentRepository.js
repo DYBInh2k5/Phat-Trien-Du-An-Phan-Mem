@@ -121,6 +121,87 @@ export class StudentRepository {
   }
 
   /**
+   * Import hàng loạt học sinh từ mảng JSON (POST /api/students/import).
+   * Duyệt từng phần tử, bỏ qua dòng lỗi (mã trùng / thiếu trường), ghi nhận kết quả.
+   * Dùng INSERT ... ON CONFLICT DO NOTHING để tránh crash khi mã HS đã tồn tại trong DB.
+   * Fallback in-memory: kiểm tra trùng student_code trong mảng memStudents.
+   *
+   * @async
+   * @param {Array<{ studentCode, fullName, gender, dob, className, parentName, parentPhone, status }>} rows
+   * @returns {{ inserted: number, skipped: Array<{ row: number, studentCode: string, reason: string }> }}
+   */
+  static async bulkCreate(rows) {
+    let inserted = 0;
+    const skipped = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      const s = rows[i];
+      // Kiểm tra trường bắt buộc
+      if (!s.studentCode || !s.fullName || !s.className) {
+        skipped.push({ row: i + 2, studentCode: s.studentCode || '', reason: 'Thiếu mã học sinh, họ tên hoặc lớp' });
+        continue;
+      }
+
+      try {
+        // INSERT ... ON CONFLICT (student_code) DO NOTHING → không crash khi trùng mã
+        const res = await query(
+          `INSERT INTO students (student_code, full_name, gender, dob, class_name, parent_name, parent_phone, status)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+           ON CONFLICT (student_code) DO NOTHING
+           RETURNING id`,
+          [
+            s.studentCode,
+            s.fullName,
+            s.gender || '',
+            s.dob || null,
+            s.className,
+            s.parentName || '',
+            s.parentPhone || '',
+            s.status === 'NghiHoc' || s.status === 'inactive' ? 'INACTIVE' : 'ACTIVE',
+          ]
+        );
+
+        if (res && res.rows) {
+          // rows rỗng = ON CONFLICT bỏ qua (trùng mã)
+          if (res.rows.length === 0) {
+            skipped.push({ row: i + 2, studentCode: s.studentCode, reason: 'Mã học sinh đã tồn tại trong hệ thống' });
+          } else {
+            inserted++;
+          }
+        } else {
+          // ── Fallback in-memory ──
+          const exists = memStudents.some(m => m.student_code === s.studentCode);
+          if (exists) {
+            skipped.push({ row: i + 2, studentCode: s.studentCode, reason: 'Mã học sinh đã tồn tại trong hệ thống' });
+          } else {
+            const newId = memStudents.length > 0 ? Math.max(...memStudents.map(m => m.id)) + 1 : 1;
+            memStudents.push({
+              id: newId,
+              student_code: s.studentCode, studentCode: s.studentCode,
+              full_name: s.fullName,       fullName: s.fullName,
+              gender: s.gender || '',
+              dob: s.dob || '',
+              class_name: s.className,     className: s.className,
+              parent_name: s.parentName || '',  parentName: s.parentName || '',
+              parent_phone: s.parentPhone || '', parentPhone: s.parentPhone || '',
+              gpa: null, academic_rank: '', academicRank: '',
+              conduct_rank: 'Tốt', conductRank: 'Tốt',
+              status: s.status === 'NghiHoc' || s.status === 'inactive' ? 'INACTIVE' : 'ACTIVE',
+              avatar: null,
+            });
+            inserted++;
+          }
+        }
+      } catch (rowErr) {
+        // Lỗi FK (lớp không tồn tại), unique violation, hoặc lỗi DB khác cho dòng này
+        skipped.push({ row: i + 2, studentCode: s.studentCode, reason: rowErr.message || 'Lỗi khi thêm dòng này' });
+      }
+    }
+
+    return { inserted, skipped };
+  }
+
+  /**
    * Xóa một học sinh khỏi cơ sở dữ liệu theo ID.
    * Nếu bảng có ràng buộc khóa ngoại (attendance, gradebook, tuition, leave_requests),
    * PostgreSQL sẽ ném lỗi FK violation — tầng Service bắt và chuyển thành thông báo rõ ràng.
